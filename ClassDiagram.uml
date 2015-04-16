@@ -9,15 +9,23 @@
       <ownedAttribute xmi:type="uml:Property" xmi:id="_mo42YORSEeS-mOevn5eTww" name="materialDescription" visibility="private" type="_Am_zoORSEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_nAN70ORTEeS-mOevn5eTww" name="modifyDate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_54F2MORSEeS-mOevn5eTww" name="creationDate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_2P5OMORXEeSltrLTz4W_wA" name="getId">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_8e2q0ORXEeSltrLTz4W_wA" type="_DYwJkORSEeS-mOevn5eTww" direction="return"/>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_xGuuQORSEeS-mOevn5eTww" name="Module">
       <generalization xmi:type="uml:Generalization" xmi:id="_yOkDkORTEeS-mOevn5eTww" general="_KulHoORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_faarQORXEeSltrLTz4W_wA" name="partlist" visibility="private" type="_OR59EORVEeS-mOevn5eTww"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1LjcUORXEeSltrLTz4W_wA" name="getPartlist">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_En_8MORYEeSltrLTz4W_wA" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_0cvn0ORSEeS-mOevn5eTww" name="Product">
       <generalization xmi:type="uml:Generalization" xmi:id="_HasNoORVEeS-mOevn5eTww" general="_xGuuQORSEeS-mOevn5eTww"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_OR59EORVEeS-mOevn5eTww" name="Partlist">
       <generalization xmi:type="uml:Generalization" xmi:id="_OR59EeRVEeS-mOevn5eTww" general="_xGuuQORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_PakjYORXEeSltrLTz4W_wA" name="id" visibility="private" type="_DYwJkORSEeS-mOevn5eTww"/>
     </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_Xbo7AORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.shared"/>
