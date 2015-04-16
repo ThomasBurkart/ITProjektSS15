@@ -1,2 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_H2ocYORNEeS-mOevn5eTww" name="model"/>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_H2ocYORNEeS-mOevn5eTww" name="model">
+  <packagedElement xmi:type="uml:Package" xmi:id="_OdeGIORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_UAjUMORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.shared.bo">
+    <packagedElement xmi:type="uml:Class" xmi:id="_KulHoORSEeS-mOevn5eTww" name="Element">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_YtM-oORSEeS-mOevn5eTww" name="id" visibility="private" type="_DYwJkORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_eyhXEORSEeS-mOevn5eTww" name="name" visibility="private" type="_Am_zoORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_jHsnkORSEeS-mOevn5eTww" name="description" visibility="private" type="_Am_zoORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_mo42YORSEeS-mOevn5eTww" name="materialDescription" visibility="private" type="_Am_zoORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_nAN70ORTEeS-mOevn5eTww" name="modifyDate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_54F2MORSEeS-mOevn5eTww" name="creationDate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_xGuuQORSEeS-mOevn5eTww" name="Module">
+      <generalization xmi:type="uml:Generalization" xmi:id="_yOkDkORTEeS-mOevn5eTww" general="_KulHoORSEeS-mOevn5eTww"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_0cvn0ORSEeS-mOevn5eTww" name="Product">
+      <generalization xmi:type="uml:Generalization" xmi:id="_HasNoORVEeS-mOevn5eTww" general="_xGuuQORSEeS-mOevn5eTww"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_OR59EORVEeS-mOevn5eTww" name="Partlist">
+      <generalization xmi:type="uml:Generalization" xmi:id="_OR59EeRVEeS-mOevn5eTww" general="_xGuuQORSEeS-mOevn5eTww"/>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_Xbo7AORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.shared"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_ZiCm0ORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.server.db"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_cdMwYORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.server"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_eKUZgORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.client.reportgenerator"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_iTRy8ORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.client.editorviewer"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_jjI4UORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.client"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Am_zoORSEeS-mOevn5eTww" name="String"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_DYwJkORSEeS-mOevn5eTww" name="int"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_FM95MORSEeS-mOevn5eTww" name="float"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_TllIEORTEeS-mOevn5eTww" name="Date"/>
+</uml:Model>
