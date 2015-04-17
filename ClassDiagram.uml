@@ -54,8 +54,11 @@
       <packagedElement xmi:type="uml:Class" xmi:id="_OR59EORVEeS-mOevn5eTww" name="Partlist">
         <generalization xmi:type="uml:Generalization" xmi:id="_OR59EeRVEeS-mOevn5eTww" general="_xGuuQORSEeS-mOevn5eTww"/>
         <generalization xmi:type="uml:Generalization" xmi:id="__lBE4OTjEeSltrLTz4W_wA" general="_g3gEIOTiEeSltrLTz4W_wA"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_OyRmUOTxEeSltrLTz4W_wA" name="list" type="_IX5qQOT5EeSltrLTz4W_wA"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_q5t4gOT5EeSltrLTz4W_wA" name="creationDate" type="_TllIEORTEeS-mOevn5eTww"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_PW6jQOTXEeSltrLTz4W_wA" name="add">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_VTkH4OTXEeSltrLTz4W_wA" name="element" type="_KulHoORSEeS-mOevn5eTww"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_YY96IOT5EeSltrLTz4W_wA" name="quantity" type="_DYwJkORSEeS-mOevn5eTww"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_fgDxEOTXEeSltrLTz4W_wA" name="edit">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_kZ7qEOTXEeSltrLTz4W_wA" name="element" type="_KulHoORSEeS-mOevn5eTww"/>
@@ -72,6 +75,13 @@
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_H4ruwOTlEeSltrLTz4W_wA" name="setId" visibility="private">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_H4ruweTlEeSltrLTz4W_wA" name="id" visibility="public" type="_DYwJkORSEeS-mOevn5eTww"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_bMvz4OT6EeSltrLTz4W_wA" name="getCreationDate">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_iTP8gOT6EeSltrLTz4W_wA" type="_TllIEORTEeS-mOevn5eTww" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_9UZOoOT6EeSltrLTz4W_wA" name="getQuantityByElement">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ERKzgOT7EeSltrLTz4W_wA" type="_DYwJkORSEeS-mOevn5eTww" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ItrbEOT7EeSltrLTz4W_wA" name="element" type="_KulHoORSEeS-mOevn5eTww"/>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_eY6UEOTdEeSltrLTz4W_wA" name="User">
@@ -326,6 +336,7 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_IYbC8OTeEeSltrLTz4W_wA" name="Vector&lt;User>"/>
     <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_0Z8JAOTiEeSltrLTz4W_wA" name="long"/>
     <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_iSVN8OTjEeSltrLTz4W_wA" name="boolean"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_IX5qQOT5EeSltrLTz4W_wA" name="HashMap&lt;Element,Integer>"/>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_2UH9wOTiEeSltrLTz4W_wA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2WJXAOTiEeSltrLTz4W_wA" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>

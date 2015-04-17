@@ -1,5 +1,5 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
-public class PieceList {
+public class Element {
 
 }
