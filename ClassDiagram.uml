@@ -317,6 +317,9 @@
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_jfDKoOThEeSltrLTz4W_wA" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_lQWJIOThEeSltrLTz4W_wA" type="_KulHoORSEeS-mOevn5eTww" direction="return"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_AOoLYObNEeS_HIq-l6Hr0g" name="getAllElements">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_AOoLYebNEeS_HIq-l6Hr0g" type="__090IOTdEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_J3toQOTaEeSltrLTz4W_wA" name="ModuleMapper">
         <ownedAttribute xmi:type="uml:Property" xmi:id="_n30CAOTeEeSltrLTz4W_wA" name="moduleMapper" visibility="private" isStatic="true" type="_J3toQOTaEeSltrLTz4W_wA"/>
@@ -345,6 +348,9 @@
         <ownedOperation xmi:type="uml:Operation" xmi:id="_nh1DkOThEeSltrLTz4W_wA" name="findByName">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_nh1DkeThEeSltrLTz4W_wA" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_nh1DkuThEeSltrLTz4W_wA" type="_xGuuQORSEeS-mOevn5eTww" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_GoaX8ObNEeS_HIq-l6Hr0g" name="getAllModules">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_JfX-AObNEeS_HIq-l6Hr0g" type="_Bn6YcOTeEeSltrLTz4W_wA" direction="return"/>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_OEIlYOTaEeSltrLTz4W_wA" name="ProductMapper">
@@ -421,9 +427,12 @@
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_s7DyEeThEeSltrLTz4W_wA" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_s7DyEuThEeSltrLTz4W_wA" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_L1_3IObNEeS_HIq-l6Hr0g" name="getAllProducts">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_P18egObNEeS_HIq-l6Hr0g" type="_EKC-AOTeEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_RPKW8OTaEeSltrLTz4W_wA" name="PartlistMapper">
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_w2jpMOTfEeSltrLTz4W_wA" name="productMapper" visibility="private" isStatic="true" type="_OEIlYOTaEeSltrLTz4W_wA"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_w2jpMOTfEeSltrLTz4W_wA" name="partlistMapper" visibility="private" isStatic="true" type="_RPKW8OTaEeSltrLTz4W_wA"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_xnORIOTfEeSltrLTz4W_wA" name="partlistMapper" isStatic="true">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_xnORIeTfEeSltrLTz4W_wA" type="_RPKW8OTaEeSltrLTz4W_wA" direction="return"/>
         </ownedOperation>
@@ -450,6 +459,9 @@
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_p11GgeThEeSltrLTz4W_wA" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_p11GguThEeSltrLTz4W_wA" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_n9hX8ObMEeS_HIq-l6Hr0g" name="getAllPartlists">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7XW6cObMEeS_HIq-l6Hr0g" type="_1J2PUObMEeS_HIq-l6Hr0g" direction="return"/>
+        </ownedOperation>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_cdMwYORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.server">
@@ -459,6 +471,7 @@
         <ownedAttribute xmi:type="uml:Property" xmi:id="_f_y5wOaHEeS_HIq-l6Hr0g" name="moduleMapper" visibility="private" type="_J3toQOTaEeSltrLTz4W_wA"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_kkKc0OaHEeS_HIq-l6Hr0g" name="productMapper" visibility="private" type="_OEIlYOTaEeSltrLTz4W_wA"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_p97W0OaHEeS_HIq-l6Hr0g" name="partlistMapper" visibility="private" type="_RPKW8OTaEeSltrLTz4W_wA"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_kKMa0ObNEeS_HIq-l6Hr0g" name="currentUser" visibility="private" type="_eY6UEOTdEeSltrLTz4W_wA"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_vZOCMOaEEeS_HIq-l6Hr0g" name="registerUser">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_F2KMgOaJEeS_HIq-l6Hr0g" name="email" type="_Am_zoORSEeS-mOevn5eTww"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_IfMrUOaJEeS_HIq-l6Hr0g" name="password" type="_Am_zoORSEeS-mOevn5eTww"/>
@@ -470,6 +483,12 @@
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_CuhtMOaJEeS_HIq-l6Hr0g" type="_eY6UEOTdEeSltrLTz4W_wA" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_xsV7YOaEEeS_HIq-l6Hr0g" name="logoutUser"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_p5GeYObNEeS_HIq-l6Hr0g" name="getUser">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_vi4xYObNEeS_HIq-l6Hr0g" type="_eY6UEOTdEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wNGMAObNEeS_HIq-l6Hr0g" name="setUser">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_1VV4MObNEeS_HIq-l6Hr0g" name="user" type="_eY6UEOTdEeSltrLTz4W_wA"/>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_udeysOaEEeS_HIq-l6Hr0g" name="AdministrationEditorViewer">
         <generalization xmi:type="uml:Generalization" xmi:id="_S8WzcOaZEeS_HIq-l6Hr0g" general="_SwNqUOaYEeS_HIq-l6Hr0g"/>
@@ -554,9 +573,6 @@
     <packagedElement xmi:type="uml:Package" xmi:id="_PbeBQOaGEeS_HIq-l6Hr0g" name="java.io">
       <packagedElement xmi:type="uml:Interface" xmi:id="_t8J3IOTrEeSltrLTz4W_wA" name="Serializable"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Package" xmi:id="_iXMEYOaGEeS_HIq-l6Hr0g" name="de.hdm.groupfive.itproject.shared">
-      <packagedElement xmi:type="uml:Class" xmi:id="_q2HYgOaGEeS_HIq-l6Hr0g" name="CommonSettings"/>
-    </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_FJu2QOaHEeS_HIq-l6Hr0g" name="java.util.logging">
       <packagedElement xmi:type="uml:Class" xmi:id="_IOfnwOaHEeS_HIq-l6Hr0g" name="Logger"/>
     </packagedElement>
@@ -572,7 +588,9 @@
       <packagedElement xmi:type="uml:Interface" xmi:id="_Re9VoObLEeS_HIq-l6Hr0g" name="CopyOf_IAdministationCommon_2"/>
       <packagedElement xmi:type="uml:Interface" xmi:id="_SN6GUObLEeS_HIq-l6Hr0g" name="IAdministrationEditorViewer"/>
       <packagedElement xmi:type="uml:Interface" xmi:id="_Sq0EwObLEeS_HIq-l6Hr0g" name="IAdministrationReportGen"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_q2HYgOaGEeS_HIq-l6Hr0g" name="CommonSettings"/>
     </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1J2PUObMEeS_HIq-l6Hr0g" name="Vector&lt;Partlist>"/>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_2UH9wOTiEeSltrLTz4W_wA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2WJXAOTiEeSltrLTz4W_wA" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
