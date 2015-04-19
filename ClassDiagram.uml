@@ -139,7 +139,12 @@
     <packagedElement xmi:type="uml:Dependency" xmi:id="_K_gaIOUDEeSltrLTz4W_wA" client="_OR59EORVEeS-mOevn5eTww" supplier="_t8J3IOTrEeSltrLTz4W_wA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_Xbo7AORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.shared">
-    <packagedElement xmi:type="uml:Interface" xmi:id="_hdrkQOTrEeSltrLTz4W_wA" name="Interface1"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_hdrkQOTrEeSltrLTz4W_wA" name="IAdministrationCommon"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_W5VAUOaOEeS_HIq-l6Hr0g" name="IAdministrationCommonAsync"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_btLJ0OaOEeS_HIq-l6Hr0g" name="IAdministrationEditorViewer"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_eeEkIOaOEeS_HIq-l6Hr0g" name="IAdministrationEditorViewerAsync"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_wjSdEOaOEeS_HIq-l6Hr0g" name="IAdministrationReportGen"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_zlitIOaOEeS_HIq-l6Hr0g" name="IAdministrationReportGenAsync"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_ZiCm0ORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.server.db">
     <packagedElement xmi:type="uml:Class" xmi:id="_Bf1-YOTaEeSltrLTz4W_wA" name="DBConnection">
