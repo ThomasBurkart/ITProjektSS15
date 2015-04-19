@@ -472,6 +472,7 @@
         <ownedAttribute xmi:type="uml:Property" xmi:id="_kkKc0OaHEeS_HIq-l6Hr0g" name="productMapper" visibility="private" type="_OEIlYOTaEeSltrLTz4W_wA"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_p97W0OaHEeS_HIq-l6Hr0g" name="partlistMapper" visibility="private" type="_RPKW8OTaEeSltrLTz4W_wA"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_kKMa0ObNEeS_HIq-l6Hr0g" name="currentUser" visibility="private" type="_eY6UEOTdEeSltrLTz4W_wA"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_gzW6gObQEeS_HIq-l6Hr0g" name="userMapper" visibility="private" type="_Fj4bkOTaEeSltrLTz4W_wA"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_vZOCMOaEEeS_HIq-l6Hr0g" name="registerUser">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_F2KMgOaJEeS_HIq-l6Hr0g" name="email" type="_Am_zoORSEeS-mOevn5eTww"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_IfMrUOaJEeS_HIq-l6Hr0g" name="password" type="_Am_zoORSEeS-mOevn5eTww"/>
@@ -488,6 +489,18 @@
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_wNGMAObNEeS_HIq-l6Hr0g" name="setUser">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_1VV4MObNEeS_HIq-l6Hr0g" name="user" type="_eY6UEOTdEeSltrLTz4W_wA"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-8WuYObQEeS_HIq-l6Hr0g" name="getElementMapper">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_CxqzEObREeS_HIq-l6Hr0g" type="_GpNr8OTaEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_EztjUObREeS_HIq-l6Hr0g" name="getModuleMapper">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MsmyMObREeS_HIq-l6Hr0g" type="_J3toQOTaEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_NToV8ObREeS_HIq-l6Hr0g" name="getProductMapper">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_UKF3cObREeS_HIq-l6Hr0g" type="_OEIlYOTaEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Vm5zsObREeS_HIq-l6Hr0g" name="getPartlistMapper">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_aIyqgObREeS_HIq-l6Hr0g" type="_RPKW8OTaEeSltrLTz4W_wA" direction="return"/>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_udeysOaEEeS_HIq-l6Hr0g" name="AdministrationEditorViewer">
