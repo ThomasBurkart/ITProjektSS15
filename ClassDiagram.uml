@@ -225,8 +225,40 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Interface" xmi:id="_wjSdEOaOEeS_HIq-l6Hr0g" name="IAdministrationReportGen">
         <generalization xmi:type="uml:Generalization" xmi:id="_8N9I4OaYEeS_HIq-l6Hr0g" general="_prSe8OaYEeS_HIq-l6Hr0g"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wSeNgObIEeS_HIq-l6Hr0g" name="findPartlistByModuleId">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wSeNgebIEeS_HIq-l6Hr0g" name="id" type="_DYwJkORSEeS-mOevn5eTww"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wSeNgubIEeS_HIq-l6Hr0g" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wSzksObIEeS_HIq-l6Hr0g" name="findPartlistByModule">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wSzksebIEeS_HIq-l6Hr0g" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wSzksubIEeS_HIq-l6Hr0g" name="module" type="_xGuuQORSEeS-mOevn5eTww"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wS0LwObIEeS_HIq-l6Hr0g" name="findPartlistByModuleName">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wS0LwebIEeS_HIq-l6Hr0g" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wS0LwubIEeS_HIq-l6Hr0g" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wS0y0ObIEeS_HIq-l6Hr0g" name="findPartlistById">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wS0y0ebIEeS_HIq-l6Hr0g" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_YlHK4ObJEeS_HIq-l6Hr0g" name="calculateMaterial"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_XF8BsObKEeS_HIq-l6Hr0g" name="getAllProducts">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_XF8BsebKEeS_HIq-l6Hr0g" type="_EKC-AOTeEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
       </packagedElement>
-      <packagedElement xmi:type="uml:Interface" xmi:id="_zlitIOaOEeS_HIq-l6Hr0g" name="IAdministrationReportGenAsync"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_zlitIOaOEeS_HIq-l6Hr0g" name="IAdministrationReportGenAsync">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wwrMcObIEeS_HIq-l6Hr0g" name="findPartlistByModuleId">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wwrMcebIEeS_HIq-l6Hr0g" name="id" type="_DYwJkORSEeS-mOevn5eTww"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wwrzgObIEeS_HIq-l6Hr0g" name="findPartlistByModuleName">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wwrzgebIEeS_HIq-l6Hr0g" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wwrzg-bIEeS_HIq-l6Hr0g" name="findPartlistByModule">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wwrzhebIEeS_HIq-l6Hr0g" name="module" type="_xGuuQORSEeS-mOevn5eTww"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wwsakObIEeS_HIq-l6Hr0g" name="findPartlistById"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_wwtBoObIEeS_HIq-l6Hr0g" name="calculateMaterial"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Xb5qoObKEeS_HIq-l6Hr0g" name="getAllProducts"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_ZiCm0ORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.server.db">
       <packagedElement xmi:type="uml:Class" xmi:id="_Bf1-YOTaEeSltrLTz4W_wA" name="DBConnection">
@@ -485,6 +517,9 @@
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_cSA04OaREeS_HIq-l6Hr0g" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_9OWXQOaKEeS_HIq-l6Hr0g" name="calculateMaterial"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_3jknIObJEeS_HIq-l6Hr0g" name="getAllProducts">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_C1j4wObKEeS_HIq-l6Hr0g" type="_EKC-AOTeEeSltrLTz4W_wA" direction="return"/>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_cLJY4OaGEeS_HIq-l6Hr0g" name="ServerSettings">
         <generalization xmi:type="uml:Generalization" xmi:id="_v38ToOaGEeS_HIq-l6Hr0g" general="_q2HYgOaGEeS_HIq-l6Hr0g"/>
@@ -494,6 +529,9 @@
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_hgVsMOaXEeS_HIq-l6Hr0g" type="_IOfnwOaHEeS_HIq-l6Hr0g" direction="return"/>
         </ownedOperation>
       </packagedElement>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_cJ-t4ObLEeS_HIq-l6Hr0g" client="_lIQvwOaEEeS_HIq-l6Hr0g" supplier="_KHKosObLEeS_HIq-l6Hr0g"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_doNmcObLEeS_HIq-l6Hr0g" client="_udeysOaEEeS_HIq-l6Hr0g" supplier="_SN6GUObLEeS_HIq-l6Hr0g"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_eR41kObLEeS_HIq-l6Hr0g" client="_44O6UOaEEeS_HIq-l6Hr0g" supplier="_Sq0EwObLEeS_HIq-l6Hr0g"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_eKUZgORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.client.reportgenerator"/>
     <packagedElement xmi:type="uml:Package" xmi:id="_iTRy8ORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.client.editorviewer"/>
@@ -527,6 +565,13 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_f87jQOaYEeS_HIq-l6Hr0g" name="com.google.gwt.user.client.rpc">
       <packagedElement xmi:type="uml:Interface" xmi:id="_prSe8OaYEeS_HIq-l6Hr0g" name="RemoteService"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_BDH1UObLEeS_HIq-l6Hr0g" name="de.hdm.groupfive.itproject.shared">
+      <packagedElement xmi:type="uml:Interface" xmi:id="_KHKosObLEeS_HIq-l6Hr0g" name="IAdministationCommon"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_QxMQsObLEeS_HIq-l6Hr0g" name="CopyOf_IAdministationCommon_1"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_Re9VoObLEeS_HIq-l6Hr0g" name="CopyOf_IAdministationCommon_2"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_SN6GUObLEeS_HIq-l6Hr0g" name="IAdministrationEditorViewer"/>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_Sq0EwObLEeS_HIq-l6Hr0g" name="IAdministrationReportGen"/>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_2UH9wOTiEeSltrLTz4W_wA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2WJXAOTiEeSltrLTz4W_wA" source="http://www.eclipse.org/uml2/2.0.0/UML">
