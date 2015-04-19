@@ -104,7 +104,7 @@
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lIgnZOaEEeS_HIq-l6Hr0g"/>
           </children>
           <element xmi:type="uml:Class" href="ClassDiagram.uml#_lIQvwOaEEeS_HIq-l6Hr0g"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lIeLIeaEEeS_HIq-l6Hr0g" x="7" y="4" width="287" height="243"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lIeLIeaEEeS_HIq-l6Hr0g" x="7" y="4" width="314" height="243"/>
         </children>
         <children xmi:type="notation:Shape" xmi:id="_udgn4OaEEeS_HIq-l6Hr0g" type="3010">
           <children xmi:type="notation:DecorationNode" xmi:id="_udhO8OaEEeS_HIq-l6Hr0g" type="5014"/>
