@@ -54,6 +54,7 @@
       <generalization xmi:type="uml:Generalization" xmi:id="_OR59EeRVEeS-mOevn5eTww" general="_xGuuQORSEeS-mOevn5eTww"/>
       <generalization xmi:type="uml:Generalization" xmi:id="_WDu8kOUDEeSltrLTz4W_wA" general="_OZo-sOUDEeSltrLTz4W_wA"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_q5t4gOT5EeSltrLTz4W_wA" name="creationDate" type="_TllIEORTEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_A3O_8OZ_EeSulfpOo0mrVA" name="name" visibility="public" type="_Am_zoORSEeS-mOevn5eTww"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_PW6jQOTXEeSltrLTz4W_wA" name="add">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_VTkH4OTXEeSltrLTz4W_wA" name="element" type="_KulHoORSEeS-mOevn5eTww"/>
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_YY96IOT5EeSltrLTz4W_wA" name="quantity" type="_DYwJkORSEeS-mOevn5eTww"/>
