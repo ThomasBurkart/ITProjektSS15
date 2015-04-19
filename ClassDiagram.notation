@@ -194,6 +194,26 @@
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_44RWleaEEeS_HIq-l6Hr0g"/>
           </children>
           <children xmi:type="notation:BasicCompartment" xmi:id="_44RWluaEEeS_HIq-l6Hr0g" type="7012">
+            <children xmi:type="notation:Shape" xmi:id="_xaH7QOaKEeS_HIq-l6Hr0g" type="3013">
+              <element xmi:type="uml:Operation" href="ClassDiagram.uml#_xaEQ4OaKEeS_HIq-l6Hr0g"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_xaH7QeaKEeS_HIq-l6Hr0g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_y5D-cOaKEeS_HIq-l6Hr0g" type="3013">
+              <element xmi:type="uml:Operation" href="ClassDiagram.uml#_y5CwUOaKEeS_HIq-l6Hr0g"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_y5D-ceaKEeS_HIq-l6Hr0g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_1owe4OaKEeS_HIq-l6Hr0g" type="3013">
+              <element xmi:type="uml:Operation" href="ClassDiagram.uml#_1ovQwOaKEeS_HIq-l6Hr0g"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_1owe4eaKEeS_HIq-l6Hr0g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_4gC1EOaKEeS_HIq-l6Hr0g" type="3013">
+              <element xmi:type="uml:Operation" href="ClassDiagram.uml#_4gBm8OaKEeS_HIq-l6Hr0g"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_4gC1EeaKEeS_HIq-l6Hr0g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_9OXlYOaKEeS_HIq-l6Hr0g" type="3013">
+              <element xmi:type="uml:Operation" href="ClassDiagram.uml#_9OWXQOaKEeS_HIq-l6Hr0g"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_9OXlYeaKEeS_HIq-l6Hr0g"/>
+            </children>
             <styles xmi:type="notation:TitleStyle" xmi:id="_44RWl-aEEeS_HIq-l6Hr0g"/>
             <styles xmi:type="notation:SortingStyle" xmi:id="_44RWmOaEEeS_HIq-l6Hr0g"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_44RWmeaEEeS_HIq-l6Hr0g"/>

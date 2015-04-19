@@ -378,7 +378,13 @@
       <ownedOperation xmi:type="uml:Operation" xmi:id="_GPO-YOaKEeS_HIq-l6Hr0g" name="findElementsByName"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_LKhzsOaKEeS_HIq-l6Hr0g" name="findElementsByCreator"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_44O6UOaEEeS_HIq-l6Hr0g" name="AdministrationReportGen"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_44O6UOaEEeS_HIq-l6Hr0g" name="AdministrationReportGen">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_xaEQ4OaKEeS_HIq-l6Hr0g" name="findPartlistById"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_y5CwUOaKEeS_HIq-l6Hr0g" name="findPartlistByModule"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_1ovQwOaKEeS_HIq-l6Hr0g" name="findPartlistByModuleId"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_4gBm8OaKEeS_HIq-l6Hr0g" name="findPartlistByModuleName"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_9OWXQOaKEeS_HIq-l6Hr0g" name="calculateMaterial"/>
+    </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_cLJY4OaGEeS_HIq-l6Hr0g" name="ServerSettings">
       <generalization xmi:type="uml:Generalization" xmi:id="_v38ToOaGEeS_HIq-l6Hr0g" general="_q2HYgOaGEeS_HIq-l6Hr0g"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_ySC-kOaGEeS_HIq-l6Hr0g" name="LOGGER_NAME" visibility="private" isStatic="true" type="_Am_zoORSEeS-mOevn5eTww" isReadOnly="true"/>
