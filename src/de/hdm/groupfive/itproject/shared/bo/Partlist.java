@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class Partlist extends HashMap<Element,Integer> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 

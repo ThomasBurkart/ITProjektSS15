@@ -1,5 +1,5 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
-public class Element extends BusinessObject {
+public class User extends BusinessObject {
 
 }
