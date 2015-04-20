@@ -2,8 +2,10 @@ package de.hdm.groupfive.itproject.server;
 
 import java.util.logging.Logger;
 
+import de.hdm.groupfive.itproject.shared.CommonSettings;
 
-public class ServerSettings {
+
+public class ServerSettings extends CommonSettings {
 	  private static final String LOGGER_NAME = "It-Projekt Server";
 	  private static final Logger log = Logger.getLogger(LOGGER_NAME);
 
