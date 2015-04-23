@@ -10,6 +10,7 @@ h1 {
   text-align: center;
 }
 
+
 .sendButton {
   display: block;
   font-size: 16pt;
@@ -32,3 +33,4 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+

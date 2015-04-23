@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -26,6 +27,16 @@ public class ITProjektSS15 implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
+	    /*
+	     * Ab hier bauen wir sukzessive den Navigator mit seinen Buttons aus.
+	     */
+
+	    /*
+	     * Neues Button Widget erzeugen und eine Beschriftung festlegen.
+	     */
+	    final Hyperlink homeLabel = new Hyperlink("Startseite", "mainpage");
+	   
+	    RootPanel.get("homelabel").add(homeLabel);
 
 	}
 }
