@@ -90,5 +90,3 @@ public class DBConnection {
 	}
 
 }
-//Test Timo
-//Sam
