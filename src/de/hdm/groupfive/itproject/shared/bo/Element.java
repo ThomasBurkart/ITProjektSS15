@@ -84,9 +84,6 @@ public class Element extends BusinessObject {
 		 */
 		this.name = string;
 
-		//Test
-
-
 
 	}
 
