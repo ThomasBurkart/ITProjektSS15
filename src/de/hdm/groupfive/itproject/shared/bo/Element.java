@@ -14,6 +14,7 @@ public class Element extends BusinessObject {
 	  /**
 	   * Auslesen des Fremdschlüssels zum Kontoinhaber.
 	   */
+
 	   
 	      
 	  public int getOwnerID() {
@@ -92,4 +93,5 @@ public class Element extends BusinessObject {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

@@ -16,10 +16,12 @@ public class Partlist extends HashMap<Element,Integer> implements Serializable {
 	
 	private Date creationDate;
 	private String name;
-	private int id;
+	//habe das Attribut in static gewandelt, damit es mit der Methode verwendtbar ist.
+	private static int id;
 	
 	public void add(Element element, int quantity){
 		throw new UnsupportedOperationException("Not yet implemented");
+
 	}
 	
 	public void edit (Element element){
@@ -42,7 +44,9 @@ public class Partlist extends HashMap<Element,Integer> implements Serializable {
 	 */
 	public static int getId(){
 		
+
 		throw new UnsupportedOperationException("Not yet implemented");
+
 	}
 	
 	public Date getCreationDate(){
