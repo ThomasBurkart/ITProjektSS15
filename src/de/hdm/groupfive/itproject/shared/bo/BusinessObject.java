@@ -103,4 +103,4 @@ public abstract class BusinessObject implements Serializable {
     return result;
   }
 
-}
+}//Hallo

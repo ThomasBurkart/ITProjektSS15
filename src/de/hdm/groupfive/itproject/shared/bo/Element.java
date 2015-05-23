@@ -1,7 +1,10 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
+import java.sql.Timestamp;
+
 public class Element extends BusinessObject {
 
+<<<<<<< HEAD
 	  private static final long serialVersionUID = 1L;
 
 	  /**
@@ -68,4 +71,26 @@ public class Element extends BusinessObject {
 	    }
 	    return false;
 	  }
+=======
+	public void setNameID(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setDescriptionID(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setModifyDateID(Timestamp timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setCreationDateID(Timestamp timestamp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+>>>>>>> refs/remotes/origin/master
 }
