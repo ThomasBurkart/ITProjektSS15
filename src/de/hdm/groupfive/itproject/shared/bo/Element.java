@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 public class Element extends BusinessObject {
 
-<<<<<<< HEAD
 	  private static final long serialVersionUID = 1L;
 
 	  /**
@@ -15,6 +14,8 @@ public class Element extends BusinessObject {
 	  /**
 	   * Auslesen des Fremdschlüssels zum Kontoinhaber.
 	   */
+	   
+	      
 	  public int getOwnerID() {
 	    return this.ownerID;
 	  }
@@ -71,8 +72,8 @@ public class Element extends BusinessObject {
 	    }
 	    return false;
 	  }
-=======
-	public void setNameID(String string) {
+	  
+	  	public void setNameID(String string) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -91,6 +92,4 @@ public class Element extends BusinessObject {
 		// TODO Auto-generated method stub
 		
 	}
-
->>>>>>> refs/remotes/origin/master
 }

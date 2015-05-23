@@ -16,11 +16,10 @@ public class Partlist extends HashMap<Element,Integer> implements Serializable {
 	
 	private Date creationDate;
 	private String name;
-	//habe das Attribut in static gewandelt, damit es mit der Methode verwendtbar ist.
-	private static int id;
+	private int id;
 	
 	public void add(Element element, int quantity){
-		Element addElement = Element.
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
 	public void edit (Element element){
@@ -32,30 +31,26 @@ public class Partlist extends HashMap<Element,Integer> implements Serializable {
 	}
 	
 	public Element deleteById(Element element){
-		
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
 	public Element getElementById(Element element){
-		
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	/*
 	 * wie bindet man das Attribut id in eine statische Methode ein?
 	 */
 	public static int getId(){
 		
-		return id;
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
 	public Date getCreationDate(){
-		
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
-	
-	public int getQuantityByElement(Element element){
-		
-	}
-	
+
 	public String getName(){
-		
+		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
 	public void setName(String name){
