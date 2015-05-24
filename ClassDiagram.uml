@@ -7,7 +7,7 @@
       <ownedAttribute xmi:type="uml:Property" xmi:id="_eyhXEORSEeS-mOevn5eTww" name="name" visibility="private" type="_Am_zoORSEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_jHsnkORSEeS-mOevn5eTww" name="description" visibility="private" type="_Am_zoORSEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_mo42YORSEeS-mOevn5eTww" name="materialDescription" visibility="private" type="_Am_zoORSEeS-mOevn5eTww"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_nAN70ORTEeS-mOevn5eTww" name="modifyDate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_nAN70ORTEeS-mOevn5eTww" name="LastUpdate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_54F2MORSEeS-mOevn5eTww" name="creationDate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_2xMXgOaTEeS_HIq-l6Hr0g" name="lastUser" visibility="private" type="_eY6UEOTdEeSltrLTz4W_wA"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_2P5OMORXEeSltrLTz4W_wA" name="setId" visibility="private">
@@ -31,10 +31,10 @@
       <ownedOperation xmi:type="uml:Operation" xmi:id="_sxumAOTYEeSltrLTz4W_wA" name="setMaterialDescription">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_xIVZ4OTYEeSltrLTz4W_wA" name="desc" type="_Am_zoORSEeS-mOevn5eTww"/>
       </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_0PqXMOTYEeSltrLTz4W_wA" name="getModifyDate">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_0PqXMOTYEeSltrLTz4W_wA" name="getLastUpdate">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_4qKzoOTYEeSltrLTz4W_wA" type="_TllIEORTEeS-mOevn5eTww" direction="return"/>
       </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_5gmsYOTYEeSltrLTz4W_wA" name="setModifyDate">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_5gmsYOTYEeSltrLTz4W_wA" name="setLastUpdate">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_9Cv9cOTYEeSltrLTz4W_wA" name="date" type="_TllIEORTEeS-mOevn5eTww"/>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="__hYjEOTYEeSltrLTz4W_wA" name="getCreationDate">
@@ -59,7 +59,7 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_OR59EORVEeS-mOevn5eTww" name="Partlist">
       <generalization xmi:type="uml:Generalization" xmi:id="_OR59EeRVEeS-mOevn5eTww" general="_xGuuQORSEeS-mOevn5eTww"/>
-      <generalization xmi:type="uml:Generalization" xmi:id="_WDu8kOUDEeSltrLTz4W_wA" general="_OZo-sOUDEeSltrLTz4W_wA"/>
+      <generalization xmi:type="uml:Generalization" xmi:id="_DS1lMAJWEeWMuuP4BtvOSg" general="_KulHoORSEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_q5t4gOT5EeSltrLTz4W_wA" name="creationDate" visibility="private" type="_TllIEORTEeS-mOevn5eTww"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_A3O_8OZ_EeSulfpOo0mrVA" name="name" visibility="private" type="_Am_zoORSEeS-mOevn5eTww">
         <qualifier xmi:type="uml:Property" xmi:id="_AqvKIOaBEeS_HIq-l6Hr0g" name="serialVersionUID" visibility="private" isStatic="true" type="_0Z8JAOTiEeSltrLTz4W_wA"/>
@@ -144,6 +144,11 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_LfNsYOTsEeSltrLTz4W_wA" client="_g3gEIOTiEeSltrLTz4W_wA" supplier="_t8J3IOTrEeSltrLTz4W_wA"/>
     <packagedElement xmi:type="uml:Dependency" xmi:id="_K_gaIOUDEeSltrLTz4W_wA" client="_OR59EORVEeS-mOevn5eTww" supplier="_t8J3IOTrEeSltrLTz4W_wA"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_vdOssAJVEeWMuuP4BtvOSg" name="Hilfsklasse [ArrayList]" visibility="protected" isActive="true">
+      <generalization xmi:type="uml:Generalization" xmi:id="_vdOssQJVEeWMuuP4BtvOSg" general="_OR59EORVEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_Wv73EAJWEeWMuuP4BtvOSg" name="element" type="__090IOTdEeSltrLTz4W_wA"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_ZTupgAJWEeWMuuP4BtvOSg" name="intLink" type="_DYwJkORSEeS-mOevn5eTww"/>
+    </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_Xbo7AORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.shared">
     <packagedElement xmi:type="uml:Interface" xmi:id="_hdrkQOTrEeSltrLTz4W_wA" name="AdministrationCommon">
@@ -223,6 +228,7 @@
       </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_W5VAUOaOEeS_HIq-l6Hr0g" name="AdministrationCommonAsync">
+      <generalization xmi:type="uml:Generalization" xmi:id="_I3UGAAGIEeWMuuP4BtvOSg" general="_prSe8OaYEeS_HIq-l6Hr0g"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_19-SMOaQEeS_HIq-l6Hr0g" name="registerUser">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_19-SMeaQEeS_HIq-l6Hr0g" name="email" type="_Am_zoORSEeS-mOevn5eTww"/>
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_19-SMuaQEeS_HIq-l6Hr0g" name="password" type="_Am_zoORSEeS-mOevn5eTww"/>
