@@ -73,8 +73,8 @@ try {
 			a.setId(rs.getInt("id"));
 			a.setName(rs.getString("name"));
 			a.setDescription(rs.getString("description"));
-			a.setLastUpdate(rs.getTimestamp ("last_update"));
-			a.setCreationDate(rs.getTimestamp ("creation_date"));
+			a.setLastUpdate(rs.getDate ("last_update"));
+			a.setCreationDate(rs.getDate ("creation_date"));
 			return a;
 	}
 } catch (SQLException e) {

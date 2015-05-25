@@ -1,27 +1,75 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
-import java.sql.Timestamp;
-import java.util.Vector;
+import java.sql.Date;
 
-import de.hdm.groupfive.itproject.server.db.ElementMapper;
-import de.hdm.groupfive.itproject.server.db.ModuleMapper;
-import de.hdm.groupfive.itproject.server.db.PartlistMapper;
-import de.hdm.groupfive.itproject.server.db.ProductMapper;
-import de.hdm.groupfive.itproject.server.db.UserMapper;
-import de.hdm.groupfive.itproject.shared.AdministrationCommon;
-
-public class Element extends BusinessObject implements AdministrationCommon{
+public class Element extends BusinessObject{
 
 	private static final long serialVersionUID = 1L;
 
 	private String name = "";
 	private String description = "";
 	private String materialDescription = "";
-	private Timestamp creationDate;
-	private Timestamp lastUpdate;
+	private Date creationDate;
+	private Date lastUpdate;
 	private User lastUser;
 
 	
+	public String getName() {
+		return this.name;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public String getMaterialdescription() {
+		return this.materialDescription;
+	}
+
+	public Date getCreationDate() {
+		return this.creationDate;
+	}
+
+	public Date getLastUpdate() {
+		return this.lastUpdate;
+	}
+
+	public User getUser() {
+		return this.lastUser;
+	}
+	
+	public String getMaterialDescription() {
+		return materialDescription;
+	}
+
+	public void setMaterialDescription(String materialDescription) {
+		this.materialDescription = materialDescription;
+	}
+
+	public User getLastUser() {
+		return lastUser;
+	}
+
+	public void setLastUser(User lastUser) {
+		this.lastUser = lastUser;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
 	/**
 	 * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
 	 * Kontoinstanz.
@@ -66,238 +114,5 @@ public class Element extends BusinessObject implements AdministrationCommon{
 		}
 		return false;
 	}
-
 	
-	public String getName() {
-		return this.name;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public String getMaterialdescription() {
-		return this.materialDescription;
-	}
-
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public User getUser() {
-		return this.lastUser;
-	}
-	
-	public String getMaterialDescription() {
-		return materialDescription;
-	}
-
-	public void setMaterialDescription(String materialDescription) {
-		this.materialDescription = materialDescription;
-	}
-
-	public User getLastUser() {
-		return lastUser;
-	}
-
-	public void setLastUser(User lastUser) {
-		this.lastUser = lastUser;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	@Override
-	public User registerUser(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public User loginUser(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void logoutUser() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public ElementMapper getElementMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ModuleMapper getModuleMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ProductMapper getProductMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PartlistMapper getPartlistMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UserMapper getUserMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Element createElement() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Element editElement(Element element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteElement(Element element) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Module assignElement(Module module, Element element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Module createModule() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Module editModule(Module module) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteModule(Module module) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Module assignModule(Module module, Module subModule) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Product createProduct() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Product editProduct(Product product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteProduct(Product product) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Element findElementById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Vector<Element> findElementsByCreator(User creator) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Vector<Element> findElementsByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Partlist findPartlistByModuleName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Partlist findPartlistByModuleId(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Partlist findPartlistById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Partlist findPartlistByModule(Module module) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Vector<Product> getAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object calculateMaterial(Partlist partlist) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-
 }
