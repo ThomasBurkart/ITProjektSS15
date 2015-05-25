@@ -12,37 +12,37 @@ public class AdministrationCommon extends RemoteServiceServlet implements Admini
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Aktuell angemeldeter Benutzer
 	 */
 	private User currentUser = null;
-	
+
 	/**
 	 * 
 	 */
 	private UserMapper userMapper = null;
-	
+
 	/**
 	 * 
 	 */
 	private ElementMapper elementMapper = null;
-	
+
 	/**
 	 * 
 	 */
 	private ModuleMapper moduleMapper = null;
-	
+
 	/**
 	 * 
 	 */
 	private PartlistMapper partlistMapper = null;
-	
+
 	/**
 	 * 
 	 */
 	private ProductMapper productMapper = null;
-	
+
 	/**
 	 * 
 	 */
@@ -53,7 +53,6 @@ public class AdministrationCommon extends RemoteServiceServlet implements Admini
 		this.productMapper = ProductMapper.getProductMapper();
 		this.partlistMapper = PartlistMapper.getPartlistMapper();
 	}
-	
 
 	@Override
 	public User registerUser(String email, String password) {
@@ -70,7 +69,7 @@ public class AdministrationCommon extends RemoteServiceServlet implements Admini
 	@Override
 	public void logoutUser() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

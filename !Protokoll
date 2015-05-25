@@ -7,3 +7,6 @@ UNLKARHEITEN
 		
 	DIAGRAMM & KLASSE Partlist:
 		 serialVersionUID -Attribut gelöscht
+		 
+	KLASSE Element:
+		die Attribute und Methoden zu ownerId brauchen wir nicht oder?

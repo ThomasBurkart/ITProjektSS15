@@ -2,6 +2,8 @@ package de.hdm.groupfive.itproject.shared.bo;
 
 import java.sql.Timestamp;
 
+import de.hdm.groupfive.itproject.shared.AdministrationCommon;
+
 public class Element extends BusinessObject implements AdministrationCommon{
 	private static final long serialVersionUID = 1L;
 
@@ -9,7 +11,7 @@ public class Element extends BusinessObject implements AdministrationCommon{
 	private String description = "";
 	private String materialDescription = "";
 	private Timestamp creationDate;
-	private Timestamp modifyDate;
+	private Timestamp lastUpdate;
 	private User lastUser;
 
 	/**
@@ -105,12 +107,12 @@ public class Element extends BusinessObject implements AdministrationCommon{
 
 	}
 
-	public void setModifyDateID(Timestamp timestamp) {
+	public void setLastUpdateID(Timestamp timestamp) {
 		// TODO Auto-generated method stub
 		/**
 		   * 
 		   */
-		this.modifyDate = timestamp;
+		this.lastUpdate = timestamp;
 
 	}
 
@@ -141,8 +143,8 @@ public class Element extends BusinessObject implements AdministrationCommon{
 		return this.creationDate;
 	}
 
-	public Timestamp getModifyDate() {
-		return this.modifyDate;
+	public Timestamp getLastUpdate() {
+		return this.lastUpdate;
 	}
 
 	public User getUser() {
