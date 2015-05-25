@@ -34,3 +34,12 @@ h1 {
   margin: 15px 6px 6px;
 }
 
+/** Navigations-Links im Menü */
+.menubutton {
+	height: 35px;
+    margin-top: 5px;
+    padding: 8px 25px;
+}
+.menubutton:hover {
+	background-color: #eee;
+}
