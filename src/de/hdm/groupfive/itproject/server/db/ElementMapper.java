@@ -73,7 +73,7 @@ try {
 			a.setId(rs.getInt("id"));
 			a.setNameID(rs.getString("name"));
 			a.setDescriptionID(rs.getString("description"));
-			a.setModifyDateID(rs.getTimestamp ("modify_date"));
+			a.setLastUpdateID(rs.getTimestamp ("last_update"));
 			a.setCreationDateID(rs.getTimestamp ("creation_date"));
 			return a;
 	}

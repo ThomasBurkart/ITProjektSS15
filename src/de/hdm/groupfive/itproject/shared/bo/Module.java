@@ -6,6 +6,6 @@ public class Module extends Element {
 	
 	public Module() {
 		this.partlist = new Partlist();
-		this.partlist.put(new Element(), 5);
+		this.partlist.add(new Element(), 5); // ??? Warum 5? --> BSP?
 	}
 }

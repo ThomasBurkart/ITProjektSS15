@@ -147,8 +147,8 @@
     <packagedElement xmi:type="uml:Dependency" xmi:id="_K_gaIOUDEeSltrLTz4W_wA" client="_OR59EORVEeS-mOevn5eTww" supplier="_t8J3IOTrEeSltrLTz4W_wA"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_vdOssAJVEeWMuuP4BtvOSg" name="PartlistEntry" visibility="protected" isActive="true">
       <generalization xmi:type="uml:Generalization" xmi:id="_vdOssQJVEeWMuuP4BtvOSg" general="_OR59EORVEeS-mOevn5eTww"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_Wv73EAJWEeWMuuP4BtvOSg" name="element" type="__090IOTdEeSltrLTz4W_wA"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_ZTupgAJWEeWMuuP4BtvOSg" name="amount" type="_DYwJkORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_Wv73EAJWEeWMuuP4BtvOSg" name="element" visibility="private" type="__090IOTdEeSltrLTz4W_wA"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_ZTupgAJWEeWMuuP4BtvOSg" name="amount" visibility="public" type="_DYwJkORSEeS-mOevn5eTww"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_3aPysAK6EeW4XaJaSKA5Sg" name="getElement">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_DrlogAK7EeW4XaJaSKA5Sg" type="__090IOTdEeSltrLTz4W_wA"/>
       </ownedOperation>
@@ -507,7 +507,7 @@
     </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:Package" xmi:id="_cdMwYORQEeS-mOevn5eTww" name="de.hdm.groupfive.itproject.server">
-    <packagedElement xmi:type="uml:Class" xmi:id="_lIQvwOaEEeS_HIq-l6Hr0g" name="AdministrationCommon">
+    <packagedElement xmi:type="uml:Class" xmi:id="_lIQvwOaEEeS_HIq-l6Hr0g" name="AdministrationCommonImpl">
       <generalization xmi:type="uml:Generalization" xmi:id="_SBbcQOaZEeS_HIq-l6Hr0g" general="_SwNqUOaYEeS_HIq-l6Hr0g"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_bcSSUOaHEeS_HIq-l6Hr0g" name="elementMapper" visibility="private" type="_GpNr8OTaEeSltrLTz4W_wA"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_f_y5wOaHEeS_HIq-l6Hr0g" name="moduleMapper" visibility="private" type="_J3toQOTaEeSltrLTz4W_wA"/>

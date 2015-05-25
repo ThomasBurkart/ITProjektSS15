@@ -10,3 +10,10 @@ UNLKARHEITEN
 		 
 	KLASSE Element:
 		die Attribute und Methoden zu ownerId brauchen wir nicht oder?
+	
+	KLASSE ElementMapper:
+		Zeile 76: 			a.setModifyDateID(rs.getTimestamp ("modify_date"));
+		in
+							a.setLastUpdateID(rs.getTimestamp ("last_update"));
+		abgeändert. 
+		Falls diese Änderung für die DB wichtig ist, BITTE beachten!!!
