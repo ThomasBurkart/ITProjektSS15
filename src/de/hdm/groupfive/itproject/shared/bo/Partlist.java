@@ -61,6 +61,11 @@ public class Partlist extends BusinessObject {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
+	public int getAmountByElement(Element element) {
+		throw new UnsupportedOperationException("Not yet implemented");
+		
+	}
+	
 	public String getName() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -70,10 +75,7 @@ public class Partlist extends BusinessObject {
 
 	}
 
-	public int getAmountByElement(Element element) {
-		throw new UnsupportedOperationException("Not yet implemented");
-		
-	}
+	
 
 }
 

@@ -1,0 +1,9 @@
+PROTOKOLL
+
+UNLKARHEITEN
+	KLASSE BusinessObject:
+		wozu brauchen wir die toString() Methode?
+		Wenn wir die einbauen, sollte die doch auch im Klassendiagramm stehen, oder?
+		
+	DIAGRAMM & KLASSE Partlist:
+		 serialVersionUID -Attribut gelöscht
