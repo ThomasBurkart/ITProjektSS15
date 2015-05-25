@@ -2,7 +2,7 @@ package de.hdm.groupfive.itproject.shared.bo;
 
 import java.sql.Timestamp;
 
-public class Element extends BusinessObject {
+public class Element extends BusinessObject implements AdministrationCommon{
 	private static final long serialVersionUID = 1L;
 
 	private String name = "";

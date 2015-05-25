@@ -6,21 +6,31 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
+import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
-import de.hdm.groupfive.itproject.shared.IAdministrationEditorViewer;
 
-/**
- * Das asynchrone Gegenstück des Interface {@link IAdministrationEditorViewer}.
- * Es wird semiautomatisch durch das Google Plugin erstellt und gepflegt. Daher
- * erfolgt hier keine weitere Dokumentation. Für weitere Informationen siehe das
- * synchrone Interface {@link IAdministrationEditorViewer}.
- * 
- * @author thies
- * @author fesseler (update)
- */
+public interface AdministrationCommonAsync {
+	public void registerUser(String email, String password);
 
-public interface IAdministrationEditorViewerAsync {
+	public void loginUser(String email, String password);
+
+	public void logoutUser();
+
+	public void getElementMapper();
+
+	public void getModuleMapper();
+
+	public void getProductMapper();
+
+	public void getPartlistMapper();
+
+	public void getUserMapper();
+
+	public void setUser(User user);
+
+	public void getUser();
+
 	public void createElement(AsyncCallback<Element> callback);
 
 	public void editElement(Element element, AsyncCallback<Element> callback);
@@ -52,4 +62,19 @@ public interface IAdministrationEditorViewerAsync {
 
 	public void findElementsByName(String name,
 			AsyncCallback<Vector<Element>> callback);
+
+	public void findPartlistByModuleName(String name,
+			AsyncCallback<Partlist> callback);
+
+	public void findPartlistByModuleId(int id, AsyncCallback<Partlist> callback);
+
+	public void findPartlistById(int id, AsyncCallback<Partlist> callback);
+
+	public void findPartlistByModule(Module module,
+			AsyncCallback<Partlist> callback);
+
+	public void getAllProducts(AsyncCallback<Vector<Product>> callback);
+
+	public void calculateMaterial(Partlist partlist,
+			AsyncCallback<Object> callback);
 }

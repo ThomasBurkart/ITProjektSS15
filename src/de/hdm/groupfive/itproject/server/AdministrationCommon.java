@@ -6,7 +6,7 @@ import de.hdm.groupfive.itproject.server.db.*;
 import de.hdm.groupfive.itproject.shared.*;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
-public class AdministrationCommon extends RemoteServiceServlet implements IAdministrationCommon {
+public class AdministrationCommon extends RemoteServiceServlet implements AdministrationCommon {
 
 	/**
 	 * 
