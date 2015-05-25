@@ -5,41 +5,34 @@ public class User extends BusinessObject {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Der Vorname des Kunden.
+	 * Der Username des Benutzers.
 	 */
-	private String firstName = "";
+	private String userName = "";
 
 	/**
-	 * Der Nachname des Kunden.
+	 * Der E-Mail des Benutzers.
 	 */
-	private String lastName = "";
+	private String email = "";
 
 	/**
 	 * Auslesen des Vornamens.
 	 */
-	public String getFirstName() {
-		return this.firstName;
+	public String getUserName() {
+		return this.userName;
 	}
 
 	/**
-	 * Setzen des Vornamens.
+	 * Setzen der E-Mail.
 	 */
-	public void setFirstName(String name) {
-		this.firstName = name;
-	}
-
-	/**
-	 * Auslesen des Nachnamens.
-	 */
-	public String getLastName() {
-		return this.lastName;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
 	 * Setzen des Nachnamens.
 	 */
-	public void setLastName(String name) {
-		this.lastName = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	/**
@@ -50,6 +43,6 @@ public class User extends BusinessObject {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + " " + this.firstName + " " + this.lastName;
+		return super.toString() + " " + this.userName;
 	}
 }
