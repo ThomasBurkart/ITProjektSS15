@@ -1,74 +1,105 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Partlist extends HashMap<Element,Integer> implements Serializable {
+import de.hdm.groupfive.itproject.server.db.ElementMapper;
 
-	private static final long serialVersionUID = 1L;
-	
+public class Partlist extends BusinessObject {
+
 	/**
 	 * 
 	 * @param element
 	 * @return
 	 */
-	
+
 	private Date creationDate;
 	private String name;
-	//habe das Attribut in static gewandelt, damit es mit der Methode verwendtbar ist.
-	private static int id;
+	private int id;
+	private ArrayList<PartlistEntry> list;
 	
-	public void add(Element element, int quantity){
-		throw new UnsupportedOperationException("Not yet implemented");
-
-	}
-	
-	public void edit (Element element){
-		
-	}
-	
-	public void delete(Element element){
-		
-	}
-	
-	public Element deleteById(Element element){
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-	
-	public Element getElementById(Element element){
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-	/*
-	 * wie bindet man das Attribut id in eine statische Methode ein?
-	 */
-	public static int getId(){
-		
-
-		throw new UnsupportedOperationException("Not yet implemented");
-
-	}
-	
-	public Date getCreationDate(){
-		throw new UnsupportedOperationException("Not yet implemented");
+	public Partlist() {
+		this.list = new ArrayList<PartlistEntry>();
 	}
 
-	public String getName(){
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-	
-	public void setName(String name){
-		
-	}
-	
-	
-	
-	public int getQuantityByElement(Element element) {
-		int result = -1;
-		if (this.containsKey(element)) {
-			result = this.get(element);
+	public void add(Element element, int amount) {
+		if (element != null && amount > 0) {
+			list.add(new PartlistEntry(element, amount));
 		}
-		return result;
 	}
 
+	public void edit(Element element) {
+		for(PartlistEntry entry : list) {
+			if (entry.getElement().getId() == element.getId()) {
+				entry.setElement(element);
+			}
+		}
+		
+	}
+
+	public void delete(Element element) {
+
+	}
+
+	public Element deleteById(Element element) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public Element getElementById(Element element) {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public int getId() {
+
+		throw new UnsupportedOperationException("Not yet implemented");
+
+	}
+
+	public Date getCreationDate() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public String getName() {
+		throw new UnsupportedOperationException("Not yet implemented");
+	}
+
+	public void setName(String name) {
+		throw new UnsupportedOperationException("Not yet implemented");
+
+	}
+
+	public int getAmountByElement(Element element) {
+		throw new UnsupportedOperationException("Not yet implemented");
+		
+	}
+
+}
+
+class PartlistEntry {
+	
+	private Element element;
+	private int amount;
+
+	public PartlistEntry (Element element, int amount){
+		this.element = element;
+		this.amount = amount;
+	}
+
+	public Element getElement() {
+		return element;
+	}
+
+	public void setElement(Element element) {
+		this.element = element;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 }
