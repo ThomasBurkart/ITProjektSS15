@@ -11,6 +11,7 @@ import de.hdm.groupfive.itproject.server.db.UserMapper;
 import de.hdm.groupfive.itproject.shared.AdministrationCommon;
 
 public class Element extends BusinessObject implements AdministrationCommon{
+
 	private static final long serialVersionUID = 1L;
 
 	private String name = "";
@@ -20,33 +21,14 @@ public class Element extends BusinessObject implements AdministrationCommon{
 	private Timestamp lastUpdate;
 	private User lastUser;
 
-	/**
-	 * Fremdschlüsselbeziehung zum Inhaber des Kontos.
-	 */
-	private int ownerID = 0;
-
-	/**
-	 * Auslesen des Fremdschlüssels zum Kontoinhaber.
-	 */
-
-	public int getOwnerID() {
-		return this.ownerID;
-	}
-
-	/**
-	 * Setzen des Fremdschlüssels zum Kontoinhaber.
-	 */
-	public void setOwnerID(int kundeID) {
-		this.ownerID = kundeID;
-	}
-
+	
 	/**
 	 * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
 	 * Kontoinstanz.
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + " inhaber, Kunden-ID: #" + this.ownerID;
+		return super.toString() + " inhaber, Kunden-ID: #" + this.lastUser;
 	}
 
 	/**
@@ -85,54 +67,7 @@ public class Element extends BusinessObject implements AdministrationCommon{
 		return false;
 	}
 
-	public void setNameID(String string) {
-		// TODO Auto-generated method stub
-		/**
-		 * Setzen des Namens des Bauteils
-		 */
-		this.name = string;
-
-
-	}
-
-	public void setDescriptionID(String string) {
-		// TODO Auto-generated method stub
-		/**
-		 * Setzen der Beschreibung des Bauteils
-		 */
-		this.description = string;
-
-	}
-
-	public void setMaterialDescriptionID(String string) {
-		// TODO Auto-generated method stub
-		/**
-		 * Setzen der Materialbeschreibung des Bauteils
-		 */
-		this.materialDescription = string;
-
-	}
-
-	public void setLastUpdateID(Timestamp timestamp) {
-		// TODO Auto-generated method stub
-		/**
-		   * 
-		   */
-		this.lastUpdate = timestamp;
-
-	}
-
-	public void setCreationDateID(Timestamp timestamp) {
-		// TODO Auto-generated method stub
-		this.creationDate = timestamp;
-	}
-
-	public void setUserID(User user) {
-		// TODO Auto-generated method stub
-		this.lastUser = user;
-
-	}
-
+	
 	public String getName() {
 		return this.name;
 	}
@@ -155,6 +90,38 @@ public class Element extends BusinessObject implements AdministrationCommon{
 
 	public User getUser() {
 		return this.lastUser;
+	}
+	
+	public String getMaterialDescription() {
+		return materialDescription;
+	}
+
+	public void setMaterialDescription(String materialDescription) {
+		this.materialDescription = materialDescription;
+	}
+
+	public User getLastUser() {
+		return lastUser;
+	}
+
+	public void setLastUser(User lastUser) {
+		this.lastUser = lastUser;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setCreationDate(Timestamp creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public void setLastUpdate(Timestamp lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 
 	@Override
@@ -330,5 +297,7 @@ public class Element extends BusinessObject implements AdministrationCommon{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }
