@@ -41,6 +41,7 @@ h1 {
     padding: 8px 25px;
 }
 .menubutton:hover {
+	cursor: pointer;
 	background-color: #eee;
 }
 
@@ -52,4 +53,19 @@ h1 {
 	font-weight: bold;
 	padding: 5px;
 	width: 300px;
+}
+.menupanel div.gwt-HTML:hover {
+	cursor: pointer;
+	background-color: #fafafa;
+}
+
+.gwt-PopupPanelGlass {
+	z-index: 9998;
+}
+.gwt-DialogBox {
+	z-index: 9999;
+}
+
+.dialogMiddle td {
+	padding: 5px;
 }
