@@ -34,7 +34,7 @@ h1 {
   margin: 15px 6px 6px;
 }
 
-/** Navigations-Links im Menü */
+/** Navigations-Links im MenÃ¼ */
 .menubutton {
 	height: 35px;
     margin-top: 5px;
@@ -42,4 +42,14 @@ h1 {
 }
 .menubutton:hover {
 	background-color: #eee;
+}
+
+.menupanel {
+	margin-left: 25px;
+}
+
+.menupanel div.gwt-HTML {
+	font-weight: bold;
+	padding: 5px;
+	width: 300px;
 }

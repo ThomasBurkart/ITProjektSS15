@@ -39,43 +39,133 @@ public class ITProjektSS15 implements EntryPoint {
 	    homeLink.addDomHandler(handler, ClickEvent.getType());
 	    RootPanel.get("navigator").add(homeLink);
 	    
-	    final Hyperlink link2 = new Hyperlink("Link 2", "test1");
-	    link2.setStylePrimaryName("menubutton"); 
-	    ClickHandler handler2 = new ClickHandler() {
-	        public void onClick(ClickEvent event) {
-	        	final HTML content = new HTML("Link 2 geklickt :D");
-	        	RootPanel.get("main").clear();
-	        	RootPanel.get("main").add(content);
-	        }
-	    };
-	    link2.addDomHandler(handler2, ClickEvent.getType());
-	    RootPanel.get("navigator").add(link2);
+	  
 	    
-
-	    final Hyperlink link3 = new Hyperlink("Link 3", "test2");
-	    link3.setStylePrimaryName("menubutton");
-	    ClickHandler handler3 = new ClickHandler() {
-	        public void onClick(ClickEvent event) {
-	        	final HTML content = new HTML("Link 3 geklickt :P");
-	        	RootPanel.get("main").clear();
-	        	RootPanel.get("main").add(content);
-	        }
-	    };
-	    link3.addDomHandler(handler3, ClickEvent.getType());
-	    RootPanel.get("navigator").add(link3);
+	    DecoratedStackPanel stackPanel = new DecoratedStackPanel();
+	    stackPanel.setWidth("100%");
+	    stackPanel.setStylePrimaryName("menupanel");
 	    
+	    String elementHeader = getHeaderString("+ Bauteil");
+	    stackPanel.add(createElementLinks(), elementHeader, true);
+	    String elementHeader2 = getHeaderString("+ Baugruppe");
+	    stackPanel.add(createModuleLinks(), elementHeader2, true);
+	    String elementHeader3 = getHeaderString("+ Enderzeugnis");
+	    stackPanel.add(createElementLinks(), elementHeader3, true);
 
-	    final Hyperlink link4 = new Hyperlink("Link 4", "test2");
-	    link4.setStylePrimaryName("menubutton");
-	    ClickHandler handler4 = new ClickHandler() {
-	        public void onClick(ClickEvent event) {
-	        	final HTML content = new HTML("Link 4 geklickt ;)");
-	        	RootPanel.get("main").clear();
-	        	RootPanel.get("main").add(content);
-	        }
-	    };
-	    link4.addDomHandler(handler4, ClickEvent.getType());
-	    RootPanel.get("navigator").add(link4);
-
+	    RootPanel.get("navigator").add(stackPanel);
 	}
+	
+	private VerticalPanel createElementLinks() {
+		VerticalPanel panel = new VerticalPanel();
+		panel.setWidth("100%");
+		final Hyperlink addLink = new Hyperlink("erstellen", "addElement");
+		addLink.setStylePrimaryName("menubutton"); 
+		ClickHandler addClickHandler = new ClickHandler() {
+		    public void onClick(ClickEvent event) {
+		    	final HTML content = new HTML("Bauteil erstellen geklickt :D");
+		    	RootPanel.get("main").clear();
+		    	RootPanel.get("main").add(content);
+		    }
+		};
+		addLink.addDomHandler(addClickHandler, ClickEvent.getType());
+		panel.add(addLink);
+		
+		final Hyperlink editLink = new Hyperlink("ändern", "editElement");
+		editLink.setStylePrimaryName("menubutton"); 
+		ClickHandler editClickHandler = new ClickHandler() {
+		    public void onClick(ClickEvent event) {
+		    	final HTML content = new HTML("Bauteil ändern geklickt :P");
+		    	RootPanel.get("main").clear();
+		    	RootPanel.get("main").add(content);
+		    }
+		};
+		editLink.addDomHandler(editClickHandler, ClickEvent.getType());
+		panel.add(editLink);
+		
+		final Hyperlink deleteLink = new Hyperlink("löschen", "deleteElement");
+		deleteLink.setStylePrimaryName("menubutton"); 
+		ClickHandler deleteClickHandler = new ClickHandler() {
+		    public void onClick(ClickEvent event) {
+		    	final HTML content = new HTML("Bauteil löschen geklickt :D");
+		    	RootPanel.get("main").clear();
+		    	RootPanel.get("main").add(content);
+		    }
+		};
+		deleteLink.addDomHandler(deleteClickHandler, ClickEvent.getType());
+		panel.add(deleteLink);
+		return panel;
+	}
+	
+	private VerticalPanel createModuleLinks() {
+		VerticalPanel panel = new VerticalPanel();
+		panel.setWidth("100%");
+		final Hyperlink addLink = new Hyperlink("erstellen", "addModule");
+		addLink.setStylePrimaryName("menubutton"); 
+		ClickHandler addClickHandler = new ClickHandler() {
+		    public void onClick(ClickEvent event) {
+		    	final HTML content = new HTML("Baugruppe erstellen geklickt :D");
+		    	RootPanel.get("main").clear();
+		    	RootPanel.get("main").add(content);
+		    }
+		};
+		addLink.addDomHandler(addClickHandler, ClickEvent.getType());
+		panel.add(addLink);
+		
+		final Hyperlink editLink = new Hyperlink("ändern", "editModule");
+		editLink.setStylePrimaryName("menubutton"); 
+		ClickHandler editClickHandler = new ClickHandler() {
+		    public void onClick(ClickEvent event) {
+		    	final HTML content = new HTML("Baugruppe �ndern geklickt :D");
+		    	RootPanel.get("main").clear();
+		    	RootPanel.get("main").add(content);
+		    }
+		};
+		editLink.addDomHandler(editClickHandler, ClickEvent.getType());
+		panel.add(editLink);
+		
+		final Hyperlink deleteLink = new Hyperlink("löschen", "deleteModule");
+		deleteLink.setStylePrimaryName("menubutton"); 
+		ClickHandler deleteClickHandler = new ClickHandler() {
+		    public void onClick(ClickEvent event) {
+		    	final HTML content = new HTML("Baugruppe löschen geklickt :D");
+		    	RootPanel.get("main").clear();
+		    	RootPanel.get("main").add(content);
+		    }
+		};
+		deleteLink.addDomHandler(deleteClickHandler, ClickEvent.getType());
+		panel.add(deleteLink);
+		
+		final Hyperlink defineLink = new Hyperlink("zuordnen", "defineModule");
+		defineLink.setStylePrimaryName("menubutton"); 
+		ClickHandler defineClickHandler = new ClickHandler() {
+		    public void onClick(ClickEvent event) {
+		    	final HTML content = new HTML("Baugruppe zuordnen geklickt :D");
+		    	RootPanel.get("main").clear();
+		    	RootPanel.get("main").add(content);
+		    }
+		};
+		defineLink.addDomHandler(defineClickHandler, ClickEvent.getType());
+		panel.add(defineLink);
+		
+		return panel;
+	}
+	
+	/**
+	   * Create the {@link Tree} of Mail options.
+	   *
+	   * @param images the {@link Images} used in the Mail options
+	   * @return the {@link Tree} of mail options
+	   */
+	  
+	private String getHeaderString(String text) {
+	    // Add the image and text to a horizontal panel
+	    HorizontalPanel hPanel = new HorizontalPanel();
+	    hPanel.setSpacing(0);
+	    hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+	    HTML headerText = new HTML(text);
+	    hPanel.add(headerText);
+
+	    // Return the HTML string for the panel
+	    return hPanel.getElement().getString();
+	  }
 }
