@@ -1,53 +1,86 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-
-import de.hdm.groupfive.itproject.server.db.ElementMapper;
 
 public class Partlist extends BusinessObject {
 
 	/**
-	 * 
-	 * @param element
-	 * @return
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
 	 */
+	private static final long serialVersionUID = 1L;
 
 	private Date creationDate;
 	private String name;
 	private int id;
 	private ArrayList<PartlistEntry> list;
-	
+
 	public Partlist() {
 		this.list = new ArrayList<PartlistEntry>();
 	}
 
+	/**
+	 * Hinzufügen von Bauteilen zu der Stückliste
+	 * 
+	 * @param element
+	 *            Bauteil das hinmzugefügt werden soll
+	 * @param amount
+	 *            Anzahl der Bauteile die hinzugefügt werden sollen
+	 */
 	public void add(Element element, int amount) {
 		if (element != null && amount > 0) {
 			list.add(new PartlistEntry(element, amount));
 		}
 	}
 
+	/**
+	 * Berbeitet Bauteil aus der Stückliste
+	 * 
+	 * @param element
+	 *            Bauteil das bearbeitet werden soll
+	 */
 	public void edit(Element element) {
-		for(PartlistEntry entry : list) {
+		for (PartlistEntry entry : list) {
 			if (entry.getElement().getId() == element.getId()) {
 				entry.setElement(element);
+				break;
 			}
 		}
-		
+
 	}
 
+	/**
+	 * Löscht Bauteil aus der Stückliste
+	 * 
+	 * @param element
+	 *            Bauteil das gelöscht werden soll.
+	 */
 	public void delete(Element element) {
+		for (PartlistEntry entry : list) {
+			if (entry.getElement().getId() == element.getId()) {
+				list.remove(entry);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Löscht Bauteil anhand der Element Id aus der Stückliste
+	 * 
+	 * @param elementId
+	 *            Id des Bauteils das gelöscht werden soll.
+	 */
+	public void deleteById(int elementId) {
+		for (PartlistEntry entry : list) {
+			if (entry.getElement().getId() == elementId) {
+				list.remove(entry);
+				break;
+			}
+		}
 
 	}
 
-	public Element deleteById(Element element) {
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
-
-	public Element getElementById(Element element) {
+	public Element getElementById(int elementId) {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 
@@ -63,9 +96,9 @@ public class Partlist extends BusinessObject {
 
 	public int getAmountByElement(Element element) {
 		throw new UnsupportedOperationException("Not yet implemented");
-		
+
 	}
-	
+
 	public String getName() {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
@@ -75,16 +108,14 @@ public class Partlist extends BusinessObject {
 
 	}
 
-	
-
 }
 
 class PartlistEntry {
-	
+
 	private Element element;
 	private int amount;
 
-	public PartlistEntry (Element element, int amount){
+	public PartlistEntry(Element element, int amount) {
 		this.element = element;
 		this.amount = amount;
 	}

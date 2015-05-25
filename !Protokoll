@@ -1,16 +1,7 @@
 PROTOKOLL
 
-UNLKARHEITEN
-	KLASSE BusinessObject:
-		wozu brauchen wir die toString() Methode?
-		Wenn wir die einbauen, sollte die doch auch im Klassendiagramm stehen, oder?
+UNKLARHEITEN
 		
-	DIAGRAMM & KLASSE Partlist:
-		 serialVersionUID -Attribut gelöscht
-		 
-	KLASSE Element:
-		die Attribute und Methoden zu ownerId brauchen wir nicht oder?
-	
 	KLASSE ElementMapper:
 		Zeile 76: 			a.setModifyDateID(rs.getTimestamp ("modify_date"));
 		in

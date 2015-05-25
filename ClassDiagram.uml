@@ -131,6 +131,9 @@
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_qKCxEOTjEeSltrLTz4W_wA" type="_iSVN8OTjEeSltrLTz4W_wA" direction="return"/>
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_vacTsOTjEeSltrLTz4W_wA" name="object" type="_g3gEIOTiEeSltrLTz4W_wA"/>
       </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_-JdXsALxEeW4XaJaSKA5Sg" name="toString">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_DsLZYALyEeW4XaJaSKA5Sg" type="_Am_zoORSEeS-mOevn5eTww"/>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_ZF5E0OTpEeSltrLTz4W_wA" memberEnd="_ZF5E0eTpEeSltrLTz4W_wA _ZFPkkOTpEeSltrLTz4W_wA">
       <name xsi:nil="true"/>
@@ -659,7 +662,7 @@
   <packagedElement xmi:type="uml:Package" xmi:id="_XsK3YAK6EeW4XaJaSKA5Sg" name="java.util">
     <packagedElement xmi:type="uml:Class" xmi:id="_gp_G8AK6EeW4XaJaSKA5Sg" name="ArrayList"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_nMXCQALPEeW4XaJaSKA5Sg" name="CopyOf_de.hdm.groupfive.itproject.shared.bo_1">
+  <packagedElement xmi:type="uml:Package" xmi:id="_nMXCQALPEeW4XaJaSKA5Sg" name="de.hdm.groupfive.itproject.shared.bo">
     <packagedElement xmi:type="uml:Class" xmi:id="_nMXCaALPEeW4XaJaSKA5Sg" name="Partlist">
       <generalization xmi:type="uml:Generalization" xmi:id="_nMXCaQLPEeW4XaJaSKA5Sg" general="_nMXCYQLPEeW4XaJaSKA5Sg"/>
       <generalization xmi:type="uml:Generalization" xmi:id="_nMXCagLPEeW4XaJaSKA5Sg" general="_nMXClALPEeW4XaJaSKA5Sg"/>
@@ -750,13 +753,13 @@
     <packagedElement xmi:type="uml:Dependency" xmi:id="_nMXCswLPEeW4XaJaSKA5Sg" client="_nMXCaALPEeW4XaJaSKA5Sg" supplier="_nMWbMQLPEeW4XaJaSKA5Sg"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_nMXCpwLPEeW4XaJaSKA5Sg" name="PartlistEntry" visibility="protected" isActive="true">
       <generalization xmi:type="uml:Generalization" xmi:id="_nMXCqALPEeW4XaJaSKA5Sg" general="_nMXCaALPEeW4XaJaSKA5Sg"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_nMXCqQLPEeW4XaJaSKA5Sg" name="element" type="__090IOTdEeSltrLTz4W_wA"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_nMXCqgLPEeW4XaJaSKA5Sg" name="amount" type="_DYwJkORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_nMXCqQLPEeW4XaJaSKA5Sg" name="element" visibility="private" type="_KulHoORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_nMXCqgLPEeW4XaJaSKA5Sg" name="amount" visibility="private" type="_DYwJkORSEeS-mOevn5eTww"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_nMXCqwLPEeW4XaJaSKA5Sg" name="getElement">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_nMXCrALPEeW4XaJaSKA5Sg" type="__090IOTdEeSltrLTz4W_wA"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_nMXCrALPEeW4XaJaSKA5Sg" type="_KulHoORSEeS-mOevn5eTww"/>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_nMXCrQLPEeW4XaJaSKA5Sg" name="setElement">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_nMXCrgLPEeW4XaJaSKA5Sg" name="element" type="__090IOTdEeSltrLTz4W_wA"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_nMXCrgLPEeW4XaJaSKA5Sg" name="element" type="_KulHoORSEeS-mOevn5eTww"/>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_nMXCrwLPEeW4XaJaSKA5Sg" name="getAmount">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_nMXCsALPEeW4XaJaSKA5Sg" type="_DYwJkORSEeS-mOevn5eTww"/>
@@ -820,11 +823,22 @@
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_nMXCZQLPEeW4XaJaSKA5Sg" type="_nMXCaALPEeW4XaJaSKA5Sg" direction="return"/>
       </ownedOperation>
     </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="__o0xUAL0EeW4XaJaSKA5Sg" memberEnd="__o0xUQL0EeW4XaJaSKA5Sg __o0KQAL0EeW4XaJaSKA5Sg">
+      <name xsi:nil="true"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="__o0xUQL0EeW4XaJaSKA5Sg" name="partlistEntry" type="_nMXCpwLPEeW4XaJaSKA5Sg" association="__o0xUAL0EeW4XaJaSKA5Sg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__o0xUgL0EeW4XaJaSKA5Sg" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__o0xUwL0EeW4XaJaSKA5Sg" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:type="uml:Property" xmi:id="__o0KQAL0EeW4XaJaSKA5Sg" name="partlist" type="_nMXCaALPEeW4XaJaSKA5Sg" aggregation="composite" association="__o0xUAL0EeW4XaJaSKA5Sg">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__o0KQQL0EeW4XaJaSKA5Sg" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__o0KQgL0EeW4XaJaSKA5Sg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_nMV0IALPEeW4XaJaSKA5Sg" name="CopyOf_java.io_1">
+  <packagedElement xmi:type="uml:Package" xmi:id="_nMV0IALPEeW4XaJaSKA5Sg" name="java.io">
     <packagedElement xmi:type="uml:Interface" xmi:id="_nMV0IQLPEeW4XaJaSKA5Sg" name="Serializable"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_nMWbMALPEeW4XaJaSKA5Sg" name="CopyOf_java.util_1">
+  <packagedElement xmi:type="uml:Package" xmi:id="_nMWbMALPEeW4XaJaSKA5Sg" name="java.util">
     <packagedElement xmi:type="uml:Class" xmi:id="_nMWbMQLPEeW4XaJaSKA5Sg" name="ArrayList"/>
   </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_2UH9wOTiEeSltrLTz4W_wA">

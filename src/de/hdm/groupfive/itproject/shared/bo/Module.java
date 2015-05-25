@@ -2,10 +2,28 @@ package de.hdm.groupfive.itproject.shared.bo;
 
 public class Module extends Element {
 	
-	private Partlist partlist;
+	/**
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
+	 */
+	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Attribut partlist als Stückliste der Baugruppe 
+	 */
+	private Partlist partlist;
+
+	/**
+	 * Konstruktor der Klasse Module (Baugruppe). Initialisiert eine neue Stückliste.
+	 */
 	public Module() {
 		this.partlist = new Partlist();
-		this.partlist.add(new Element(), 5); // ??? Warum 5? --> BSP?
+	}
+	
+	/**
+	 * Liefert Stückliste der Baugruppe
+	 * @return Stückliste der Baugruppe
+	 */
+	public Partlist getPartlist() {
+		return this.partlist;
 	}
 }

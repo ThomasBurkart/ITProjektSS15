@@ -57,7 +57,7 @@ public class ElementMapper {
 			e.printStackTrace();
 		}
 		
-		//Statement ausfÃ¼llen und als Query an die DB schicken
+		//Statement ausfüllen und als Query an die DB schicken
 		ResultSet rs = null;
 		try {
 			rs = stmt.executeQuery("SELECT id, name, description, modify_date, creation_date FROM elements"
@@ -71,10 +71,10 @@ try {
 	if (rs.next()) {
 			Element a = new Element();
 			a.setId(rs.getInt("id"));
-			a.setNameID(rs.getString("name"));
-			a.setDescriptionID(rs.getString("description"));
-			a.setLastUpdateID(rs.getTimestamp ("last_update"));
-			a.setCreationDateID(rs.getTimestamp ("creation_date"));
+			a.setName(rs.getString("name"));
+			a.setDescription(rs.getString("description"));
+			a.setLastUpdate(rs.getDate ("last_update"));
+			a.setCreationDate(rs.getDate ("creation_date"));
 			return a;
 	}
 } catch (SQLException e) {
