@@ -81,7 +81,14 @@ public class Partlist extends BusinessObject {
 	}
 
 	public Element getElementById(int elementId) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		Element result = null;
+		for (PartlistEntry entry : list) {
+			if (entry.getElement().getId() == elementId) {
+				result = entry.getElement();
+				break;
+			}
+		}
+		return result;
 	}
 
 	public int getId() {
