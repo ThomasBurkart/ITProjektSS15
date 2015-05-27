@@ -107,7 +107,7 @@ public class Partlist extends BusinessObject {
 	}
 
 	public String getName() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.name;
 	}
 
 	public void setName(String name) {
