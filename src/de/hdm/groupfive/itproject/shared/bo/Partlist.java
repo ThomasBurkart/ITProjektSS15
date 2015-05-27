@@ -15,6 +15,10 @@ public class Partlist extends BusinessObject {
 	private int id;
 	private ArrayList<PartlistEntry> list;
 
+	/**
+	 * Dieser Konstruktor ermöglicht es, bereits bei Instantiierung von <code>Partlist</code>-Objekten eine ArrayList mit dem Datentyp von <code>PartlistEntry</code> anzulegen.
+	 * @see #Partlist()
+	 */
 	public Partlist() {
 		this.list = new ArrayList<PartlistEntry>();
 	}
@@ -80,6 +84,14 @@ public class Partlist extends BusinessObject {
 
 	}
 
+	/**
+	 * Auslesen des Bauteils anhand der Element ID aus der Stückliste.
+	 * 
+	 * @param elementId
+	 *            ID des Bauteils das ausgelesen werden soll.
+	 * @return Das Bauteil <code>element</code> wird zurückgegeben
+	 */
+	// WIE GIBT MAN EIN ATTRIBUT AUS EINER ANDEREN KLASSE IN EINER BESCHREIUBUNG AN?
 	public Element getElementById(int elementId) {
 		Element result = null;
 		for (PartlistEntry entry : list) {
@@ -91,18 +103,37 @@ public class Partlist extends BusinessObject {
 		return result;
 	}
 
+	/**
+	 * Auslesen der ID
+	 */
 	public int getId() {
-
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.id;
 
 	}
 
+	/**
+	 * Auslesen der Erstellungsdatums
+	 * @return 
+	 */
 	public Date getCreationDate() {
-		throw new UnsupportedOperationException("Not yet implemented");
+		return this.creationDate;
 	}
-
+	/**
+	 * Auslesen der Anzahl anhand des Bauteils <code>element</code> aus der Stückliste.
+	 * 
+	 * @param element
+	 *            Bauteil <code>element</code> dessen Anzahl ausgelesen werden soll.
+	 * @return Die Anzahl <code>amount</code> wird zurückgegeben
+	 */
 	public int getAmountByElement(Element element) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		int result = 0;
+		for (PartlistEntry entry : list) {
+			if (entry.getElement() == element) {
+				result = entry.getAmount();
+				break;
+			}
+		}
+		return result;
 
 	}
 
