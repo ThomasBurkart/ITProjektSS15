@@ -10,9 +10,24 @@ public class Partlist extends BusinessObject {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Das Erstelldatum
+	 */
 	private Date creationDate;
+	
+	/**
+	 * Name der Stückliste
+	 */
 	private String name;
+	
+	/**
+	 * Der Primärschlüssel der Stückliste
+	 */
 	private int id;
+	
+	/**
+	 * Attribut in dem die Stückliste gespeichert wird. 
+	 */
 	private ArrayList<PartlistEntry> list;
 
 	/**
