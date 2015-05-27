@@ -8,3 +8,7 @@ UNKLARHEITEN
 							a.setLastUpdateID(rs.getTimestamp ("last_update"));
 		abgeändert. 
 		Falls diese Änderung für die DB wichtig ist, BITTE beachten!!!
+		
+		
+	KLASSE Partlist:
+		Zeile 92: 	--> WIE GIBT MAN EIN ATTRIBUT AUS EINER ANDEREN KLASSE IN EINER BESCHREIUBUNG AN?
