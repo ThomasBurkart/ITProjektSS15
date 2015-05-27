@@ -17,6 +17,10 @@ public class User extends BusinessObject {
 	 */
 	private String email = "";
 
+	public String getEmail() {
+		return email;
+	}
+
 	/**
 	 * Auslesen des Vornamens.
 	 */
