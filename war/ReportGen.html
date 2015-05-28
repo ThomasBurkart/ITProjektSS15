@@ -15,24 +15,23 @@
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
     <!--                                                               -->
-    <link type="text/css" rel="stylesheet" href="ITProjektSS15.css">
     <!-- Latest compiled and minified CSS -->
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="css/dashboard.css">
+    <link type="text/css" rel="stylesheet" href="ITProjektSS15.css">
 
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
-    <title>Strukturstücklisten Management - Report Generator</title>
+    <title>Strukturstücklisten Management</title>
     
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
     <!-- If you add any GWT meta tags, they must   -->
     <!-- be added before this line.                -->
     <!--                                           -->
-    <script type="text/javascript" language="javascript" src="itprojektss15/itprojektss15.nocache.js"></script>
-    
-  </head>
+    <script type="text/javascript" language="javascript" src="reportgen/reportgen.nocache.js"></script>
+ </head>
 
   <!--                                           -->
   <!-- The body can have arbitrary html, or      -->
@@ -43,7 +42,7 @@
 
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
-    
+
     <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
     <noscript>
       <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
@@ -58,23 +57,22 @@
           <a class="navbar-brand" href="#">Strukturstücklisten Management - Report Generator</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li id="testlabel"></li>
-          </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
+          
         </div>
       </div>
     </nav>
     
     <div class="container-fluid">
       <div class="row">
-        <div id="navigator" class="col-sm-3 col-md-2 sidebar">
+        <div id="navigator" class="col-xs-12 col-sm-6 col-md-6 sidebar">
+          <!-- Hier wird das Menü aufbereitet -->
         </div>
-        <div id="main" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        </div>
-      </div>
+        <div id="main" class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-6 col-md-offset-6 main">
+        	<!-- Hier wird der Inhalt aufbereitet -->
+        	&nbsp;
+        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          </div>
+       </div>
     </div>
 
 	<!-- Bootstrap core JavaScript
