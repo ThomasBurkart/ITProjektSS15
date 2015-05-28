@@ -10,10 +10,12 @@ public class ReportGen implements EntryPoint {
 	public void onModuleLoad() {
 		// TODO Auto-generated method stub
 		
-		final Hyperlink homeLabel = new Hyperlink("ReportGEn", "mainpage");
-		   
-	    RootPanel.get("homelabel").add(homeLabel);
+	
 
+	 //lädt den Login Dialog 
+    //	LoginLogout login = new LoginLogout();
+		//login.loadDialog();
+	    
 	}
 
 }
