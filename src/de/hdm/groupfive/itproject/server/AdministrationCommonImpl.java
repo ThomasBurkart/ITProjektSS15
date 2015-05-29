@@ -12,7 +12,6 @@ import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
-//TEst
 
 /**
  * <p>
@@ -200,7 +199,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	
 	 /*
 	   * ***************************************************************************
-	   * ABSCHNITT, Ende: Methoden für Customer-Objekte
+	   * ABSCHNITT, Ende: Methoden für User-Objekte
 	   * ***************************************************************************
 	   */
 
@@ -216,15 +215,104 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	}
 
 	@Override
+	public Element createElement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Element editElement(Element element) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteElement(Element element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Module assignElement(Module module, Element element) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Element findElementById(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vector<Element> findElementsByCreator(User creator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Vector<Element> findElementsByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	  /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Element-Objekte
+	   * ***************************************************************************
+	   */
+
+	  /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Modul-Objekte
+	   * ***************************************************************************
+	   */
+	
+	
+	@Override
 	public ModuleMapper getModuleMapper() {
 		return this.moduleMapper;
 	}
 
 	@Override
-	public ProductMapper getProductMapper() {
-		return this.productMapper;
+	public Module createModule() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public Module editModule(Module module) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteModule(Module module) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Module assignModule(Module module, Module subModule) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	  /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Modul-Objekte
+	   * ***************************************************************************
+	   */
+
+	  /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Partlist-Objekte
+	   * ***************************************************************************
+	   */
+	
+	
 	@Override
 	public PartlistMapper getPartlistMapper() {
 		return this.partlistMapper;
@@ -254,63 +342,34 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public Vector<Product> getAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public Object calculateMaterial(Partlist partlist) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	  /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Partlist-Objekte
+	   * ***************************************************************************
+	   */
 
+	  /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Beginn: Methoden für Product-Objekte
+	   * ***************************************************************************
+	   */
+	
+	
+	
 	@Override
-	public Element createElement() {
-		// TODO Auto-generated method stub
-		return null;
+	public ProductMapper getProductMapper() {
+		return this.productMapper;
 	}
 
 	@Override
-	public Element editElement(Element element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteElement(Element element) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Module assignElement(Module module, Element element) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Module createModule() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Module editModule(Module module) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteModule(Module module) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Module assignModule(Module module, Module subModule) {
+	public Vector<Product> getAllProducts() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -332,22 +391,12 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 		// TODO Auto-generated method stub
 		
 	}
+	
+	  /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Ende: Methoden für Product-Objekte
+	   * ***************************************************************************
+	   */
 
-	@Override
-	public Element findElementById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Vector<Element> findElementsByCreator(User creator) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Vector<Element> findElementsByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }
