@@ -7,12 +7,27 @@ public class Partlist extends BusinessObject {
 
 	/**
 	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
-	 */
+	 */	
 	private static final long serialVersionUID = 1L;
-
+	
+	/**
+	 * Erstellungsdatum der Stückliste
+	 */	
 	private Date creationDate;
+	
+	/**
+	 * Name der Stückliste
+	 */	
 	private String name;
+	
+	/**
+	 * Eindeutige ID der Stückliste
+	 */
 	private int id;
+	
+	/**
+	 *  Attribut list vom Typ PartlistEntry als Liste um später die Anzahl der Bauteile ausgeben zu können
+	 */
 	private ArrayList<PartlistEntry> list;
 
 	/**
@@ -136,40 +151,81 @@ public class Partlist extends BusinessObject {
 		return result;
 
 	}
-
+	/**
+	 * Auslesen des Namens
+	 * @return
+	 */
 	public String getName() {
 		return this.name;
 	}
-
+	/**
+	   * Setzen des Namens
+	   */
 	public void setName(String name) {
-		throw new UnsupportedOperationException("Not yet implemented");
+		this.name = name;
 
 	}
 
 }
 
 class PartlistEntry {
-
+	
+	/**
+	 * Attribut element als Bauteil der Stückliste 
+	 */
 	private Element element;
+	
+	/**
+	 * Anzahl der Bauteile
+	 */
 	private int amount;
-
+	
+	/**
+	 * Konstruktor der Klasse PartlistEntry . Initialisiert eine neues Bauteil.
+	 *  @param element 
+	 *            Bauteil <code>element</code> dessen Anzahl initialisiert werden soll.
+	 *  @param amount 
+	 *  		  Anzahl <code>amount</code> der Bauteile die in dieser Stückliste vorhanden sind
+	 *  
+	 */
 	public PartlistEntry(Element element, int amount) {
 		this.element = element;
 		this.amount = amount;
 	}
 
+	/**
+	 * Auslesen des Bauteils
+	 * @return
+	 */
 	public Element getElement() {
 		return element;
 	}
 
+	/**
+	 * Setzten des Bauteils (Elements)
+	 * 
+	 * @param element
+	 * 		Das zu setzende Bauteil<code>element</code> 
+	 */
 	public void setElement(Element element) {
 		this.element = element;
 	}
-
+	
+	/**
+	 * Auslesen der Anzahl der Bauteile
+	 * @return
+	 */
 	public int getAmount() {
 		return amount;
 	}
-
+	
+	/**
+	 * Setzen der Anzahl der Bauteile
+	 * 
+	 * @param amount
+	 * 		Anzahl<code>amount</code> des Bauteils ändern bzw. festlegen
+	 * @return 
+	 */
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}

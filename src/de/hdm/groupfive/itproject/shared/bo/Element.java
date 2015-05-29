@@ -9,69 +9,126 @@ public class Element extends BusinessObject{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Name des Bauteils
+	 */
 	private String name = "";
+	
+	/**
+	 * Beschreibung des Bauteils
+	 */
 	private String description = "";
+	
+	/**
+	 * Materialbeschreibung des Bauteils
+	 */
 	private String materialDescription = "";
+	
+	/**
+	 * Erstellungsdatum des Bauteils
+	 */
 	private Date creationDate;
+	
+	/**
+	 * Datum des letzten Zugriffs auf das Bauteil
+	 */
 	private Date lastUpdate;
+	
+	/**
+	 * letzter Benutzer der auf das Bauteil zugegriffen hat
+	 */
 	private User lastUser;
 
-	
+	/**
+	 * Auslesen von Name des Bauteils
+	 * 
+	 *@return 
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * Auslesen der Beschreibung des Bauteils
+	 * @return
+	 */
 	public String getDescription() {
 		return this.description;
 	}
 
+	/**
+	 * Auslesen der Materialbeschreibung des Bauteils
+	 */
 	public String getMaterialdescription() {
 		return this.materialDescription;
 	}
 
+	/**
+	 * Auslesen des Erstellungsdatums des Bauteils
+	 * @return
+	 */
 	public Date getCreationDate() {
 		return this.creationDate;
 	}
 
+	/**
+	 * Auslesen des Datums des letzten Updates
+	 * @return
+	 */
 	public Date getLastUpdate() {
 		return this.lastUpdate;
 	}
 
+	/**
+	 * Auslesen des letzten Benutzers des Bauteils
+	 * @return
+	 */
 	public User getUser() {
 		return this.lastUser;
 	}
 	
-	public String getMaterialDescription() {
-		return materialDescription;
+	/**
+	 * Setzten des Namens des Bauteils z.B.: Schraube
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
-
+	
+	/**
+	 * Setzten der Beschreibung des Bauteils z.B.: Bei dieser Schraube handelt es sich um eine Kreuzschlitzschraube
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	/**
+	 * Setzten der Materialbeschreibung des Bauteils z.B.: Besteht aus Kupfer oder Metall
+	 */
 	public void setMaterialDescription(String materialDescription) {
 		this.materialDescription = materialDescription;
 	}
-
-	public User getLastUser() {
-		return lastUser;
+	
+	/**
+	 * Setzten des Erstellungsdatums 
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	/**
+	 * Setzten des Datums des letzten Updates
+	 */
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 
+	/**
+	 * Setzten des letzten Benutzers des Bauteils
+	 */
 	public void setLastUser(User lastUser) {
 		this.lastUser = lastUser;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
 
 	/**
 	 * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
