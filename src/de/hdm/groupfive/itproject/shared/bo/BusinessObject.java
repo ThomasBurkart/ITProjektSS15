@@ -5,14 +5,14 @@ import java.io.Serializable;
 /**
  * <p>
  * Die Klasse <code>BusinessObject</code> stellt die Basisklasse aller in diesem
- * Projekt fÃ¼r die Umsetzung des Fachkonzepts relevanten Klassen dar.
+ * Projekt für die Umsetzung des Fachkonzepts relevanten Klassen dar.
  * </p>
  * <p>
  * Zentrales Merkmal ist, dass jedes <code>BusinessObject</code> eine Nummer
- * besitzt, die man in einer relationalen Datenbank auch als PrimÃ¤rschlÃ¼ssel
- * bezeichnen wÃ¼rde. Fernen ist jedes <code>BusinessObject</code> als
+ * besitzt, die man in einer relationalen Datenbank auch als Primärschlüssel
+ * bezeichnen würde. Fernen ist jedes <code>BusinessObject</code> als
  * {@link Serializable} gekennzeichnet. Durch diese Eigenschaft kann jedes
- * <code>BusinessObject</code> automatisch in eine textuelle Form Ã¼berfÃ¼hrt und
+ * <code>BusinessObject</code> automatisch in eine textuelle Form überführt und
  * z.B. zwischen Client und Server transportiert werden. Bei GWT RPC ist diese
  * textuelle Notation in JSON (siehe http://www.json.org/) kodiert.
  * </p>
@@ -45,7 +45,7 @@ public abstract class BusinessObject implements Serializable {
 
   /**
    * Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
-   * Dies kann selbstverstÃ¤ndlich in Subklassen Ã¼berschrieben werden.
+   * Dies kann selbstverständlich in Subklassen überschrieben werden.
    */
   public String toString() {
     /*
@@ -62,14 +62,14 @@ public abstract class BusinessObject implements Serializable {
    * </p>
    * <p>
    * <b>ACHTUNG:</b> Die inhaltliche Gleichheit nicht mit dem Vergleich der
-   * <em>IdentitÃ¤t</em> eines Objekts mit einem anderen verwechseln!!! Dies
-   * wÃ¼rde durch den Operator <code>==</code> bestimmt. Bei Unklarheit hierzu
-   * kÃ¶nnen Sie nocheinmal in die Definition des Sprachkerns von Java schauen.
-   * Die Methode <code>equals(...)</code> ist fÃ¼r jeden Referenzdatentyp
+   * <em>Identität</em> eines Objekts mit einem anderen verwechseln!!! Dies
+   * würde durch den Operator <code>==</code> bestimmt. Bei Unklarheit hierzu
+   * können Sie nocheinmal in die Definition des Sprachkerns von Java schauen.
+   * Die Methode <code>equals(...)</code> ist für jeden Referenzdatentyp
    * definiert, da sie bereits in der Klasse <code>Object</code> in einfachster
    * Form realisiert ist. Dort ist sie allerdings auf die simple Bestimmung der
    * Gleicheit der Java-internen Objekt-ID der verglichenen Objekte beschrÃ¤nkt.
-   * In unseren eigenen Klassen kÃ¶nnen wir diese Methode Ã¼berschreiben und ihr
+   * In unseren eigenen Klassen können wir diese Methode überschreiben und ihr
    * mehr Intelligenz verleihen.
    * </p>
    */

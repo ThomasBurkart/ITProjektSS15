@@ -2,269 +2,211 @@ package de.hdm.groupfive.itproject.client;
 
 import com.google.gwt.core.client.*;
 import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.*;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class ITProjektSS15 implements EntryPoint {
-	
+
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		
+		// lädt den Login Dialog
+		LoginLogout login = new LoginLogout();
+		login.loadDialog();
+
 		HTML content = new HTML("Herzlich Willkommen :)");
-    	RootPanel.get("main").clear();
-    	RootPanel.get("main").add(content);
-    	// ladet den Login Dialog 
-		loadLoginDialog();
+		RootPanel.get("main").clear();
+		RootPanel.get("main").add(content);
+
+		// SUCHE ANFANG
+		VerticalPanel searchPanel = new VerticalPanel();
+		searchPanel.setStylePrimaryName("searchPanel");
+		FlowPanel searchInputPanel = new FlowPanel();
+		final TextBox searchBox = new TextBox();
+		searchBox.setStylePrimaryName("searchBox col-md-9 col-sm-9 col-xs-9");
+		searchBox.setFocus(true);
+		searchBox
+				.setTitle("Suche nach Bauteil, Baugruppe oder Enderzeugnis ...");
+		searchBox.getElement().setPropertyString("placeholder",
+				"Suche nach Bauteil, Baugruppe oder Enderzeugnis ...");
 		
-		// erzeugt das Menü links auf der Seite
-    	createMenu();
-	}
-	
-	private void loadLoginDialog() {
-		 final DialogBox dialogBox = createLoginDialogBox();
-		 dialogBox.setGlassEnabled(true);
-		 dialogBox.setAnimationEnabled(true);
-		 dialogBox.center();
-         dialogBox.show();
-	}
-	
-	private DialogBox createLoginDialogBox() {
-	    // Create a dialog box and set the caption text
-	    final DialogBox dialogBox = new DialogBox();
-	    dialogBox.setText("Anmelden");
-	    dialogBox.setModal(true);
 
-	    final Grid grid = new Grid(3, 2);
-	    grid.setCellSpacing(50);
-	    grid.setCellPadding(50);
-	    grid.setWidget(0, 0, new HTML("E-Mail"));
-	    final TextBox emailBox =  new TextBox();
-	    emailBox.setWidth("220px");
-	    grid.setWidget(0, 1, emailBox);
+		final HTML resultInfo = new HTML("Bitte starten Sie eine Suche!");
+		resultInfo.setStylePrimaryName("resultInfo");
 
-	    grid.setWidget(1, 0, new HTML("Passwort"));
-	    final PasswordTextBox passwordBox = new PasswordTextBox();
-	    passwordBox.setWidth("220px");
-	    grid.setWidget(1, 1, passwordBox);
+		final DecoratedPopupPanel simplePopup = new DecoratedPopupPanel(true);
+		simplePopup
+				.setStylePrimaryName("searchResultBox col-md-9 col-sm-9 col-xs-9");
+		final VerticalPanel resultsPanel = new VerticalPanel();
+		simplePopup.setWidget(resultsPanel);
+		simplePopup.setVisible(false);
+		simplePopup.show();
+
+		searchBox.addKeyUpHandler(new KeyUpHandler() {
+			public void onKeyUp(KeyUpEvent event) {
+				if (searchBox.getValue().trim().length() > 2) {
+					
+					resultInfo.setHTML("Suchergebnisse für '" + searchBox.getValue().trim() + "'");
+					
+					
+					simplePopup.setVisible(true);
+					resultsPanel.clear();
+					for (int i = 0; i < 5; i++) {
+						Hyperlink link = new Hyperlink();
+						link.setText(searchBox.getValue());
+
+						resultsPanel.add(link);
+					}
+				} else {
+					simplePopup.setVisible(false);
+					resultsPanel.clear();
+				}
+				if (searchBox.getValue().trim().length() <= 2) {
+					resultInfo.setHTML("Bitte starten Sie eine Suche!");
+				}
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					// TODO: Suche ausführen weil ENTER gedrückt wurde
+					simplePopup.setVisible(false);
+					resultsPanel.clear();
+		        }
+			}
+		});
+
+		Button searchBtn = new Button("Suchen", new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+				simplePopup.setVisible(false);
+				resultsPanel.clear();
+
+			}
+		});
+		searchBtn
+				.setStylePrimaryName("btn btn-default col-md-2 col-sm-2 col-xs-2");
+		
+		
+		
+		searchInputPanel.add(searchBox);
+		searchInputPanel.add(searchBtn);
+		searchPanel.add(searchInputPanel);
+		searchPanel.add(simplePopup);
+
+		// SUCHE ENDE
+		searchPanel.add(resultInfo);
+		// BAUMSTRUKTUR (ERGEBNISSE) ANFANG
+		final Tree dynamicTree = createDynamicTree();
+	    ScrollPanel dynamicTreeWrapper = new ScrollPanel(dynamicTree);
+	    dynamicTreeWrapper.setStylePrimaryName("tree");
+	    searchPanel.add(dynamicTreeWrapper);
+		// BAUMSTRUKTUR ENDE
+
+		RootPanel.get("navigator").add(searchPanel);
+		
 	    
-	    // Create a table to layout the content
-	    //VerticalPanel dialogContents = new VerticalPanel();
-//	    dialogContents.setSpacing(4);
-//	    dialogBox.setWidget(dialogContents);
-//
-//	    // Add some text to the top of the dialog
-//	    HTML details = new HTML("TopText");
-//	    dialogContents.add(details);
-//	    dialogContents.setCellHorizontalAlignment(
-//	        details, HasHorizontalAlignment.ALIGN_CENTER);
-
-	    // Add a close button at the bottom of the dialog
-	    Button loginButton = new Button("anmelden", new ClickHandler() {
-	          public void onClick(ClickEvent event) {
-	            String email = emailBox.getValue();
-	            String pass = passwordBox.getValue();
-	            // TODO: Methode zum einloggen eines Benutzers aufrufen -> onSuccess/OnFailure Handling?!
-	            dialogBox.hide();
-	            
-	          }
-	        });
-	    loginButton.setWidth("100px");
-	    Button regButton = new Button("registrieren", new ClickHandler() {
-	          public void onClick(ClickEvent event) {
-	        	dialogBox.setText("Registration");
-	        	grid.resizeRows(6);
-	        	grid.setWidget(2, 0, new HTML("Passwort wiederholen"));
-	    	    final PasswordTextBox passwordBox2 = new PasswordTextBox();
-	    	    passwordBox2.setWidth("220px");
-	    	    grid.setWidget(2, 1, passwordBox2);
-	    	    
-	    	    grid.setWidget(3, 0, new HTML("Vorname"));
-	    	    final TextBox firstNameBox =  new TextBox();
-	    	    firstNameBox.setWidth("220px");
-	    	    grid.setWidget(3, 1, firstNameBox);
-	    	    
-	    	    grid.setWidget(4, 0, new HTML("Name"));
-	    	    final TextBox nameBox =  new TextBox();
-	    	    nameBox.setWidth("220px");
-	    	    grid.setWidget(4, 1, nameBox);
-	            //dialogBox.hide();
-	    	    Button regButton = new Button("registrieren", new ClickHandler() {
-	  	          public void onClick(ClickEvent event) {
-	  	        	  // TODO: Methode zum registrieren eines neuen Benutzers aufrufen.
-	  	        	  dialogBox.hide();
-	  	          }
-	    	    });
-	    	    regButton.setWidth("220px");
-	    	    grid.setWidget(5, 1, regButton);
-	          }
-	        });
-	    regButton.setWidth("100px");
-	    HorizontalPanel actionPanel = new HorizontalPanel();
-	    actionPanel.add(regButton);
-	    actionPanel.add(loginButton);
-	    grid.setWidget(2, 1, actionPanel);
-	    VerticalPanel dialogContent = new VerticalPanel();
-	    HTML details = new HTML("Bitte geben Sie Ihre Benutzerdaten ein, um sich<br />am System anzumelden.");
-	    dialogContent.add(details);
-	    dialogContent.add(grid);
-	    dialogBox.setWidget(dialogContent);
-	    // Return the dialog box
-	    return dialogBox;
-	  }
-
-	
-	private void createMenu() {
-		 /*
-	     * Ab hier bauen wir sukzessive den Navigator mit seinen Buttons aus.
-	     */
-
-	    /*
-	     * Neues Button Widget erzeugen und eine Beschriftung festlegen.
-	     */
-	    final Hyperlink homeLink = new Hyperlink("Startseite", "mainpage");
-	    homeLink.setStylePrimaryName("menubutton");
-	    ClickHandler handler = new ClickHandler() {
-	        public void onClick(ClickEvent event) {
-	        	final HTML content = new HTML("Startseite geklickt :D");
-	        	RootPanel.get("main").clear();
-	        	RootPanel.get("main").add(content);
-	        }
-	    };
-	    homeLink.addDomHandler(handler, ClickEvent.getType());
-	    RootPanel.get("navigator").add(homeLink);
 	    
-	  
 	    
-	    DecoratedStackPanel stackPanel = new DecoratedStackPanel();
-	    stackPanel.setWidth("100%");
-	    stackPanel.setStylePrimaryName("menupanel");
-	    
-	    String elementHeader = getHeaderString("+ Bauteil");
-	    stackPanel.add(createElementLinks(), elementHeader, true);
-	    String elementHeader2 = getHeaderString("+ Baugruppe");
-	    stackPanel.add(createModuleLinks(), elementHeader2, true);
-	    String elementHeader3 = getHeaderString("+ Enderzeugnis");
-	    stackPanel.add(createElementLinks(), elementHeader3, true);
+		Button createBtn = new Button("anlegen", new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				FlowPanel panel = new FlowPanel();
+				
+				Button createElementBtn = new Button("Bauteil anlagen", new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				Button createModuleBtn = new Button("Baugruppe anlagen", new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				Button createProductBtn = new Button("Produkt anlagen", new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				createElementBtn.setStylePrimaryName("btn btn-default createBtn");
+				createModuleBtn.setStylePrimaryName("btn btn-default createBtn");
+				createProductBtn.setStylePrimaryName("btn btn-default createBtn");
+				panel.add(createElementBtn);
+				panel.add(createModuleBtn);
+				panel.add(createProductBtn);
+				RootPanel.get("main").clear();
 
-	    RootPanel.get("navigator").add(stackPanel);
+				final HTML resultInfo = new HTML("Bitte wählen Sie aus, was Sie anlegen möchten!");
+				resultInfo.setStylePrimaryName("formTitle");
+				RootPanel.get("main").add(resultInfo);
+				
+				
+				RootPanel.get("main").add(panel);
+			}
+		});
+		createBtn.setStylePrimaryName("btn btn-success");
+		
+		RootPanel.get("navbar").add(createBtn);
 	}
-	
-	private VerticalPanel createElementLinks() {
-		VerticalPanel panel = new VerticalPanel();
-		panel.setWidth("100%");
-		final Hyperlink addLink = new Hyperlink("erstellen", "addElement");
-		addLink.setStylePrimaryName("menubutton"); 
-		ClickHandler addClickHandler = new ClickHandler() {
-		    public void onClick(ClickEvent event) {
-		    	final HTML content = new HTML("Bauteil erstellen geklickt :D");
-		    	RootPanel.get("main").clear();
-		    	RootPanel.get("main").add(content);
-		    }
-		};
-		addLink.addDomHandler(addClickHandler, ClickEvent.getType());
-		panel.add(addLink);
-		
-		final Hyperlink editLink = new Hyperlink("ändern", "editElement");
-		editLink.setStylePrimaryName("menubutton"); 
-		ClickHandler editClickHandler = new ClickHandler() {
-		    public void onClick(ClickEvent event) {
-		    	final HTML content = new HTML("Bauteil ändern geklickt :P");
-		    	RootPanel.get("main").clear();
-		    	RootPanel.get("main").add(content);
-		    }
-		};
-		editLink.addDomHandler(editClickHandler, ClickEvent.getType());
-		panel.add(editLink);
-		
-		final Hyperlink deleteLink = new Hyperlink("löschen", "deleteElement");
-		deleteLink.setStylePrimaryName("menubutton"); 
-		ClickHandler deleteClickHandler = new ClickHandler() {
-		    public void onClick(ClickEvent event) {
-		    	final HTML content = new HTML("Bauteil löschen geklickt :D");
-		    	RootPanel.get("main").clear();
-		    	RootPanel.get("main").add(content);
-		    }
-		};
-		deleteLink.addDomHandler(deleteClickHandler, ClickEvent.getType());
-		panel.add(deleteLink);
-		return panel;
-	}
-	
-	private VerticalPanel createModuleLinks() {
-		VerticalPanel panel = new VerticalPanel();
-		panel.setWidth("100%");
-		final Hyperlink addLink = new Hyperlink("erstellen", "addModule");
-		addLink.setStylePrimaryName("menubutton"); 
-		ClickHandler addClickHandler = new ClickHandler() {
-		    public void onClick(ClickEvent event) {
-		    	final HTML content = new HTML("Baugruppe erstellen geklickt :D");
-		    	RootPanel.get("main").clear();
-		    	RootPanel.get("main").add(content);
-		    }
-		};
-		addLink.addDomHandler(addClickHandler, ClickEvent.getType());
-		panel.add(addLink);
-		
-		final Hyperlink editLink = new Hyperlink("ändern", "editModule");
-		editLink.setStylePrimaryName("menubutton"); 
-		ClickHandler editClickHandler = new ClickHandler() {
-		    public void onClick(ClickEvent event) {
-		    	final HTML content = new HTML("Baugruppe �ndern geklickt :D");
-		    	RootPanel.get("main").clear();
-		    	RootPanel.get("main").add(content);
-		    }
-		};
-		editLink.addDomHandler(editClickHandler, ClickEvent.getType());
-		panel.add(editLink);
-		
-		final Hyperlink deleteLink = new Hyperlink("löschen", "deleteModule");
-		deleteLink.setStylePrimaryName("menubutton"); 
-		ClickHandler deleteClickHandler = new ClickHandler() {
-		    public void onClick(ClickEvent event) {
-		    	final HTML content = new HTML("Baugruppe löschen geklickt :D");
-		    	RootPanel.get("main").clear();
-		    	RootPanel.get("main").add(content);
-		    }
-		};
-		deleteLink.addDomHandler(deleteClickHandler, ClickEvent.getType());
-		panel.add(deleteLink);
-		
-		final Hyperlink defineLink = new Hyperlink("zuordnen", "defineModule");
-		defineLink.setStylePrimaryName("menubutton"); 
-		ClickHandler defineClickHandler = new ClickHandler() {
-		    public void onClick(ClickEvent event) {
-		    	final HTML content = new HTML("Baugruppe zuordnen geklickt :D");
-		    	RootPanel.get("main").clear();
-		    	RootPanel.get("main").add(content);
-		    }
-		};
-		defineLink.addDomHandler(defineClickHandler, ClickEvent.getType());
-		panel.add(defineLink);
-		
-		return panel;
-	}
-	
-	/**
-	   * Create the {@link Tree} of Mail options.
-	   *
-	   * @param images the {@link Images} used in the Mail options
-	   * @return the {@link Tree} of mail options
-	   */
-	  
-	private String getHeaderString(String text) {
-	    // Add the image and text to a horizontal panel
-	    HorizontalPanel hPanel = new HorizontalPanel();
-	    hPanel.setSpacing(0);
-	    hPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-	    HTML headerText = new HTML(text);
-	    hPanel.add(headerText);
 
-	    // Return the HTML string for the panel
-	    return hPanel.getElement().getString();
-	  }
+	private Tree createDynamicTree() {
+		// Create a new tree
+		Tree dynamicTree = new Tree();
+		dynamicTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
+			
+			@Override
+			public void onSelection(SelectionEvent<TreeItem> event) {
+				// TODO Auto-generated method stub
+			}
+		});
+
+		// Add some default tree items
+		for (int i = 0; i < 5; i++) {
+			TreeItem item = dynamicTree.addTextItem("Item " + i);
+
+			// Temporarily add an item so we can expand this node
+			item.addTextItem("");
+		}
+
+		// Add a handler that automatically generates some children
+		dynamicTree.addOpenHandler(new OpenHandler<TreeItem>() {
+			public void onOpen(OpenEvent<TreeItem> event) {
+				TreeItem item = event.getTarget();
+				if (item.getChildCount() == 1) {
+					// Close the item immediately
+					item.setState(false, false);
+
+					// Add a random number of children to the item
+					String itemText = item.getText();
+					int numChildren = Random.nextInt(5) + 2;
+					for (int i = 0; i < numChildren; i++) {
+						TreeItem child = item.addTextItem(itemText + "." + i);
+						child.addTextItem("");
+					}
+
+					// Remove the temporary item when we finish loading
+					item.getChild(0).remove();
+
+					// Reopen the item
+					item.setState(true, false);
+				}
+			}
+		});
+
+		// Return the tree
+		return dynamicTree;
+	}
 }
