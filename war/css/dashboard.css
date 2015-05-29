@@ -25,6 +25,15 @@ body {
   border: 0;
 }
 
+#navbar {
+	position: absolute;
+    right: 50px;
+    text-align: right;
+    top: 8px;
+    width: 100%;
+    z-index: 3;
+}
+
 /*
  * Sidebar
  */
@@ -46,7 +55,7 @@ body {
   .sidebar {
     position: fixed;
     top: 51px;
-    bottom: 0;
+    bottom: -30px;
     left: 0;
     z-index: 2;
     display: block;
