@@ -12,3 +12,44 @@ UNKLARHEITEN
 		
 	KLASSE Partlist:
 		Zeile 92: 	--> WIE GIBT MAN EIN ATTRIBUT AUS EINER ANDEREN KLASSE IN EINER BESCHREIUBUNG AN?
+		
+
+	KLASSE Product:
+		sollen wir eine extra Beschreibung für Endprodukte mitreinnehmen?
+		
+	KLASSE AdministrationCommonImpl:
+		Thomas, Kenny und Joey, bitte beachten!!!
+		Habs abgeändert: 
+			*folgendes gelöscht
+			[
+				this.userMapper = UserMapper.getUserMapper();
+				this.elementMapper = ElementMapper.getElementMapper();
+				this.moduleMapper = ModuleMapper.getModuleMapper();
+				this.productMapper = ProductMapper.getProductMapper();
+				this.partlistMapper = PartlistMapper.getPartlistMapper();
+			]
+			
+				/**
+			  	 * <p>
+				 * Ein <code>RemoteServiceServlet</code> wird unter GWT mittels
+				 * <code>GWT.create(Klassenname.class)</code> Client-seitig erzeugt. Hierzu
+				 * ist ein solcher No-Argument-Konstruktor anzulegen. Ein Aufruf eines anderen
+				 * Konstruktors ist durch die Client-seitige Instantiierung durch
+				 * <code>GWT.create(Klassenname.class)</code> nach derzeitigem Stand nicht
+				 * möglich.
+				 * </p>
+				 * <p>
+				 * Es bietet sich also an, eine separate Instanzenmethode zu erstellen, die
+				 * Client-seitig direkt nach <code>GWT.create(Klassenname.class)</code>
+				 * aufgerufen wird, um eine Initialisierung der Instanz vorzunehmen.
+				 * </p>
+				 * 
+				 * @see #init()
+				 */
+				 
+				  public BankAdministrationImpl() throws IllegalArgumentException {
+				  /*
+				   * Eine weitergehende Funktion muss der No-Argument-Constructor nicht haben.
+				   * Er muss einfach vorhanden sein.
+				   */
+		  			}

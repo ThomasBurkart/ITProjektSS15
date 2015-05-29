@@ -104,7 +104,7 @@ public class Partlist extends BusinessObject {
 	 * 
 	 * @param elementId
 	 *            ID des Bauteils das ausgelesen werden soll.
-	 * @return Das Bauteil <code>element</code> wird zurückgegeben
+	 * @return Das Bauteil <code>Element</code> wird zurückgegeben
 	 */
 	// WIE GIBT MAN EIN ATTRIBUT AUS EINER ANDEREN KLASSE IN EINER BESCHREIUBUNG AN?
 	public Element getElementById(int elementId) {
