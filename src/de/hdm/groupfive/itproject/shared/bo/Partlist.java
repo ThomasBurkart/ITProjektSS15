@@ -9,43 +9,24 @@ public class Partlist extends BusinessObject {
 	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
 	 */	
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
-	
+
 	/**
 	 * Erstellungsdatum der Stückliste
 	 */	
-=======
-
-	/**
-	 * Das Erstelldatum
-	 */
->>>>>>> branch 'master' of https://github.com/ThomasBurkart/ITProjektSS15.git
 	private Date creationDate;
 	
 	/**
 	 * Name der Stückliste
-<<<<<<< HEAD
 	 */	
-=======
-	 */
->>>>>>> branch 'master' of https://github.com/ThomasBurkart/ITProjektSS15.git
 	private String name;
 	
 	/**
-<<<<<<< HEAD
-	 * Eindeutige ID der Stückliste
-=======
 	 * Der Primärschlüssel der Stückliste
->>>>>>> branch 'master' of https://github.com/ThomasBurkart/ITProjektSS15.git
 	 */
 	private int id;
 	
 	/**
-<<<<<<< HEAD
-	 *  Attribut list vom Typ PartlistEntry als Liste um später die Anzahl der Bauteile ausgeben zu können
-=======
-	 * Attribut in dem die Stückliste gespeichert wird. 
->>>>>>> branch 'master' of https://github.com/ThomasBurkart/ITProjektSS15.git
+	 *  Attribut list vom Typ PartlistEntry als Liste um später die Anzahl der Bauteile speichern zu können
 	 */
 	private ArrayList<PartlistEntry> list;
 
