@@ -102,6 +102,13 @@ public class Element extends BusinessObject{
 	}
 	
 	/**
+	 * Liefer die Materialbeschreibung des Bauteils z.B.: Besteht aus Kupfer oder Metall
+	 */
+	public String getMaterialDescription() {
+		return this.materialDescription;
+	}
+	
+	/**
 	 * Setzten des Erstellungsdatums 
 	 */
 	public void setCreationDate(Date creationDate) {
