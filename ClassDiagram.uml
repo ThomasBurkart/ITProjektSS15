@@ -582,6 +582,8 @@
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_54aysOaJEeS_HIq-l6Hr0g" name="createProduct">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ay_mQObZEeS_HIq-l6Hr0g" type="_0cvn0ORSEeS-mOevn5eTww" direction="return"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_jv3uwAZoEeW4HorpU9GiaA" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_m9ux4AZoEeW4HorpU9GiaA" name="module" type="_nMXCYQLPEeW4XaJaSKA5Sg"/>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_62hZsOaJEeS_HIq-l6Hr0g" name="deleteProduct">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_L05_EObaEeS_HIq-l6Hr0g" name="product" type="_0cvn0ORSEeS-mOevn5eTww"/>

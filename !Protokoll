@@ -9,13 +9,12 @@ UNKLARHEITEN
 		abgeändert. 
 		Falls diese Änderung für die DB wichtig ist, BITTE beachten!!!
 		
-		
-	KLASSE Partlist:
-		Zeile 92: 	--> WIE GIBT MAN EIN ATTRIBUT AUS EINER ANDEREN KLASSE IN EINER BESCHREIUBUNG AN?
-		
-
+  	MAPPER KLASSEN:
+  		insert-Methoden nachtragen!!!
+	
 	KLASSE Product:
-		sollen wir eine extra Beschreibung für Endprodukte mitreinnehmen?
+		sollen wir eine extra Beschreibung für Endprodukte mitreinnehmen? --> neues Attribut
+		UPDATE 30.05.: Umgesetzt!!! 
 		
 	KLASSE AdministrationCommonImpl:
 		Thomas, Kenny und Joey, bitte beachten!!!
@@ -53,3 +52,6 @@ UNKLARHEITEN
 				   * Er muss einfach vorhanden sein.
 				   */
 		  			}
+		  			
+		  			
+		

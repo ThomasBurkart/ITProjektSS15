@@ -1,5 +1,6 @@
 package de.hdm.groupfive.itproject.server;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -11,6 +12,7 @@ import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
+
 
 
 /**
@@ -164,6 +166,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	   * ABSCHNITT, Beginn: Methoden für User-Objekte
 	   * ***************************************************************************
 	   */
+	
 	@Override
 	public User registerUser(String email, String password) {
 		// TODO Auto-generated method stub
@@ -363,32 +366,59 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	
 	
 	
-	@Override
+	/**
+	 * Auslesen des Datenbank Eintrags vom Endprodukt
+	 */
 	public ProductMapper getProductMapper() {
 		return this.productMapper;
 	}
 
-	@Override
+	/**
+	 * Erstellen eines neuen Endproduktes
+	 * 
+	 * @param name des Endproduktes
+	 * @param module Baugruppe des zum Enderzeugnis wird
+	 * @param price des Endproduktes
+	 */
+	public Product createProduct(String salesName, Module module) {
+		
+		Product p = new Product(); 
+		
+		p.setSalesName(salesName); 		// Name des Endproduktes
+		p.setId(module.getId());		// ID der Baugruppe zur Zuordnung
+		p.setName(module.getName());	// Name der Baugruppe
+		
+		
+		
+		return this.productMapper.insert(p);
+	}
+	
+	 /**
+	  * Auslesen sämtlicher Endprodukte 
+	  */
 	public Vector<Product> getAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.productMapper.findAll();
 	}
+	
 
-	@Override
-	public Product createProduct() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+	/**
+	 * 
+	 */
 	public Product editProduct(Product product) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	 /**
+	   * Löschen des Endproduktes. Beachten Sie bitte auch die Anmerkungen zu
+	   * {@link #delete(User)}, {@link #delete(Module)} und {@link #delete(Element)}.
+	   * 
+	   * @see #delete(User)
+	   * @see #delete(Module)
+	   * @see #delete(Element)
+	   */
 	@Override
 	public void deleteProduct(Product product) {
-		// TODO Auto-generated method stub
+		  this.productMapper.delete(product);
 		
 	}
 	

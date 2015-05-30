@@ -42,7 +42,7 @@ public interface AdministrationCommon {
 
 	public Module assignModule(Module module, Module subModule);
 
-	public Product createProduct();
+	public Product createProduct(String salesName, Module module);
 
 	public Product editProduct(Product product);
 
