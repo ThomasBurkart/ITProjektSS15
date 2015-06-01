@@ -10,6 +10,7 @@ import de.hdm.groupfive.itproject.shared.*;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
@@ -324,20 +325,19 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	
 
 	public Partlist findPartlistByModuleName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.partlistMapper.findByName(name);
 	}
 
 	@Override
 	public Partlist findPartlistByModuleId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		this.moduleMapper.findById(id).
+		
+		return ;
 	}
 
 	@Override
 	public Partlist findPartlistById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.partlistMapper.findById(id);
 	}
 
 	@Override
@@ -383,11 +383,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	public Product createProduct(String salesName, Module module) {
 		
 		Product p = new Product(); 
-		
+		p = (Product) module;
 		p.setSalesName(salesName); 		// Name des Endproduktes
-		p.setId(module.getId());		// ID der Baugruppe zur Zuordnung
-		p.setName(module.getName());	// Name der Baugruppe
-		
 		
 		
 		return this.productMapper.insert(p);
@@ -397,7 +394,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	  * Auslesen sämtlicher Endprodukte 
 	  */
 	public Vector<Product> getAllProducts() {
-		return this.productMapper.findAll();
+		return this.productMapper.getAllProducts();
 	}
 	
 
@@ -405,7 +402,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	 * 
 	 */
 	public Product editProduct(Product product) {
-		return null;
+		return this.productMapper.update(product);
 	}
 
 	 /**

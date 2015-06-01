@@ -1,8 +1,11 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
+import java.util.Vector;
 
 import de.hdm.groupfive.itproject.shared.bo.Element;
+import de.hdm.groupfive.itproject.shared.bo.Product;
+import de.hdm.groupfive.itproject.shared.bo.User;
 
 /** 
  * Mapper-Klasse die <code>Element</code> Objekte auf eine relationale 
@@ -83,6 +86,66 @@ try {
 }
 return null;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Vector<Element> findByCreator(User creator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
+	public Element insert(Element e){
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param product
+	 */
+	public void delete(Element e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public Element update(Element e){
+		return null;
+	}
+	
+	/**
+	 * 
+	 */
+	public static ElementMapper elementMapper(){
+		return null;
+	}
+	
+	/**
+	 * 
+	 */
+	public Element findByName(String name){
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Vector<Element> getAllElements() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }
 //Nochmals anschauen
 
