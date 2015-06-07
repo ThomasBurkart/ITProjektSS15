@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -62,6 +63,8 @@ public class LoginLogout {
 				// TODO: Methode zum einloggen eines Benutzers aufrufen ->
 				// onSuccess/OnFailure Handling?!
 				dialogBox.hide();
+
+				RootPanel.get("navigator").add(ITProjektSS15.createSearchPanel());
 
 			}
 		});

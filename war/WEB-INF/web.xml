@@ -6,10 +6,19 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+  <servlet>
+    <servlet-name>administrationServlet</servlet-name>
+    <servlet-class>de.hdm.groupfive.itproject.server.AdministrationCommonImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>administrationServlet</servlet-name>
+    <url-pattern>/itprojektss15/administration</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ITProjektSS15.html</welcome-file>
   </welcome-file-list>
-
+ 
 </web-app>

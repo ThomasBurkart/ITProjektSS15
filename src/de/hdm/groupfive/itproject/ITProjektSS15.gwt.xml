@@ -19,6 +19,8 @@
 
 	<!-- Other module inherits                                      -->
 
+	<inherits name="com.google.gwt.logging.Logging" />
+	
 	<!-- Specify the app entry point class.                         -->
 	<entry-point
 		class='de.hdm.groupfive.itproject.client.ITProjektSS15' />

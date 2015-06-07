@@ -107,15 +107,30 @@ public class ClientsideSettings extends CommonSettings {
    * @since 28.02.2012
    */
   public static AdministrationCommonAsync getAdministration() {
-    // Gab es bislang noch keine BankAdministration-Instanz, dann...
+    // Gab es bislang noch keine Administration-Instanz, dann...
     if (administration == null) {
-      // Zunächst instantiieren wir BankAdministration
+      // Zunächst instantiieren wir Administration
     	administration = GWT.create(AdministrationCommon.class);
+    	
+    	
+    	final AsyncCallback<Void> initAdministrationCallback = new AsyncCallback<Void>() {
+            public void onFailure(Throwable caught) {
+              ClientsideSettings.getLogger().severe(
+                  "Der Administration konnte nicht initialisiert werden!");
+            }
+
+            public void onSuccess(Void result) {
+              ClientsideSettings.getLogger().info(
+                  "Der Administration wurde initialisiert.");
+            }
+          };
+
+          administration.init(initAdministrationCallback);
     }
     
     
 
-    // So, nun brauchen wir die BankAdministration nur noch zurückzugeben.
+    // So, nun brauchen wir die Administration nur noch zurückzugeben.
     return administration;
   }
 

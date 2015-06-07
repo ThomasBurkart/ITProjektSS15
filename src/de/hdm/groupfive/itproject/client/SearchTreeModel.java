@@ -44,6 +44,7 @@ public class SearchTreeModel implements TreeViewModel {
 
 	private final Cell<Element> elementCell;
 	private final DefaultSelectionEventManager<Element> selectionManager = DefaultSelectionEventManager.createDefaultManager();
+	
 	public SearchTreeModel(List<Element> searchResult,
 			final SelectionModel<Element> selectionModel) {
 		this.selectionModel = selectionModel;

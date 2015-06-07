@@ -40,13 +40,13 @@ public class ServerSettings extends CommonSettings {
 	   * <h2>HINWEIS:</h2>
 	   * <p>
 	   * Beachten Sie, dass Sie den auszugebenden Log nun nicht mehr durch
-	   * bedarfsweise Einfügen und Auskommentieren etwa von
-	   * <code>System.out.println(...);</code> steuern. Sie belassen künftig
-	   * sämtliches Logging im Code und können ohne abermaliges Kompilieren den Log
-	   * Level "von außen" durch die Datei <code>logging.properties</code> steuern.
+	   * bedarfsweise Einfï¿½gen und Auskommentieren etwa von
+	   * <code>System.out.println(...);</code> steuern. Sie belassen kï¿½nftig
+	   * sï¿½mtliches Logging im Code und kï¿½nnen ohne abermaliges Kompilieren den Log
+	   * Level "von auï¿½en" durch die Datei <code>logging.properties</code> steuern.
 	   * Sie finden diese Datei in dem <code>war/WEB-INF</code>-Ordner Ihres
-	   * Projekts. Der dort standardmäßig vorgegebene Log Level ist
-	   * <code>WARN</code>. Dies würde bedeuten, dass Sie keine <code>INFO</code>
+	   * Projekts. Der dort standardmï¿½ï¿½ig vorgegebene Log Level ist
+	   * <code>WARN</code>. Dies wï¿½rde bedeuten, dass Sie keine <code>INFO</code>
 	   * -Meldungen wohl aber <code>WARN</code>- und <code>SEVERE</code>-Meldungen
 	   * erhielten. Wenn Sie also auch Log des Levels <code>INFO</code> wollten,
 	   * mÃ¼ssten Sie in dieser Datei <code>.level = INFO</code> setzen.

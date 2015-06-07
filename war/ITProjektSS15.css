@@ -82,6 +82,11 @@ h1 {
     margin-left: 5px;
 }
 
+.btn32 {
+	width: 31%;
+	min-width: 145px;
+}
+
 .textBox {
 	background-color: #fff;
     background-image: none;

@@ -1,5 +1,6 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -181,8 +182,9 @@ public class Partlist extends BusinessObject {
 
 }
 
-class PartlistEntry {
-	
+class PartlistEntry implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Attribut element als Bauteil der St�ckliste 
 	 */
@@ -192,6 +194,15 @@ class PartlistEntry {
 	 * Anzahl der Bauteile
 	 */
 	private int amount;
+	
+	/**
+	 * Standard Konstruktor der Klasse PartlistEntry. Zum erstellen eines
+	 * Stücklisten-Eintrags bitte den PartlistEntry-Kontruktor mit den
+	 * Parameter-Variablen verwenden.
+	 */
+	public PartlistEntry() {
+		// Standard Konstruktor wird benötigt für Serialisierung. Nicht entfernen!
+	}
 	
 	/**
 	 * Konstruktor der Klasse PartlistEntry . Initialisiert eine neues Bauteil.
