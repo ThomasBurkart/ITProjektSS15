@@ -45,6 +45,7 @@ public class LoginLogout {
 		grid.setCellPadding(50);
 		grid.setWidget(0, 0, new HTML("E-Mail"));
 		final TextBox emailBox = new TextBox();
+		emailBox.setFocus(true);
 		emailBox.setWidth("220px");
 		grid.setWidget(0, 1, emailBox);
 

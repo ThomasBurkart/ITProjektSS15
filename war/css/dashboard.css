@@ -30,7 +30,7 @@ body {
     right: 50px;
     text-align: right;
     top: 8px;
-    width: 100%;
+    /** width: 100%; */
     z-index: 3;
 }
 
