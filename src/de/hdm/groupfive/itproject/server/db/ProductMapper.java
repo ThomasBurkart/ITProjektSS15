@@ -1,16 +1,9 @@
 package de.hdm.groupfive.itproject.server.db;
 
-import java.sql.Date;
 import java.util.Vector;
 
-<<<<<<< HEAD
-import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.groupfive.itproject.shared.bo.Partlist;
-=======
-import de.hdm.groupfive.itproject.shared.bo.Element;
-import de.hdm.groupfive.itproject.shared.bo.Module;
->>>>>>> refs/heads/master
-import de.hdm.groupfive.itproject.shared.bo.Product;
+import de.hdm.groupfive.itproject.shared.bo.*;
+
 
 public class ProductMapper {
 	
@@ -39,12 +32,21 @@ public class ProductMapper {
 		return null;
 	}
 
-<<<<<<< HEAD
 	/**
 	 * 
 	 * @param product
 	 */
-=======
+	public void delete(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public Product findById(int id){
+		return null;
+		
 	public Vector<Product> findAll() {
 		// TODO ÜBER DATENBANK ABFRAGEN ... NUR TESTWEISE statisch EREZUGT:
 		
@@ -102,19 +104,6 @@ public class ProductMapper {
 		module.getPartlist().add(e3, 1);
 		module.getPartlist().add(e4, 1);
 		return result;
-	}
-
->>>>>>> refs/heads/master
-	public void delete(Product product) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	/**
-	 * 
-	 */
-	public Product findById(int id){
-		return null;
 	}
 	
 	/**
