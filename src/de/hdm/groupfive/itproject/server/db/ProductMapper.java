@@ -89,6 +89,6 @@ public class ProductMapper {
 
 	public void delete(Product product) {
 		// TODO Auto-generated method stub
-		
+	/* */	
 	}
 }
