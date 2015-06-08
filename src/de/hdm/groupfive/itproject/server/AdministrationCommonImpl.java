@@ -12,6 +12,7 @@ import de.hdm.groupfive.itproject.shared.*;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
@@ -338,21 +339,38 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 
 	
 
+<<<<<<< HEAD
+	public Partlist findPartlistByModuleName(String name) {
+		return this.partlistMapper.findByName(name);
+=======
 	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
+>>>>>>> refs/heads/master
 	}
 
 	@Override
+<<<<<<< HEAD
+	public Partlist findPartlistByModuleId(int id) {
+		this.moduleMapper.findById(id).
+		
+		return ;
+=======
 	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
+>>>>>>> refs/heads/master
 	}
 
 	@Override
+<<<<<<< HEAD
+	public Partlist findPartlistById(int id) {
+		return this.partlistMapper.findById(id);
+=======
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
+>>>>>>> refs/heads/master
 	}
 
 	@Override
@@ -398,11 +416,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	public Product createProduct(String salesName, Module module) throws IllegalArgumentException {
 		
 		Product p = new Product(); 
-		
+		p = (Product) module;
 		p.setSalesName(salesName); 		// Name des Endproduktes
-		p.setId(module.getId());		// ID der Baugruppe zur Zuordnung
-		p.setName(module.getName());	// Name der Baugruppe
-		
 		
 		
 		return this.productMapper.insert(p);
@@ -411,6 +426,10 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	 /**
 	  * Auslesen s�mtlicher Endprodukte 
 	  */
+<<<<<<< HEAD
+	public Vector<Product> getAllProducts() {
+		return this.productMapper.getAllProducts();
+=======
 	public Vector<Product> getAllProducts() throws IllegalArgumentException {
 		return this.productMapper.findAll();
 		
@@ -470,14 +489,20 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 //		module.getPartlist().add(e3, 1);
 //		module.getPartlist().add(e4, 1);
 //		return result;
+>>>>>>> refs/heads/master
 	}
 	
 
 	/**
 	 * 
 	 */
+<<<<<<< HEAD
+	public Product editProduct(Product product) {
+		return this.productMapper.update(product);
+=======
 	public Product editProduct(Product product) throws IllegalArgumentException {
 		return null;
+>>>>>>> refs/heads/master
 	}
 
 	 /**

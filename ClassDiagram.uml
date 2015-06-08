@@ -498,7 +498,7 @@
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_xnXbEOTfEeSltrLTz4W_wA" name="insert">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_xnXbEeTfEeSltrLTz4W_wA" name="partlist" type="_OR59EORVEeS-mOevn5eTww"/>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_xnXbEuTfEeSltrLTz4W_wA" type="_0cvn0ORSEeS-mOevn5eTww" direction="return"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_xnXbEuTfEeSltrLTz4W_wA" type="_OR59EORVEeS-mOevn5eTww" direction="return"/>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_p11GgOThEeSltrLTz4W_wA" name="findByName">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_p11GgeThEeSltrLTz4W_wA" name="name" type="_Am_zoORSEeS-mOevn5eTww"/>

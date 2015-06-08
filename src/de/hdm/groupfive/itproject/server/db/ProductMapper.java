@@ -3,9 +3,8 @@ package de.hdm.groupfive.itproject.server.db;
 import java.sql.Date;
 import java.util.Vector;
 
-import de.hdm.groupfive.itproject.shared.bo.Element;
-import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.groupfive.itproject.shared.bo.Product;
+import de.hdm.groupfive.itproject.shared.bo.*;
+
 
 public class ProductMapper {
 	/**
@@ -24,10 +23,30 @@ public class ProductMapper {
 		return productMapper;
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public Product insert(Product p){
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param product
+	 */
+	public void delete(Product product) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public Product findById(int id){
+		return null;
+		
 	public Vector<Product> findAll() {
 		// TODO ÜBER DATENBANK ABFRAGEN ... NUR TESTWEISE statisch EREZUGT:
 		
@@ -86,9 +105,34 @@ public class ProductMapper {
 		module.getPartlist().add(e4, 1);
 		return result;
 	}
-
-	public void delete(Product product) {
+	
+	/**
+	 * 
+	 */
+	public Product update(Product product){
+		return null;
+	}
+	
+	/**
+	 * 
+	 */
+	public static ProductMapper productMapper(){
+		return null;
+	}
+	
+	/**
+	 * 
+	 */
+	public Product findByName(String name){
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Vector<Product> getAllProducts() {
 		// TODO Auto-generated method stub
-	/* */	
+		return null;
 	}
 }
