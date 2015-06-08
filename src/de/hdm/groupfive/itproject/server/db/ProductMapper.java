@@ -46,6 +46,7 @@ public class ProductMapper {
 	 */
 	public Product findById(int id){
 		return null;
+	}
 		
 	public Vector<Product> findAll() {
 		// TODO ÜBER DATENBANK ABFRAGEN ... NUR TESTWEISE statisch EREZUGT:
