@@ -1,9 +1,16 @@
 package de.hdm.groupfive.itproject.shared;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 
+import de.hdm.groupfive.itproject.server.db.ElementMapper;
+import de.hdm.groupfive.itproject.server.db.ModuleMapper;
+import de.hdm.groupfive.itproject.server.db.PartlistMapper;
+import de.hdm.groupfive.itproject.server.db.ProductMapper;
+import de.hdm.groupfive.itproject.server.db.UserMapper;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
@@ -11,25 +18,6 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
 public interface AdministrationCommonAsync {
-	public void registerUser(String email, String password);
-
-	public void loginUser(String email, String password);
-
-	public void logoutUser();
-
-	public void getElementMapper();
-
-	public void getModuleMapper();
-
-	public void getProductMapper();
-
-	public void getPartlistMapper();
-
-	public void getUserMapper();
-
-	public void setUser(User user);
-
-	public void getUser();
 
 	public void createElement(AsyncCallback<Element> callback);
 
@@ -49,7 +37,8 @@ public interface AdministrationCommonAsync {
 	public void assignModule(Module module, Module subModule,
 			AsyncCallback<Module> callback);
 
-	public void createProduct(AsyncCallback<Product> callback);
+	void createProduct(String salesName, Module module,
+			AsyncCallback<Product> callback);
 
 	public void editProduct(Product product, AsyncCallback<Product> callback);
 
@@ -76,5 +65,18 @@ public interface AdministrationCommonAsync {
 	public void getAllProducts(AsyncCallback<Vector<Product>> callback);
 
 	public void calculateMaterial(Partlist partlist,
-			AsyncCallback<Object> callback);
+			AsyncCallback<String> callback);
+
+	public void registerUser(String email, String password,
+			AsyncCallback<User> callback);
+
+	public void loginUser(String email, String password, AsyncCallback<User> callback);
+
+	public void logoutUser(AsyncCallback<Void> callback);
+
+	public void setUser(User user, AsyncCallback<Void> callback);
+
+	public void getUser(AsyncCallback<User> callback);
+
+	public void init(AsyncCallback<Void> callback);
 }

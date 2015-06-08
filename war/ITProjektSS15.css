@@ -82,6 +82,42 @@ h1 {
     margin-left: 5px;
 }
 
+.btn32 {
+	width: 31%;
+	min-width: 145px;
+}
+
+.textBox {
+	background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    margin-right: 5px;
+    margin-left: 15px;
+    margin-bottom: 5px;
+    
+}
+
+.actionBox {
+    /** background-color: #d9edf7;
+    border-color: #bce8f1; */
+    background-color: #f5f5f5;
+    color: #31708f;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 15px 15px 5px;
+    text-align: right;
+}
+
 .searchResultBox {
 	background-color: #fff;
     background-image: none;
@@ -122,7 +158,15 @@ h1 {
 }
 
 .tree {
-	margin-left: 15px;
+	margin-left: 0px;
+}
+
+.treeItem {
+	
+}
+
+.clientTitle {
+	padding: 15px;
 }
 
 .gwt-PopupPanelGlass {
@@ -146,7 +190,14 @@ h1 {
     background: #80ff80 none repeat scroll 0 0;
 }
 
-.gwt-Tree .gwt-TreeItem-selected:after {
-	content: ' «';
-    background: #80ff80 none repeat scroll 0 0;
+.elementLink {
+    border-radius: 0;
+    color: #337ab7;
+    -moz-user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
 }
