@@ -15,7 +15,9 @@ import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
-
+/**
+ * TEst
+ */
 
 /**
  * <p>
@@ -339,7 +341,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	
 
 	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException {
-		return this.partlistMapper.findByName(name);
+		return this.moduleMapper.findByName(name).getPartlist();
 	}
 
 	@Override
