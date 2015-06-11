@@ -16,10 +16,6 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
 /**
- * TEst
- */
-
-/**
  * <p>
  * Implementierungsklasse des Interface <code>AdministationCommon</code>. Diese
  * Klasse ist <em>die</em> Klasse, die s�mtliche Applikationslogik 
@@ -355,18 +351,20 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 		return this.partlistMapper.findById(id);
 	}
 
+//	@Override
+//	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException {
+//		return this.moduleMapper.;
+//	}
+	
 	@Override
-	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public String calculateMaterial(Partlist partlist)
+			throws IllegalArgumentException {
+		.getAllElements(partlist)
+		
 		return null;
 	}
 	
-	@Override
-	public String calculateMaterial(Partlist partlist) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+		
 	  /*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden f�r Partlist-Objekte
@@ -490,7 +488,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 		  this.productMapper.delete(product);
 		
 	}
-	
+
+
 	  /*
 	   * ***************************************************************************
 	   * ABSCHNITT, Ende: Methoden f�r Product-Objekte
