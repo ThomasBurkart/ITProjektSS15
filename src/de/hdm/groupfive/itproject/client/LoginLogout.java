@@ -66,6 +66,8 @@ public class LoginLogout {
 
 				RootPanel.get("navigator").add(ITProjektSS15.createSearchPanel());
 
+				RootPanel.get("main").clear();
+				RootPanel.get("main").add(new History());
 			}
 		});
 		loginButton.setWidth("100px");
