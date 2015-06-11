@@ -24,7 +24,7 @@ public class ElementMapper {
 		return elementMapper;
 	}
 	
-	public Element findById(int id) {
+	public Element findByKey(int id) {
 		//DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 		
@@ -32,17 +32,19 @@ public class ElementMapper {
 			Statement stmt = con.createStatement();
 			//Statement ausfuellen und als Query an die DB schicken
 			
-			ResultSet rs = stmt.executeQuery("SELECT id,name, description, material description, creation date, last update FROM element" 
-					+ "WHERE id =" + id + "ORDER BY element");
+			ResultSet rs = stmt.executeQuery("SELECT id,name, description, material_description, creation_date, last_update FROM element" 
+					+ "WHERE id =" + id);
+			//ORDER BY nochmal anschauen und schauen ob es eingebaut werden muss
+			
 			if ( rs.next()){
 				
 				Element e = new Element ();
 				e.setId (rs.getInt ("id"));
 				e.setName (rs.getString ("name"));
 				e.setDescription (rs.getString ("description"));
-				e.setMaterialDescription(rs.getString ("material description"));
-				e.setCreationDate (rs.getDate ("int columnIndex, Calendar cal"));
-				e.setLastUpdate (rs.getDate ("int columnIndex, Calendar cal"));
+				e.setMaterialDescription(rs.getString ("material_description"));
+				e.setCreationDate (rs.getDate ("creation_date"));
+				e.setLastUpdate (rs.getDate ("last_update"));
 				
 				return e;
 			
@@ -72,7 +74,7 @@ public class ElementMapper {
 		try {
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery ("SELECT id, name, description, material description, creation date, last update FROM element" 
+			ResultSet rs = stmt.executeQuery ("SELECT id, name, description, material_description, creation_date, last_update FROM element" 
 					+ "ORDER BY id");
 			// Für jeden Eintrag im Suchergebnis wird nun ein Element Objekt erstellt
 			
@@ -81,15 +83,18 @@ public class ElementMapper {
 				e.setId (rs.getInt ("id"));
 				e.setName (rs.getString ("name"));
 				e.setDescription (rs.getString ("description"));
-				e.setMaterialDescription (rs.getString ("material description"));
-				e.setCreationDate (rs.getDate ("int columnIndex, Calendar cal"));
-				e.setLastUpdate (rs.getDate ("int columnIndex, Calendar cal"));
+				e.setMaterialDescription (rs.getString ("material_description"));
+				e.setCreationDate (rs.getDate ("creation_date"));
+				e.setLastUpdate (rs.getDate ("last_update"));
 				
 				result.addElement(e);
 			}
+		} 
+		    catch (SQLException e2) {
+			e2.printStackTrace();
 		}
 		
-		return null;
+		return result;
 	}
 	
 	/**
@@ -98,6 +103,7 @@ public class ElementMapper {
 	 * @return
 	 */
 	public Element insert(Element e){
+		
 		return null;
 	}
 
