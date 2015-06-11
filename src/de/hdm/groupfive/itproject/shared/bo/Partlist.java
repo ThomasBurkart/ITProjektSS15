@@ -1,37 +1,39 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Partlist extends BusinessObject {
 
 	/**
-	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benï¿½tigt.
 	 */	
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Erstellungsdatum der Stückliste
+	 * Erstellungsdatum der Stï¿½ckliste
 	 */	
 	private Date creationDate;
 	
 	/**
-	 * Name der Stückliste
+	 * Name der Stï¿½ckliste
 	 */	
 	private String name;
 	
 	/**
-	 * Der Primärschlüssel der Stückliste
+	 * Der Primï¿½rschlï¿½ssel der Stï¿½ckliste
 	 */
 	private int id;
 	
 	/**
-	 *  Attribut list vom Typ PartlistEntry als Liste um später die Anzahl der Bauteile speichern zu können
+	 *  Attribut list vom Typ PartlistEntry als Liste um spï¿½ter die Anzahl der Bauteile speichern zu kï¿½nnen
 	 */
 	private ArrayList<PartlistEntry> list;
 
 	/**
-	 * Dieser Konstruktor ermöglicht es, bereits bei Instantiierung von <code>Partlist</code>-Objekten eine ArrayList mit dem Datentyp von <code>PartlistEntry</code> anzulegen.
+	 * Dieser Konstruktor ermï¿½glicht es, bereits bei Instantiierung von <code>Partlist</code>-Objekten eine ArrayList mit dem Datentyp von <code>PartlistEntry</code> anzulegen.
 	 * @see #Partlist()
 	 */
 	public Partlist() {
@@ -39,17 +41,29 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Hinzufügen von Bauteilen zu der Stückliste
+	 * Hinzufï¿½gen von Bauteilen zu der Stï¿½ckliste
 	 * 
 	 * @param element
-	 *            Bauteil das hinmzugefügt werden soll
+	 *            Bauteil das hinmzugefï¿½gt werden soll
 	 * @param amount
-	 *            Anzahl der Bauteile die hinzugefügt werden sollen
+	 *            Anzahl der Bauteile die hinzugefï¿½gt werden sollen
 	 */
 	public void add(Element element, int amount) {
 		if (element != null && amount > 0) {
 			list.add(new PartlistEntry(element, amount));
 		}
+	}
+	
+	/**
+	 * Liefert alle Bauteile in Form eines Arrays
+	 * @return Array mit allen Bauteilen
+	 */
+	public List<Element> getAllElements() {
+		List<Element> result = new ArrayList<Element>();
+		for (PartlistEntry pe : this.list) {
+			result.add(pe.getElement());
+		}
+		return result;
 	}
 
 	/**
@@ -84,10 +98,10 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Löscht Bauteil anhand der Element Id aus der Stückliste
+	 * Lï¿½scht Bauteil anhand der Element Id aus der Stï¿½ckliste
 	 * 
 	 * @param elementId
-	 *            Id des Bauteils das gelöscht werden soll.
+	 *            Id des Bauteils das gelï¿½scht werden soll.
 	 */
 	public void deleteById(int elementId) {
 		for (PartlistEntry entry : list) {
@@ -100,11 +114,11 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Bauteils anhand der Element ID aus der Stückliste.
+	 * Auslesen des Bauteils anhand der Element ID aus der Stï¿½ckliste.
 	 * 
 	 * @param elementId
 	 *            ID des Bauteils das ausgelesen werden soll.
-	 * @return Das Bauteil <code>Element</code> wird zurückgegeben
+	 * @return Das Bauteil <code>Element</code> wird zurï¿½ckgegeben
 	 */
 	// WIE GIBT MAN EIN ATTRIBUT AUS EINER ANDEREN KLASSE IN EINER BESCHREIUBUNG AN?
 	public Element getElementById(int elementId) {
@@ -134,11 +148,11 @@ public class Partlist extends BusinessObject {
 		return this.creationDate;
 	}
 	/**
-	 * Auslesen der Anzahl anhand des Bauteils <code>element</code> aus der Stückliste.
+	 * Auslesen der Anzahl anhand des Bauteils <code>element</code> aus der Stï¿½ckliste.
 	 * 
 	 * @param element
 	 *            Bauteil <code>element</code> dessen Anzahl ausgelesen werden soll.
-	 * @return Die Anzahl <code>amount</code> wird zurückgegeben
+	 * @return Die Anzahl <code>amount</code> wird zurï¿½ckgegeben
 	 */
 	public int getAmountByElement(Element element) {
 		int result = 0;
@@ -168,10 +182,11 @@ public class Partlist extends BusinessObject {
 
 }
 
-class PartlistEntry {
-	
+class PartlistEntry implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	/**
-	 * Attribut element als Bauteil der Stückliste 
+	 * Attribut element als Bauteil der Stï¿½ckliste 
 	 */
 	private Element element;
 	
@@ -181,11 +196,20 @@ class PartlistEntry {
 	private int amount;
 	
 	/**
+	 * Standard Konstruktor der Klasse PartlistEntry. Zum erstellen eines
+	 * StÃ¼cklisten-Eintrags bitte den PartlistEntry-Kontruktor mit den
+	 * Parameter-Variablen verwenden.
+	 */
+	public PartlistEntry() {
+		// Standard Konstruktor wird benÃ¶tigt fÃ¼r Serialisierung. Nicht entfernen!
+	}
+	
+	/**
 	 * Konstruktor der Klasse PartlistEntry . Initialisiert eine neues Bauteil.
 	 *  @param element 
 	 *            Bauteil <code>element</code> dessen Anzahl initialisiert werden soll.
 	 *  @param amount 
-	 *  		  Anzahl <code>amount</code> der Bauteile die in dieser Stückliste vorhanden sind
+	 *  		  Anzahl <code>amount</code> der Bauteile die in dieser Stï¿½ckliste vorhanden sind
 	 *  
 	 */
 	public PartlistEntry(Element element, int amount) {
@@ -223,7 +247,7 @@ class PartlistEntry {
 	 * Setzen der Anzahl der Bauteile
 	 * 
 	 * @param amount
-	 * 		Anzahl<code>amount</code> des Bauteils ändern bzw. festlegen
+	 * 		Anzahl<code>amount</code> des Bauteils ï¿½ndern bzw. festlegen
 	 * @return 
 	 */
 	public void setAmount(int amount) {

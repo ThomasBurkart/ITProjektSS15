@@ -1,69 +1,76 @@
 package de.hdm.groupfive.itproject.shared;
 
+import java.util.ArrayList;
 import java.util.Vector;
+
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.ui.HTML;
 
 import de.hdm.groupfive.itproject.server.db.*;
 import de.hdm.groupfive.itproject.shared.bo.*;
 
-public interface AdministrationCommon {
-	public User registerUser(String email, String password);
+@RemoteServiceRelativePath("administration")
+public interface AdministrationCommon extends RemoteService {
 
-	public User loginUser(String email, String password);
+	/**
+	 * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von
+	 * GWT RPC zusätzlich zum No Argument Constructor der implementierenden
+	 * Klasse {@link BankVerwaltungImpl} notwendig. Bitte diese Methode direkt
+	 * nach der Instantiierung aufrufen.
+	 * 
+	 * @throws IllegalArgumentException
+	 */
+	public void init() throws IllegalArgumentException;
 
-	public void logoutUser();
+	public User registerUser(String email, String password) throws IllegalArgumentException;
 
-	public ElementMapper getElementMapper();
+	public User loginUser(String email, String password) throws IllegalArgumentException;
 
-	public ModuleMapper getModuleMapper();
+	public void logoutUser() throws IllegalArgumentException;
 
-	public ProductMapper getProductMapper();
+	public void setUser(User user) throws IllegalArgumentException;
 
-	public PartlistMapper getPartlistMapper();
+	public User getUser() throws IllegalArgumentException;
 
-	public UserMapper getUserMapper();
+	public Element createElement() throws IllegalArgumentException;
 
-	public void setUser(User user);
+	public Element editElement(Element element) throws IllegalArgumentException;
 
-	public User getUser();
+	public void deleteElement(Element element) throws IllegalArgumentException;
 
-	public Element createElement();
+	public Module assignElement(Module module, Element element) throws IllegalArgumentException;
 
-	public Element editElement(Element element);
+	public Module createModule() throws IllegalArgumentException;
 
-	public void deleteElement(Element element);
+	public Module editModule(Module module) throws IllegalArgumentException;
 
-	public Module assignElement(Module module, Element element);
+	public void deleteModule(Module module) throws IllegalArgumentException;
 
-	public Module createModule();
+	public Module assignModule(Module module, Module subModule) throws IllegalArgumentException;
 
-	public Module editModule(Module module);
+	public Product createProduct(String salesName, Module module) throws IllegalArgumentException;
 
-	public void deleteModule(Module module);
+	public Product editProduct(Product product) throws IllegalArgumentException;
 
-	public Module assignModule(Module module, Module subModule);
+	public void deleteProduct(Product product) throws IllegalArgumentException;
 
-	public Product createProduct(String salesName, Module module);
+	public Element findElementById(int id) throws IllegalArgumentException;
 
-	public Product editProduct(Product product);
+	public Vector<Element> findElementsByCreator(User creator) throws IllegalArgumentException;
 
-	public void deleteProduct(Product product);
+	public Vector<Element> findElementsByName(String name) throws IllegalArgumentException;
 
-	public Element findElementById(int id);
+	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException;
 
-	public Vector<Element> findElementsByCreator(User creator);
+	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException;
 
-	public Vector<Element> findElementsByName(String name);
+	public Partlist findPartlistById(int id) throws IllegalArgumentException;
 
-	public Partlist findPartlistByModuleName(String name);
+//	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException;
 
-	public Partlist findPartlistByModuleId(int id);
+	public Vector<Product> getAllProducts() throws IllegalArgumentException;
 
-	public Partlist findPartlistById(int id);
-
-	public Partlist findPartlistByModule(Module module);
-
-	public Vector<Product> getAllProducts();
-
-	public Object calculateMaterial(Partlist partlist);
+	public String calculateMaterial(Partlist partlist) throws IllegalArgumentException;
 
 }

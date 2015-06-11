@@ -1,14 +1,40 @@
 package de.hdm.groupfive.itproject.client;
 
-import com.google.gwt.core.client.*;
-import com.google.gwt.event.dom.client.*;
-import com.google.gwt.event.logical.shared.OpenEvent;
-import com.google.gwt.event.logical.shared.OpenHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.Command;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DecoratedPopupPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
+
+import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
+import de.hdm.groupfive.itproject.shared.bo.BusinessObject;
+import de.hdm.groupfive.itproject.shared.bo.Element;
+import de.hdm.groupfive.itproject.shared.bo.Module;
+import de.hdm.groupfive.itproject.shared.bo.Product;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -19,18 +45,91 @@ public class ITProjektSS15 implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		AdministrationCommonAsync administration = ClientsideSettings
+				.getAdministration();
+
 		// lädt den Login Dialog
 		LoginLogout login = new LoginLogout();
 		login.loadDialog();
 
-		HTML content = new HTML("Herzlich Willkommen :)");
+		final HTML content = new HTML("Herzlich Willkommen :)");
+		content.setStylePrimaryName("formTitle");
 		RootPanel.get("main").clear();
-		RootPanel.get("main").add(content);
+		RootPanel.get("clientTitle").clear();
 
-		// SUCHE ANFANG
-		VerticalPanel searchPanel = new VerticalPanel();
+		RootPanel.get("main").add(content);
+		RootPanel.get("main").add(createHistory());
+
+		Button clientTitle = new Button("&nbsp;Editor & Viewer",
+				new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						RootPanel.get("main").clear();
+						RootPanel.get("main").add(content);
+						RootPanel.get("main").add(createHistory());
+					}
+				});
+		clientTitle.setStylePrimaryName("btn btn-link navbar-brand");
+		RootPanel.get("clientTitle").add(clientTitle);
+		// Such-Bereich einfügen
+
+		// Anlegen-Button einfügen
+		RootPanel.get("navbar").add(createCreateButton());
+
+	}
+
+	private Grid createHistory() {
+		final Grid historyGrid = new Grid(16, 4);
+		historyGrid.setStylePrimaryName("table table-striped");
+		historyGrid.setWidget(0, 0, new HTML("<b>Nutzer</b>"));
+		historyGrid.setWidget(0, 1, new HTML("<b>Element</b>"));
+		historyGrid.setWidget(0, 2, new HTML("<b>Aktion</b>"));
+		historyGrid.setWidget(0, 3, new HTML("<b>Änderungsdatum</b>"));
+		for (int i = 1; i <= 15; i++) {
+			historyGrid
+					.setWidget(i, 0, new HTML("Olaf19" + Random.nextInt(99)));
+			Button elementLink = new Button("Element " + Random.nextInt(),
+					new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							Module m = new Module();
+							m.setId(123);
+							m.setName(event.getRelativeElement().getInnerText());
+							m.setDescription("blablabla");
+							m.setMaterialDescription("Metall");
+							RootPanel.get("main").clear();
+							RootPanel.get("main").add(new ElementForm(m));
+						}
+					});
+			elementLink.setStylePrimaryName("elementLink");
+			historyGrid.setWidget(i, 1, elementLink);
+			historyGrid.setWidget(i, 2, new HTML("geändert"));
+			historyGrid.setWidget(i, 3,
+					new HTML("29.05.2015 15:" + Random.nextInt(59)));
+		}
+		return historyGrid;
+	}
+
+
+
+	private Widget createCreateButton() {
+		Button createBtn = new Button("anlegen", new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				RootPanel.get("main").clear();
+				RootPanel.get("main").add(new CreateElement());
+			}
+		});
+		createBtn.setStylePrimaryName("btn btn-success");
+		return createBtn;
+	}
+
+	public static Widget createSearchPanel() {
+		// SUCHE BOX ANFANG
+		final VerticalPanel searchPanel = new VerticalPanel();
 		searchPanel.setStylePrimaryName("searchPanel");
-		FlowPanel searchInputPanel = new FlowPanel();
+		final FlowPanel searchInputPanel = new FlowPanel();
 		final TextBox searchBox = new TextBox();
 		searchBox.setStylePrimaryName("searchBox col-md-9 col-sm-9 col-xs-9");
 		searchBox.setFocus(true);
@@ -39,10 +138,8 @@ public class ITProjektSS15 implements EntryPoint {
 		searchBox.getElement().setPropertyString("placeholder",
 				"Suche nach Bauteil, Baugruppe oder Enderzeugnis ...");
 		
-
-		final HTML resultInfo = new HTML("Bitte starten Sie eine Suche!");
-		resultInfo.setStylePrimaryName("resultInfo");
-
+		
+		// LIVE-SUCH BOX ANFANG
 		final DecoratedPopupPanel simplePopup = new DecoratedPopupPanel(true);
 		simplePopup
 				.setStylePrimaryName("searchResultBox col-md-9 col-sm-9 col-xs-9");
@@ -54,159 +151,91 @@ public class ITProjektSS15 implements EntryPoint {
 		searchBox.addKeyUpHandler(new KeyUpHandler() {
 			public void onKeyUp(KeyUpEvent event) {
 				if (searchBox.getValue().trim().length() > 2) {
-					
-					resultInfo.setHTML("Suchergebnisse für '" + searchBox.getValue().trim() + "'");
-					
-					
+
+
 					simplePopup.setVisible(true);
 					resultsPanel.clear();
 					for (int i = 0; i < 5; i++) {
 						Hyperlink link = new Hyperlink();
 						link.setText(searchBox.getValue());
+						link.addClickHandler(new ClickHandler() {
+							// TODO: Überarbeiten weil veraltet.
+							@Override
+							public void onClick(ClickEvent event) {
 
+								simplePopup.setVisible(false);
+								searchPanel.clear();
+								searchPanel.add(searchInputPanel);
+								searchPanel.add(simplePopup);
+								searchPanel.add(new SearchResult(searchBox.getValue()
+										.trim(), true));
+							}
+						});
 						resultsPanel.add(link);
 					}
 				} else {
 					simplePopup.setVisible(false);
 					resultsPanel.clear();
 				}
+				
+				// LIVE-SUCH BOX ENDE
+				
 				if (searchBox.getValue().trim().length() <= 2) {
-					resultInfo.setHTML("Bitte starten Sie eine Suche!");
+					// resultInfo.setHTML("Bitte starten Sie eine Suche!");
 				}
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					// TODO: Suche ausführen weil ENTER gedrückt wurde
+
 					simplePopup.setVisible(false);
-					resultsPanel.clear();
-		        }
+					searchPanel.clear();
+					searchPanel.add(searchInputPanel);
+					searchPanel.add(simplePopup);
+					searchPanel.add(new SearchResult(searchBox.getValue()
+							.trim(), true));
+				}
 			}
 		});
 
 		Button searchBtn = new Button("Suchen", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
+
 				simplePopup.setVisible(false);
-				resultsPanel.clear();
+				searchPanel.clear();
+				searchPanel.add(searchInputPanel);
+				searchPanel.add(simplePopup);
+				searchPanel.add(new SearchResult(searchBox.getValue()
+						.trim(), true));
 
 			}
 		});
 		searchBtn
 				.setStylePrimaryName("btn btn-default col-md-2 col-sm-2 col-xs-2");
-		
-		
-		
+
 		searchInputPanel.add(searchBox);
 		searchInputPanel.add(searchBtn);
 		searchPanel.add(searchInputPanel);
 		searchPanel.add(simplePopup);
 
-		// SUCHE ENDE
-		searchPanel.add(resultInfo);
-		// BAUMSTRUKTUR (ERGEBNISSE) ANFANG
-		final Tree dynamicTree = createDynamicTree();
-	    ScrollPanel dynamicTreeWrapper = new ScrollPanel(dynamicTree);
-	    dynamicTreeWrapper.setStylePrimaryName("tree");
-	    searchPanel.add(dynamicTreeWrapper);
-		// BAUMSTRUKTUR ENDE
+		// SUCH BOX ENDE
 
-		RootPanel.get("navigator").add(searchPanel);
-		
-	    
-	    
-	    
-		Button createBtn = new Button("anlegen", new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				FlowPanel panel = new FlowPanel();
-				
-				Button createElementBtn = new Button("Bauteil anlagen", new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-				Button createModuleBtn = new Button("Baugruppe anlagen", new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-				Button createProductBtn = new Button("Produkt anlagen", new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-				createElementBtn.setStylePrimaryName("btn btn-default createBtn");
-				createModuleBtn.setStylePrimaryName("btn btn-default createBtn");
-				createProductBtn.setStylePrimaryName("btn btn-default createBtn");
-				panel.add(createElementBtn);
-				panel.add(createModuleBtn);
-				panel.add(createProductBtn);
-				RootPanel.get("main").clear();
+		searchPanel.add(new SearchResult());
 
-				final HTML resultInfo = new HTML("Bitte wählen Sie aus, was Sie anlegen möchten!");
-				resultInfo.setStylePrimaryName("formTitle");
-				RootPanel.get("main").add(resultInfo);
-				
-				
-				RootPanel.get("main").add(panel);
-			}
-		});
-		createBtn.setStylePrimaryName("btn btn-success");
-		
-		RootPanel.get("navbar").add(createBtn);
+		return searchPanel;
 	}
 
-	private Tree createDynamicTree() {
-		// Create a new tree
-		Tree dynamicTree = new Tree();
-		dynamicTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
-			
-			@Override
-			public void onSelection(SelectionEvent<TreeItem> event) {
-				// TODO Auto-generated method stub
-			}
-		});
-
-		// Add some default tree items
-		for (int i = 0; i < 5; i++) {
-			TreeItem item = dynamicTree.addTextItem("Item " + i);
-
-			// Temporarily add an item so we can expand this node
-			item.addTextItem("");
+	public Vector<String> getLevenshtein1(String word) {
+		Vector<String> words = new Vector<String>();
+		for (int i = 0; i < word.length(); i++) {
+			// insertions
+			words.add(word.substring(0, i) + '_' + word.substring(i));
+			// deletions
+			words.add(word.substring(0, i) + word.substring(i + 1));
+			// substitutions
+			words.add(word.substring(0, i) + '_' + word.substring(i + 1));
 		}
-
-		// Add a handler that automatically generates some children
-		dynamicTree.addOpenHandler(new OpenHandler<TreeItem>() {
-			public void onOpen(OpenEvent<TreeItem> event) {
-				TreeItem item = event.getTarget();
-				if (item.getChildCount() == 1) {
-					// Close the item immediately
-					item.setState(false, false);
-
-					// Add a random number of children to the item
-					String itemText = item.getText();
-					int numChildren = Random.nextInt(5) + 2;
-					for (int i = 0; i < numChildren; i++) {
-						TreeItem child = item.addTextItem(itemText + "." + i);
-						child.addTextItem("");
-					}
-
-					// Remove the temporary item when we finish loading
-					item.getChild(0).remove();
-
-					// Reopen the item
-					item.setState(true, false);
-				}
-			}
-		});
-
-		// Return the tree
-		return dynamicTree;
+		// last insertion
+		words.add(word + '_');
+		return words;
 	}
+
 }

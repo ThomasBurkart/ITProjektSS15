@@ -1,6 +1,19 @@
 PROTOKOLL
 
-UNKLARHEITEN
+********************************
+         DEADLINES                      
+********************************
+19.06. Prototyp läuft
+26.06. Fehler beseitigt
+06.07. Dokumentation ist fertig
+08.07. Präsentation ist geprüft und fertig
+
+
+
+
+********************************
+        UNKLARHEITEN
+********************************
 		
 	KLASSE ElementMapper:
 		Zeile 76: 			a.setModifyDateID(rs.getTimestamp ("modify_date"));
@@ -52,6 +65,11 @@ UNKLARHEITEN
 				   * Er muss einfach vorhanden sein.
 				   */
 		  			}
+		  			
+		  			
+		  Methode auskommentiert
+		  --> public String calculateMaterial(Partlist partlist)
+			throws IllegalArgumentException {
 		  			
 		  			
 		
