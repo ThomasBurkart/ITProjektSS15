@@ -67,7 +67,7 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Berbeitet Bauteil aus der Stï¿½ckliste
+	 * Berbeitet Bauteil aus der Stückliste
 	 * 
 	 * @param element
 	 *            Bauteil das bearbeitet werden soll
@@ -83,10 +83,10 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Lï¿½scht Bauteil aus der Stï¿½ckliste
+	 * Löscht Bauteil aus der Stückliste
 	 * 
 	 * @param element
-	 *            Bauteil das gelï¿½scht werden soll.
+	 *            Bauteil das gelöscht werden soll.
 	 */
 	public void delete(Element element) {
 		for (PartlistEntry entry : list) {

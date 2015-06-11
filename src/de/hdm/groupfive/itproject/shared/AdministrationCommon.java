@@ -67,7 +67,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Partlist findPartlistById(int id) throws IllegalArgumentException;
 
-	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException;
+//	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException;
 
 	public Vector<Product> getAllProducts() throws IllegalArgumentException;
 

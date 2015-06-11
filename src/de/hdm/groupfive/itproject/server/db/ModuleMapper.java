@@ -62,7 +62,7 @@ public class ModuleMapper {
 	/**
 	 * 
 	 */
-	public Partlist findByName(String name){
+	public Module findByName(String name){
 		return null;
 	}
 	
