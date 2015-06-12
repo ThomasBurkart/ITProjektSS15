@@ -1,6 +1,7 @@
 package de.hdm.groupfive.itproject.server;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -169,19 +170,19 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	
 	@Override
 	public User registerUser(String email, String password) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// TODO wird wahrscheinlich nicht mehr benötigt
 		return null;
 	}
 
 	@Override
 	public User loginUser(String email, String password) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// TODO Google Api ansteuern
 		return null;
 	}
 
 	@Override
 	public void logoutUser() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// TODO Google Api ansteuern
 
 	}
 
@@ -216,33 +217,46 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	}
 
 	@Override
-	public Element createElement() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Element createElement(Element element) throws IllegalArgumentException {	
+		try {
+			return this.getElementMapper().insert(element);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 
 	@Override
 	public Element editElement(Element element) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return this.getElementMapper().update(element);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 
 	@Override
 	public void deleteElement(Element element) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		try {
+			this.getElementMapper().delete(element);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}		
 	}
 
 	@Override
 	public Module assignElement(Module module, Element element) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// module.getPartlist().add(element, amount);
+		// TODO amount fehlt bei assignElement
 		return null;
 	}
 
 	@Override
 	public Element findElementById(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return this.getElementMapper().findById(id);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 
 	@Override
@@ -293,9 +307,12 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	}
 
 	@Override
-	public Module createModule() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Module createModule(Module module) throws IllegalArgumentException {
+		try {
+			return this.getModuleMapper().insert(module);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 
 	@Override
@@ -306,8 +323,15 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 
 	@Override
 	public void deleteModule(Module module) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		if (module != null) {
+			try {
+				this.getModuleMapper().delete(module);
+			} catch (SQLException e) {
+				throw new IllegalArgumentException(e.getMessage());
+			}
+		} else {
+			throw new IllegalArgumentException("Übergebenes Modul Objekt ist NULL");
+		}
 	}
 
 	@Override
@@ -337,18 +361,30 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	
 
 	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException {
-		return this.moduleMapper.findByName(name).getPartlist();
+		try {
+			return this.getModuleMapper().findByName(name).getPartlist();
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 
 	@Override
 	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException {
-		return this.moduleMapper.findById(id).getPartlist();
+		try {
+			return this.getModuleMapper().findById(id).getPartlist();
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 		
 	}
 
 	@Override
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
-		return this.partlistMapper.findById(id);
+		try {
+			return this.getPartlistMapper().findById(id);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 
 //	@Override
@@ -359,7 +395,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	@Override
 	public String calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
-		.getAllElements(partlist)
+		//.getAllElements(partlist)
 		
 		return null;
 	}
@@ -400,71 +436,22 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 		p.setSalesName(salesName); 		// Name des Endproduktes
 		
 		
-		return this.productMapper.insert(p);
+		try {
+			return this.getProductMapper().insert(p);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 	
 	 /**
 	  * Auslesen s�mtlicher Endprodukte 
 	  */
 	public Vector<Product> getAllProducts() throws IllegalArgumentException {
-		return this.productMapper.findAll();
-		
-		// TODO: Beispiel Inhalt, kann ggf. wieder entfernt werden.
-//		Vector<Product> result = new Vector<Product>();
-//		Product m1 = new Product();
-//		m1.setName("Product 1");
-//		m1.setSalesName("Produkt 111");
-//		m1.setDescription("Baugruppe 1 - Irgendeine Beschreibung");
-//		m1.setId(12);
-//		m1.setCreationDate(new Date(2015, 6, 7));
-//		m1.setMaterialDescription("Unterschiedlich");
-//		result.add(m1);
-//
-//		Module e1 = new Module();
-//		e1.setName("Module 2");
-//		e1.setDescription("Baugruppe 2 - Noch Irgendeine Beschreibung");
-//		e1.setId(232);
-//		e1.setCreationDate(new Date(2015, 6, 3));
-//		e1.setMaterialDescription("Metall");
-//		m1.getPartlist().add(e1, 1);
-//
-//		Element e2 = new Element();
-//		e2.setName("Element 1");
-//		e2.setDescription("Bauteil 1 - Beschreibung meines ersten Bauteils :D");
-//		e2.setId(132);
-//		e2.setCreationDate(new Date(2015, 6, 3));
-//		e2.setMaterialDescription("Eisen");
-//		e1.getPartlist().add(e2, 1);
-//
-//		Element e3 = new Element();
-//		e3.setName("Element 2");
-//		e3.setDescription("Bauteil 2 - Beschreibung meines zweiten Bauteils ;D");
-//		e3.setId(132);
-//		e3.setCreationDate(new Date(2015, 6, 3));
-//		e3.setMaterialDescription("Holz");
-//		e1.getPartlist().add(e3, 1);
-//
-//		Element e4 = new Element();
-//		e4.setName("Element 4");
-//		m1.getPartlist().add(e4, 1);
-//		// Create a model for the tree.
-//
-//		Product module = new Product();
-//		module.setName("Produkt 3");
-//		result.add(module);
-//
-//		Product e5 = new Product();
-//		e5.setName("Produkt 5");
-//		e5.setDescription("Produkt 5 - Beschreibung meines 5. Bauteils ;D");
-//		e5.setId(132);
-//		e5.setCreationDate(new Date(2015, 6, 3));
-//		e5.setMaterialDescription("Holz");
-//		result.add(e5);
-//		module.getPartlist().add(e1, 1);
-//		module.getPartlist().add(e2, 1);
-//		module.getPartlist().add(e3, 1);
-//		module.getPartlist().add(e4, 1);
-//		return result;
+		try {
+			return this.getProductMapper().findAll();
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 	
 
@@ -472,7 +459,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	 * 
 	 */
 	public Product editProduct(Product product) throws IllegalArgumentException {
-		return this.productMapper.update(product);
+		try {
+			return this.getProductMapper().update(product);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 	}
 
 	 /**
@@ -485,7 +476,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	   */
 	@Override
 	public void deleteProduct(Product product) throws IllegalArgumentException {
-		  this.productMapper.delete(product);
+		  try {
+			this.getProductMapper().delete(product);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
 		
 	}
 

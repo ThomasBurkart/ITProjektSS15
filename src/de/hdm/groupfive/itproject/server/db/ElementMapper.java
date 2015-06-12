@@ -3,17 +3,18 @@ package de.hdm.groupfive.itproject.server.db;
 import java.sql.*;
 import java.util.Vector;
 
+import com.google.protos.cloud.sql.Client.SqlException;
+
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
-
 public class ElementMapper {
-	
+
 	private static ElementMapper elementMapper = null;
-	
-	protected ElementMapper () {
-		
+
+	protected ElementMapper() {
+
 	}
 
 	public static ElementMapper getElementMapper() {
@@ -23,126 +24,157 @@ public class ElementMapper {
 
 		return elementMapper;
 	}
-	
-	public Element findById(int id) {
-		//DB Verbindung hier holen
+
+	public Element findById(int id) throws SQLException {
+		Element result = null;
+		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
-		
+
 		try {
 			Statement stmt = con.createStatement();
-			//Statement ausfuellen und als Query an die DB schicken
-			
-			ResultSet rs = stmt.executeQuery("SELECT id,name, description, material description, creation date, last update FROM element" 
-					+ "WHERE id =" + id + "ORDER BY element");
-			if ( rs.next()){
-				
-				Element e = new Element ();
-				e.setId (rs.getInt ("id"));
-				e.setName (rs.getString ("name"));
-				e.setDescription (rs.getString ("description"));
-				e.setMaterialDescription(rs.getString ("material description"));
-				e.setCreationDate (rs.getDate ("int columnIndex, Calendar cal"));
-				e.setLastUpdate (rs.getDate ("int columnIndex, Calendar cal"));
-				
-				return e;
-			
+			// Statement ausfuellen und als Query an die DB schicken
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element"
+					+ "WHERE id =" + id + " ORDER BY element");
+			if (rs.next()) {
+
+				Element e = new Element();
+				e.setId(rs.getInt("id"));
+				e.setName(rs.getString("name"));
+				e.setDescription(rs.getString("description"));
+				e.setMaterialDescription(rs.getString("material description"));
+				e.setCreationDate(rs.getDate("int columnIndex, Calendar cal"));
+				e.setLastUpdate(rs.getDate("int columnIndex, Calendar cal"));
+
+				result = e;
+
 			}
-			
-				
-			
-		} catch (SQLException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-			return null;
+		} catch (SQLException ex) {
+			throw ex;
 		}
-		
-		return null;
-	
+
+		// Verbindung sollte immer wieder geschlossen werden.
+		try {
+			con.close();
+		} catch (SQLException ex) {
+			throw ex;
+		}
+		return result;
+
 	}
-	
+
 	/**
 	 * Auslesen aller Elements
+	 * 
 	 * @return
 	 */
-	public Vector<Element> findAll() {
+	public Vector<Element> findAll() throws SQLException {
 		Connection con = DBConnection.connection();
-		
+
 		Vector<Element> result = new Vector<Element>();
-		
+
 		try {
 			Statement stmt = con.createStatement();
-			
-			ResultSet rs = stmt.executeQuery ("SELECT id, name, description, material description, creation date, last update FROM element" 
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element"
 					+ "ORDER BY id");
-			// Für jeden Eintrag im Suchergebnis wird nun ein Element Objekt erstellt
-			
+			// Für jeden Eintrag im Suchergebnis wird nun ein Element Objekt
+			// erstellt
+
 			while (rs.next()) {
 				Element e = new Element();
-				e.setId (rs.getInt ("id"));
-				e.setName (rs.getString ("name"));
-				e.setDescription (rs.getString ("description"));
-				e.setMaterialDescription (rs.getString ("material description"));
-				e.setCreationDate (rs.getDate ("int columnIndex, Calendar cal"));
-				e.setLastUpdate (rs.getDate ("int columnIndex, Calendar cal"));
-				
+				e.setId(rs.getInt("id"));
+				e.setName(rs.getString("name"));
+				e.setDescription(rs.getString("description"));
+				e.setMaterialDescription(rs.getString("material description"));
+				e.setCreationDate(rs.getDate("int columnIndex, Calendar cal"));
+				e.setLastUpdate(rs.getDate("int columnIndex, Calendar cal"));
+
 				result.addElement(e);
 			}
+		} catch (SQLException ex) {
+			throw ex;
 		}
-		
-		return null;
+
+		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @param p
 	 * @return
 	 */
-	public Element insert(Element e){
+	public Element insert(Element e) throws SQLException {
 		return null;
 	}
 
 	/**
-	 * 
-	 * @param product
+	 * Löscht ein Element aus der Datenbank
+	 * @param Element e
 	 */
-	public void delete(Element e) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	/**
-	 * 
-	 */
-	public Element update(Element e){
-		return null;
-	}
-	
-	/**
-	 * 
-	 */
-	public static ElementMapper elementMapper(){
-		return null;
-	}
-	
-	/**
-	 * 
-	 */
-	public Element findByName(String name){
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Vector<Element> getAllElements() {
-		// TODO Auto-generated method stub
-		return null;
+	public void delete(Element e) throws SQLException {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM element " + "WHERE id=" + e.getId());
+		} catch (SQLException ex) {
+			throw ex;
+		}
 	}
 
-	
+	/**
+	 * 
+	 */
+	public Element update(Element e) throws SQLException {
+		Connection con = DBConnection.connection();
+		// TODO: evtl. weitere Spalten namen + Werte einfügen / anpassen
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("UPDATE element SET name=\"" + e.getName()
+					+ "\", description=\"" + e.getDescription()
+					+ "\", materialdescriptio=\"" + e.getMaterialDescription()
+					+ "\" WHERE id=" + e.getId());
+		} catch (SQLException ex) {
+			throw ex;
+		}
+
+		return e;
+	}
+
+	/**
+	 * 
+	 */
+	public Element findByName(String name) throws SQLException {
+		// DB-Verbindung holen
+		Connection con = DBConnection.connection();
+		Element result = null;
+		try {
+			// Leeres SQL-Statement (JDBC) anlegen
+			Statement stmt = con.createStatement();
+
+			// Statement ausfüllen und als Query an die DB schicken
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element "
+					+ "WHERE name=" + name + " ORDER BY id");
+
+			/*
+			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
+			 * werden. Prüfe, ob ein Ergebnis vorliegt.
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln
+				Element e = new Element();
+				e.setId(rs.getInt("id"));
+				// TODO befüllen
+				result = e;
+			}
+		} catch (SQLException ex) {
+			throw ex;
+		}
+
+		return result;
+	}
+
 }
-//Nochmals anschauen
-
+// Nochmals anschauen
 
