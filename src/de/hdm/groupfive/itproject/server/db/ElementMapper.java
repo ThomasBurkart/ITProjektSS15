@@ -14,7 +14,11 @@ import de.hdm.groupfive.itproject.shared.bo.User;
 public class ElementMapper {
 
 	private static ElementMapper elementMapper = null;
-
+    /**
+	private static final Logger logger = ServerSettings.getLogger();
+	*/
+	
+	
 	protected ElementMapper() {
 
 	}
@@ -27,8 +31,16 @@ public class ElementMapper {
 		return elementMapper;
 	}
 
-	public Element findById(int id) throws SQLException {
-		Element result = null;
+	  /**
+	   * Suchen eines Elements mit vorgegebener id. Da diese eindeutig ist,
+	   * wird genau ein Objekt zurueckgegeben.
+	   * 
+	   * @param id Primärschlüsselattribut (->DB)
+	   * @return Element-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	   *         nicht vorhandenem DB-Tupel.
+	   */
+
+	public Element findByKey(int id) throws SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
@@ -49,12 +61,15 @@ public class ElementMapper {
 				e.setCreationDate(rs.getDate("int columnIndex, Calendar cal"));
 				e.setLastUpdate(rs.getDate("int columnIndex, Calendar cal"));
 
-				result = e;
+				return e;
 
 			}
 		} catch (SQLException ex) {
 			throw ex;
-		}
+			}
+		return null;
+	}
+		/**
 
 		// Verbindung sollte immer wieder geschlossen werden.
 		try {
@@ -62,9 +77,11 @@ public class ElementMapper {
 		} catch (SQLException ex) {
 			throw ex;
 		}
-		return result;
+		return null;
+		*/
 
-	}
+
+	
 
 	/**
 	 * Auslesen aller Elements
@@ -102,6 +119,39 @@ public class ElementMapper {
 		}
 		return result;
 	}
+	public Vector<Element>findByName(String name) throws SQLException {
+		Connection con = DBConnection.connection();
+		
+		Vector<Element> result = new Vector<Element>();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery ("SELECT * FROM element"
+							+ "WHERE name=" + name + "ORDER BY name");
+
+		      // Für jeden Eintrag im Suchergebnis wird nun ein Element-Objekt erstellt.
+		while (rs.next()) {
+			Element e = new Element();
+			e.setId(rs.getInt ("id"));
+			e.setName(rs.getString ("name"));
+			e.setDescription(rs.getString("description"));
+			e.setMaterialDescription(rs.getString("material_description"));
+			e.setCreationDate(rs.getDate ("creation_date"));
+			e.setLastUpdate(rs.getDate ("last_update"));
+			
+			// Hinzufuegen des neuen Objekts zum Ergebnisvektor
+			result.addElement(e);
+		}
+	}
+		catch (SQLException ex){
+			throw ex;
+			
+		}
+		return result;
+	}
+	
+	
 
 	/**
 	 * 
@@ -109,8 +159,7 @@ public class ElementMapper {
 	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
 	 * berichtigt.
 	 * 
-	 * @param e
-	 *            das zu speichernde Objekt
+	 * @param e das zu speichernde Objekt
 	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
 	 *         <code>id</code>.
 	 */
@@ -148,27 +197,27 @@ public class ElementMapper {
 						+ "',"
 						+ e.getCreationDate() + "," + e.getLastUpdate() + ")");
 			}
-		} catch (SQLException e2) {
-			throw e2;
+			
+		} catch (SQLException ex) {
+			throw ex;
 		}
+		  return e;
+	}
 		/*
 		 * Rückgabe, des evtl. korrigierten Elements.
 		 * 
 		 * HINWEIS: Da in Java nur Referenzen auf Objekte und keine physischen
-		 * Objekte übergeben werden, ware die Anpassung des Dozent-Objekts auch
+		 * Objekte übergeben werden, ware die Anpassung des Element-Objekts auch
 		 * ohne diese explizite Rückgabe außerhalb dieser Methode sichtbar. Die
-		 * explizite Rückgabe von d ist eher ein Stilmittel, um zu
+		 * explizite Rückgabe von e ist eher ein Stilmittel, um zu
 		 * signalisieren, dass sich das Objekt evtl. im Laufe der Methode
 		 * verändert hat.
 		 */
-		return e;
-	}
-
+		
 	/**
 	 * Wiederholtes Schreiben eines Objektes in die Datenbank
 	 * 
-	 * @param e
-	 *            das Objekt, das in die Datenbank geschrieben werden soll
+	 * @param e das Objekt, das in die Datenbank geschrieben werden soll
 	 * @return das als Parameter übergebene Objekt
 	 */
 
@@ -185,8 +234,8 @@ public class ElementMapper {
 					+ "last_update= '" + e.getLastUpdate() + "'," + "WHERE id="
 					+ e.getId());
 
-		} catch (SQLException e2) {
-			throw e2;
+		} catch (SQLException ex) {
+			throw ex;
 		}
 
 		// Um die Analogie zu insert(Element e) zu wahren, geben wir e zurück
@@ -196,8 +245,7 @@ public class ElementMapper {
 	/**
 	 * Löschen der Daten eines <code>Element</code> - Objekts aus der Datenbank
 	 * 
-	 * @param e
-	 *            das aus der DB zu löschende "Objekt"
+	 * @param e das aus der DB zu löschende "Objekt"
 	 */
 
 	public void delete(Element e) throws SQLException {
@@ -209,52 +257,22 @@ public class ElementMapper {
 			stmt.executeUpdate("DELETE FROM element" + "WHERE id=" + e.getId());
 		}
 
-		catch (SQLException e2) {
-			throw e2;
-		}
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Vector<Element> getAllElements() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * 
-	 */
-	public Element findByName(String name) throws SQLException {
-		// DB-Verbindung holen
-		Connection con = DBConnection.connection();
-		Element result = null;
-		try {
-			// Leeres SQL-Statement (JDBC) anlegen
-			Statement stmt = con.createStatement();
-
-			// Statement ausfüllen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT * FROM element "
-					+ "WHERE name=" + name + " ORDER BY id");
-
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-			 * werden. Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if (rs.next()) {
-				// Ergebnis-Tupel in Objekt umwandeln
-				Element e = new Element();
-				e.setId(rs.getInt("id"));
-				// TODO befüllen
-				result = e;
-			}
-		} catch (SQLException ex) {
+		catch (SQLException ex) {
 			throw ex;
 		}
-
-		return result;
 	}
+
+	 /**
+	   * Löschen sämtlicher Bauteile (<code>Element</code>-Objekte) einer Baugruppe.
+	   * Diese Methode sollte aufgerufen werden, bevor ein <code>Module</code>
+	   * -Objekt gelöscht wird.
+	   * 
+	   * @param m das <code>Module</code>-Objekt, zu dem die Bauteile gehören
+	   */
+	
+	
+
+	
 
 }
 // Nochmals anschauen
