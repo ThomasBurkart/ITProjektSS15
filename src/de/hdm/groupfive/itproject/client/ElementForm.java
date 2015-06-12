@@ -1,15 +1,25 @@
 package de.hdm.groupfive.itproject.client;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 
+import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Product;
@@ -19,6 +29,8 @@ public class ElementForm extends Showcase {
 	private String headlineText;
 	private String headlineTextStyle;
 	private Element element;
+	
+	public static Showcase currentShowcase;
 
 	public ElementForm(Element element) {
 		this.element = element;
@@ -29,7 +41,7 @@ public class ElementForm extends Showcase {
 		this.getElement().setId("elementForm");
 		// Style-Klasse für Titel in Main-Hälfte
 		this.headlineTextStyle = "formTitle";
-
+		currentShowcase = this;
 	}
 
 	@Override
@@ -171,16 +183,18 @@ public class ElementForm extends Showcase {
 		cancelBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Inhalt zu Element neu laden
+				RootPanel.get("main").clear();
+				RootPanel.get("main").add(new ElementForm(element));
 			}
 		});
-
+		
 		Button deleteBtn = new Button("löschen");
 		deleteBtn.setStylePrimaryName("btn btn-danger createBtn");
 		deleteBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Element löschen
+				AdministrationCommonAsync administration = ClientsideSettings.getAdministration();
+				administration.deleteElement(element, new ElementDeleteCallback(currentShowcase));
 			}
 		});
 		Button saveBtn = new Button("speichern");
@@ -213,6 +227,26 @@ public class ElementForm extends Showcase {
 
 		this.add(panel);
 		// ACTION BUTTONS ENDE
+
+	}
+	class ElementDeleteCallback implements AsyncCallback<Void> {
+		private Showcase showcase = null;
+
+		public ElementDeleteCallback(Showcase c) {
+			this.showcase = c;
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			showcase.insert(new ErrorMsg("<b>Error:</b> " + caught.getMessage()), 1);
+			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+		}
+
+
+		@Override
+		public void onSuccess(Void result) {
+			showcase.insert(new SuccessMsg("Löschvorgang erfolgreich!"), 1);
+		}
 
 	}
 }
