@@ -3,10 +3,10 @@ PROTOKOLL
 ********************************
          DEADLINES                      
 ********************************
-19.06. Prototyp läuft
+19.06. Prototyp lï¿½uft
 26.06. Fehler beseitigt
 06.07. Dokumentation ist fertig
-08.07. Präsentation ist geprüft und fertig
+08.07. Prï¿½sentation ist geprï¿½ft und fertig
 
 
 
@@ -19,20 +19,20 @@ PROTOKOLL
 		Zeile 76: 			a.setModifyDateID(rs.getTimestamp ("modify_date"));
 		in
 							a.setLastUpdateID(rs.getTimestamp ("last_update"));
-		abgeändert. 
-		Falls diese Änderung für die DB wichtig ist, BITTE beachten!!!
+		abgeï¿½ndert. 
+		Falls diese ï¿½nderung fï¿½r die DB wichtig ist, BITTE beachten!!!
 		
   	MAPPER KLASSEN:
   		insert-Methoden nachtragen!!!
 	
 	KLASSE Product:
-		sollen wir eine extra Beschreibung für Endprodukte mitreinnehmen? --> neues Attribut
+		sollen wir eine extra Beschreibung fï¿½r Endprodukte mitreinnehmen? --> neues Attribut
 		UPDATE 30.05.: Umgesetzt!!! 
 		
 	KLASSE AdministrationCommonImpl:
 		Thomas, Kenny und Joey, bitte beachten!!!
-		Habs abgeändert: 
-			*folgendes gelöscht
+		Habs abgeï¿½ndert: 
+			*folgendes gelï¿½scht
 			[
 				this.userMapper = UserMapper.getUserMapper();
 				this.elementMapper = ElementMapper.getElementMapper();
@@ -48,7 +48,7 @@ PROTOKOLL
 				 * ist ein solcher No-Argument-Konstruktor anzulegen. Ein Aufruf eines anderen
 				 * Konstruktors ist durch die Client-seitige Instantiierung durch
 				 * <code>GWT.create(Klassenname.class)</code> nach derzeitigem Stand nicht
-				 * möglich.
+				 * mï¿½glich.
 				 * </p>
 				 * <p>
 				 * Es bietet sich also an, eine separate Instanzenmethode zu erstellen, die
@@ -71,5 +71,8 @@ PROTOKOLL
 		  --> public String calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
 		  			
+		 UNKLARHEIT - Was ist nun mit dem User? Wie gesagt ich wÃ¼rde ihn komplett raus nehmen, muss es dann
+		 			  aber auch fÃ¼r die Applikationslogig sein, bzw im Package .server ist ja noch der Mapper des Users.
+		 			  (Sam)
 		  			
 		
