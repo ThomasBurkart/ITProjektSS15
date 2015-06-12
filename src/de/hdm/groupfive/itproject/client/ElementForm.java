@@ -1,23 +1,15 @@
 package de.hdm.groupfive.itproject.client;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
@@ -29,14 +21,18 @@ public class ElementForm extends Showcase {
 	private String headlineText;
 	private String headlineTextStyle;
 	private Element element;
+	private boolean newElement;
 	
 	public static Showcase currentShowcase;
 
 	public ElementForm(Element element) {
 		this.element = element;
+		this.newElement = false;
 		if (this.element == null) {
 			this.element = new Element();
-			this.element.setId(-1);
+			this.newElement = true;
+		} else if(this.element.getId() <= 0){
+			this.newElement = true;
 		}
 		this.getElement().setId("elementForm");
 		// Style-Klasse für Titel in Main-Hälfte
@@ -47,7 +43,7 @@ public class ElementForm extends Showcase {
 	@Override
 	protected String getHeadlineText() {
 		this.headlineText = "";
-		if (this.element.getId() <= 0) {
+		if (this.newElement) {
 			// Titel für neue Elemente/Module/Produkte
 			if (this.element instanceof Product) {
 				this.headlineText = "Neues Enderzeugnis anlegen";
@@ -59,7 +55,7 @@ public class ElementForm extends Showcase {
 		} else {
 			// Titel für bereits vorhandene Elemente/Module/Produkte
 			if (this.element instanceof Product) {
-				this.headlineText = "Enderzeugnis '" + ((Product) this.element).getName()
+				this.headlineText = "Enderzeugnis '" + ((Product) this.element).getSalesName()
 						+ "' editieren";
 			} else if (this.element instanceof Module) {
 				this.headlineText = "Baugruppe '" + ((Module) this.element).getName()
@@ -166,10 +162,13 @@ public class ElementForm extends Showcase {
 		// ÜBERSCHRIFT ENDE
 
 		// BREADCRUMB ANFANG
+		
+		
+		
 		String test = "<ol class=\"breadcrumb\">";
 		test += "<li><a href=\"#\">Endprodukt abc</a></li>";
 		test += "<li><a href=\"#\">Baugruppe aha</a></li>";
-		test += "<li class=\"active\">Element mauaha</li>";
+		test += "<li class=\"active\">"+SearchResult.getSelectionModel().getSelectedSet().size()+" Element mauaha</li>";
 		test += "</ol>";
 		HTML breadcrumb = new HTML(test);
 		this.add(breadcrumb);
@@ -178,6 +177,10 @@ public class ElementForm extends Showcase {
 		this.add(grid);
 
 		// ACTION BUTTONS für mögliche Aktionen ANFANG
+		FlowPanel panel = new FlowPanel();
+		panel.setStylePrimaryName("actionBox");
+		
+		
 		Button cancelBtn = new Button("abbrechen");
 		cancelBtn.setStylePrimaryName("btn btn-warning createBtn");
 		cancelBtn.addClickHandler(new ClickHandler() {
@@ -185,28 +188,36 @@ public class ElementForm extends Showcase {
 			public void onClick(ClickEvent event) {
 				RootPanel.get("main").clear();
 				RootPanel.get("main").add(new ElementForm(element));
+				SearchResult.enableLoadElementForm();
 			}
 		});
+		panel.add(cancelBtn);
 		
-		Button deleteBtn = new Button("löschen");
-		deleteBtn.setStylePrimaryName("btn btn-danger createBtn");
-		deleteBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				AdministrationCommonAsync administration = ClientsideSettings.getAdministration();
-				administration.deleteElement(element, new ElementDeleteCallback(currentShowcase));
-			}
-		});
+		if (!this.newElement) {
+			Button deleteBtn = new Button("löschen");
+			deleteBtn.setStylePrimaryName("btn btn-danger createBtn");
+			deleteBtn.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					AdministrationCommonAsync administration = ClientsideSettings.getAdministration();
+					administration.deleteElement(element, new ElementDeleteCallback(currentShowcase));
+				}
+			});
+			panel.add(deleteBtn);
+		}
 		Button saveBtn = new Button("speichern");
 		saveBtn.setStylePrimaryName("btn btn-success createBtn");
 		saveBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Element abspeichern/neu anlegen
-				RootPanel.get("elementForm").insert(new SuccessMsg("Erfolgreich gespeichert"), 0);
+				
+				AdministrationCommonAsync administration = ClientsideSettings.getAdministration();
+				administration.deleteElement(element, new ElementDeleteCallback(currentShowcase));
 				
 			}
 		});
+		panel.add(saveBtn);
+		
 		Button saveAndAssignBtn = new Button("zuordnen & speichern");
 		saveAndAssignBtn.setStylePrimaryName("btn btn-success createBtn");
 		saveAndAssignBtn.addClickHandler(new ClickHandler() {
@@ -214,15 +225,11 @@ public class ElementForm extends Showcase {
 			public void onClick(ClickEvent event) {
 				// TODO Element abspeichern/neu anlegen und Element von
 				// Baum zuordnen
+				SearchResult.disableLoadElementForm();
+				currentShowcase.insert(new InfoMsg("Sie können nun ein [Klick] oder mehrere [Strg+Klick] Baugruppen im Suchbaum markieren, um das Element diesen zuzuordnen!"), 1);
 				
 			}
 		});
-		
-		FlowPanel panel = new FlowPanel();
-		panel.setStylePrimaryName("actionBox");
-		panel.add(cancelBtn);
-		panel.add(deleteBtn);
-		panel.add(saveBtn);
 		panel.add(saveAndAssignBtn);
 
 		this.add(panel);

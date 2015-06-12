@@ -16,7 +16,7 @@ public class History extends Showcase {
 	private String headlineTextStyle;
 
 	public History() {
-		this.headlineText = "Herzlich Willkommen :)";
+		this.headlineText = "Herzlich Willkommen :) - Historie";
 		this.headlineTextStyle = "formTitle";
 	}
 
@@ -32,13 +32,13 @@ public class History extends Showcase {
 
 	@Override
 	protected void run() {
-		final Grid historyGrid = new Grid(16, 4);
+		final Grid historyGrid = new Grid(14, 4);
 		historyGrid.setStylePrimaryName("table table-striped");
 		historyGrid.setWidget(0, 0, new HTML("<b>Nutzer</b>"));
 		historyGrid.setWidget(0, 1, new HTML("<b>Element</b>"));
 		historyGrid.setWidget(0, 2, new HTML("<b>Aktion</b>"));
 		historyGrid.setWidget(0, 3, new HTML("<b>Änderungsdatum</b>"));
-		for (int i = 1; i <= 15; i++) {
+		for (int i = 1; i <= 12; i++) {
 			historyGrid
 					.setWidget(i, 0, new HTML("Olaf19" + Random.nextInt(99)));
 			Button elementLink = new Button("Element " + Random.nextInt());

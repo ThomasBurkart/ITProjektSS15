@@ -19,7 +19,10 @@
 
 	<!-- Other module inherits                                      -->
 
-	<inherits name="com.google.gwt.logging.Logging" />
+	<inherits name="com.google.gwt.logging.Logging" /> 
+   
+	<set-property name="gwt.logging.enabled" value="TRUE"/>  
+	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
 	
 	<!-- Specify the app entry point class.                         -->
 	<entry-point

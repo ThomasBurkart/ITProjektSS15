@@ -201,18 +201,18 @@ public class ElementMapper {
 	 */
 
 	public void delete(Element e) throws SQLException {
-			Connection con = DBConnection.connection();
-			
-			try {
-				Statement stmt = con.createStatement();
-				
-				stmt.executeUpdate("DELETE FROM element" + "WHERE id=" + e.getId());
-				}
+		Connection con = DBConnection.connection();
 
-			catch (SQLException e2) {
-				throw e2;
-			}
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM element" + "WHERE id=" + e.getId());
 		}
+
+		catch (SQLException e2) {
+			throw e2;
+		}
+	}
 
 	/**
 	 * 
