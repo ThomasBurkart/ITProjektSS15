@@ -3,8 +3,6 @@ package de.hdm.groupfive.itproject.server.db;
 import java.sql.*;
 import java.util.Vector;
 
-import com.google.protos.cloud.sql.Client.SqlException;
-
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
@@ -38,6 +36,8 @@ public class ElementMapper {
 	   * @param id Primärschlüsselattribut (->DB)
 	   * @return Element-Objekt, das dem übergebenen Schlüssel entspricht, null bei
 	   *         nicht vorhandenem DB-Tupel.
+	   * @throws Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	   *  		 die entstandene Exception wird an die aufrufende Methode weitergereicht
 	   */
 
 	public Element findByKey(int id) throws SQLException {
@@ -65,7 +65,7 @@ public class ElementMapper {
 
 			}
 		} catch (SQLException ex) {
-			throw ex;
+			throw new SQLException (ex.getMessage()); 
 			}
 		return null;
 	}
@@ -115,10 +115,11 @@ public class ElementMapper {
 				result.addElement(e);
 			}
 		} catch (SQLException ex) {
-			throw ex;
+			throw new SQLException (ex.getMessage()); 
 		}
 		return result;
 	}
+	
 	public Vector<Element>findByName(String name) throws SQLException {
 		Connection con = DBConnection.connection();
 		
@@ -145,7 +146,7 @@ public class ElementMapper {
 		}
 	}
 		catch (SQLException ex){
-			throw ex;
+			throw new SQLException (ex.getMessage()); 
 			
 		}
 		return result;
@@ -199,7 +200,7 @@ public class ElementMapper {
 			}
 			
 		} catch (SQLException ex) {
-			throw ex;
+			throw new SQLException (ex.getMessage()); 
 		}
 		  return e;
 	}
@@ -235,7 +236,7 @@ public class ElementMapper {
 					+ e.getId());
 
 		} catch (SQLException ex) {
-			throw ex;
+			throw new SQLException (ex.getMessage()); 
 		}
 
 		// Um die Analogie zu insert(Element e) zu wahren, geben wir e zurück
@@ -258,22 +259,11 @@ public class ElementMapper {
 		}
 
 		catch (SQLException ex) {
-			throw ex;
+			throw new SQLException (ex.getMessage()); 
 		}
 	}
 
-	 /**
-	   * Löschen sämtlicher Bauteile (<code>Element</code>-Objekte) einer Baugruppe.
-	   * Diese Methode sollte aufgerufen werden, bevor ein <code>Module</code>
-	   * -Objekt gelöscht wird.
-	   * 
-	   * @param m das <code>Module</code>-Objekt, zu dem die Bauteile gehören
-	   */
-	
-	
-
-	
-
+	 
 }
 // Nochmals anschauen
 
