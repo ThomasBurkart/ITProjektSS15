@@ -40,7 +40,7 @@ public class ElementMapper {
 	   *         nicht vorhandenem DB-Tupel.
 	   */
 
-	public Element findByKey(int id) throws SQLException {
+	public Element findById(int id) throws SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
