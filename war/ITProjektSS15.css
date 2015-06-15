@@ -82,6 +82,11 @@ h1 {
     margin-left: 5px;
 }
 
+.liveSearchBtn {
+	padding: 0;
+	margin: 0;
+}
+
 .btn32 {
 	width: 31%;
 	min-width: 145px;
@@ -157,6 +162,10 @@ h1 {
 	margin-bottom: 10px;
 }
 
+.navBarCreateBtn {
+	margin-right: 18px;
+}
+
 .tree {
 	margin-left: 0px;
 }
@@ -179,6 +188,11 @@ h1 {
 .dialogMiddle td {
 	padding: 5px;
 }
+
+#logDialogBox td {
+	border-bottom: dashed 1px #e1e1e1;
+}
+
 /** 
  .gwt-Tree .gwt-TreeItem-selected:before {
 	content: '» ';

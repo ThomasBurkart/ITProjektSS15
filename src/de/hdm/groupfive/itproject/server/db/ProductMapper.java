@@ -1,6 +1,7 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import de.hdm.groupfive.itproject.shared.bo.*;
@@ -28,7 +29,7 @@ public class ProductMapper {
 	 * @param p
 	 * @return
 	 */
-	public Product insert(Product p){
+	public Product insert(Product p) throws SQLException {
 		return null;
 	}
 
@@ -36,7 +37,7 @@ public class ProductMapper {
 	 * 
 	 * @param product
 	 */
-	public void delete(Product product) {
+	public void delete(Product product) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -44,11 +45,11 @@ public class ProductMapper {
 	/**
 	 * 
 	 */
-	public Product findById(int id){
+	public Product findById(int id) throws SQLException {
 		return null;
 	}
 		
-	public Vector<Product> findAll() {
+	public Vector<Product> findAll() throws SQLException {
 		// TODO ÜBER DATENBANK ABFRAGEN ... NUR TESTWEISE statisch EREZUGT:
 		
 		Vector<Product> result = new Vector<Product>();
@@ -110,30 +111,15 @@ public class ProductMapper {
 	/**
 	 * 
 	 */
-	public Product update(Product product){
+	public Product update(Product product) throws SQLException {
 		return null;
 	}
 	
 	/**
 	 * 
 	 */
-	public static ProductMapper productMapper(){
+	public Product findByName(String name) throws SQLException {
 		return null;
 	}
 	
-	/**
-	 * 
-	 */
-	public Product findByName(String name){
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Vector<Product> getAllProducts() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -19,13 +19,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class LoginLogout {
 	
+	
+	private static DialogBox dialogBox; 
 	/**
 	 * Die Methode lädt den Login Dialog in die Web-Applikation
 	 */
-	public void loadDialog() {
-		final DialogBox dialogBox = createLoginDialogBox();
-		dialogBox.setGlassEnabled(true);
-		dialogBox.setAnimationEnabled(true);
+	public static void load() {
+		if (dialogBox == null) {
+			dialogBox = createLoginDialogBox();
+			dialogBox.setGlassEnabled(true);
+			dialogBox.setAnimationEnabled(true);
+		}
 		dialogBox.center();
 		dialogBox.show();
 	}
@@ -35,7 +39,7 @@ public class LoginLogout {
 	 * Registration eines neuen Benutzers.
 	 * @return
 	 */
-	private DialogBox createLoginDialogBox() {
+	private static DialogBox createLoginDialogBox() {
 		// Create a dialog box and set the caption text
 		final DialogBox dialogBox = new DialogBox();
 		dialogBox.setText("Anmelden");
@@ -63,9 +67,10 @@ public class LoginLogout {
 				// TODO: Methode zum einloggen eines Benutzers aufrufen ->
 				// onSuccess/OnFailure Handling?!
 				dialogBox.hide();
-
-				RootPanel.get("navigator").add(ITProjektSS15.createSearchPanel());
-
+				
+				NavigationBar.load();
+				SearchPanel.load();
+				RootPanel.get("main").add(new History());
 			}
 		});
 		loginButton.setWidth("100px");
@@ -102,7 +107,8 @@ public class LoginLogout {
 		});
 		regButton.setWidth("100px");
 		HorizontalPanel actionPanel = new HorizontalPanel();
-		actionPanel.add(regButton);
+		// TODO Reg Button evtl. entfernen
+		//actionPanel.add(regButton);
 		actionPanel.add(loginButton);
 		grid.setWidget(2, 1, actionPanel);
 		VerticalPanel dialogContent = new VerticalPanel();

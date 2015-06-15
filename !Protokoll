@@ -70,5 +70,9 @@ PROTOKOLL
 		  --> public String calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
 		  			
-		  			
+		 UNKLARHEIT - Was ist nun mit dem User? Wie gesagt ich würde ihn komplett raus nehmen, muss es dann
+		 			  aber auch für die Applikationslogig sein, bzw im Package .server ist ja noch der Mapper des Users.
+		 			  (Sam)
+		  			- habe diese Methode private static final Logger logger = ServerSettings.getLogger(); noch mit dazu geschrieben,
+		  			  Frage, wenn der User raus fällt, benötigt man diese dann noch, da Auslesen des applikationsweiten (Server-seitig!) zentralen Loggers.
 		
