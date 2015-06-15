@@ -40,7 +40,7 @@ public class ElementMapper {
 	   *  		 die entstandene Exception wird an die aufrufende Methode weitergereicht
 	   */
 
-	public Element findByKey(int id) throws SQLException {
+	public Element findById(int id) throws SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
