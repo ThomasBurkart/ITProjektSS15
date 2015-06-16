@@ -30,6 +30,10 @@ public class SearchResult extends Showcase {
 	private String searchWord;
 	private boolean fuzzySearch;
 	private boolean allProducts;
+	
+	private static Element selectedElement;
+	private static MultiSelectionModel<Element> selectionModel;
+	private static boolean disableLoadElementForm;
 
 	/**
 	 * Standard-Konstruktor der Klasse SearchResult. Wird beim ersten Start der
@@ -51,7 +55,14 @@ public class SearchResult extends Showcase {
 	public SearchResult(String searchWord, boolean fuzzySearch) {
 		this.searchWord = searchWord;
 		this.fuzzySearch = fuzzySearch;
+		
+		// Text der angezeigt wird, wenn ein Suche gestartet wurde.
 		this.headlineText = "Suchergebnisse für '" + searchWord + "'";
+
+		// Style-Klasse für Titel der Suche
+		this.headlineTextStyle = "resultInfo";
+		
+		
 		this.allProducts = false;
 	}
 
@@ -81,6 +92,30 @@ public class SearchResult extends Showcase {
 		}
 	}
 	
+	public static Element getSelectedElement() {
+		return selectedElement;
+	}
+	
+	private static void setSelectedElement(Element e) {
+		selectedElement = e;
+	}
+	
+	public static void disableLoadElementForm() {
+		disableLoadElementForm = true;
+	}
+	
+	public static void enableLoadElementForm() {
+		disableLoadElementForm = false;
+	}
+	
+	private static void setSelectionModel(MultiSelectionModel<Element> msm) {
+		selectionModel = msm;
+	}
+	
+	public static MultiSelectionModel<Element> getSelectionModel() {
+		return selectionModel;
+	}
+	
 	class SearchElementCallback implements AsyncCallback<Vector<Element>> {
 		private Showcase showcase = null;
 
@@ -107,12 +142,17 @@ public class SearchResult extends Showcase {
 	
 									List<Element> selected = new ArrayList<Element>(
 											selectionModel.getSelectedSet());
-									//createForm(selected.get(0));
 									
-									RootPanel.get("main").clear();
-									RootPanel.get("main").add(new ElementForm(selected.get(0)));
+									SearchResult.setSelectedElement(selected.get(0));
+									
+									//createForm(selected.get(0));
+									if(!disableLoadElementForm) {
+										RootPanel.get("main").clear();
+										RootPanel.get("main").add(new ElementForm(selected.get(0)));
+									}
 								}
 							});
+					setSelectionModel(selectionModel);
 					SearchTreeModel model = new SearchTreeModel(result, selectionModel);
 	
 					CellTree cellTree = new CellTree(model, null);
@@ -156,18 +196,23 @@ public class SearchResult extends Showcase {
 
 								List<Element> selected = new ArrayList<Element>(
 										selectionModel.getSelectedSet());
-								//createForm(selected.get(0));
-								RootPanel.get("main").clear();
-								RootPanel.get("main").add(new ElementForm(selected.get(0)));
+								SearchResult.setSelectedElement(selected.get(0));
+
+								if(!disableLoadElementForm) {
+									RootPanel.get("main").clear();
+									RootPanel.get("main").add(new ElementForm(selected.get(0)));
+								}
 							}
 						});
 				Vector<Element> result2 = new Vector<Element>();
 				for (Product p : result) {
 					result2.add((Element)p);
 				}
+				setSelectionModel(selectionModel);
 				SearchTreeModel model = new SearchTreeModel(result2, selectionModel);
-
+				
 				CellTree cellTree = new CellTree(model, null);
+				
 				cellTree.setAnimationEnabled(true);
 				ScrollPanel dynamicTreeWrapper = new ScrollPanel(cellTree);
 				dynamicTreeWrapper.getElement().setId("searchPane");
