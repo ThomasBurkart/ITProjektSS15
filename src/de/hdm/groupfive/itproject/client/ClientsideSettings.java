@@ -3,6 +3,7 @@ package de.hdm.groupfive.itproject.client;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.logging.client.HasWidgetsLogHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommon;
@@ -30,7 +31,7 @@ public class ClientsideSettings extends CommonSettings {
   /**
    * Name des Client-seitigen Loggers.
    */
-  private static final String LOGGER_NAME = "Strukturstücklisten Management Web Client";
+  private static final String LOGGER_NAME = "Client";
   
   /**
    * Instanz des Client-seitigen Loggers.
@@ -85,7 +86,7 @@ public class ClientsideSettings extends CommonSettings {
    * @return die Logger-Instanz für die Server-Seite
    */
   public static Logger getLogger() {
-    return log;
+	  return log;
   }
 
   /**
