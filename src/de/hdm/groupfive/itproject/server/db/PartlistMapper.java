@@ -4,6 +4,7 @@ import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
+import java.sql.SQLException;
 import java.util.Vector;
 
 public class PartlistMapper {
@@ -26,49 +27,42 @@ public class PartlistMapper {
 	/**
 	 * 
 	 */
-	public Partlist insert(Partlist partlist){
+	public Partlist insert(Partlist partlist) throws SQLException {
 		return null;
 	}
 	
 	/**
 	 * 
 	 */
-	public void delete(Partlist partlist){
+	public void delete(Partlist partlist) throws SQLException {
 		
 	}
 	
 	/**
 	 * 
 	 */
-	public Partlist findById(int id){
+	public Partlist findById(int id) throws SQLException {
 		return null;
 	}
 	
 	/**
 	 * 
 	 */
-	public Partlist update(Partlist partlist){
+	public Partlist update(Partlist partlist) throws SQLException {
 		return null;
 	}
 	
 	/**
 	 * 
 	 */
-	public static PartlistMapper partlistMapper(){
+	public Partlist findByName(String name) throws SQLException {
 		return null;
 	}
 	
 	/**
 	 * 
 	 */
-	public Partlist findByName(String name){
-		return null;
-	}
-	
-	/**
-	 * 
-	 */
-	public Vector<Partlist> getAllPartlists(){
+	public Vector<Partlist> getAllPartlists() throws SQLException {
 		return null;
 	}
 	

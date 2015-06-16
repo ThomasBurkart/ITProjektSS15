@@ -8,8 +8,7 @@ public class ReportGen implements EntryPoint {
 	public void onModuleLoad() {
 
 		// lädt den Login Dialog 
-    	LoginLogout login = new LoginLogout();
-		login.loadDialog();
+    	LoginLogout.load();
 	}
 
 }
