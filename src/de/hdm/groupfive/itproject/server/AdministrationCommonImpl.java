@@ -359,7 +359,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	@Override
 	public String calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
-		.getAllElements(partlist)
+		//.getAllElements(partlist)
 		
 		return null;
 	}
