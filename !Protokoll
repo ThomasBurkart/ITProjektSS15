@@ -16,20 +16,27 @@ PROTOKOLL
 ********************************
 		
 	KLASSE ElementMapper:
+	----------------------
 		Zeile 76: 			a.setModifyDateID(rs.getTimestamp ("modify_date"));
 		in
 							a.setLastUpdateID(rs.getTimestamp ("last_update"));
 		abgeändert. 
 		Falls diese Änderung für die DB wichtig ist, BITTE beachten!!!
 		
+		
   	MAPPER KLASSEN:
+  	----------------------
   		insert-Methoden nachtragen!!!
+  		
 	
 	KLASSE Product:
+	----------------------
 		sollen wir eine extra Beschreibung für Endprodukte mitreinnehmen? --> neues Attribut
 		UPDATE 30.05.: Umgesetzt!!! 
 		
+		
 	KLASSE AdministrationCommonImpl:
+	---------------------------------
 		Thomas, Kenny und Joey, bitte beachten!!!
 		Habs abgeändert: 
 			*folgendes gelöscht
@@ -67,7 +74,9 @@ PROTOKOLL
 		  			}
 		  			
 		  			
+		  			
 		  Methode auskommentiert
+		  ----------------------
 		  --> public String calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
 		  			
