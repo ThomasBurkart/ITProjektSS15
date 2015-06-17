@@ -352,16 +352,44 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	}
 
 //	@Override
-//	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException {
-//		return this.moduleMapper.;
-//	}
+	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException {
+		return this.findPartlistById(module.getId());
+	}
 	
 	@Override
-	public String calculateMaterial(Partlist partlist)
+	public String[] calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
-		.getAllElements(partlist)
 		
-		return null;
+		String[] result;
+		
+		for(int i = 0; i <partlist.getAllElements().lastIndexOf(partlist); i++){
+			
+			
+			
+			return result;
+		}
+		
+		
+		// Array -> ["Schrauben" => "2" , "Zahnräder" => "3"]
+		// Array -> [["name" => "Schraube", "amount" => "2"],["name" => "Zahnrad", "amount" => "3"]]
+//		
+//		String part = "Schraube";
+//		String amount = "2";
+//		
+//		ArrayList test = new ArrayList();
+//		
+		// For schleife durch stückliste for(int i = 0; i < parlist.lenght(); i++)
+			// Mach en neues Array mit wort indexes
+//					String[] array = new String[2];
+//					array["name"] = part;
+//					array["amount"] = amount;
+//					// Hinzufügen zu array list
+//					test.push(["name" => part, "amount" => amount]);
+//					throws IllegalArgumentException {
+
+			
+				// Return arraylis
+//			return test;
 	}
 	
 		
