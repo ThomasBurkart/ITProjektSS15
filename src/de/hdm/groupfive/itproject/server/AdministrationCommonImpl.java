@@ -217,9 +217,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	}
 
 	@Override
-	public Element createElement(Element element) throws IllegalArgumentException {	
+	public Element createElement(String name, Element element) throws IllegalArgumentException {	
+		
+		Element el = new Element();
+		el = (Element) element;
+		el.setName(name);
+		
 		try {
-			return this.getElementMapper().insert(element);
+			return this.getElementMapper().insert(el);
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
@@ -242,6 +247,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 			throw new IllegalArgumentException(e.getMessage());
 		}		
 	}
+	
 
 	@Override
 	public Module assignElement(Module module, Element element) throws IllegalArgumentException {
@@ -309,9 +315,12 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	}
 	
 	@Override
-	public Module createModule(Module module) throws IllegalArgumentException {
+	public Module createModule(String Modulname, Module module) throws IllegalArgumentException {
+		Module m = new Module();
+		m = module;
+		m.setName(Modulname);
 		try {
-			return this.getModuleMapper().insert(module);
+			return this.getModuleMapper().insert(m);
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
