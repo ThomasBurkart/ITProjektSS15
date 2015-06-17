@@ -37,7 +37,7 @@ public class ElementMapper {
 	   *  		 die entstandene Exception wird an die aufrufende Methode weitergereicht
 	   */
 
-	public Element findById(int id) throws IllegalArgumentException {
+	public Element findById(int id) throws IllegalArgumentException, SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
@@ -54,9 +54,9 @@ public class ElementMapper {
 				e.setId(rs.getInt("id"));
 				e.setName(rs.getString("name"));
 				e.setDescription(rs.getString("description"));
-				e.setMaterialDescription(rs.getString("material description"));
-				e.setCreationDate(rs.getDate("int columnIndex, Calendar cal"));
-				e.setLastUpdate(rs.getDate("int columnIndex, Calendar cal"));
+				e.setMaterialDescription(rs.getString("material_description"));
+				e.setCreationDate(rs.getDate("creation_date"));
+				e.setLastUpdate(rs.getDate("last_update"));
 
 				return e;
 
@@ -87,7 +87,7 @@ public class ElementMapper {
 	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
 	 *         oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
-	public Vector<Element> findAll() throws IllegalArgumentException {
+	public Vector<Element> findAll() throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		Vector<Element> result = new Vector<Element>();
@@ -117,7 +117,7 @@ public class ElementMapper {
 		return result;
 	}
 	
-	public Vector<Element>findByName(String name) throws IllegalArgumentException {
+	public Vector<Element>findByName(String name) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
 		Vector<Element> result = new Vector<Element>();
@@ -161,7 +161,7 @@ public class ElementMapper {
 	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
 	 *         <code>id</code>.
 	 */
-	public Element insert(Element e) throws IllegalArgumentException {
+	public Element insert(Element e) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -219,7 +219,7 @@ public class ElementMapper {
 	 * @return das als Parameter übergebene Objekt
 	 */
 
-	public Element update(Element e) throws IllegalArgumentException {
+	public Element update(Element e) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -244,9 +244,10 @@ public class ElementMapper {
 	 * Löschen der Daten eines <code>Element</code> - Objekts aus der Datenbank
 	 * 
 	 * @param e das aus der DB zu löschende "Objekt"
+	 * @throws SQLException
 	 */
 
-	public void delete(Element e) throws IllegalArgumentException {
+	public void delete(Element e) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -262,5 +263,5 @@ public class ElementMapper {
 
 	 
 }
-// Nochmals anschauen
+
 
