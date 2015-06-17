@@ -18,8 +18,9 @@ h1 {
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
-  width: 400px;
+ /* width: 400px; */
 }
+
 
 .dialogVPanel {
   margin: 5px;
@@ -187,6 +188,11 @@ h1 {
 
 .dialogMiddle td {
 	padding: 5px;
+}
+
+.memberGrid td {
+	padding: 0;
+	padding-left: 25px;
 }
 
 #logDialogBox td {
