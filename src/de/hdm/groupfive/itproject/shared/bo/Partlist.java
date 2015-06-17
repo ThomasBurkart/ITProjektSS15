@@ -179,6 +179,10 @@ public class Partlist extends BusinessObject {
 		this.name = name;
 
 	}
+	
+	public int size(){
+		return this.list.size();
+	}
 
 }
 
@@ -253,4 +257,6 @@ class PartlistEntry implements Serializable {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	
+	
 }
