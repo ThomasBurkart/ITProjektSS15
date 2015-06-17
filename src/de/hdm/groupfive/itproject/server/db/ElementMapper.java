@@ -3,8 +3,6 @@ package de.hdm.groupfive.itproject.server.db;
 import java.sql.*;
 import java.util.Vector;
 
-import com.google.protos.cloud.sql.Client.SqlException;
-
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
@@ -14,10 +12,7 @@ import de.hdm.groupfive.itproject.shared.bo.User;
 public class ElementMapper {
 
 	private static ElementMapper elementMapper = null;
-    /**
-	private static final Logger logger = ServerSettings.getLogger();
-	*/
-	
+    
 	
 	protected ElementMapper() {
 
@@ -38,9 +33,11 @@ public class ElementMapper {
 	   * @param id Primärschlüsselattribut (->DB)
 	   * @return Element-Objekt, das dem übergebenen Schlüssel entspricht, null bei
 	   *         nicht vorhandenem DB-Tupel.
+	   * @throws Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	   *  		 die entstandene Exception wird an die aufrufende Methode weitergereicht
 	   */
 
-	public Element findById(int id) throws SQLException {
+	public Element findById(int id) throws IllegalArgumentException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
@@ -65,7 +62,7 @@ public class ElementMapper {
 
 			}
 		} catch (SQLException ex) {
-			throw ex;
+			throw new IllegalArgumentException(ex.getMessage());
 			}
 		return null;
 	}
@@ -90,7 +87,7 @@ public class ElementMapper {
 	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
 	 *         oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
-	public Vector<Element> findAll() throws SQLException {
+	public Vector<Element> findAll() throws IllegalArgumentException {
 		Connection con = DBConnection.connection();
 
 		Vector<Element> result = new Vector<Element>();
@@ -115,11 +112,12 @@ public class ElementMapper {
 				result.addElement(e);
 			}
 		} catch (SQLException ex) {
-			throw ex;
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 		return result;
 	}
-	public Vector<Element>findByName(String name) throws SQLException {
+	
+	public Vector<Element>findByName(String name) throws IllegalArgumentException {
 		Connection con = DBConnection.connection();
 		
 		Vector<Element> result = new Vector<Element>();
@@ -145,7 +143,7 @@ public class ElementMapper {
 		}
 	}
 		catch (SQLException ex){
-			throw ex;
+			throw new IllegalArgumentException(ex.getMessage()); 
 			
 		}
 		return result;
@@ -163,7 +161,7 @@ public class ElementMapper {
 	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
 	 *         <code>id</code>.
 	 */
-	public Element insert(Element e) throws SQLException {
+	public Element insert(Element e) throws IllegalArgumentException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -199,7 +197,7 @@ public class ElementMapper {
 			}
 			
 		} catch (SQLException ex) {
-			throw ex;
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 		  return e;
 	}
@@ -221,7 +219,7 @@ public class ElementMapper {
 	 * @return das als Parameter übergebene Objekt
 	 */
 
-	public Element update(Element e) throws SQLException {
+	public Element update(Element e) throws IllegalArgumentException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -235,7 +233,7 @@ public class ElementMapper {
 					+ e.getId());
 
 		} catch (SQLException ex) {
-			throw ex;
+			throw new IllegalArgumentException(ex.getMessage()); 
 		}
 
 		// Um die Analogie zu insert(Element e) zu wahren, geben wir e zurück
@@ -248,7 +246,7 @@ public class ElementMapper {
 	 * @param e das aus der DB zu löschende "Objekt"
 	 */
 
-	public void delete(Element e) throws SQLException {
+	public void delete(Element e) throws IllegalArgumentException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -258,22 +256,11 @@ public class ElementMapper {
 		}
 
 		catch (SQLException ex) {
-			throw ex;
+			throw new IllegalArgumentException(ex.getMessage()); 
 		}
 	}
 
-	 /**
-	   * Löschen sämtlicher Bauteile (<code>Element</code>-Objekte) einer Baugruppe.
-	   * Diese Methode sollte aufgerufen werden, bevor ein <code>Module</code>
-	   * -Objekt gelöscht wird.
-	   * 
-	   * @param m das <code>Module</code>-Objekt, zu dem die Bauteile gehören
-	   */
-	
-	
-
-	
-
+	 
 }
 // Nochmals anschauen
 

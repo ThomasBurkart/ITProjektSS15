@@ -29,7 +29,7 @@ public class DBConnection {
 	 * @see ElementMapper.elementMapper()
 	 * @see ModuleMapper.moduleMapper()
 	 * @see ProductMapper.productMapper()
-	 * @see UserMapper.userMapper()
+	 * @see Partlist.partlistMapper()
 	 */
 	private static Connection con = null;
 	
@@ -61,11 +61,12 @@ public class DBConnection {
 	 * sprengen.
 	 * 
 	 * @return DAS <code>DBConncetion</code>-Objekt.
+	 * @throws SQLException
 	 * @see con
 	 */
-	public static Connection connection() {
+	public static Connection connection() throws SQLException {
 		// Wenn es bisher keine Conncetion zur DB gab, ... 
-		if ( con == null ) {
+		if ( con == null || con.isClosed() ) {
 			try {
 				// Ersteinmal muss der passende DB-Treiber geladen werden
 				DriverManager.registerDriver(new AppEngineDriver());
@@ -79,15 +80,42 @@ public class DBConnection {
 				 */
 				con = DriverManager.getConnection(url);
 			} 
-			catch (SQLException e1) {
+			catch (SQLException ex) {
 				con = null;
-				e1.printStackTrace();
+				ex.printStackTrace();
 			}
 		}
 		
 		// Zurückgegeben der Verbindung
 		return con;
 	}
-
+	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch 
+	 * <code>DBConnection.closeConnection()</code>. Sie löst
+	 * eine bestehende Verbindung zur Datenbank auf.
+	 * 
+	 * @throws	RuntimeException - beim "kappen" der DB-
+	 * 			Verbindung kann ein Fehler entstehen,
+	 * 			welcher mittelbar an die aufrufende Methode
+	 * 			weitergeleitet wird
+	 */
+	
+	public static void closeConnection() throws RuntimeException {
+		try {
+			if (con != null && (!con.isClosed()) ) {
+				try {
+					con.close();
+					con = null;
+				}
+				catch (SQLException ex) {
+					throw new RuntimeException("Fehler beim Trennen der DB-Verbindung aufgetreten:" + ex.getMessage());
+			}
+		}
+		}
+		catch (SQLException ex) {
+			throw new RuntimeException("Fehler beim Trennen der DBVerbindung aufgetreten:" + ex.getMessage());
+		}
+		}
 }
 //Test
