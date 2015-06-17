@@ -371,13 +371,13 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 
 	
 
-	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException {
-		try {
-			return this.getModuleMapper().findByName(name).getPartlist();
-		} catch (SQLException e) {
-			throw new IllegalArgumentException(e.getMessage());
-		}
-	}
+//	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException {
+//		try {
+//			return this.getModuleMapper().findByName(name).getPartlist();
+//		} catch (SQLException e) {
+//			throw new IllegalArgumentException(e.getMessage());
+//		}
+//	}
 
 	@Override
 	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException {
