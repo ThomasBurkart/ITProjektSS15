@@ -37,7 +37,7 @@ public class ElementMapper {
 	   *  		 die entstandene Exception wird an die aufrufende Methode weitergereicht
 	   */
 
-	public Element findById(int id) throws IllegalArgumentException {
+	public Element findById(int id) throws IllegalArgumentException, SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
@@ -87,7 +87,7 @@ public class ElementMapper {
 	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
 	 *         oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
-	public Vector<Element> findAll() throws IllegalArgumentException {
+	public Vector<Element> findAll() throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		Vector<Element> result = new Vector<Element>();
@@ -117,7 +117,7 @@ public class ElementMapper {
 		return result;
 	}
 	
-	public Vector<Element>findByName(String name) throws IllegalArgumentException {
+	public Vector<Element>findByName(String name) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
 		Vector<Element> result = new Vector<Element>();
@@ -161,7 +161,7 @@ public class ElementMapper {
 	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
 	 *         <code>id</code>.
 	 */
-	public Element insert(Element e) throws IllegalArgumentException {
+	public Element insert(Element e) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -219,7 +219,7 @@ public class ElementMapper {
 	 * @return das als Parameter übergebene Objekt
 	 */
 
-	public Element update(Element e) throws IllegalArgumentException {
+	public Element update(Element e) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		try {
@@ -246,7 +246,7 @@ public class ElementMapper {
 	 * @param e das aus der DB zu löschende "Objekt"
 	 */
 
-	public void delete(Element e) throws IllegalArgumentException {
+	public void delete(Element e) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 
 		try {
