@@ -12,17 +12,18 @@ import de.hdm.groupfive.itproject.shared.*;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
 /**
  * <p>
  * Implementierungsklasse des Interface <code>AdministationCommon</code>. Diese
- * Klasse ist <em>die</em> Klasse, die s�mtliche Applikationslogik 
- * (oder engl. Business Logic) aggregiert. Sie ist wie eine Spinne, 
- * die s�mtliche Zusammenh�nge in ihrem Netz (in unserem Fall die Daten 
- * der Applikation) �berblickt und f�r einen geordneten Ablauf und
- * dauerhafte Konsistenz der Daten und Abl�ufe sorgt.
+ * Klasse ist <em>die</em> Klasse, die s�mtliche Applikationslogik (oder engl.
+ * Business Logic) aggregiert. Sie ist wie eine Spinne, die s�mtliche
+ * Zusammenh�nge in ihrem Netz (in unserem Fall die Daten der Applikation)
+ * �berblickt und f�r einen geordneten Ablauf und dauerhafte Konsistenz der
+ * Daten und Abl�ufe sorgt.
  * </p>
  * <p>
  * Die Applikationslogik findet sich in den Methoden dieser Klasse. Jede dieser
@@ -41,8 +42,8 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * <li>{@link AdministrationCommon}: Dies ist das <em>lokale</em> - also
  * Server-seitige - Interface, das die im System zur Verf�gung gestellten
  * Funktionen deklariert.</li>
- * <li>{@link AdministrationCommonAsync}: <code>AdministartionCommonImpl</code> und
- * <code>AdministrationCommon</code> bilden nur die Server-seitige Sicht der
+ * <li>{@link AdministrationCommonAsync}: <code>AdministartionCommonImpl</code>
+ * und <code>AdministrationCommon</code> bilden nur die Server-seitige Sicht der
  * Applikationslogik ab. Diese basiert vollst�ndig auf synchronen
  * Funktionsaufrufen. Wir m�ssen jedoch in der Lage sein, Client-seitige
  * asynchrone Aufrufe zu bedienen. Dies bedingt ein weiteres Interface, das in
@@ -54,8 +55,8 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * <li> {@link RemoteServiceServlet}: Jede Server-seitig instantiierbare und
  * Client-seitig �ber GWT RPC nutzbare Klasse muss die Klasse
  * <code>RemoteServiceServlet</code> implementieren. Sie legt die funktionale
- * Basis f�r die Anbindung von <code>AdministrationCommonImpl</code> an die Runtime
- * des GWT RPC-Mechanismus.</li>
+ * Basis f�r die Anbindung von <code>AdministrationCommonImpl</code> an die
+ * Runtime des GWT RPC-Mechanismus.</li>
  * </ol>
  * </p>
  * <p>
@@ -64,14 +65,14 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * objektorientierte Sicht der Applikationslogik auf die relationale
  * organisierte Datenbank ab. Zuweilen kommen "kreative" Zeitgenossen auf die
  * Idee, in diesen Mappern auch Applikationslogik zu realisieren. Siehe dazu
- * auch die Hinweise in {@link #delete(User)} Einzig nachvollziehbares
- * Argument f�r einen solchen Ansatz ist die Steigerung der Performance
- * umfangreicher Datenbankoperationen. Doch auch dieses Argument zieht nur dann,
- * wenn wirklich gro�e Datenmengen zu handhaben sind. In einem solchen Fall
- * w�rde man jedoch eine entsprechend erweiterte Architektur realisieren, die
- * wiederum s�mtliche Applikationslogik in der Applikationsschicht isolieren
- * w�rde. Also, keine Applikationslogik in die Mapper-Klassen "stecken" sondern
- * dies auf die Applikationsschicht konzentrieren!
+ * auch die Hinweise in {@link #delete(User)} Einzig nachvollziehbares Argument
+ * f�r einen solchen Ansatz ist die Steigerung der Performance umfangreicher
+ * Datenbankoperationen. Doch auch dieses Argument zieht nur dann, wenn wirklich
+ * gro�e Datenmengen zu handhaben sind. In einem solchen Fall w�rde man jedoch
+ * eine entsprechend erweiterte Architektur realisieren, die wiederum s�mtliche
+ * Applikationslogik in der Applikationsschicht isolieren w�rde. Also, keine
+ * Applikationslogik in die Mapper-Klassen "stecken" sondern dies auf die
+ * Applikationsschicht konzentrieren!
  * </p>
  * <p>
  * Beachten Sie, dass s�mtliche Methoden, die mittels GWT RPC aufgerufen werden
@@ -83,7 +84,8 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * </p>
  */
 @SuppressWarnings("serial")
-public class AdministrationCommonImpl extends RemoteServiceServlet implements AdministrationCommon {
+public class AdministrationCommonImpl extends RemoteServiceServlet implements
+		AdministrationCommon {
 
 	/**
 	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse ben�tigt.
@@ -97,84 +99,90 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 
 	/**
 	 * Referenz auf den DatenbankMapper, der Benutzerobjekte mit der Datenbank
-     * abgleicht.
+	 * abgleicht.
 	 */
 	private UserMapper userMapper = null;
 
 	/**
 	 * Referenz auf den DatenbankMapper, der Bauteilobjekte mit der Datenbank
-     * abgleicht.
+	 * abgleicht.
 	 */
 	private ElementMapper elementMapper = null;
 
 	/**
 	 * Referenz auf den DatenbankMapper, der Baugruppenobjekte mit der Datenbank
-     * abgleicht.
+	 * abgleicht.
 	 */
 	private ModuleMapper moduleMapper = null;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der St�cklistenobjekte mit der Datenbank
-     * abgleicht.
+	 * Referenz auf den DatenbankMapper, der St�cklistenobjekte mit der
+	 * Datenbank abgleicht.
 	 */
 	private PartlistMapper partlistMapper = null;
 
 	/**
 	 * Referenz auf den DatenbankMapper, der Endproduktobjekte mit der Datenbank
-     * abgleicht.
+	 * abgleicht.
 	 */
 	private ProductMapper productMapper = null;
 
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Beginn: Initialisierung
-	   * ***************************************************************************
-	   */
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Beginn: Initialisierung
+	 * ***************************************
+	 * ************************************
+	 */
 	/**
 	 * No-Argument Konstruktor
 	 */
 	public AdministrationCommonImpl() throws IllegalArgumentException {
-		
+
 	}
-	
+
 	/**
-	 *  Initialsierungsmethode. Siehe dazu Anmerkungen zum No-Argument-Konstruktor
-	 * {@link #AdministrationCommonImpl()}. Diese Methode muss f�r jede Instanz von
-	 * <code>AdministrationCommonImpl</code> aufgerufen werden.
+	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
+	 * No-Argument-Konstruktor {@link #AdministrationCommonImpl()}. Diese
+	 * Methode muss f�r jede Instanz von <code>AdministrationCommonImpl</code>
+	 * aufgerufen werden.
 	 */
 	public void init() throws IllegalArgumentException {
-	    /*
-	     * Ganz wesentlich ist, dass die Administration einen vollst�ndigen Satz
-	     * von Mappern besitzt, mit deren Hilfe sie dann mit der Datenbank
-	     * kommunizieren kann.
-	     */
+		/*
+		 * Ganz wesentlich ist, dass die Administration einen vollst�ndigen Satz
+		 * von Mappern besitzt, mit deren Hilfe sie dann mit der Datenbank
+		 * kommunizieren kann.
+		 */
 		this.userMapper = UserMapper.getUserMapper();
 		this.elementMapper = ElementMapper.getElementMapper();
 		this.moduleMapper = ModuleMapper.getModuleMapper();
 		this.productMapper = ProductMapper.getProductMapper();
 		this.partlistMapper = PartlistMapper.getPartlistMapper();
-	  }
+	}
 
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Ende: Initialisierung
-	   * ***************************************************************************
-	   */
-	
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Beginn: Methoden f�r User-Objekte
-	   * ***************************************************************************
-	   */
-	
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Ende: Initialisierung
+	 * *****************************************
+	 * **********************************
+	 */
+
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Beginn: Methoden f�r User-Objekte
+	 * *****************************
+	 * **********************************************
+	 */
+
 	@Override
-	public User registerUser(String email, String password) throws IllegalArgumentException {
+	public User registerUser(String email, String password)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public User loginUser(String email, String password) throws IllegalArgumentException {
+	public User loginUser(String email, String password)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -198,19 +206,21 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	public User getUser() throws IllegalArgumentException {
 		return this.currentUser;
 	}
-	
-	 /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Ende: Methoden f�r User-Objekte
-	   * ***************************************************************************
-	   */
 
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Beginn: Methoden f�r Element-Objekte
-	   * ***************************************************************************
-	   */
-	
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Ende: Methoden f�r User-Objekte
+	 * *******************************
+	 * ********************************************
+	 */
+
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Beginn: Methoden f�r Element-Objekte
+	 * **************************
+	 * *************************************************
+	 */
+
 	public ElementMapper getElementMapper() throws IllegalArgumentException {
 		return this.elementMapper;
 	}
@@ -230,11 +240,12 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	@Override
 	public void deleteElement(Element element) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public Module assignElement(Module module, Element element) throws IllegalArgumentException {
+	public Module assignElement(Module module, Element element)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -246,13 +257,15 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	}
 
 	@Override
-	public Vector<Element> findElementsByCreator(User creator) throws IllegalArgumentException {
+	public Vector<Element> findElementsByCreator(User creator)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Vector<Element> findElementsByName(String name) throws IllegalArgumentException {
+	public Vector<Element> findElementsByName(String name)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		Vector<Element> result = new Vector<Element>();
 		if (name.equals("leer")) {
@@ -261,33 +274,33 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 			Module m1 = new Module();
 			m1.setName(name);
 			m1.setId(0);
-			
+
 			Element e1 = new Element();
 			e1.setName(name + " element");
 			e1.setId(1);
 			e1.setDescription("blablabla");
-		
+
 			m1.getPartlist().add(e1, 1);
-			
+
 			result.add(m1);
 		}
 		return result;
 	}
-	
-	
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Ende: Methoden f�r Element-Objekte
-	   * ***************************************************************************
-	   */
 
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Beginn: Methoden f�r Modul-Objekte
-	   * ***************************************************************************
-	   */
-	
-	
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Ende: Methoden f�r Element-Objekte
+	 * ****************************
+	 * ***********************************************
+	 */
+
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Beginn: Methoden f�r Modul-Objekte
+	 * ****************************
+	 * ***********************************************
+	 */
+
 	public ModuleMapper getModuleMapper() throws IllegalArgumentException {
 		return this.moduleMapper;
 	}
@@ -307,43 +320,44 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	@Override
 	public void deleteModule(Module module) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public Module assignModule(Module module, Module subModule) throws IllegalArgumentException {
+	public Module assignModule(Module module, Module subModule)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Ende: Methoden f�r Modul-Objekte
-	   * ***************************************************************************
-	   */
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Ende: Methoden f�r Modul-Objekte
+	 * ******************************
+	 * *********************************************
+	 */
 
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Beginn: Methoden f�r Partlist-Objekte
-	   * ***************************************************************************
-	   */
-	
-	
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Beginn: Methoden f�r Partlist-Objekte
+	 * *************************
+	 * **************************************************
+	 */
+
 	public PartlistMapper getPartlistMapper() throws IllegalArgumentException {
 		return this.partlistMapper;
 	}
 
-	
-
-	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException {
+	public Partlist findPartlistByModuleName(String name)
+			throws IllegalArgumentException {
 		return this.moduleMapper.findByName(name).getPartlist();
 	}
 
 	@Override
-	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException {
+	public Partlist findPartlistByModuleId(int id)
+			throws IllegalArgumentException {
 		return this.moduleMapper.findById(id).getPartlist();
-		
+
 	}
 
 	@Override
@@ -351,62 +365,58 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 		return this.partlistMapper.findById(id);
 	}
 
-//	@Override
-	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException {
+	// @Override
+	public Partlist findPartlistByModule(Module module)
+			throws IllegalArgumentException {
 		return this.findPartlistById(module.getId());
 	}
-	
+
 	@Override
-	public String[] calculateMaterial(Partlist partlist)
+	public Partlist calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
-		
-		String[] result;
-		
-		for(int i = 0; i <partlist.getAllElements().lastIndexOf(partlist); i++){
+		Partlist totalAmount = new Partlist();
+
+		// Alle Einträge der übergebenen Parlist durchiterieren.
+		for (PartlistEntry pe : partlist.getAllEntries()) {
 			
-			
-			
-			return result;
+			// Wenn Element vom Typ Module ist, dann befinden sich weitere Elemente in dessen Stückliste (Partlist)
+			if (pe.getElement() instanceof Module) {
+				Module module = (Module) pe.getElement();
+				Partlist partAmount = calculateMaterial(module.getPartlist());
+				totalAmount.add(partAmount);
+
+			// Ansonsten handelt es sich um ein einzelnes Element/Bauteil
+			} else {
+				// Prüfen ob das Element bereits in der totalAmount Stückliste vorhanden ist.
+				if (totalAmount.contains(pe.getElement())) {
+					// Element bereits in totalAmount vorhanden, deswegen nur noch die Anzahl addieren.
+					PartlistEntry entry = totalAmount
+							.getPartlistEntryByIndex(totalAmount
+									.indexOfElement(pe.getElement()));
+					entry.setAmount(entry.getAmount() + pe.getAmount());
+				} else {
+					// Neues Element das noch nicht in totalAmount vorhanden ist, zum ersten Mal hinzufügen.
+					totalAmount.add(pe.getElement(), pe.getAmount());
+				}
+			}
 		}
-		
-		
-		// Array -> ["Schrauben" => "2" , "Zahnräder" => "3"]
-		// Array -> [["name" => "Schraube", "amount" => "2"],["name" => "Zahnrad", "amount" => "3"]]
-//		
-//		String part = "Schraube";
-//		String amount = "2";
-//		
-//		ArrayList test = new ArrayList();
-//		
-		// For schleife durch stückliste for(int i = 0; i < parlist.lenght(); i++)
-			// Mach en neues Array mit wort indexes
-//					String[] array = new String[2];
-//					array["name"] = part;
-//					array["amount"] = amount;
-//					// Hinzufügen zu array list
-//					test.push(["name" => part, "amount" => amount]);
-//					throws IllegalArgumentException {
-
-			
-				// Return arraylis
-//			return test;
+		return totalAmount;
 	}
-	
-		
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Ende: Methoden f�r Partlist-Objekte
-	   * ***************************************************************************
-	   */
 
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Beginn: Methoden f�r Product-Objekte
-	   * ***************************************************************************
-	   */
-	
-	
-	
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Ende: Methoden f�r Partlist-Objekte
+	 * ***************************
+	 * ************************************************
+	 */
+
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Beginn: Methoden f�r Product-Objekte
+	 * **************************
+	 * *************************************************
+	 */
+
 	/**
 	 * Auslesen des Datenbank Eintrags vom Endprodukt
 	 */
@@ -417,84 +427,86 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 	/**
 	 * Erstellen eines neuen Endproduktes
 	 * 
-	 * @param name des Endproduktes
-	 * @param module Baugruppe des zum Enderzeugnis wird
-	 * @param price des Endproduktes
+	 * @param name
+	 *            des Endproduktes
+	 * @param module
+	 *            Baugruppe des zum Enderzeugnis wird
+	 * @param price
+	 *            des Endproduktes
 	 */
-	public Product createProduct(String salesName, Module module) throws IllegalArgumentException {
-		
-		Product p = new Product(); 
+	public Product createProduct(String salesName, Module module)
+			throws IllegalArgumentException {
+
+		Product p = new Product();
 		p = (Product) module;
-		p.setSalesName(salesName); 		// Name des Endproduktes
-		
-		
+		p.setSalesName(salesName); // Name des Endproduktes
+
 		return this.productMapper.insert(p);
 	}
-	
-	 /**
-	  * Auslesen s�mtlicher Endprodukte 
-	  */
+
+	/**
+	 * Auslesen s�mtlicher Endprodukte
+	 */
 	public Vector<Product> getAllProducts() throws IllegalArgumentException {
 		return this.productMapper.findAll();
-		
+
 		// TODO: Beispiel Inhalt, kann ggf. wieder entfernt werden.
-//		Vector<Product> result = new Vector<Product>();
-//		Product m1 = new Product();
-//		m1.setName("Product 1");
-//		m1.setSalesName("Produkt 111");
-//		m1.setDescription("Baugruppe 1 - Irgendeine Beschreibung");
-//		m1.setId(12);
-//		m1.setCreationDate(new Date(2015, 6, 7));
-//		m1.setMaterialDescription("Unterschiedlich");
-//		result.add(m1);
-//
-//		Module e1 = new Module();
-//		e1.setName("Module 2");
-//		e1.setDescription("Baugruppe 2 - Noch Irgendeine Beschreibung");
-//		e1.setId(232);
-//		e1.setCreationDate(new Date(2015, 6, 3));
-//		e1.setMaterialDescription("Metall");
-//		m1.getPartlist().add(e1, 1);
-//
-//		Element e2 = new Element();
-//		e2.setName("Element 1");
-//		e2.setDescription("Bauteil 1 - Beschreibung meines ersten Bauteils :D");
-//		e2.setId(132);
-//		e2.setCreationDate(new Date(2015, 6, 3));
-//		e2.setMaterialDescription("Eisen");
-//		e1.getPartlist().add(e2, 1);
-//
-//		Element e3 = new Element();
-//		e3.setName("Element 2");
-//		e3.setDescription("Bauteil 2 - Beschreibung meines zweiten Bauteils ;D");
-//		e3.setId(132);
-//		e3.setCreationDate(new Date(2015, 6, 3));
-//		e3.setMaterialDescription("Holz");
-//		e1.getPartlist().add(e3, 1);
-//
-//		Element e4 = new Element();
-//		e4.setName("Element 4");
-//		m1.getPartlist().add(e4, 1);
-//		// Create a model for the tree.
-//
-//		Product module = new Product();
-//		module.setName("Produkt 3");
-//		result.add(module);
-//
-//		Product e5 = new Product();
-//		e5.setName("Produkt 5");
-//		e5.setDescription("Produkt 5 - Beschreibung meines 5. Bauteils ;D");
-//		e5.setId(132);
-//		e5.setCreationDate(new Date(2015, 6, 3));
-//		e5.setMaterialDescription("Holz");
-//		result.add(e5);
-//		module.getPartlist().add(e1, 1);
-//		module.getPartlist().add(e2, 1);
-//		module.getPartlist().add(e3, 1);
-//		module.getPartlist().add(e4, 1);
-//		return result;
+		// Vector<Product> result = new Vector<Product>();
+		// Product m1 = new Product();
+		// m1.setName("Product 1");
+		// m1.setSalesName("Produkt 111");
+		// m1.setDescription("Baugruppe 1 - Irgendeine Beschreibung");
+		// m1.setId(12);
+		// m1.setCreationDate(new Date(2015, 6, 7));
+		// m1.setMaterialDescription("Unterschiedlich");
+		// result.add(m1);
+		//
+		// Module e1 = new Module();
+		// e1.setName("Module 2");
+		// e1.setDescription("Baugruppe 2 - Noch Irgendeine Beschreibung");
+		// e1.setId(232);
+		// e1.setCreationDate(new Date(2015, 6, 3));
+		// e1.setMaterialDescription("Metall");
+		// m1.getPartlist().add(e1, 1);
+		//
+		// Element e2 = new Element();
+		// e2.setName("Element 1");
+		// e2.setDescription("Bauteil 1 - Beschreibung meines ersten Bauteils :D");
+		// e2.setId(132);
+		// e2.setCreationDate(new Date(2015, 6, 3));
+		// e2.setMaterialDescription("Eisen");
+		// e1.getPartlist().add(e2, 1);
+		//
+		// Element e3 = new Element();
+		// e3.setName("Element 2");
+		// e3.setDescription("Bauteil 2 - Beschreibung meines zweiten Bauteils ;D");
+		// e3.setId(132);
+		// e3.setCreationDate(new Date(2015, 6, 3));
+		// e3.setMaterialDescription("Holz");
+		// e1.getPartlist().add(e3, 1);
+		//
+		// Element e4 = new Element();
+		// e4.setName("Element 4");
+		// m1.getPartlist().add(e4, 1);
+		// // Create a model for the tree.
+		//
+		// Product module = new Product();
+		// module.setName("Produkt 3");
+		// result.add(module);
+		//
+		// Product e5 = new Product();
+		// e5.setName("Produkt 5");
+		// e5.setDescription("Produkt 5 - Beschreibung meines 5. Bauteils ;D");
+		// e5.setId(132);
+		// e5.setCreationDate(new Date(2015, 6, 3));
+		// e5.setMaterialDescription("Holz");
+		// result.add(e5);
+		// module.getPartlist().add(e1, 1);
+		// module.getPartlist().add(e2, 1);
+		// module.getPartlist().add(e3, 1);
+		// module.getPartlist().add(e4, 1);
+		// return result;
 	}
-	
 
 	/**
 	 * 
@@ -503,26 +515,26 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements Ad
 		return this.productMapper.update(product);
 	}
 
-	 /**
-	   * L�schen des Endproduktes. Beachten Sie bitte auch die Anmerkungen zu
-	   * throws IllegalArgumentException {@link #delete(User)}, {@link #delete(Module)} und {@link #delete(Element)}.
-	   * 
-	   * @see #delete(User)
-	   * @see #delete(Module)
-	   * @see #delete(Element)
-	   */
+	/**
+	 * L�schen des Endproduktes. Beachten Sie bitte auch die Anmerkungen zu
+	 * throws IllegalArgumentException {@link #delete(User)},
+	 * {@link #delete(Module)} und {@link #delete(Element)}.
+	 * 
+	 * @see #delete(User)
+	 * @see #delete(Module)
+	 * @see #delete(Element)
+	 */
 	@Override
 	public void deleteProduct(Product product) throws IllegalArgumentException {
-		  this.productMapper.delete(product);
-		
+		this.productMapper.delete(product);
+
 	}
 
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Ende: Methoden f�r Product-Objekte
+	 * ****************************
+	 * ***********************************************
+	 */
 
-	  /*
-	   * ***************************************************************************
-	   * ABSCHNITT, Ende: Methoden f�r Product-Objekte
-	   * ***************************************************************************
-	   */
-
-	
 }

@@ -71,6 +71,6 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Vector<Product> getAllProducts() throws IllegalArgumentException;
 
-	public String calculateMaterial(Partlist partlist) throws IllegalArgumentException;
+	public Partlist calculateMaterial(Partlist partlist) throws IllegalArgumentException;
 
 }
