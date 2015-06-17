@@ -65,7 +65,7 @@ public interface AdministrationCommonAsync {
 	public void getAllProducts(AsyncCallback<Vector<Product>> callback);
 
 	public void calculateMaterial(Partlist partlist,
-			AsyncCallback<String> callback);
+			AsyncCallback<Partlist> callback);
 
 	public void registerUser(String email, String password,
 			AsyncCallback<User> callback);
