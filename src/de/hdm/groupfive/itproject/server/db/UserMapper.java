@@ -16,6 +16,7 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
  * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
  */
+//Test 
 
 public class UserMapper {
 	/**
