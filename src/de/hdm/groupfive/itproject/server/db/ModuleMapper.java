@@ -3,7 +3,6 @@ package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
 import java.util.Vector;
-
 import de.hdm.groupfive.itproject.shared.bo.*;
 
 
@@ -230,11 +229,8 @@ public class ModuleMapper {
 
 		
 		
-<<<<<<< HEAD
-	public void delete(Module m) throws IllegalArgumentException, SQLException{
-=======
+
 	public void delete(Module m) throws IllegalArgumentException, SQLException {
->>>>>>> refs/heads/master
 		Connection con = DBConnection.connection();
 		
 		try {

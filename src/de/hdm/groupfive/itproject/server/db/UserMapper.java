@@ -1,11 +1,9 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import com.google.cloud.sql.jdbc.Connection;
 import com.google.cloud.sql.jdbc.Statement;
-import com.hdm.stundenplantool2.server.db.Bei;
-
 import de.hdm.groupfive.itproject.shared.bo.User;
 
 
@@ -53,7 +51,7 @@ public class UserMapper {
 	 *         <code>id</code>.
 	 */
 	 
-	public User insert(User u) throws IllegalArgumentException{
+	public User insert(User u) throws IllegalArgumentException, SQLException{
 		Connection con = (Connection) DBConnection.connection();
 		
 		try {
@@ -86,7 +84,7 @@ public class UserMapper {
 	 * @param u das aus der DB zu löschende "Objekt"
 	 */
 	
-	public void delete(User u) throws IllegalArgumentException {
+	public void delete(User u) throws IllegalArgumentException, SQLException {
 		Connection con = (Connection) DBConnection.connection();
 		
 		try {
@@ -108,7 +106,7 @@ public class UserMapper {
 	 *         null bei nicht vorhandenem DB-Tupel.
 	 */
 	
-	public User findById(int id) throws IllegalArgumentException {
+	public User findById(int id) throws IllegalArgumentException, SQLException {
 		//DB Verbindung hier holen
 		Connection con = (Connection) DBConnection.connection();
 		
@@ -145,7 +143,7 @@ public class UserMapper {
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	 
-	public User update(User u) throws IllegalArgumentException {
+	public User update(User u) throws IllegalArgumentException, SQLException {
 		Connection con = (Connection) DBConnection.connection();
 		
 		try {
