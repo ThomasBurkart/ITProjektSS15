@@ -67,7 +67,7 @@ public class LoginLogout {
 				// TODO: Methode zum einloggen eines Benutzers aufrufen ->
 				// onSuccess/OnFailure Handling?!
 				dialogBox.hide();
-				
+				// TODO: Unterscheidung zwischen Report Generator und Editor/Viewer
 				NavigationBar.load();
 				SearchPanel.load();
 				RootPanel.get("main").add(new History());

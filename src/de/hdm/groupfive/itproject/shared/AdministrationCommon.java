@@ -33,7 +33,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public User getUser() throws IllegalArgumentException;
 
-	public Element createElement(Element element) throws IllegalArgumentException;
+	public Element createElement(String name, Element element) throws IllegalArgumentException;
 
 	public Element editElement(Element element) throws IllegalArgumentException;
 
@@ -41,7 +41,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Module assignElement(Module module, Element element) throws IllegalArgumentException;
 
-	public Module createModule(Module module) throws IllegalArgumentException;
+	public Module createModule(String Modulname, Module module) throws IllegalArgumentException;
 
 	public Module editModule(Module module) throws IllegalArgumentException;
 
@@ -61,7 +61,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Vector<Element> findElementsByName(String name) throws IllegalArgumentException;
 
-	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException;
+//	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException;
 
 	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException;
 
@@ -71,6 +71,6 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Vector<Product> getAllProducts() throws IllegalArgumentException;
 
-	public String calculateMaterial(Partlist partlist) throws IllegalArgumentException;
+	public Partlist calculateMaterial(Partlist partlist) throws IllegalArgumentException;
 
 }

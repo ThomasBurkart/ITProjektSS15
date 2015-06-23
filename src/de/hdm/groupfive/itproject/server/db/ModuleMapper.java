@@ -63,7 +63,7 @@ public class ModuleMapper {
 	 *         entspricht, null bei nicht vorhandenem DB-Tupel.
 	 */
 	
-	public Module findById(int id) throws IllegalArgumentException {
+	public Module findById(int id) throws IllegalArgumentException, SQLException {
 		//DB Verbindung holen
 		Connection con = DBConnection.connection();
 		
@@ -84,7 +84,6 @@ public class ModuleMapper {
 				Module m = new Module();
 				m.setId(rs.getInt("id"));
 				m.setName(rs.getString("name"));
-				m.setElementId(rs.getInt("elementId"));
 				
 				return m;
 			}
@@ -97,7 +96,7 @@ public class ModuleMapper {
 	
 	
 	
-	public Module findByElement(int elementId) throws IllegalArgumentException {
+	public Module findByElement(int elementId) throws IllegalArgumentException, SQLException {
 				Connection con = DBConnection.connection();
 				
 				try {
@@ -113,7 +112,6 @@ public class ModuleMapper {
 					while (rs.next()) {
 						Module m = new Module();
 						m.setId(rs.getInt("module.id"));
-						m.setElementId(rs.getInt("module.elementId"));
 						
 						return m;
 					}
@@ -129,7 +127,7 @@ public class ModuleMapper {
 	 *         Modules repräsentieren. Bei evtl. Exceptions wird ein
 	 *         partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
 	 */
-	public Vector<Module> findAll() throws IllegalArgumentException {
+	public Vector<Module> findAll() throws IllegalArgumentException, SQLException {
 		//DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 		
@@ -146,7 +144,6 @@ public class ModuleMapper {
 				Module m = new Module();
 				m.setId(rs.getInt("id"));
 				m.setName(rs.getString("name"));
-				m.setElementId(rs.getInt("elementId"));
 				
 				//Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				result.addElement(m);
@@ -157,7 +154,7 @@ public class ModuleMapper {
 		return result;
 				}
 				
-	public Vector<Module> findbyElementId(int elementId) throws IllegalArgumentException {
+	public Vector<Module> findbyElementId(int elementId) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
 		Vector<Module> result = new Vector<Module>();
@@ -173,7 +170,6 @@ public class ModuleMapper {
 			while (rs.next()) {
 				Module m = new Module();
 				m.setId(rs.getInt("id"));
-				m.setElementId(rs.getInt("elementId"));
 				m.setName(rs.getString("name"));
 				
 				result.addElement(m);
@@ -195,7 +191,7 @@ public class ModuleMapper {
 	 *         <code>id</code>.
 	 */
 
-	public Module insert(Module m) throws IllegalArgumentException {
+	public Module insert(Module m) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
 		try {
@@ -220,9 +216,9 @@ public class ModuleMapper {
 						+ "VALUES ("
 						+ m.getId()
 						+ ",'"
-						+ m.getName()
-						+ "','"
-						+ m.getElementId() + "')");
+						+ m.getName());
+//						+ "','"
+//						+ m.getElementId() + "')");
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
@@ -234,7 +230,11 @@ public class ModuleMapper {
 
 		
 		
+<<<<<<< HEAD
 	public void delete(Module m) throws IllegalArgumentException, SQLException{
+=======
+	public void delete(Module m) throws IllegalArgumentException, SQLException {
+>>>>>>> refs/heads/master
 		Connection con = DBConnection.connection();
 		
 		try {
@@ -254,18 +254,18 @@ public class ModuleMapper {
  * @param m das Objekt, das in die DB geschrieben werden soll
  * @return das als Parameter übergebene Objekt
  */
-	public Module update(Module m) throws IllegalArgumentException {
+	public Module update(Module m) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
 		try {
 			Statement stmt = con.createStatement();
-			stmt.excecuteUpdate("UPDATE module SET"
+			stmt.executeUpdate("UPDATE module SET"
 					+ "name = '"
 					+ m.getName()
-					+ "',"
-					+ "elementId = "
-					+ "'"
-					+ m.getElementId()
+					//+ "',"
+//					+ "elementId = "
+//					+ "'"
+//					+ m.getElementId()
 					+ "' "
 					+ "WHERE id ="
 					+ m.getId());
@@ -277,7 +277,7 @@ public class ModuleMapper {
 	}
 					
 		
-	public Vector<Module> findByName(String name) throws IllegalArgumentException {
+	public Vector<Module> findByName(String name) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
 		Vector<Module> result = new Vector<Module>();
@@ -293,7 +293,7 @@ public class ModuleMapper {
 				Module m = new Module();
 				m.setId(rs.getInt("id"));
 				m.setName(rs.getString("name"));
-				m.setElementId(rs.getInt("elementId"));
+			//	m.setElementId(rs.getInt("elementId"));
 				
 				result.addElement(m);
 			}
@@ -303,7 +303,7 @@ public class ModuleMapper {
 		return result;
 	}
 	
-	public Vector<Module> findByElementId(int elementId) throws IllegalArgumentException {
+	public Vector<Module> findByElementId(int elementId) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
 		Vector<Module> result = new Vector<Module>();
@@ -320,7 +320,6 @@ public class ModuleMapper {
 				Module m = new Module();
 				m.setId(rs.getInt("id"));
 				m.setName(rs.getString("name"));
-				m.setElementId(rs.getInt("elementId"));
 				
 				result.addElement(m);
 			}

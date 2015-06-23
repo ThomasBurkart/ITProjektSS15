@@ -34,11 +34,11 @@ public class ITProjektSS15 implements EntryPoint {
 		// lädt den Login Dialog
 		LoginLogout.load();
 		
-		
+		// Inhalt zur Sicherheit nochmal entfernen.
 		RootPanel.get("main").clear();
 		RootPanel.get("clientTitle").clear();
 
-
+		// Titel des Clients
 		Button clientTitle = new Button("&nbsp;Editor & Viewer");
 		clientTitle.addClickHandler(new ClickHandler() {
 					@Override
@@ -48,8 +48,13 @@ public class ITProjektSS15 implements EntryPoint {
 						SearchPanel.load();
 					}
 				});
+		// Tooltip des Titels
 		clientTitle.setTitle("Zurück zur Startseite");
+		
+		// StyleSheet festlegen
 		clientTitle.setStylePrimaryName("btn btn-link navbar-brand");
+		
+		// Titel-Button dem entsprechenden Layer hinzufügen.
 		RootPanel.get("clientTitle").add(clientTitle);
 		
 		
@@ -57,7 +62,7 @@ public class ITProjektSS15 implements EntryPoint {
 	}
 
 	
-
+	// TODO in andere Klasse verschieben
 	public Vector<String> getLevenshtein1(String word) {
 		Vector<String> words = new Vector<String>();
 		for (int i = 0; i < word.length(); i++) {
