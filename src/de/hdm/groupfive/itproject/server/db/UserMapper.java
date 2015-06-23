@@ -1,9 +1,11 @@
 package de.hdm.groupfive.itproject.server.db;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import com.google.cloud.sql.jdbc.Connection;
-import com.google.cloud.sql.jdbc.Statement;
+import java.sql.*;
+
+//import com.google.cloud.sql.jdbc.Connection;
+//import com.google.cloud.sql.jdbc.Statement;
+
+
 import de.hdm.groupfive.itproject.shared.bo.User;
 
 
@@ -52,8 +54,7 @@ public class UserMapper {
 	 */
 	 
 	public User insert(User u) throws IllegalArgumentException, SQLException{
-		Connection con = (Connection) DBConnection.connection();
-		
+		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
 			
@@ -85,7 +86,7 @@ public class UserMapper {
 	 */
 	
 	public void delete(User u) throws IllegalArgumentException, SQLException {
-		Connection con = (Connection) DBConnection.connection();
+		Connection con = DBConnection.connection();
 		
 		try {
 			Statement stmt = con.createStatement();
@@ -108,7 +109,7 @@ public class UserMapper {
 	
 	public User findById(int id) throws IllegalArgumentException, SQLException {
 		//DB Verbindung hier holen
-		Connection con = (Connection) DBConnection.connection();
+		Connection con = DBConnection.connection();
 		
 		try {
 			Statement stmt = con.createStatement();
@@ -144,7 +145,7 @@ public class UserMapper {
 	 */
 	 
 	public User update(User u) throws IllegalArgumentException, SQLException {
-		Connection con = (Connection) DBConnection.connection();
+		Connection con = DBConnection.connection();
 		
 		try {
 			Statement stmt = con.createStatement();
