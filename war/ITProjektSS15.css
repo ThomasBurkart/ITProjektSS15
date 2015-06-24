@@ -60,6 +60,10 @@ h1 {
 	background-color: #fafafa;
 }
 
+.assignBox {
+	top: 20px;
+}
+
 .searchPanel {
 	width: 100%;
 	margin: 20px;
@@ -187,8 +191,10 @@ h1 {
 }
 
 .dialogMiddle td {
-	padding: 5px;
+	padding: 0;
 }
+
+
 
 .memberGrid td {
 	padding: 0;

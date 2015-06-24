@@ -32,12 +32,13 @@ public class ITProjektSS15 implements EntryPoint {
 				.getAdministration();
 
 		// lädt den Login Dialog
-		LoginLogout.load();
+		//LoginLogout.load();
 		
 		// Inhalt zur Sicherheit nochmal entfernen.
 		RootPanel.get("main").clear();
 		RootPanel.get("clientTitle").clear();
 
+		
 		// Titel des Clients
 		Button clientTitle = new Button("&nbsp;Editor & Viewer");
 		clientTitle.addClickHandler(new ClickHandler() {
@@ -57,6 +58,10 @@ public class ITProjektSS15 implements EntryPoint {
 		// Titel-Button dem entsprechenden Layer hinzufügen.
 		RootPanel.get("clientTitle").add(clientTitle);
 		
+		
+		NavigationBar.load();
+		SearchPanel.load();
+		RootPanel.get("main").add(new History());
 		
 		
 	}

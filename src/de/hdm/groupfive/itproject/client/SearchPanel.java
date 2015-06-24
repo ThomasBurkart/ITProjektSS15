@@ -13,8 +13,17 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SearchPanel {
-
+		
 	public static void load() {
+		RootPanel.get("navigator").clear();
+		RootPanel.get("navigator").add(create());
+	}
+	
+	public static VerticalPanel getSearchPanel() {
+		return create();
+	}
+
+	private static VerticalPanel create() {
 		// SUCHE BOX ANFANG
 		final VerticalPanel searchPanel = new VerticalPanel();
 		searchPanel.setStylePrimaryName("searchPanel");
@@ -109,7 +118,7 @@ public class SearchPanel {
 		// SUCH BOX ENDE
 
 		searchPanel.add(new SearchResult());
-		RootPanel.get("navigator").clear();
-		RootPanel.get("navigator").add(searchPanel);
+		
+		return searchPanel;
 	}
 }

@@ -13,6 +13,9 @@ PROTOKOLL
 ********************************
         UNKLARHEITEN
 ********************************
+
+
+	Methoden zum Löschen von Zuordnungen! @Fabi/Timo/Sam
 		
 	KLASSE ElementMapper:
 		Zeile 76: 			a.setModifyDateID(rs.getTimestamp ("modify_date"));

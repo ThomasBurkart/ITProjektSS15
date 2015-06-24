@@ -331,19 +331,22 @@ public class ElementForm extends Showcase {
 		});
 		panel.add(saveBtn);
 
-		Button saveAndAssignBtn = new Button("zuordnen & speichern");
+		Button saveAndAssignBtn = new Button("zuordnen");
 		saveAndAssignBtn.setStylePrimaryName("btn btn-success createBtn");
 		saveAndAssignBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Element abspeichern/neu anlegen und Element von
 				// Baum zuordnen
-				SearchResult.disableLoadElementForm();
-				currentShowcase
-						.insert(new InfoMsg(
-								"Sie können nun ein [Klick] oder mehrere [Strg+Klick] Baugruppen im Suchbaum markieren, um das Element diesen zuzuordnen!"),
-								1);
-
+				//SearchResult.disableLoadElementForm();
+//				currentShowcase
+//						.insert(new InfoMsg(
+//								"Sie können nun ein [Klick] oder mehrere [Strg+Klick] Baugruppen im Suchbaum markieren, um das Element diesen zuzuordnen!"),
+//								1);
+				//AssignDialog.load();
+				
+				RootPanel.get("main").clear();
+				RootPanel.get("main").add(new AssignPanel());
 			}
 		});
 		panel.add(saveAndAssignBtn);
