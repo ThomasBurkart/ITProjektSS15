@@ -3,7 +3,6 @@ package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
 import java.util.Vector;
-
 import de.hdm.groupfive.itproject.shared.bo.*;
 
 
@@ -88,8 +87,8 @@ public class ModuleMapper {
 				return m;
 			}
 			
-		}catch (SQLException e1) {
-				throw new IllegalArgumentException(e1.getMessage());
+		}catch (SQLException ex) {
+				throw new IllegalArgumentException(ex.getMessage());
 				}
 			return null;
 		}
@@ -115,8 +114,8 @@ public class ModuleMapper {
 						
 						return m;
 					}
-				} catch (SQLException e1) {
-					throw new IllegalArgumentException(e1.getMessage());
+				} catch (SQLException ex) {
+					throw new IllegalArgumentException(ex.getMessage());
 				}
 				return null;
 	}
@@ -148,8 +147,8 @@ public class ModuleMapper {
 				//Hinzufuegen des neuen Objekts zum Ergebnisvektor
 				result.addElement(m);
 			}
-		} catch (SQLException e1) {
-			throw new IllegalArgumentException(e1.getMessage());
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 			}
 		return result;
 				}
@@ -174,8 +173,8 @@ public class ModuleMapper {
 				
 				result.addElement(m);
 			}
-		} catch (SQLException e1) {
-			throw new IllegalArgumentException(e1.getMessage());
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 		return result;
 	}
@@ -220,8 +219,8 @@ public class ModuleMapper {
 //						+ "','"
 //						+ m.getElementId() + "')");
 			}
-		} catch (SQLException e1) {
-			throw new IllegalArgumentException(e1.getMessage());
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 		
 		return m;
@@ -230,6 +229,7 @@ public class ModuleMapper {
 
 		
 		
+
 	public void delete(Module m) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
@@ -237,8 +237,8 @@ public class ModuleMapper {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM module"
 							+ "WHERE id =" + m.getId());
-		} catch (SQLException e1) {
-		throw new IllegalArgumentException(e1.getMessage());
+		} catch (SQLException ex) {
+		throw new IllegalArgumentException(ex.getMessage());
 	}
   }
 
@@ -266,8 +266,8 @@ public class ModuleMapper {
 					+ "WHERE id ="
 					+ m.getId());
 					
-		} catch (SQLException e1) {
-			throw new IllegalArgumentException(e1.getMessage());
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 		return m;
 	}
@@ -293,8 +293,8 @@ public class ModuleMapper {
 				
 				result.addElement(m);
 			}
-		} catch (SQLException e1) {
-			throw new IllegalArgumentException(e1.getMessage());
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 		return result;
 	}
@@ -319,8 +319,8 @@ public class ModuleMapper {
 				
 				result.addElement(m);
 			}
-		} catch (SQLException e1) {
-			throw new IllegalArgumentException(e1.getMessage());
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 		return result;
 	}

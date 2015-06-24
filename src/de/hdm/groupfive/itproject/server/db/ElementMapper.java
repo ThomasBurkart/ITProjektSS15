@@ -54,9 +54,9 @@ public class ElementMapper {
 				e.setId(rs.getInt("id"));
 				e.setName(rs.getString("name"));
 				e.setDescription(rs.getString("description"));
-				e.setMaterialDescription(rs.getString("material description"));
-				e.setCreationDate(rs.getDate("int columnIndex, Calendar cal"));
-				e.setLastUpdate(rs.getDate("int columnIndex, Calendar cal"));
+				e.setMaterialDescription(rs.getString("material_description"));
+				e.setCreationDate(rs.getDate("creation_date"));
+				e.setLastUpdate(rs.getDate("last_update"));
 
 				return e;
 
@@ -244,6 +244,7 @@ public class ElementMapper {
 	 * Löschen der Daten eines <code>Element</code> - Objekts aus der Datenbank
 	 * 
 	 * @param e das aus der DB zu löschende "Objekt"
+	 * @throws SQLException
 	 */
 
 	public void delete(Element e) throws IllegalArgumentException, SQLException {
@@ -262,5 +263,5 @@ public class ElementMapper {
 
 	 
 }
-// Nochmals anschauen
+
 
