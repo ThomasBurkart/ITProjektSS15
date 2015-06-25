@@ -176,7 +176,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 
 	/**
-	 * Übergibt die Registrierungsdaten an die Datenbank weiter
+	 * ï¿½bergibt die Registrierungsdaten an die Datenbank weiter
 	 * @param email des Benutzers
 	 * @param password des Benutzerkontos
 	 */
@@ -260,15 +260,27 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            Bauteil das erstellt wird
 	 */
 	@Override
-	public Element createElement(String name, Element element)
+	public Element createElement(Element element)
 			throws IllegalArgumentException {
 
-		Element el = new Element();
-		el = (Element) element;
-		el.setName(name);
-
+		if (element == null) {
+			throw new IllegalArgumentException("Ãœbergebenes Objekt an createElement() ist NULL");
+		}
+		
 		try {
-			return this.getElementMapper().insert(el);
+			if (element instanceof Product) {
+				element.setCreationDate(new java.sql.Date(0));
+				element.setLastUpdate(new java.sql.Date(0));
+				return this.getProductMapper().insert((Product)element);
+			} else if (element instanceof Module) {
+				element.setCreationDate(new java.sql.Date(0));
+				element.setLastUpdate(new java.sql.Date(0));
+				return this.getModuleMapper().insert((Module)element);
+			} else {
+				element.setCreationDate(new java.sql.Date(0));
+				element.setLastUpdate(new java.sql.Date(0));
+				return this.getElementMapper().insert(element);
+			}
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
@@ -276,8 +288,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Bearbeiten eines Bauteils
-	 * @param element Bauteil das verändert werden soll
-	 * @return Das geänderte Bauteil wird an den Bauteil-Mapper (ElementMapper) übergeben
+	 * @param element Bauteil das verï¿½ndert werden soll
+	 * @return Das geï¿½nderte Bauteil wird an den Bauteil-Mapper (ElementMapper) ï¿½bergeben
 	 */
 	@Override
 	public Element editElement(Element element) throws IllegalArgumentException {
@@ -289,9 +301,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Löschen eines Bauteils
-	 * @param element Bauteil das gelöscht werden soll
-	 * @return das zu löschende Bauteil wird an den Bauteil-Mapper (ElementMapper) übergeben zum löschen
+	 * Lï¿½schen eines Bauteils
+	 * @param element Bauteil das gelï¿½scht werden soll
+	 * @return das zu lï¿½schende Bauteil wird an den Bauteil-Mapper (ElementMapper) ï¿½bergeben zum lï¿½schen
 	 */
 	@Override
 	public void deleteElement(Element element) throws IllegalArgumentException {
@@ -404,11 +416,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            Baugruppe die erstellt wird
 	 */
 	@Override
-	public Module createModule(String name, Module module)
+	public Module createModule(Module m)
 			throws IllegalArgumentException {
-		Module m = new Module();
-		m = module;
-		m.setName(name);
 		try {
 			return this.getModuleMapper().insert(m);
 		} catch (SQLException e) {
@@ -419,7 +428,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/**
 	 * Bearbeiten einer Baugruppe
 	 * @param module Baugruppe die bearbeitet werden soll
-	 * @return Die bearbeitete Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) übergeben
+	 * @return Die bearbeitete Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) ï¿½bergeben
 	 */
 	@Override
 	public Module editModule(Module module) throws IllegalArgumentException {
@@ -447,9 +456,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 	
 	/**
-	 * Löschen einer Baugruppe
-	 * @param module Baugruppe die gelöscht werden soll
-	 * @return die zulöschende Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) übergeben zum löschen
+	 * Lï¿½schen einer Baugruppe
+	 * @param module Baugruppe die gelï¿½scht werden soll
+	 * @return die zulï¿½schende Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) ï¿½bergeben zum lï¿½schen
 	 */
 	@Override
 	public void deleteModule(Module module) throws IllegalArgumentException {
@@ -480,7 +489,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 
 	/**
-	 * Auslesen des Stücklisten-Mappers (PartlistMapper)
+	 * Auslesen des Stï¿½cklisten-Mappers (PartlistMapper)
 	 */
 	public PartlistMapper getPartlistMapper() throws IllegalArgumentException {
 		return this.partlistMapper;
@@ -496,7 +505,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	// }
 
 	/**
-	 * Finden einer Stückliste mittels der BaugruppenID
+	 * Finden einer Stï¿½ckliste mittels der BaugruppenID
 	 * @param id der Baugruppe 
 	 */
 	@Override
@@ -511,8 +520,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Finden einer Stückliste mittels der StücklistenID
-	 * @param id der Stückliste 
+	 * Finden einer Stï¿½ckliste mittels der Stï¿½cklistenID
+	 * @param id der Stï¿½ckliste 
 	 */
 	@Override
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
@@ -530,8 +539,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	// }
 
 	/**
-	 * Finden einer Stückliste mittels der Baugruppe
-	 * @param module Baurgruppe der Stückliste
+	 * Finden einer Stï¿½ckliste mittels der Baugruppe
+	 * @param module Baurgruppe der Stï¿½ckliste
 	 */
 	public Partlist findPartlistByModule(Module module)
 			throws IllegalArgumentException {
@@ -539,10 +548,10 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Berechnen der benötigten Bauteile
+	 * Berechnen der benï¿½tigten Bauteile
 	 * 
 	 * @param partlist
-	 *            ist die übergebene Stückliste, aus welcher das Material
+	 *            ist die ï¿½bergebene Stï¿½ckliste, aus welcher das Material
 	 *            berechnet wird
 	 */
 	@Override
@@ -608,12 +617,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @param module
 	 *            Baugruppe das zum Enderzeugnis wird
 	 */
-	public Product createProduct(String salesName, Module module)
+	public Product createProduct(Product p)
 			throws IllegalArgumentException {
-
-		Product p = new Product();
-		p = (Product) module;
-		p.setSalesName(salesName); // Name des Endproduktes
 
 		try {
 			return this.getProductMapper().insert(p);

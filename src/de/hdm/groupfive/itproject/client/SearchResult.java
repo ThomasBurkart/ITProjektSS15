@@ -112,6 +112,8 @@ public class SearchResult extends Showcase {
 		selectionModel = msm;
 	}
 	
+	
+	
 	public static MultiSelectionModel<Element> getSelectionModel() {
 		return selectionModel;
 	}

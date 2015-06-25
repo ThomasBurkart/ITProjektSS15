@@ -162,6 +162,10 @@ public class ElementMapper {
 	 *         <code>id</code>.
 	 */
 	public Element insert(Element e) throws IllegalArgumentException, SQLException {
+		if (e == null) {
+			throw new IllegalArgumentException("Übergebenes Objekt an insert() ist NULL.");
+		}
+		
 		Connection con = DBConnection.connection();
 
 		try {
@@ -171,7 +175,7 @@ public class ElementMapper {
 			 * Zunächst schauen wir nach, welches der momentan höhste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid"
+			ResultSet rs = stmt.executeQuery("SELECT MAX(element_id) AS maxid "
 					+ "FROM element");
 			// Wenn wir etwas zurückhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -183,7 +187,7 @@ public class ElementMapper {
 				stmt = con.createStatement();
 
 				// die tatsaechliche Einfuegeoperation
-				stmt.executeUpdate("INSERT INTO element (id, name, description, material_description, creation_date, last_update)"
+				stmt.executeUpdate("INSERT INTO element (element_id, name, description, material_description, creation_date, last_update) "
 						+ "VALUES ("
 						+ e.getId()
 						+ ",'"
@@ -193,7 +197,10 @@ public class ElementMapper {
 						+ "','"
 						+ e.getMaterialDescription()
 						+ "',"
-						+ e.getCreationDate() + "," + e.getLastUpdate() + ")");
+						+ "'2001-01-20 15:00:00'" //e.getCreationDate() 
+						+ "," 
+						+ "'2001-01-20 15:00:00'" //e.getLastUpdate() 
+						+ ")");
 			}
 			
 		} catch (SQLException ex) {
