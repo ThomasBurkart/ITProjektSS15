@@ -30,11 +30,11 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * Die Applikationslogik findet sich in den Methoden dieser Klasse. Jede dieser
  * Methoden kann als <em>Transaction Script</em> bezeichnet werden. Dieser Name
  * lï¿½sst schon vermuten, dass hier analog zu Datenbanktransaktion pro
- * Transaktion gleiche mehrere Teilaktionen durchgefï¿½hrt werden, die das System
- * von einem konsistenten Zustand in einen anderen, auch wieder konsistenten
- * Zustand ï¿½berfï¿½hren. Wenn dies zwischenzeitig scheitern sollte, dann ist das
- * jeweilige Transaction Script dafï¿½r verwantwortlich, eine Fehlerbehandlung
- * durchzufï¿½hren.
+ * Transaktion gleiche mehrere Teilaktionen durchgefï¿½hrt werden, die das
+ * System von einem konsistenten Zustand in einen anderen, auch wieder
+ * konsistenten Zustand ï¿½berfï¿½hren. Wenn dies zwischenzeitig scheitern
+ * sollte, dann ist das jeweilige Transaction Script dafï¿½r verwantwortlich,
+ * eine Fehlerbehandlung durchzufï¿½hren.
  * </p>
  * <p>
  * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies
@@ -69,18 +69,18 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * auch die Hinweise in {@link #delete(User)} Einzig nachvollziehbares Argument
  * fï¿½r einen solchen Ansatz ist die Steigerung der Performance umfangreicher
  * Datenbankoperationen. Doch auch dieses Argument zieht nur dann, wenn wirklich
- * groï¿½e Datenmengen zu handhaben sind. In einem solchen Fall wï¿½rde man jedoch
- * eine entsprechend erweiterte Architektur realisieren, die wiederum sï¿½mtliche
- * Applikationslogik in der Applikationsschicht isolieren wï¿½rde. Also, keine
- * Applikationslogik in die Mapper-Klassen "stecken" sondern dies auf die
- * Applikationsschicht konzentrieren!
+ * groï¿½e Datenmengen zu handhaben sind. In einem solchen Fall wï¿½rde man
+ * jedoch eine entsprechend erweiterte Architektur realisieren, die wiederum
+ * sï¿½mtliche Applikationslogik in der Applikationsschicht isolieren wï¿½rde.
+ * Also, keine Applikationslogik in die Mapper-Klassen "stecken" sondern dies
+ * auf die Applikationsschicht konzentrieren!
  * </p>
  * <p>
- * Beachten Sie, dass sï¿½mtliche Methoden, die mittels GWT RPC aufgerufen werden
- * kï¿½nnen ein <code>throws IllegalArgumentException</code> in der
+ * Beachten Sie, dass sï¿½mtliche Methoden, die mittels GWT RPC aufgerufen
+ * werden kï¿½nnen ein <code>throws IllegalArgumentException</code> in der
  * Methodendeklaration aufweisen. Diese Methoden dï¿½rfen also Instanzen von
- * {@link IllegalArgumentException} auswerfen. Mit diesen Exceptions kï¿½nnen z.B.
- * Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
+ * {@link IllegalArgumentException} auswerfen. Mit diesen Exceptions kï¿½nnen
+ * z.B. Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
  * transportiert und dort systematisch in einem Catch-Block abgearbeitet werden.
  * </p>
  */
@@ -89,7 +89,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		AdministrationCommon {
 
 	/**
-	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benï¿½tigt.
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse
+	 * benï¿½tigt.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -149,8 +150,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 	public void init() throws IllegalArgumentException {
 		/*
-		 * Ganz wesentlich ist, dass die Administration einen vollstï¿½ndigen Satz
-		 * von Mappern besitzt, mit deren Hilfe sie dann mit der Datenbank
+		 * Ganz wesentlich ist, dass die Administration einen vollstï¿½ndigen
+		 * Satz von Mappern besitzt, mit deren Hilfe sie dann mit der Datenbank
 		 * kommunizieren kann.
 		 */
 		this.userMapper = UserMapper.getUserMapper();
@@ -174,6 +175,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * **********************************************
 	 */
 
+	/**
+	 * Übergibt die Registrierungsdaten an die Datenbank weiter
+	 * @param email des Benutzers
+	 * @param password des Benutzerkontos
+	 */
 	@Override
 	public User registerUser(String email, String password)
 			throws IllegalArgumentException {
@@ -181,6 +187,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	/**
+	 * Login Daten werden mit der Datenbank abgeglichen
+	 * @param email des Benutzers
+	 * @param password des Benutzerkontos
+	 */
 	@Override
 	public User loginUser(String email, String password)
 			throws IllegalArgumentException {
@@ -188,51 +199,74 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	/**
+	 * Durch den Logout wird die SessionID in der DB gespeichert und der Benutzer wird ausgeloggt
+	 */
 	@Override
 	public void logoutUser() throws IllegalArgumentException {
 		// TODO Google Api ansteuern
 
 	}
 
+	/**
+	 * Auslesen des Benutzer-Mappers (UserMappers)
+	 */
 	public UserMapper getUserMapper() throws IllegalArgumentException {
 		return this.userMapper;
 	}
 
+	/**
+	 * Setzen des Benutzers
+	 * @param user Benutzerobjekt 
+	 */
 	@Override
 	public void setUser(User user) throws IllegalArgumentException {
 		this.currentUser = user;
 	}
 
+	/**
+	 * Auslesen des Benutzobjekts/ der Benutzerdaten
+	 */
 	@Override
 	public User getUser() throws IllegalArgumentException {
 		return this.currentUser;
 	}
 
 	/*
-	 * ***************************************************************************
+	 * *************************************************
 	 * ABSCHNITT, Ende: Methoden fï¿½r User-Objekte
-	 * *******************************
-	 * ********************************************
-	 */
-
-	/*
-	 * ***************************************************************************
-	 * ABSCHNITT, Beginn: Methoden fï¿½r Element-Objekte
-	 * **************************
 	 * *************************************************
 	 */
 
+	/*
+	 * *************************************************
+	 * ABSCHNITT, Beginn: Methoden fï¿½r Element-Objekte
+	 * *************************************************
+	 */
+
+	/**
+	 * Auslesen des Bauteil-Mapper (ElementMappers)
+	 */
 	public ElementMapper getElementMapper() throws IllegalArgumentException {
 		return this.elementMapper;
 	}
 
+	/**
+	 * Erstellen eines neuen Bauteils
+	 * 
+	 * @param name
+	 *            des Bauteils
+	 * @param element
+	 *            Bauteil das erstellt wird
+	 */
 	@Override
-	public Element createElement(String name, Element element) throws IllegalArgumentException {	
-		
+	public Element createElement(String name, Element element)
+			throws IllegalArgumentException {
+
 		Element el = new Element();
 		el = (Element) element;
 		el.setName(name);
-		
+
 		try {
 			return this.getElementMapper().insert(el);
 		} catch (SQLException e) {
@@ -240,6 +274,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	/**
+	 * Bearbeiten eines Bauteils
+	 * @param element Bauteil das verändert werden soll
+	 * @return Das geänderte Bauteil wird an den Bauteil-Mapper (ElementMapper) übergeben
+	 */
 	@Override
 	public Element editElement(Element element) throws IllegalArgumentException {
 		try {
@@ -249,25 +288,25 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	/**
+	 * Löschen eines Bauteils
+	 * @param element Bauteil das gelöscht werden soll
+	 * @return das zu löschende Bauteil wird an den Bauteil-Mapper (ElementMapper) übergeben zum löschen
+	 */
 	@Override
 	public void deleteElement(Element element) throws IllegalArgumentException {
 		try {
 			this.getElementMapper().delete(element);
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
-		}		
+		}
 	}
-	
 
-	@Override
-	public Module assignElement(Module module, Element element)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	 
-
-
+	/**
+	 * Finden eines Bauteils mittels der ID
+	 * @param id des Bauteils
+	 * @return Element wird durch die findById()-Methode gesucht
+	 */
 	@Override
 	public Element findElementById(int id) throws IllegalArgumentException {
 		try {
@@ -277,6 +316,27 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	/*
+	***********************************************************
+	*/
+	/**
+	 * Zuweisen eines Bauteils
+	 * @param module Baugruppe, der ein Bauteil zugewiesen werden soll
+	 * @param element Bauteil, das einer Baugruppe zugewiesen werden soll
+	 * @return
+	 */
+	@Override
+	public Module assignElement(Module module, Element element)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * Finden eines Bauteils mittels der Erstellers
+	 * @param creator Ersteller, der das Bauteil erstellt hat
+	 * @return 
+	 */
 	@Override
 	public Vector<Element> findElementsByCreator(User creator)
 			throws IllegalArgumentException {
@@ -284,6 +344,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	/*
+	***********************************************************
+	*/
+	/**
+	 * Finden eines Bauteils mittels des Namens
+	 * @param name des Bauteils
+	 * @return result 
+	 */
 	@Override
 	public Vector<Element> findElementsByName(String name)
 			throws IllegalArgumentException {
@@ -309,28 +377,38 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/*
-	 * ***************************************************************************
+	 * *************************************************
 	 * ABSCHNITT, Ende: Methoden fï¿½r Element-Objekte
-	 * ****************************
-	 * ***********************************************
+	 * *************************************************
 	 */
 
 	/*
-	 * ***************************************************************************
+	 * *************************************************
 	 * ABSCHNITT, Beginn: Methoden fï¿½r Modul-Objekte
-	 * ****************************
-	 * ***********************************************
+	 * *************************************************
 	 */
 
+	/**
+	 * Auslesen des Baugruppen-Mappers (moduleMapper)
+	 */
 	public ModuleMapper getModuleMapper() throws IllegalArgumentException {
 		return this.moduleMapper;
 	}
-	
+
+	/**
+	 * Erstellen einer neuen Baugruppe
+	 * 
+	 * @param name
+	 *            dert Baugruppe
+	 * @param module
+	 *            Baugruppe die erstellt wird
+	 */
 	@Override
-	public Module createModule(String Modulname, Module module) throws IllegalArgumentException {
+	public Module createModule(String name, Module module)
+			throws IllegalArgumentException {
 		Module m = new Module();
 		m = module;
-		m.setName(Modulname);
+		m.setName(name);
 		try {
 			return this.getModuleMapper().insert(m);
 		} catch (SQLException e) {
@@ -338,12 +416,41 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	/**
+	 * Bearbeiten einer Baugruppe
+	 * @param module Baugruppe die bearbeitet werden soll
+	 * @return Die bearbeitete Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) übergeben
+	 */
 	@Override
 	public Module editModule(Module module) throws IllegalArgumentException {
+		try {
+			return this.getModuleMapper().update(module);
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}
+	}
+
+	/*
+	***********************************************************
+	*/
+	/**
+	 * Zuweisen einer Baugruppe
+	 * @param module Baugruppe, der eine Baugruppe zugewiesen werden soll
+	 * @param subModule UnterBaugruppe, die einer Baugruppe zugewiesen werden soll
+	 * @return
+	 */
+	@Override
+	public Module assignModule(Module module, Module subModule)
+			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	/**
+	 * Löschen einer Baugruppe
+	 * @param module Baugruppe die gelöscht werden soll
+	 * @return die zulöschende Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) übergeben zum löschen
+	 */
 	@Override
 	public void deleteModule(Module module) throws IllegalArgumentException {
 		if (module != null) {
@@ -353,55 +460,60 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 				throw new IllegalArgumentException(e.getMessage());
 			}
 		} else {
-			throw new IllegalArgumentException("Ãœbergebenes Modul Objekt ist NULL");
+			throw new IllegalArgumentException(
+					"Ãœbergebenes Modul Objekt ist NULL");
 		}
-}
-
-	@Override
-	public Module assignModule(Module module, Module subModule)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
-	/*
-	 * ***************************************************************************
-	 * ABSCHNITT, Ende: Methoden fï¿½r Modul-Objekte
-	 * ******************************
-	 * *********************************************
-	 */
+
 
 	/*
-	 * ***************************************************************************
-	 * ABSCHNITT, Beginn: Methoden fï¿½r Partlist-Objekte
-	 * *************************
+	 * **************************************************
+	 * ABSCHNITT, Ende: Methoden fï¿½r Modul-Objekte
 	 * **************************************************
 	 */
 
+	/*
+	 * ***************************************************
+	 * ABSCHNITT, Beginn: Methoden fï¿½r Partlist-Objekte
+	 * ***************************************************
+	 */
+
+	/**
+	 * Auslesen des Stücklisten-Mappers (PartlistMapper)
+	 */
 	public PartlistMapper getPartlistMapper() throws IllegalArgumentException {
 		return this.partlistMapper;
 	}
 
-	
+	// public Partlist findPartlistByModuleName(String name) throws
+	// IllegalArgumentException {
+	// try {
+	// return this.getModuleMapper().findByName(name).getPartlist();
+	// } catch (SQLException e) {
+	// throw new IllegalArgumentException(e.getMessage());
+	// }
+	// }
 
-//	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException {
-//		try {
-//			return this.getModuleMapper().findByName(name).getPartlist();
-//		} catch (SQLException e) {
-//			throw new IllegalArgumentException(e.getMessage());
-//		}
-//	}
-
+	/**
+	 * Finden einer Stückliste mittels der BaugruppenID
+	 * @param id der Baugruppe 
+	 */
 	@Override
-	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException {
+	public Partlist findPartlistByModuleId(int id)
+			throws IllegalArgumentException {
 		try {
 			return this.getModuleMapper().findById(id).getPartlist();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
-		
+
 	}
 
+	/**
+	 * Finden einer Stückliste mittels der StücklistenID
+	 * @param id der Stückliste 
+	 */
 	@Override
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
 		try {
@@ -411,17 +523,28 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		}
 	}
 
-//	@Override
-//	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException {
-//		return this.moduleMapper.;
-//	}
-	
+	// @Override
+	// public Partlist findPartlistByModule(Module module) throws
+	// IllegalArgumentException {
+	// return this.moduleMapper.;
+	// }
 
+	/**
+	 * Finden einer Stückliste mittels der Baugruppe
+	 * @param module Baurgruppe der Stückliste
+	 */
 	public Partlist findPartlistByModule(Module module)
 			throws IllegalArgumentException {
 		return this.findPartlistById(module.getId());
 	}
 
+	/**
+	 * Berechnen der benötigten Bauteile
+	 * 
+	 * @param partlist
+	 *            ist die übergebene Stückliste, aus welcher das Material
+	 *            berechnet wird
+	 */
 	@Override
 	public Partlist calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException {
@@ -429,24 +552,28 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 		// Alle EintrÃ¤ge der Ã¼bergebenen Parlist durchiterieren.
 		for (PartlistEntry pe : partlist.getAllEntries()) {
-			
-			// Wenn Element vom Typ Module ist, dann befinden sich weitere Elemente in dessen StÃ¼ckliste (Partlist)
+
+			// Wenn Element vom Typ Module ist, dann befinden sich weitere
+			// Elemente in dessen StÃ¼ckliste (Partlist)
 			if (pe.getElement() instanceof Module) {
 				Module module = (Module) pe.getElement();
 				Partlist partAmount = calculateMaterial(module.getPartlist());
 				totalAmount.add(partAmount);
 
-			// Ansonsten handelt es sich um ein einzelnes Element/Bauteil
+				// Ansonsten handelt es sich um ein einzelnes Element/Bauteil
 			} else {
-				// PrÃ¼fen ob das Element bereits in der totalAmount StÃ¼ckliste vorhanden ist.
+				// PrÃ¼fen ob das Element bereits in der totalAmount StÃ¼ckliste
+				// vorhanden ist.
 				if (totalAmount.contains(pe.getElement())) {
-					// Element bereits in totalAmount vorhanden, deswegen nur noch die Anzahl addieren.
+					// Element bereits in totalAmount vorhanden, deswegen nur
+					// noch die Anzahl addieren.
 					PartlistEntry entry = totalAmount
 							.getPartlistEntryByIndex(totalAmount
 									.indexOfElement(pe.getElement()));
 					entry.setAmount(entry.getAmount() + pe.getAmount());
 				} else {
-					// Neues Element das noch nicht in totalAmount vorhanden ist, zum ersten Mal hinzufÃ¼gen.
+					// Neues Element das noch nicht in totalAmount vorhanden
+					// ist, zum ersten Mal hinzufÃ¼gen.
 					totalAmount.add(pe.getElement(), pe.getAmount());
 				}
 			}
@@ -455,16 +582,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/*
-	 * ***************************************************************************
+	 * *************************************************
 	 * ABSCHNITT, Ende: Methoden fï¿½r Partlist-Objekte
-	 * ***************************
-	 * ************************************************
+	 * *************************************************
 	 */
 
 	/*
-	 * ***************************************************************************
+	 * *************************************************
 	 * ABSCHNITT, Beginn: Methoden fï¿½r Product-Objekte
-	 * **************************
 	 * *************************************************
 	 */
 
@@ -478,21 +603,18 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/**
 	 * Erstellen eines neuen Endproduktes
 	 * 
-	 * @param name
+	 * @param salesName
 	 *            des Endproduktes
 	 * @param module
-	 *            Baugruppe des zum Enderzeugnis wird
-	 * @param price
-	 *            des Endproduktes
+	 *            Baugruppe das zum Enderzeugnis wird
 	 */
 	public Product createProduct(String salesName, Module module)
 			throws IllegalArgumentException {
 
 		Product p = new Product();
 		p = (Product) module;
-		p.setSalesName(salesName); 		// Name des Endproduktes
-		
-		
+		p.setSalesName(salesName); // Name des Endproduktes
+
 		try {
 			return this.getProductMapper().insert(p);
 		} catch (SQLException e) {
@@ -512,7 +634,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * 
+	 * Bearbeiten des Endprodukts
 	 */
 	public Product editProduct(Product product) throws IllegalArgumentException {
 		try {
@@ -533,7 +655,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public void deleteProduct(Product product) throws IllegalArgumentException {
-		  try {
+		try {
 			this.getProductMapper().delete(product);
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -541,10 +663,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/*
-	 * ***************************************************************************
+	 * *************************************************
 	 * ABSCHNITT, Ende: Methoden fï¿½r Product-Objekte
-	 * ****************************
-	 * ***********************************************
+	 * *************************************************
 	 */
 
 }

@@ -41,7 +41,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Module assignElement(Module module, Element element) throws IllegalArgumentException;
 
-	public Module createModule(String Modulname, Module module) throws IllegalArgumentException;
+	public Module createModule(String name, Module module) throws IllegalArgumentException;
 
 	public Module editModule(Module module) throws IllegalArgumentException;
 

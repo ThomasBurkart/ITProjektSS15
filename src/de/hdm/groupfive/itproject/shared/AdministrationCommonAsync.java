@@ -28,7 +28,7 @@ public interface AdministrationCommonAsync {
 	public void assignElement(Module module, Element element,
 			AsyncCallback<Module> callback);
 
-	public void createModule(String Modulname, Module module, AsyncCallback<Module> callback);
+	public void createModule(String name, Module module, AsyncCallback<Module> callback);
 
 	public void editModule(Module module, AsyncCallback<Module> callback);
 
