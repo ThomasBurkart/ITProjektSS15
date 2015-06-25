@@ -62,13 +62,13 @@ public class LoggingDialog {
 			Grid memberGrid = new Grid(6, 2);
 			memberGrid.setStylePrimaryName("memberGrid");
 			memberGrid.setHTML(0, 0, "Samire Jakupi");
-			memberGrid.setHTML(0, 1, "000000");
+			memberGrid.setHTML(0, 1, "26474");
 			memberGrid.setHTML(1, 0, "Fabian Wenzel");
 			memberGrid.setHTML(1, 1, "27997");
 			memberGrid.setHTML(2, 0, "Michael Kennerknecht");
 			memberGrid.setHTML(2, 1, "27975");
 			memberGrid.setHTML(3, 0, "Joel Siffermann");
-			memberGrid.setHTML(3, 1, "000000");
+			memberGrid.setHTML(3, 1, "26495");
 			memberGrid.setHTML(4, 0, "Timo Fesseler");
 			memberGrid.setHTML(4, 1, "28001");
 			memberGrid.setHTML(5, 0, "Thomas Burkart");
