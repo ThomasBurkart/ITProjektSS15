@@ -210,8 +210,6 @@ public class ElementMapper {
 				// die tatsaechliche Einfuegeoperation
 				stmt.executeUpdate(sqlQuery);
 				
-				throw new IllegalArgumentException(sqlQuery);
-				
 			}
 			
 		} catch (SQLException ex) {
