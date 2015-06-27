@@ -1,6 +1,5 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

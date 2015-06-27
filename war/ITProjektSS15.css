@@ -203,6 +203,11 @@ h1 {
 	padding-left: 25px;
 }
 
+.amountText {
+	margin-top: 7px;
+	font-size: 14px;
+}
+
 #logDialogBox td {
 	border-bottom: dashed 1px #e1e1e1;
 }

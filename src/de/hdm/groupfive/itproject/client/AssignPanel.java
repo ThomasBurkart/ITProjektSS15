@@ -4,8 +4,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AssignPanel extends Showcase {
@@ -34,6 +37,20 @@ public class AssignPanel extends Showcase {
 	@Override
 	protected void run() {
 		this.add(SearchPanel.getSearchPanel());
+		
+		Grid grid = new Grid(1,4);
+		
+		HTML amountText = new HTML("Anzahl");
+		amountText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2 amountText");
+		grid.setWidget(0, 0, amountText);
+		
+		final TextBox amountTb = new TextBox();
+		amountTb.setValue("1");
+		amountTb.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2 textBox");
+		
+		grid.setWidget(0, 1, amountTb);
+		
+		//this.add(grid);
 
 		// ACTION BUTTONS für mögliche Aktionen ANFANG
 		FlowPanel panel = new FlowPanel();
@@ -48,7 +65,7 @@ public class AssignPanel extends Showcase {
 				// TODO: Zuordnen
 			}
 		});
-		assignBtn.setWidth("100px");
+		//assignBtn.setWidth("100px");
 		Button cancelBtn = new Button("abbrechen");
 		cancelBtn.setStylePrimaryName("btn btn-warning createBtn");
 
@@ -57,12 +74,14 @@ public class AssignPanel extends Showcase {
 				
 			}
 		});
-		cancelBtn.setWidth("100px");
-		HorizontalPanel actionPanel = new HorizontalPanel();
+		//cancelBtn.setWidth("100px");
 		// TODO Reg Button evtl. entfernen
 		// actionPanel.add(regButton);
+		panel.add(amountText);
+		panel.add(amountTb);
 		panel.add(cancelBtn);
 		panel.add(assignBtn);
+		
 		this.add(panel);
 			
 

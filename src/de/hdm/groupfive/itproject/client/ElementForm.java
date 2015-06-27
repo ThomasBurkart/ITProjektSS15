@@ -37,7 +37,7 @@ public class ElementForm extends Showcase {
 
 	/** Das Element, das im Formular geladen wird */
 	private Element element;
-	
+
 	/** Die Anzahl des Elements */
 	private int amount;
 
@@ -54,7 +54,6 @@ public class ElementForm extends Showcase {
 	 */
 	public static Showcase currentShowcase;
 
-
 	/**
 	 * Kontruktor der Klasse ElementForm, erzeugt entsprechend dem übergebenen
 	 * Element ein neues Formular und füllt die Formularfelder mit den Werten
@@ -68,11 +67,11 @@ public class ElementForm extends Showcase {
 	public ElementForm(PartlistEntry pe) {
 		this(pe.getElement(), pe.getAmount());
 	}
-	
+
 	public ElementForm(Element element, int amount) {
 		// Übergebenes Element
 		this.element = element;
-		
+
 		this.amount = amount;
 
 		// Das es sich um ein neues Element handelt wird vorerst auf "false"
@@ -310,8 +309,19 @@ public class ElementForm extends Showcase {
 			@Override
 			public void onClick(ClickEvent event) {
 				RootPanel.get("main").clear();
-				RootPanel.get("main").add(new ElementForm(element, amount));
-				SearchResult.enableLoadElementForm();
+				if (newElement) {
+					// Handelt es sich um ein neues Element, wird bei Klick auf
+					// abbrechen
+					// wieder die Auswahl zum erstellen von Elementen angezeigt
+					RootPanel.get("main").add(new CreateElement());
+				} else {
+					// Wird in einem bereits bestehenden Element auf abbrechen
+					// geklickt,
+					// wird einfach das gleiche Element erneut geladen, damit
+					// Änderungen
+					// verworfen werden
+					RootPanel.get("main").add(new ElementForm(element, amount));
+				}
 			}
 		});
 		panel.add(cancelBtn);
@@ -321,16 +331,17 @@ public class ElementForm extends Showcase {
 			btnGroup.setStylePrimaryName("btn-group");
 			Button deleteBtn = new Button();
 			deleteBtn.setHTML("löschen <span class=\"caret\"></span>");
-			deleteBtn.setStylePrimaryName("btn btn-danger createBtn dropdown-toggle");
+			deleteBtn
+					.setStylePrimaryName("btn btn-danger createBtn dropdown-toggle");
 			deleteBtn.getElement().setAttribute("data-toggle", "dropdown");
 			deleteBtn.getElement().setAttribute("aria-haspopup", "true");
 			deleteBtn.getElement().setAttribute("aria-expanded", "false");
 
 			btnGroup.add(deleteBtn);
-		    UlListPanel ulList = new UlListPanel();  
-		    ulList.addStyleName("dropdown-menu");  
-		    Button deleteElem = new Button("Bauteil löschen");
-		    deleteElem.setStylePrimaryName("btn btn-link");
+			UlListPanel ulList = new UlListPanel();
+			ulList.addStyleName("dropdown-menu");
+			Button deleteElem = new Button("Bauteil löschen");
+			deleteElem.setStylePrimaryName("btn btn-link");
 			deleteElem.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
@@ -340,14 +351,23 @@ public class ElementForm extends Showcase {
 							new ElementDeleteCallback(currentShowcase));
 				}
 			});
-		    
-		    ulList.add(deleteElem);  
-		    
-		    Button deleteAssign = new Button("Zuordnung löschen");
-		    deleteAssign.setStylePrimaryName("btn btn-link");
-		    ulList.add(deleteAssign); 
-		   // ulList.add(new HTML("<a href=\"#\">Aktion 2</a>"));  
-			
+
+			ulList.add(deleteElem);
+
+			Button deleteAssign = new Button("Zuordnung löschen");
+			deleteAssign.setStylePrimaryName("btn btn-link");
+			deleteAssign.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					AdministrationCommonAsync administration = ClientsideSettings
+							.getAdministration();
+					// administration.deleteAssignment(element,
+					// new ElementDeleteCallback(currentShowcase));
+				}
+			});
+			ulList.add(deleteAssign);
+			// ulList.add(new HTML("<a href=\"#\">Aktion 2</a>"));
+
 			btnGroup.add(ulList);
 			panel.add(btnGroup);
 		}
@@ -356,49 +376,60 @@ public class ElementForm extends Showcase {
 		saveBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				
-				element.setName(nameTb.getValue().trim());
-				element.setDescription(descTb.getValue().trim());
-				element.setMaterialDescription(matTb.getValue().trim());
-				element.setLastUpdate(new Date());
-				AdministrationCommonAsync administration = ClientsideSettings
-						.getAdministration();
-				if (newElement) {
-					element.setCreationDate(new Date());
-					if (element instanceof Product) {
-						administration.createProduct((Product)element, new ElementSaveCallback());
-					} else if (element instanceof Module) {
-						administration.createModule((Module)element, new ElementSaveCallback());
-					} else {
-						administration.createElement(element, new ElementSaveCallback());
-					}
+
+				// Prüfen ob die Felder Bezeichnung und Beschreibung gefüllt
+				if (nameTb.getValue().trim() == ""
+						|| descTb.getValue().trim() == "") {
+					currentShowcase.insert(
+							new ErrorMsg("<b>Error:</b> Bitte gebe eine Bezeichnung und eine Beschreibung ein!"), 1);
 				} else {
-					administration.editElement(element, new ElementSaveCallback());
+					element.setName(nameTb.getValue().trim());
+					element.setDescription(descTb.getValue().trim());
+					element.setMaterialDescription(matTb.getValue().trim());
+					element.setLastUpdate(new Date());
+					AdministrationCommonAsync administration = ClientsideSettings
+							.getAdministration();
+					if (newElement) {
+						element.setCreationDate(new Date());
+						if (element instanceof Product) {
+							administration.createProduct((Product) element,
+									new ElementSaveCallback());
+						} else if (element instanceof Module) {
+							administration.createModule((Module) element,
+									new ElementSaveCallback());
+						} else {
+							administration.createElement(element,
+									new ElementSaveCallback());
+						}
+					} else {
+						administration.editElement(element,
+								new ElementSaveCallback());
+					}
 				}
 			}
 		});
 		panel.add(saveBtn);
+		if (!newElement) {
+			Button assignBtn = new Button("zuordnen");
+			assignBtn.setStylePrimaryName("btn btn-success createBtn");
+			assignBtn.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					// TODO Element abspeichern/neu anlegen und Element von
+					// Baum zuordnen
+					// SearchResult.disableLoadElementForm();
+					// currentShowcase
+					// .insert(new InfoMsg(
+					// "Sie können nun ein [Klick] oder mehrere [Strg+Klick] Baugruppen im Suchbaum markieren, um das Element diesen zuzuordnen!"),
+					// 1);
+					// AssignDialog.load();
 
-		Button saveAndAssignBtn = new Button("zuordnen");
-		saveAndAssignBtn.setStylePrimaryName("btn btn-success createBtn");
-		saveAndAssignBtn.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Element abspeichern/neu anlegen und Element von
-				// Baum zuordnen
-				//SearchResult.disableLoadElementForm();
-//				currentShowcase
-//						.insert(new InfoMsg(
-//								"Sie können nun ein [Klick] oder mehrere [Strg+Klick] Baugruppen im Suchbaum markieren, um das Element diesen zuzuordnen!"),
-//								1);
-				//AssignDialog.load();
-				
-				RootPanel.get("main").clear();
-				RootPanel.get("main").add(new AssignPanel());
-			}
-		});
-		panel.add(saveAndAssignBtn);
-
+					RootPanel.get("main").clear();
+					RootPanel.get("main").add(new AssignPanel());
+				}
+			});
+			panel.add(assignBtn);
+		}
 		this.add(panel);
 		// ACTION BUTTONS ENDE
 

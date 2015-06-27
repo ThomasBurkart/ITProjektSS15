@@ -30,7 +30,7 @@ public abstract class Showcase extends FlowPanel {
 		 * also Implementierung zu sorgen.
 		 */
 		this.add(this.createHeadline(this.getHeadlineText(), this.getHeadlineTextStyle()));
-
+		
 		/*
 		 * Wenn alles vorbereitet ist, stoßen wir die run()-Methode an. Auch
 		 * run() ist als abstrakte Methode bzw. als Einschubmethode realisiert.
