@@ -235,8 +235,12 @@ public class ModuleMapper {
 		
 		try {
 			Statement stmt = con.createStatement();
+			
+			//TODO: Modul selbst löschen, alle zuordnungen zum Modul löschen
+			// alle Produkte von Modul löschen.
+			
 			stmt.executeUpdate("DELETE FROM module"
-							+ "WHERE id =" + m.getId());
+							+ "WHERE module_id =" + m.getId());
 		} catch (SQLException ex) {
 		throw new IllegalArgumentException(ex.getMessage());
 	}

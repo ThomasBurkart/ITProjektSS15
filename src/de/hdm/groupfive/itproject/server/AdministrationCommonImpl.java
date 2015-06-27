@@ -331,7 +331,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @return Element wird durch die findById()-Methode gesucht
 	 */
 	@Override
-	public Element findElementById(int id) throws IllegalArgumentException {
+	public Partlist findElementById(int id) throws IllegalArgumentException {
 		try {
 			return this.getElementMapper().findById(id);
 		} catch (SQLException e) {
@@ -414,27 +414,21 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @return result
 	 */
 	@Override
-	public Partlist findElementsByName(String name)
+	public Partlist findElementsByName(String searchWord)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		Partlist result = new Partlist();
-		if (name.equals("leer")) {
-			// Nur für Tests
-		} else {
-			Module m1 = new Module();
-			m1.setName(name);
-			m1.setId(0);
-
-			Element e1 = new Element();
-			e1.setName(name + " element");
-			e1.setId(1);
-			e1.setDescription("blablabla");
-
-			m1.getPartlist().add(e1, 1);
-
-			result.add(m1, 1);
+		return this.findElementsByName(searchWord, 1000);
+	}
+	
+	@Override
+	public Partlist findElementsByName(String searchWord, int maxResults)
+			throws IllegalArgumentException {
+		try {
+			return this.elementMapper.findByName(searchWord, maxResults);
+		} catch(IllegalArgumentException ex) {
+			throw ex;
+		} catch(SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return result;
 	}
 
 	/*

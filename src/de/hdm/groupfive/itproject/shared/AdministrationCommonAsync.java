@@ -43,12 +43,13 @@ public interface AdministrationCommonAsync {
 
 	public void deleteProduct(Product product, AsyncCallback<Void> callback);
 
-	public void findElementById(int id, AsyncCallback<Element> callback);
+	void findElementById(int id, AsyncCallback<Partlist> callback);
 
-	void findElementsByCreator(User creator, AsyncCallback<Partlist> callback);
+	public void findElementsByCreator(User creator, AsyncCallback<Partlist> callback);
 
-	public void findElementsByName(String name,
-			AsyncCallback<Partlist> callback);
+	public void findElementsByName(String searchWord, AsyncCallback<Partlist> callback);
+	
+	public void findElementsByName(String searchWord, int maxResults , AsyncCallback<Partlist> callback);
 
 //	public void findPartlistByModuleName(String name,
 //			AsyncCallback<Partlist> callback);

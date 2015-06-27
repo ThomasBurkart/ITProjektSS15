@@ -301,6 +301,7 @@ public class ElementForm extends Showcase {
 
 		// ACTION BUTTONS für mögliche Aktionen ANFANG
 		FlowPanel panel = new FlowPanel();
+		panel.getElement().setId("actionBox");
 		panel.setStylePrimaryName("actionBox");
 
 		Button cancelBtn = new Button("abbrechen");
@@ -525,6 +526,11 @@ public class ElementForm extends Showcase {
 		@Override
 		public void onSuccess(Void result) {
 			showcase.insert(new SuccessMsg("Löschvorgang erfolgreich!"), 1);
+			// Damit nach dem Löschvorgang nichts mehr mit dem Formular angestellt werden kann,
+			// werden die Buttons entfernt.
+			if (RootPanel.get("actionBox") != null) {
+				RootPanel.get("actionBox").getElement().removeFromParent();
+			}
 		}
 	}
 }

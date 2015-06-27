@@ -55,11 +55,13 @@ public interface AdministrationCommon extends RemoteService {
 
 	public void deleteProduct(Product product) throws IllegalArgumentException;
 
-	public Element findElementById(int id) throws IllegalArgumentException;
+	public Partlist findElementById(int id) throws IllegalArgumentException;
 
 	public Partlist findElementsByCreator(User creator) throws IllegalArgumentException;
 
-	public Partlist findElementsByName(String name) throws IllegalArgumentException;
+	public Partlist findElementsByName(String searchWord) throws IllegalArgumentException;
+	
+	public Partlist findElementsByName(String searchWord, int maxResults) throws IllegalArgumentException;
 
 //	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException;
 

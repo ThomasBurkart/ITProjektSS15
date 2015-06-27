@@ -67,20 +67,6 @@ public class ITProjektSS15 implements EntryPoint {
 	}
 
 	
-	// TODO in andere Klasse verschieben
-	public Vector<String> getLevenshtein1(String word) {
-		Vector<String> words = new Vector<String>();
-		for (int i = 0; i < word.length(); i++) {
-			// insertions
-			words.add(word.substring(0, i) + '_' + word.substring(i));
-			// deletions
-			words.add(word.substring(0, i) + word.substring(i + 1));
-			// substitutions
-			words.add(word.substring(0, i) + '_' + word.substring(i + 1));
-		}
-		// last insertion
-		words.add(word + '_');
-		return words;
-	}
+	
 
 }
