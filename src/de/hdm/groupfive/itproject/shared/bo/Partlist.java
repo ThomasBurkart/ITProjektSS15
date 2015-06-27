@@ -89,10 +89,10 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Lï¿½scht Bauteil aus der Stï¿½ckliste
+	 * Lï¿½scht Bauteil aus der Stückliste
 	 * 
 	 * @param element
-	 *            Bauteil das gelï¿½scht werden soll.
+	 *            Bauteil das gelöscht werden soll.
 	 */
 	public void delete(Element element) {
 		for (PartlistEntry entry : list) {
@@ -104,10 +104,10 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Lï¿½scht Bauteil anhand der Element Id aus der Stï¿½ckliste
+	 * Löscht Bauteil anhand der Element Id aus der Stückliste
 	 * 
 	 * @param elementId
-	 *            Id des Bauteils das gelï¿½scht werden soll.
+	 *            Id des Bauteils das gelöscht werden soll.
 	 */
 	public void deleteById(int elementId) {
 		for (PartlistEntry entry : list) {

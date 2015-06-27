@@ -25,8 +25,8 @@ public interface AdministrationCommonAsync {
 
 	public void deleteElement(Element element, AsyncCallback<Void> callback);
 
-	public void assignElement(Module module, Element element,
-			AsyncCallback<Module> callback);
+	public void assignElement(Module module, Element element, int amount,
+			AsyncCallback<Void> callback);
 
 	public void createModule(String name, Module module, AsyncCallback<Module> callback);
 
@@ -34,8 +34,8 @@ public interface AdministrationCommonAsync {
 
 	public void deleteModule(Module module, AsyncCallback<Void> callback);
 
-	public void assignModule(Module module, Module subModule,
-			AsyncCallback<Module> callback);
+	public void assignModule(Module module, Module subModule, int amount,
+			AsyncCallback<Void> callback);
 
 	void createProduct(String salesName, Module module,
 			AsyncCallback<Product> callback);

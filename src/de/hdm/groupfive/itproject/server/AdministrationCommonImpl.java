@@ -177,8 +177,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Übergibt die Registrierungsdaten an die Datenbank weiter
-	 * @param email des Benutzers
-	 * @param password des Benutzerkontos
+	 * 
+	 * @param email
+	 *            des Benutzers
+	 * @param password
+	 *            des Benutzerkontos
 	 */
 	@Override
 	public User registerUser(String email, String password)
@@ -189,8 +192,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Login Daten werden mit der Datenbank abgeglichen
-	 * @param email des Benutzers
-	 * @param password des Benutzerkontos
+	 * 
+	 * @param email
+	 *            des Benutzers
+	 * @param password
+	 *            des Benutzerkontos
 	 */
 	@Override
 	public User loginUser(String email, String password)
@@ -200,7 +206,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Durch den Logout wird die SessionID in der DB gespeichert und der Benutzer wird ausgeloggt
+	 * Durch den Logout wird die SessionID in der DB gespeichert und der
+	 * Benutzer wird ausgeloggt
 	 */
 	@Override
 	public void logoutUser() throws IllegalArgumentException {
@@ -217,7 +224,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Setzen des Benutzers
-	 * @param user Benutzerobjekt 
+	 * 
+	 * @param user
+	 *            Benutzerobjekt
 	 */
 	@Override
 	public void setUser(User user) throws IllegalArgumentException {
@@ -276,8 +285,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Bearbeiten eines Bauteils
-	 * @param element Bauteil das verändert werden soll
-	 * @return Das geänderte Bauteil wird an den Bauteil-Mapper (ElementMapper) übergeben
+	 * 
+	 * @param element
+	 *            Bauteil das verändert werden soll
+	 * @return Das geänderte Bauteil wird an den Bauteil-Mapper (ElementMapper)
+	 *         übergeben
 	 */
 	@Override
 	public Element editElement(Element element) throws IllegalArgumentException {
@@ -290,8 +302,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Löschen eines Bauteils
-	 * @param element Bauteil das gelöscht werden soll
-	 * @return das zu löschende Bauteil wird an den Bauteil-Mapper (ElementMapper) übergeben zum löschen
+	 * 
+	 * @param element
+	 *            Bauteil das gelöscht werden soll
+	 * @return das zu löschende Bauteil wird an den Bauteil-Mapper
+	 *         (ElementMapper) übergeben zum löschen
 	 */
 	@Override
 	public void deleteElement(Element element) throws IllegalArgumentException {
@@ -304,7 +319,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Finden eines Bauteils mittels der ID
-	 * @param id des Bauteils
+	 * 
+	 * @param id
+	 *            des Bauteils
 	 * @return Element wird durch die findById()-Methode gesucht
 	 */
 	@Override
@@ -317,40 +334,78 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/*
-	***********************************************************
-	*/
+	 * **********************************************************
+	 */
 	/**
 	 * Zuweisen eines Bauteils
-	 * @param module Baugruppe, der ein Bauteil zugewiesen werden soll
-	 * @param element Bauteil, das einer Baugruppe zugewiesen werden soll
-	 * @return
+	 * 
+	 * @param module
+	 *            Baugruppe, der ein Bauteil zugewiesen werden soll
+	 * @param element
+	 *            Bauteil, das einer Baugruppe zugewiesen werden soll
+	 * @param amount
+	 *            Wie viele Bauteile zugeordnet werden sollen
 	 */
 	@Override
-	public Module assignElement(Module module, Element element)
+	public void assignElement(Module module, Element element, int amount)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (module.getPartlist().contains(element)) {
+			for (PartlistEntry pe : module.getPartlist().getAllEntries()) {
+				if (pe.getElement().equals(element)) {
+					pe.setAmount(pe.getAmount() + amount);
+
+					break;
+				}
+			}
+
+		} else {
+			module.getPartlist().add(element, amount);
+		}
+
 	}
-	
+
 	/**
 	 * Finden eines Bauteils mittels der Erstellers
-	 * @param creator Ersteller, der das Bauteil erstellt hat
-	 * @return 
+	 * 
+	 * @param creator
+	 *            Ersteller, der das Bauteil erstellt hat
+	 * @return
 	 */
 	@Override
 	public Vector<Element> findElementsByCreator(User creator)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+//		Vector<User> result = new Vector<User>();
+//		if (creator.equals("leer")) {
+//			// Nur fÃ¼r Tests
+//		} else {
+//			Module m1 = new Module();
+//			m1.setName(name);
+//			m1.setId(0);
+//
+//			Element e1 = new Element();
+//			e1.setName(name + " element");
+//			e1.setId(1);
+//			e1.setDescription("blablabla");
+//
+//			m1.getPartlist().add(e1, 1);
+//
+//			result.add(m1);
+//		}
+//		return result;
 		return null;
 	}
 
 	/*
-	***********************************************************
-	*/
+	 * **********************************************************
+	 */
 	/**
 	 * Finden eines Bauteils mittels des Namens
-	 * @param name des Bauteils
-	 * @return result 
+	 * 
+	 * @param name
+	 *            des Bauteils
+	 * @return result
 	 */
 	@Override
 	public Vector<Element> findElementsByName(String name)
@@ -418,8 +473,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Bearbeiten einer Baugruppe
-	 * @param module Baugruppe die bearbeitet werden soll
-	 * @return Die bearbeitete Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) übergeben
+	 * 
+	 * @param module
+	 *            Baugruppe die bearbeitet werden soll
+	 * @return Die bearbeitete Baugruppe wird an den Baugruppen-Mapper
+	 *         (ModuleMapper) übergeben
 	 */
 	@Override
 	public Module editModule(Module module) throws IllegalArgumentException {
@@ -431,25 +489,43 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/*
-	***********************************************************
-	*/
+	 * **********************************************************
+	 */
 	/**
 	 * Zuweisen einer Baugruppe
-	 * @param module Baugruppe, der eine Baugruppe zugewiesen werden soll
-	 * @param subModule UnterBaugruppe, die einer Baugruppe zugewiesen werden soll
-	 * @return
+	 * 
+	 * @param module
+	 *            Baugruppe, der eine Baugruppe zugewiesen werden soll
+	 * @param subModule
+	 *            UnterBaugruppe, die einer Baugruppe zugewiesen werden soll
+	 * @param amount
+	 *            Wie viele UnterBaugruppen der Baugruppe zugeordnet werden soll
 	 */
 	@Override
-	public Module assignModule(Module module, Module subModule)
+	public void assignModule(Module module, Module subModule, int amount)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		if (module.getPartlist().contains(subModule)) {
+			for (PartlistEntry pe : module.getPartlist().getAllEntries()) {
+				if (pe.getElement().equals(subModule)) {
+					pe.setAmount(pe.getAmount() + amount);
+
+					break;
+				}
+			}
+
+		} else {
+			module.getPartlist().add(subModule, amount);
+		}
+
 	}
-	
+
 	/**
 	 * Löschen einer Baugruppe
-	 * @param module Baugruppe die gelöscht werden soll
-	 * @return die zulöschende Baugruppe wird an den Baugruppen-Mapper (ModuleMapper) übergeben zum löschen
+	 * 
+	 * @param module
+	 *            Baugruppe die gelöscht werden soll
+	 * @return die zulöschende Baugruppe wird an den Baugruppen-Mapper
+	 *         (ModuleMapper) übergeben zum löschen
 	 */
 	@Override
 	public void deleteModule(Module module) throws IllegalArgumentException {
@@ -464,8 +540,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 					"Ãœbergebenes Modul Objekt ist NULL");
 		}
 	}
-
-
 
 	/*
 	 * **************************************************
@@ -497,7 +571,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Finden einer Stückliste mittels der BaugruppenID
-	 * @param id der Baugruppe 
+	 * 
+	 * @param id
+	 *            der Baugruppe
 	 */
 	@Override
 	public Partlist findPartlistByModuleId(int id)
@@ -512,7 +588,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Finden einer Stückliste mittels der StücklistenID
-	 * @param id der Stückliste 
+	 * 
+	 * @param id
+	 *            der Stückliste
 	 */
 	@Override
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
@@ -531,7 +609,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/**
 	 * Finden einer Stückliste mittels der Baugruppe
-	 * @param module Baurgruppe der Stückliste
+	 * 
+	 * @param module
+	 *            Baurgruppe der Stückliste
 	 */
 	public Partlist findPartlistByModule(Module module)
 			throws IllegalArgumentException {
