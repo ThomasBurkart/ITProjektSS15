@@ -1,5 +1,7 @@
 package de.hdm.groupfive.itproject.client;
 
+import java.util.Date;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -347,9 +349,11 @@ public class ElementForm extends Showcase {
 				element.setName(nameTb.getValue().trim());
 				element.setDescription(descTb.getValue().trim());
 				element.setMaterialDescription(matTb.getValue().trim());
+				element.setLastUpdate(new Date());
 				AdministrationCommonAsync administration = ClientsideSettings
 						.getAdministration();
 				if (newElement) {
+					element.setCreationDate(new Date());
 					if (element instanceof Product) {
 						administration.createProduct((Product)element, new ElementSaveCallback());
 					} else if (element instanceof Module) {

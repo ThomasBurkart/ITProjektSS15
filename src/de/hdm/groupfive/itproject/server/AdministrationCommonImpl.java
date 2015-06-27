@@ -269,16 +269,10 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		
 		try {
 			if (element instanceof Product) {
-				element.setCreationDate(new java.sql.Date(0));
-				element.setLastUpdate(new java.sql.Date(0));
 				return this.getProductMapper().insert((Product)element);
 			} else if (element instanceof Module) {
-				element.setCreationDate(new java.sql.Date(0));
-				element.setLastUpdate(new java.sql.Date(0));
 				return this.getModuleMapper().insert((Module)element);
 			} else {
-				element.setCreationDate(new java.sql.Date(0));
-				element.setLastUpdate(new java.sql.Date(0));
 				return this.getElementMapper().insert(element);
 			}
 		} catch (SQLException e) {
