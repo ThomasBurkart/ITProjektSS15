@@ -57,9 +57,9 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Element findElementById(int id) throws IllegalArgumentException;
 
-	public Vector<Element> findElementsByCreator(User creator) throws IllegalArgumentException;
+	public Partlist findElementsByCreator(User creator) throws IllegalArgumentException;
 
-	public Vector<Element> findElementsByName(String name) throws IllegalArgumentException;
+	public Partlist findElementsByName(String name) throws IllegalArgumentException;
 
 //	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException;
 

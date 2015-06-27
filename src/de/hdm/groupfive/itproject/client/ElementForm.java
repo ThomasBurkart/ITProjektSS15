@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
 /**
@@ -36,6 +37,9 @@ public class ElementForm extends Showcase {
 
 	/** Das Element, das im Formular geladen wird */
 	private Element element;
+	
+	/** Die Anzahl des Elements */
+	private int amount;
 
 	/**
 	 * Wird verwendet um zu prüfen ob es sich um ein Element handelt, dass neu
@@ -50,6 +54,7 @@ public class ElementForm extends Showcase {
 	 */
 	public static Showcase currentShowcase;
 
+
 	/**
 	 * Kontruktor der Klasse ElementForm, erzeugt entsprechend dem übergebenen
 	 * Element ein neues Formular und füllt die Formularfelder mit den Werten
@@ -60,9 +65,15 @@ public class ElementForm extends Showcase {
 	 *            Bauteil/Baugruppe/Enderzeugnis mit dessen Daten das Formular
 	 *            gefüllt wird.
 	 */
-	public ElementForm(Element element) {
+	public ElementForm(PartlistEntry pe) {
+		this(pe.getElement(), pe.getAmount());
+	}
+	
+	public ElementForm(Element element, int amount) {
 		// Übergebenes Element
 		this.element = element;
+		
+		this.amount = amount;
 
 		// Das es sich um ein neues Element handelt wird vorerst auf "false"
 		// gesetzt, kann sich
@@ -299,7 +310,7 @@ public class ElementForm extends Showcase {
 			@Override
 			public void onClick(ClickEvent event) {
 				RootPanel.get("main").clear();
-				RootPanel.get("main").add(new ElementForm(element));
+				RootPanel.get("main").add(new ElementForm(element, amount));
 				SearchResult.enableLoadElementForm();
 			}
 		});
@@ -434,7 +445,7 @@ public class ElementForm extends Showcase {
 		@Override
 		public void onSuccess(Element result) {
 			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new ElementForm(result));
+			RootPanel.get("main").add(new ElementForm(result, 1));
 			currentShowcase.insert(new SuccessMsg("Erfolgreich gespeichert!"),
 					1);
 		}

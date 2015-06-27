@@ -45,11 +45,10 @@ public interface AdministrationCommonAsync {
 
 	public void findElementById(int id, AsyncCallback<Element> callback);
 
-	public void findElementsByCreator(User creator,
-			AsyncCallback<Vector<Element>> callback);
+	void findElementsByCreator(User creator, AsyncCallback<Partlist> callback);
 
 	public void findElementsByName(String name,
-			AsyncCallback<Vector<Element>> callback);
+			AsyncCallback<Partlist> callback);
 
 //	public void findPartlistByModuleName(String name,
 //			AsyncCallback<Partlist> callback);

@@ -60,6 +60,15 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
+	 * Gibt zurÃ¼ck ob die Partlist leer ist.
+	 * @return true/false ob Partlist leer ist
+	 */
+	public boolean isEmpty() {
+		return this.list.isEmpty();
+	}
+	
+	
+	/**
 	 * Liefert alle Bauteile in Form eines Arrays
 	 * 
 	 * @return Array mit allen Bauteilen
@@ -89,10 +98,10 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Lï¿½scht Bauteil aus der Stückliste
+	 * Lï¿½scht Bauteil aus der Stï¿½ckliste
 	 * 
 	 * @param element
-	 *            Bauteil das gelöscht werden soll.
+	 *            Bauteil das gelï¿½scht werden soll.
 	 */
 	public void delete(Element element) {
 		for (PartlistEntry entry : list) {
@@ -104,10 +113,10 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Löscht Bauteil anhand der Element Id aus der Stückliste
+	 * Lï¿½scht Bauteil anhand der Element Id aus der Stï¿½ckliste
 	 * 
 	 * @param elementId
-	 *            Id des Bauteils das gelöscht werden soll.
+	 *            Id des Bauteils das gelï¿½scht werden soll.
 	 */
 	public void deleteById(int elementId) {
 		for (PartlistEntry entry : list) {
@@ -197,7 +206,7 @@ public class Partlist extends BusinessObject {
 	public void add(Partlist p) {
 		for (PartlistEntry pe : p.getAllEntries()) {
 
-			// Prüfen ob das Element bereits in der totalAmount Stückliste
+			// Prï¿½fen ob das Element bereits in der totalAmount Stï¿½ckliste
 			// vorhanden ist.
 			if (this.contains(pe.getElement())) {
 				// Element bereits in totalAmount vorhanden, deswegen nur noch
@@ -207,7 +216,7 @@ public class Partlist extends BusinessObject {
 				entry.setAmount(entry.getAmount() + pe.getAmount());
 			} else {
 				// Neues Element das noch nicht in totalAmount vorhanden ist,
-				// zum ersten Mal hinzufügen.
+				// zum ersten Mal hinzufï¿½gen.
 				this.add(pe.getElement(), pe.getAmount());
 			}
 		}

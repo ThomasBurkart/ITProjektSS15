@@ -14,6 +14,8 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
+import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
 /**
@@ -31,8 +33,8 @@ public class SearchResult extends Showcase {
 	private boolean fuzzySearch;
 	private boolean allProducts;
 	
-	private static Element selectedElement;
-	private static MultiSelectionModel<Element> selectionModel;
+	private static PartlistEntry selectedEntry;
+	private static MultiSelectionModel<PartlistEntry> selectionModel;
 	private static boolean disableLoadElementForm;
 
 	/**
@@ -92,12 +94,12 @@ public class SearchResult extends Showcase {
 		}
 	}
 	
-	public static Element getSelectedElement() {
-		return selectedElement;
+	public static PartlistEntry getSelectedEntry() {
+		return selectedEntry;
 	}
 	
-	private static void setSelectedElement(Element e) {
-		selectedElement = e;
+	private static void setSelectedEntry(PartlistEntry e) {
+		selectedEntry = e;
 	}
 	
 	public static void disableLoadElementForm() {
@@ -108,17 +110,17 @@ public class SearchResult extends Showcase {
 		disableLoadElementForm = false;
 	}
 	
-	private static void setSelectionModel(MultiSelectionModel<Element> msm) {
+	private static void setSelectionModel(MultiSelectionModel<PartlistEntry> msm) {
 		selectionModel = msm;
 	}
 	
 	
 	
-	public static MultiSelectionModel<Element> getSelectionModel() {
+	public static MultiSelectionModel<PartlistEntry> getSelectionModel() {
 		return selectionModel;
 	}
 	
-	class SearchElementCallback implements AsyncCallback<Vector<Element>> {
+	class SearchElementCallback implements AsyncCallback<Partlist> {
 		private Showcase showcase = null;
 
 		public SearchElementCallback(Showcase c) {
@@ -132,20 +134,20 @@ public class SearchResult extends Showcase {
 		}
 
 		@Override
-		public void onSuccess(Vector<Element> result) {
+		public void onSuccess(Partlist result) {
 			if (result != null) {
 				if (result.isEmpty()) {
 					showcase.add(new InfoMsg("<b>Die Suche ergab leider kein Ergebnis!</b> Bitte probieren Sie es erneut."));
 				} else {
-					final MultiSelectionModel<Element> selectionModel = new MultiSelectionModel<Element>();
+					final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 					selectionModel
 							.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 								public void onSelectionChange(SelectionChangeEvent event) {
 	
-									List<Element> selected = new ArrayList<Element>(
+									List<PartlistEntry> selected = new ArrayList<PartlistEntry>(
 											selectionModel.getSelectedSet());
 									
-									SearchResult.setSelectedElement(selected.get(0));
+									SearchResult.setSelectedEntry(selected.get(0));
 									
 									//createForm(selected.get(0));
 									if(!disableLoadElementForm) {
@@ -191,14 +193,14 @@ public class SearchResult extends Showcase {
 		@Override
 		public void onSuccess(Vector<Product> result) {
 			if (result != null) {
-				final MultiSelectionModel<Element> selectionModel = new MultiSelectionModel<Element>();
+				final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 				selectionModel
 						.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 							public void onSelectionChange(SelectionChangeEvent event) {
 
-								List<Element> selected = new ArrayList<Element>(
+								List<PartlistEntry> selected = new ArrayList<PartlistEntry>(
 										selectionModel.getSelectedSet());
-								SearchResult.setSelectedElement(selected.get(0));
+								SearchResult.setSelectedEntry(selected.get(0));
 
 								if(!disableLoadElementForm) {
 									RootPanel.get("main").clear();
@@ -206,9 +208,9 @@ public class SearchResult extends Showcase {
 								}
 							}
 						});
-				Vector<Element> result2 = new Vector<Element>();
+				Partlist result2 = new Partlist();
 				for (Product p : result) {
-					result2.add((Element)p);
+					result2.add(p,1);
 				}
 				setSelectionModel(selectionModel);
 				SearchTreeModel model = new SearchTreeModel(result2, selectionModel);
