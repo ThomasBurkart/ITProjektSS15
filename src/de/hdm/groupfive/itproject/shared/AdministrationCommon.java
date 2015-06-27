@@ -33,7 +33,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public User getUser() throws IllegalArgumentException;
 
-	public Element createElement(String name, Element element) throws IllegalArgumentException;
+	public Element createElement(Element element) throws IllegalArgumentException;
 
 	public Element editElement(Element element) throws IllegalArgumentException;
 
@@ -41,7 +41,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public void assignElement(Module module, Element element, int amount) throws IllegalArgumentException;
 
-	public Module createModule(String name, Module module) throws IllegalArgumentException;
+	public Element createModule(Module module);
 
 	public Module editModule(Module module) throws IllegalArgumentException;
 
@@ -49,7 +49,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public void assignModule(Module module, Module subModule, int amount) throws IllegalArgumentException;
 
-	public Product createProduct(String salesName, Module module) throws IllegalArgumentException;
+	public Element createProduct(Product module) throws IllegalArgumentException;
 
 	public Product editProduct(Product product) throws IllegalArgumentException;
 

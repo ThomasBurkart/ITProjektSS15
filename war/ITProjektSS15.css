@@ -194,7 +194,9 @@ h1 {
 	padding: 0;
 }
 
-
+.dropdown-menu {
+	margin-top: -8px;
+}
 
 .memberGrid td {
 	padding: 0;

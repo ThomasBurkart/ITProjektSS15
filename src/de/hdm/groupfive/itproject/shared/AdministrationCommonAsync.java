@@ -19,7 +19,7 @@ import de.hdm.groupfive.itproject.shared.bo.User;
 
 public interface AdministrationCommonAsync {
 
-	public void createElement(String name, Element element, AsyncCallback<Element> callback);
+	public void createElement(Element element, AsyncCallback<Element> callback);
 
 	public void editElement(Element element, AsyncCallback<Element> callback);
 
@@ -28,7 +28,7 @@ public interface AdministrationCommonAsync {
 	public void assignElement(Module module, Element element, int amount,
 			AsyncCallback<Void> callback);
 
-	public void createModule(String name, Module module, AsyncCallback<Module> callback);
+	public void createModule(Module module, AsyncCallback<Element> callback);
 
 	public void editModule(Module module, AsyncCallback<Module> callback);
 
@@ -37,8 +37,7 @@ public interface AdministrationCommonAsync {
 	public void assignModule(Module module, Module subModule, int amount,
 			AsyncCallback<Void> callback);
 
-	void createProduct(String salesName, Module module,
-			AsyncCallback<Product> callback);
+	public void createProduct(Product module, AsyncCallback<Element> callback);
 
 	public void editProduct(Product product, AsyncCallback<Product> callback);
 

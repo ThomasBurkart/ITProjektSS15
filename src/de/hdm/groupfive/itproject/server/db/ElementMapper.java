@@ -1,12 +1,14 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
+import java.util.Date;
 
+import de.hdm.groupfive.itproject.client.ClientsideSettings;
+import de.hdm.groupfive.itproject.server.ServerSettings;
 import de.hdm.groupfive.itproject.shared.bo.Element;
-import de.hdm.groupfive.itproject.shared.bo.Product;
-import de.hdm.groupfive.itproject.shared.bo.User;
-
 //** @ author Jakupi, Samire ; Thies
 
 public class ElementMapper {
@@ -162,6 +164,10 @@ public class ElementMapper {
 	 *         <code>id</code>.
 	 */
 	public Element insert(Element e) throws IllegalArgumentException, SQLException {
+		if (e == null) {
+			throw new IllegalArgumentException("Übergebenes Objekt an insert() ist NULL.");
+		}
+		
 		Connection con = DBConnection.connection();
 
 		try {
@@ -171,7 +177,7 @@ public class ElementMapper {
 			 * Zunächst schauen wir nach, welches der momentan höhste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid"
+			ResultSet rs = stmt.executeQuery("SELECT MAX(element_id) AS maxid "
 					+ "FROM element");
 			// Wenn wir etwas zurückhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -179,11 +185,12 @@ public class ElementMapper {
 				 * e erhaelt den bisher maximalen, nun um 1 inkrementierten
 				 * Primaerschluessel
 				 */
-				e.setId(rs.getInt("maxid") + 1);
+				int newId = rs.getInt("maxid") + 1;
+				e.setId(newId);
+				
 				stmt = con.createStatement();
-
-				// die tatsaechliche Einfuegeoperation
-				stmt.executeUpdate("INSERT INTO element (id, name, description, material_description, creation_date, last_update)"
+				String sqlQuery = "INSERT INTO element " 
+						+ "(element_id, name, description, material_description, creation_date, last_update) "
 						+ "VALUES ("
 						+ e.getId()
 						+ ",'"
@@ -192,8 +199,17 @@ public class ElementMapper {
 						+ e.getDescription()
 						+ "','"
 						+ e.getMaterialDescription()
-						+ "',"
-						+ e.getCreationDate() + "," + e.getLastUpdate() + ")");
+						+ "','"
+						+ getSqlDateFormat(e.getCreationDate())
+						+ "','" 
+						+ getSqlDateFormat(e.getLastUpdate())
+						+ "')";
+				
+				
+				
+				// die tatsaechliche Einfuegeoperation
+				stmt.executeUpdate(sqlQuery);
+				
 			}
 			
 		} catch (SQLException ex) {
@@ -225,11 +241,11 @@ public class ElementMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE elements SET" + "name= '" + e.getName()
+			stmt.executeUpdate("UPDATE elements SET " + "name= '" + e.getName()
 					+ "'," + "description= '" + e.getDescription() + "',"
 					+ "material_description= '" + e.getMaterialDescription()
-					+ "'," + "creation_date= '" + e.getCreationDate() + "',"
-					+ "last_update= '" + e.getLastUpdate() + "'," + "WHERE id="
+					+ "'," + "creation_date= '" + getSqlDateFormat(e.getCreationDate()) + "',"
+					+ "last_update= '" + getSqlDateFormat(e.getLastUpdate()) + "'," + " WHERE id="
 					+ e.getId());
 
 		} catch (SQLException ex) {
@@ -261,6 +277,17 @@ public class ElementMapper {
 		}
 	}
 
+	/**
+	 * Wandelt aus einem Date Objekt einen String in passendem SQL Übergabe Format.
+	 * @param date Date das konvertiert werden soll
+	 * @return String mit Date im Format yyyy-MM-dd HH:mm:ss
+	 */
+	private String getSqlDateFormat(Date date) {
+		String result = "";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		result = dateFormat.format(date);
+		return result;
+	}
 	 
 }
 

@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AssignPanel extends Showcase {
@@ -63,7 +64,7 @@ public class AssignPanel extends Showcase {
 		panel.add(cancelBtn);
 		panel.add(assignBtn);
 		this.add(panel);
-
+			
 
 	}
 

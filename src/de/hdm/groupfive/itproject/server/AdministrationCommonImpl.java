@@ -269,15 +269,21 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            Bauteil das erstellt wird
 	 */
 	@Override
-	public Element createElement(String name, Element element)
+	public Element createElement(Element element)
 			throws IllegalArgumentException {
 
-		Element el = new Element();
-		el = (Element) element;
-		el.setName(name);
-
+		if (element == null) {
+			throw new IllegalArgumentException("Ãœbergebenes Objekt an createElement() ist NULL");
+		}
+		
 		try {
-			return this.getElementMapper().insert(el);
+			if (element instanceof Product) {
+				return this.getProductMapper().insert((Product)element);
+			} else if (element instanceof Module) {
+				return this.getModuleMapper().insert((Module)element);
+			} else {
+				return this.getElementMapper().insert(element);
+			}
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
@@ -459,11 +465,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            Baugruppe die erstellt wird
 	 */
 	@Override
-	public Module createModule(String name, Module module)
+	public Module createModule(Module m)
 			throws IllegalArgumentException {
-		Module m = new Module();
-		m = module;
-		m.setName(name);
 		try {
 			return this.getModuleMapper().insert(m);
 		} catch (SQLException e) {
@@ -554,7 +557,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 
 	/**
-	 * Auslesen des Stücklisten-Mappers (PartlistMapper)
+	 * Auslesen des Stï¿½cklisten-Mappers (PartlistMapper)
 	 */
 	public PartlistMapper getPartlistMapper() throws IllegalArgumentException {
 		return this.partlistMapper;
@@ -619,10 +622,10 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Berechnen der benötigten Bauteile
+	 * Berechnen der benï¿½tigten Bauteile
 	 * 
 	 * @param partlist
-	 *            ist die übergebene Stückliste, aus welcher das Material
+	 *            ist die ï¿½bergebene Stï¿½ckliste, aus welcher das Material
 	 *            berechnet wird
 	 */
 	@Override
@@ -688,12 +691,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @param module
 	 *            Baugruppe das zum Enderzeugnis wird
 	 */
-	public Product createProduct(String salesName, Module module)
+	public Product createProduct(Product p)
 			throws IllegalArgumentException {
-
-		Product p = new Product();
-		p = (Product) module;
-		p.setSalesName(salesName); // Name des Endproduktes
 
 		try {
 			return this.getProductMapper().insert(p);

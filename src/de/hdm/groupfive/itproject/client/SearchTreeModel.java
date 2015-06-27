@@ -2,24 +2,18 @@ package de.hdm.groupfive.itproject.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.CompositeCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.HasCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.user.cellview.client.TreeNode;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionModel;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.TreeViewModel;
 
 import de.hdm.groupfive.itproject.shared.bo.Element;
@@ -43,30 +37,31 @@ public class SearchTreeModel implements TreeViewModel {
 	private final SelectionModel<Element> selectionModel;
 
 	private final Cell<Element> elementCell;
-	private final DefaultSelectionEventManager<Element> selectionManager = DefaultSelectionEventManager.createDefaultManager();
-	
+	private final DefaultSelectionEventManager<Element> selectionManager = DefaultSelectionEventManager
+			.createDefaultManager();
+
 	public SearchTreeModel(List<Element> searchResult,
 			final SelectionModel<Element> selectionModel) {
 		this.selectionModel = selectionModel;
 		this.searchResult = searchResult;
 		List<HasCell<Element, ?>> hasCells = new ArrayList<HasCell<Element, ?>>();
-	   
-		hasCells.add(new HasCell<Element,Element>() {
 
-		      private Cell cell = new TextCell();
+		hasCells.add(new HasCell<Element, Element>() {
 
-		      public Cell<Element> getCell() {
-		        return cell;
-		      }
+			private Cell cell = new TextCell();
 
-		      public FieldUpdater<Element, Element> getFieldUpdater() {
-		        return null;
-		      }
+			public Cell<Element> getCell() {
+				return cell;
+			}
 
-		      public Element getValue(Element object) {
-		        return object;
-		      }
-		    });
+			public FieldUpdater<Element, Element> getFieldUpdater() {
+				return null;
+			}
+
+			public Element getValue(Element object) {
+				return object;
+			}
+		});
 		elementCell = new CompositeCell<Element>(hasCells) {
 			@Override
 			public void render(Context context, Element value,
@@ -113,7 +108,7 @@ public class SearchTreeModel implements TreeViewModel {
 				public void render(
 						com.google.gwt.cell.client.Cell.Context context,
 						Element value, SafeHtmlBuilder sb) {
-					// TODO Auto-generated method stub
+
 					if (value != null) {
 						sb.appendHtmlConstant("    ");
 						sb.appendEscaped(value.getName());
@@ -122,7 +117,7 @@ public class SearchTreeModel implements TreeViewModel {
 			};
 
 			// Return a node info that pairs the data provider and the cell.
-			//return new DefaultNodeInfo<Element>(dataProvider, cell);
+			// return new DefaultNodeInfo<Element>(dataProvider, cell);
 			return new DefaultNodeInfo<Element>(dataProvider, cell,
 					selectionModel, selectionManager, null);
 		} else if (value instanceof Module) {
@@ -143,7 +138,7 @@ public class SearchTreeModel implements TreeViewModel {
 					}
 				}
 			};
-			//return new DefaultNodeInfo<Element>(dataProvider, cell);
+			// return new DefaultNodeInfo<Element>(dataProvider, cell);
 			return new DefaultNodeInfo<Element>(dataProvider, cell,
 					selectionModel, selectionManager, null);
 		} else if (value instanceof Element) {
@@ -166,7 +161,7 @@ public class SearchTreeModel implements TreeViewModel {
 			dataProvider.getList().add(((Element) value));
 
 			// Use the shared selection model.
-			//return new DefaultNodeInfo<Element>(dataProvider, cell);
+			// return new DefaultNodeInfo<Element>(dataProvider, cell);
 			return new DefaultNodeInfo<Element>(dataProvider, cell,
 					selectionModel, selectionManager, null);
 		}
@@ -187,5 +182,33 @@ public class SearchTreeModel implements TreeViewModel {
 		}
 		return result;
 	}
+
+//	public Vector<Element> getParentNodes() {
+//		return getParentNodes(this.searchResult);
+//	}
+//	
+//	public Vector<Element> getParentNodes(List<Element> list) {
+//		Vector<Element> result = new Vector<Element>();
+//		for (Element node : this.searchResult) {
+//			if (node instanceof Module) {
+//				if (this.selectionModel.isSelected(node)) {
+//					result.add(node);
+//					break;
+//				} else {
+//					
+//					return getParentNodes(((Module)node).getPartlist().getAllElements());
+//				}
+//				
+//			} else {
+//				if (this.selectionModel.isSelected(node)) {
+//					result.add(node);
+//					break;
+//				} else {
+//					result.clear();
+//				}
+//			}
+//		}
+//		return result;
+//	}
 
 }

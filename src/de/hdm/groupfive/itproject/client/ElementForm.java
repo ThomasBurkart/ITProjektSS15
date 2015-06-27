@@ -1,5 +1,7 @@
 package de.hdm.groupfive.itproject.client;
 
+import java.util.Date;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -39,7 +41,7 @@ public class ElementForm extends Showcase {
 	 * Wird verwendet um zu prüfen ob es sich um ein Element handelt, dass neu
 	 * angelegt wird.
 	 */
-	private boolean newElement;
+	private static boolean newElement;
 
 	/**
 	 * Zuletzt verwendetes/gesetztes ElementForm Showcase, dient dazu in den
@@ -65,7 +67,7 @@ public class ElementForm extends Showcase {
 		// Das es sich um ein neues Element handelt wird vorerst auf "false"
 		// gesetzt, kann sich
 		// aber noch ändern
-		this.newElement = false;
+		newElement = false;
 
 		// Überprüfung dass das übergebene Element existiert, um keine
 		// Null-Pointer Exceptions
@@ -77,7 +79,7 @@ public class ElementForm extends Showcase {
 			// Da es sich nun um ein neues Element handelt, muss das Attribut
 			// newElement auf true
 			// gesetzt werden
-			this.newElement = true;
+			newElement = true;
 
 			// Überprüfung ob die Id des Elements kleiner oder gleich 0 ist,
 			// dies würde bedeuten,
@@ -87,7 +89,7 @@ public class ElementForm extends Showcase {
 			// Da es sich nun um ein neues Element handelt, muss das Attribut
 			// newElement auf true
 			// gesetzt werden
-			this.newElement = true;
+			newElement = true;
 		}
 
 		// Um später wieder darauf zugreifen zu können, wird die HTML-Id des
@@ -211,25 +213,25 @@ public class ElementForm extends Showcase {
 		matText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2");
 		grid.setWidget(3, 0, matText);
 
-		TextBox idTb = new TextBox();
+		final TextBox idTb = new TextBox();
 		idTb.setName("textbox-id");
 		idTb.setValue("wird automatisch gefüllt");
 		idTb.setReadOnly(true);
 		idTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
 		grid.setWidget(0, 1, idTb);
 
-		TextBox nameTb = new TextBox();
+		final TextBox nameTb = new TextBox();
 		nameTb.setName("textbox-name");
 		nameTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
 		grid.setWidget(1, 1, nameTb);
 
-		TextArea descTb = new TextArea();
+		final TextArea descTb = new TextArea();
 		descTb.setName("textarea-desc");
 		descTb.setHeight("80px");
 		descTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
 		grid.setWidget(2, 1, descTb);
 
-		TextBox matTb = new TextBox();
+		final TextBox matTb = new TextBox();
 		matTb.setName("textbox-mat");
 		matTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
 		grid.setWidget(3, 1, matTb);
@@ -303,10 +305,22 @@ public class ElementForm extends Showcase {
 		});
 		panel.add(cancelBtn);
 
-		if (!this.newElement) {
-			Button deleteBtn = new Button("löschen");
-			deleteBtn.setStylePrimaryName("btn btn-danger createBtn");
-			deleteBtn.addClickHandler(new ClickHandler() {
+		if (!newElement) {
+			FlowPanel btnGroup = new FlowPanel();
+			btnGroup.setStylePrimaryName("btn-group");
+			Button deleteBtn = new Button();
+			deleteBtn.setHTML("löschen <span class=\"caret\"></span>");
+			deleteBtn.setStylePrimaryName("btn btn-danger createBtn dropdown-toggle");
+			deleteBtn.getElement().setAttribute("data-toggle", "dropdown");
+			deleteBtn.getElement().setAttribute("aria-haspopup", "true");
+			deleteBtn.getElement().setAttribute("aria-expanded", "false");
+
+			btnGroup.add(deleteBtn);
+		    UlListPanel ulList = new UlListPanel();  
+		    ulList.addStyleName("dropdown-menu");  
+		    Button deleteElem = new Button("Bauteil löschen");
+		    deleteElem.setStylePrimaryName("btn btn-link");
+			deleteElem.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
 					AdministrationCommonAsync administration = ClientsideSettings
@@ -315,18 +329,41 @@ public class ElementForm extends Showcase {
 							new ElementDeleteCallback(currentShowcase));
 				}
 			});
-			panel.add(deleteBtn);
+		    
+		    ulList.add(deleteElem);  
+		    
+		    Button deleteAssign = new Button("Zuordnung löschen");
+		    deleteAssign.setStylePrimaryName("btn btn-link");
+		    ulList.add(deleteAssign); 
+		   // ulList.add(new HTML("<a href=\"#\">Aktion 2</a>"));  
+			
+			btnGroup.add(ulList);
+			panel.add(btnGroup);
 		}
 		Button saveBtn = new Button("speichern");
 		saveBtn.setStylePrimaryName("btn btn-success createBtn");
 		saveBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-
+				
+				element.setName(nameTb.getValue().trim());
+				element.setDescription(descTb.getValue().trim());
+				element.setMaterialDescription(matTb.getValue().trim());
+				element.setLastUpdate(new Date());
 				AdministrationCommonAsync administration = ClientsideSettings
 						.getAdministration();
-				administration.editElement(element, new ElementSaveCallback());
-
+				if (newElement) {
+					element.setCreationDate(new Date());
+					if (element instanceof Product) {
+						administration.createProduct((Product)element, new ElementSaveCallback());
+					} else if (element instanceof Module) {
+						administration.createModule((Module)element, new ElementSaveCallback());
+					} else {
+						administration.createElement(element, new ElementSaveCallback());
+					}
+				} else {
+					administration.editElement(element, new ElementSaveCallback());
+				}
 			}
 		});
 		panel.add(saveBtn);
