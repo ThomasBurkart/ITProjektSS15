@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -196,56 +197,91 @@ public class ElementForm extends Showcase {
 		// Handelt sich bei dem Element um ein Enderzeugnis wird eine Zeile mehr
 		// benötigt um den Verkaufsnamen ausgeben zu können.
 		if (this.element instanceof Product) {
-
-			// Tabelle für Enderzeugnisse (6 Zeilen und 2 Spalten)
-			grid = new Grid(6, 2);
+			if (!newElement) {
+				// Tabelle für Enderzeugnisse (6 Zeilen und 2 Spalten)
+				grid = new Grid(8, 2);
+			} else {
+				grid = new Grid(6, 2);
+			}
 		} else {
-
-			// Tabelle für Bauteile und Baugruppen (5 Zeilen und 2 Spalten)
-			grid = new Grid(5, 2);
+			if (!newElement) {
+				// Tabelle für Bauteile und Baugruppen (5 Zeilen und 2 Spalten)
+				grid = new Grid(7, 2);
+			} else {
+				grid = new Grid(5, 2);
+			}
 		}
 		// Tabelle soll eine Breite von 100% erhalten.
 		grid.setWidth("100%");
+		
+		
+		String idDesc = "Bauteil Id";
+		if (this.element instanceof Product) {
+			idDesc = "Enderzeugnis Id";
+		} else if (this.element instanceof Module) {
+			idDesc = "Baugruppen Id";
+		}
 
-		HTML idText = new HTML("Teilnummer");
-		idText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2");
+		HTML idText = new HTML(idDesc);
+		idText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 		grid.setWidget(0, 0, idText);
 
 		HTML nameText = new HTML("Bezeichnung");
-		nameText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2");
+		nameText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 		grid.setWidget(1, 0, nameText);
 
 		HTML descText = new HTML("Beschreibung");
-		descText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2");
+		descText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 		grid.setWidget(2, 0, descText);
 
 		HTML matText = new HTML("Materialbezeichnung");
-		matText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2");
+		matText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 		grid.setWidget(3, 0, matText);
+		if (!newElement) {
+			HTML creationText = new HTML("Erstellt am");
+			creationText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
+			grid.setWidget(4, 0, creationText);
+	
+			HTML updateText = new HTML("Letzte Bearbeitung am");
+			updateText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
+			grid.setWidget(5, 0, updateText);
+		}
 
 		final TextBox idTb = new TextBox();
 		idTb.setName("textbox-id");
 		idTb.setValue("wird automatisch gefüllt");
 		idTb.setReadOnly(true);
-		idTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
+		idTb.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11 textBox");
 		grid.setWidget(0, 1, idTb);
 
 		final TextBox nameTb = new TextBox();
 		nameTb.setName("textbox-name");
-		nameTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
+		nameTb.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11 textBox");
 		grid.setWidget(1, 1, nameTb);
 
 		final TextArea descTb = new TextArea();
 		descTb.setName("textarea-desc");
 		descTb.setHeight("80px");
-		descTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
+		descTb.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11 textBox");
 		grid.setWidget(2, 1, descTb);
 
 		final TextBox matTb = new TextBox();
 		matTb.setName("textbox-mat");
-		matTb.setStylePrimaryName("col-md-10 col-sm-10 col-xs-10 textBox");
+		matTb.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11 textBox");
 		grid.setWidget(3, 1, matTb);
+		
+		if (!newElement) {
 
+			DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm:ss");
+			
+			HTML creationValue = new HTML(this.element.getCreationDate() != null ? dateFormat.format(this.element.getCreationDate()) : "");
+			creationValue.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
+			grid.setWidget(4, 1, creationValue);
+			
+			HTML updateValue = new HTML(this.element.getLastUpdate() != null ? dateFormat.format(this.element.getLastUpdate()) : "");
+			updateValue.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
+			grid.setWidget(5, 1, updateValue);
+		}
 		// ÜBERSCHRIFT ANFANG
 		// Noch keine Id vorhanden, deswegen handelt es sich um ein neues
 		// Element. Entsprechend wird der Titel gesetzt.
@@ -253,7 +289,7 @@ public class ElementForm extends Showcase {
 			String type;
 			if (this.element instanceof Product) {
 				Product p = (Product) this.element;
-				idTb.setValue(p.getId() > 0 ? "" + p.getId()
+				idTb.setValue(p.getProductId() > 0 ? "" + p.getProductId()
 						: "keine Id vorhanden");
 				nameTb.setValue(p.getName() != null ? p.getName() : "");
 				descTb.setValue(p.getDescription() != null ? p.getDescription()
@@ -262,7 +298,7 @@ public class ElementForm extends Showcase {
 						.getMaterialDescription() : "");
 			} else if (this.element instanceof Module) {
 				Module m = (Module) this.element;
-				idTb.setValue(m.getId() > 0 ? "" + m.getId()
+				idTb.setValue(m.getModuleId() > 0 ? "" + m.getModuleId()
 						: "keine Id vorhanden");
 				nameTb.setValue(m.getName() != null ? m.getName() : "");
 				descTb.setValue(m.getDescription() != null ? m.getDescription()
@@ -290,7 +326,7 @@ public class ElementForm extends Showcase {
 		test += "<li><a href=\"#\">Endprodukt abc</a></li>";
 		test += "<li><a href=\"#\">Baugruppe aha</a></li>";
 		test += "<li class=\"active\">"
-				+ SearchResult.getSelectionModel().getSelectedSet().size()
+				//+ .getSelectionModel().getSelectedSet().size()
 				+ " Element mauaha</li>";
 		test += "</ol>";
 		HTML breadcrumb = new HTML(test);
@@ -348,8 +384,18 @@ public class ElementForm extends Showcase {
 				public void onClick(ClickEvent event) {
 					AdministrationCommonAsync administration = ClientsideSettings
 							.getAdministration();
-					administration.deleteElement(element,
-							new ElementDeleteCallback(currentShowcase));
+					
+					if (element instanceof Product) {
+						administration.deleteProduct((Product) element,
+								new ElementDeleteCallback(currentShowcase));
+					} else if (element instanceof Module) {
+						administration.deleteModule((Module) element,
+								new ElementDeleteCallback(currentShowcase));
+					} else {
+						administration.deleteElement(element,
+								new ElementDeleteCallback(currentShowcase));
+					}
+					
 				}
 			});
 
@@ -367,7 +413,6 @@ public class ElementForm extends Showcase {
 				}
 			});
 			ulList.add(deleteAssign);
-			// ulList.add(new HTML("<a href=\"#\">Aktion 2</a>"));
 
 			btnGroup.add(ulList);
 			panel.add(btnGroup);
@@ -403,8 +448,17 @@ public class ElementForm extends Showcase {
 									new ElementSaveCallback());
 						}
 					} else {
-						administration.editElement(element,
-								new ElementSaveCallback());
+						
+						if (element instanceof Product) {
+							administration.editProduct((Product) element,
+									new ProductSaveCallback());
+						} else if (element instanceof Module) {
+							administration.editModule((Module) element,
+									new ModuleSaveCallback());
+						} else {
+							administration.editElement(element,
+									new ElementSaveCallback());
+						}
 					}
 				}
 			}
@@ -416,17 +470,9 @@ public class ElementForm extends Showcase {
 			assignBtn.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					// TODO Element abspeichern/neu anlegen und Element von
-					// Baum zuordnen
-					// SearchResult.disableLoadElementForm();
-					// currentShowcase
-					// .insert(new InfoMsg(
-					// "Sie können nun ein [Klick] oder mehrere [Strg+Klick] Baugruppen im Suchbaum markieren, um das Element diesen zuzuordnen!"),
-					// 1);
-					// AssignDialog.load();
-
+					
 					RootPanel.get("main").clear();
-					RootPanel.get("main").add(new AssignPanel());
+					RootPanel.get("main").add(new AssignPanel(new PartlistEntry(element, amount)));
 				}
 			});
 			panel.add(assignBtn);
@@ -478,7 +524,101 @@ public class ElementForm extends Showcase {
 		public void onSuccess(Element result) {
 			RootPanel.get("main").clear();
 			RootPanel.get("main").add(new ElementForm(result, 1));
-			currentShowcase.insert(new SuccessMsg("Erfolgreich gespeichert!"),
+			currentShowcase.insert(new SuccessMsg("Bauteil erfolgreich gespeichert!"),
+					1);
+		}
+	}
+	
+	/**
+	 * Callback Klasse die asynchron aufgerufen wird, wenn ein Element
+	 * gespeichert wird.
+	 * 
+	 * @author Thomas Burkart
+	 */
+	class ModuleSaveCallback implements AsyncCallback<Module> {
+
+		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
+
+		/**
+		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
+		 * das übergebene Showcase fest.
+		 * 
+		 * @param c
+		 *            Showcase an das die Rückmeldung ausgegeben wird.
+		 */
+		public ModuleSaveCallback() {
+		}
+
+		/**
+		 * Wenn der asynchrone Aufruf fehlschlug oder das Element nicht gelöscht
+		 * werden konnte wird die onFailure Methode aufgerufen und der Fehler
+		 * als ErrorMsg dem Showcase eingefügt, sowie im Client-Logger
+		 * verzeichnet.
+		 */
+		@Override
+		public void onFailure(Throwable caught) {
+			currentShowcase.insert(
+					new ErrorMsg("<b>Error:</b> " + caught.getMessage()), 1);
+			ClientsideSettings.getLogger().severe(
+					"Error: " + caught.getMessage());
+		}
+
+		/**
+		 * Wenn der asynchrone Aufruf zum löschen des Elements erfolgreich war,
+		 * wird eine SuccessMsg im Showcase eingefügt.
+		 */
+		@Override
+		public void onSuccess(Module result) {
+			RootPanel.get("main").clear();
+			RootPanel.get("main").add(new ElementForm(result, 1));
+			currentShowcase.insert(new SuccessMsg("Baugruppe erfolgreich gespeichert!"),
+					1);
+		}
+	}
+	
+	/**
+	 * Callback Klasse die asynchron aufgerufen wird, wenn ein Element
+	 * gespeichert wird.
+	 * 
+	 * @author Thomas Burkart
+	 */
+	class ProductSaveCallback implements AsyncCallback<Product> {
+
+		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
+
+		/**
+		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
+		 * das übergebene Showcase fest.
+		 * 
+		 * @param c
+		 *            Showcase an das die Rückmeldung ausgegeben wird.
+		 */
+		public ProductSaveCallback() {
+		}
+
+		/**
+		 * Wenn der asynchrone Aufruf fehlschlug oder das Element nicht gelöscht
+		 * werden konnte wird die onFailure Methode aufgerufen und der Fehler
+		 * als ErrorMsg dem Showcase eingefügt, sowie im Client-Logger
+		 * verzeichnet.
+		 */
+		@Override
+		public void onFailure(Throwable caught) {
+			currentShowcase.insert(
+					new ErrorMsg("<b>Error:</b> " + caught.getMessage()), 1);
+			ClientsideSettings.getLogger().severe(
+					"Error: " + caught.getMessage());
+		}
+
+		/**
+		 * Wenn der asynchrone Aufruf zum löschen des Elements erfolgreich war,
+		 * wird eine SuccessMsg im Showcase eingefügt.
+		 */
+		@Override
+		public void onSuccess(Product result) {
+			RootPanel.get("main").clear();
+			RootPanel.get("main").add(new ElementForm(result, 1));
+			currentShowcase.insert(new SuccessMsg("Enderzeugnis erfolgreich gespeichert!"),
 					1);
 		}
 	}

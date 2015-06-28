@@ -2,11 +2,13 @@ package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.Date;
 
 import de.hdm.groupfive.itproject.shared.bo.Element;
+import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 
 //** @ author Jakupi, Samire ; Thies
@@ -27,6 +29,11 @@ public class ElementMapper {
 		return elementMapper;
 	}
 
+	public Element findElementById(int id) throws IllegalArgumentException,
+			SQLException {
+		return this.findById(id).getElementById(id);
+	}
+
 	/**
 	 * Suchen eines Elements mit vorgegebener id. Da diese eindeutig ist, wird
 	 * genau ein Objekt zurueckgegeben.
@@ -45,7 +52,7 @@ public class ElementMapper {
 			SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
-		
+
 		try {
 			Partlist result = new Partlist();
 			Statement stmt = con.createStatement();
@@ -61,8 +68,18 @@ public class ElementMapper {
 				e.setName(rs.getString("name"));
 				e.setDescription(rs.getString("description"));
 				e.setMaterialDescription(rs.getString("material_description"));
-				e.setCreationDate(rs.getDate("creation_date"));
-				e.setLastUpdate(rs.getDate("last_update"));
+				Timestamp timestamp = rs.getTimestamp("creation_date");
+				if (timestamp != null) {
+					Date creationDate = new java.util.Date(timestamp.getTime());
+					e.setCreationDate(creationDate);
+				}
+
+				Timestamp timestamp2 = rs.getTimestamp("last_update");
+				if (timestamp2 != null) {
+					Date lastUpdateDate = new java.util.Date(
+							timestamp2.getTime());
+					e.setLastUpdate(lastUpdateDate);
+				}
 				result.add(e, 1);
 				return result;
 
@@ -105,8 +122,18 @@ public class ElementMapper {
 				e.setName(rs.getString("name"));
 				e.setDescription(rs.getString("description"));
 				e.setMaterialDescription(rs.getString("material_description"));
-				e.setCreationDate(rs.getDate("creation_date"));
-				e.setLastUpdate(rs.getDate("last_update"));
+				Timestamp timestamp = rs.getTimestamp("creation_date");
+				if (timestamp != null) {
+					Date creationDate = new java.util.Date(timestamp.getTime());
+					e.setCreationDate(creationDate);
+				}
+
+				Timestamp timestamp2 = rs.getTimestamp("last_update");
+				if (timestamp2 != null) {
+					Date lastUpdateDate = new java.util.Date(
+							timestamp2.getTime());
+					e.setLastUpdate(lastUpdateDate);
+				}
 
 				result.addElement(e);
 			}
@@ -118,6 +145,11 @@ public class ElementMapper {
 
 	public Partlist findByName(String searchWord, int maxResults)
 			throws IllegalArgumentException, SQLException {
+		return findByName(searchWord, maxResults, false);
+	}
+
+	public Partlist findByName(String searchWord, int maxResults,
+			boolean onlyModules) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		Partlist result = new Partlist();
 		String whereQuery = "";
@@ -128,14 +160,18 @@ public class ElementMapper {
 					Vector<String> fuzzySearchWords = getLevenshtein1(word);
 					for (String fuzzyWord : fuzzySearchWords) {
 						whereQuery += "name LIKE '%" + fuzzyWord + "%' OR ";
-						whereQuery += "description LIKE '%" + fuzzyWord + "%' OR ";
-						whereQuery += "material_description LIKE '%" + fuzzyWord + "%' OR ";
+						whereQuery += "description LIKE '%" + fuzzyWord
+								+ "%' OR ";
+						whereQuery += "material_description LIKE '%"
+								+ fuzzyWord + "%' OR ";
 					}
 				} else {
-					// Fuzzy Suche nur bei Wörtern die mehr als 3 Buchstaben haben
+					// Fuzzy Suche nur bei Wörtern die mehr als 3 Buchstaben
+					// haben
 					whereQuery += "name LIKE '%" + word + "%' OR ";
 					whereQuery += "description LIKE '%" + word + "%' OR ";
-					whereQuery += "material_description LIKE '%" + word + "%' OR ";
+					whereQuery += "material_description LIKE '%" + word
+							+ "%' OR ";
 				}
 			}
 			if (whereQuery.length() > 5) {
@@ -144,28 +180,56 @@ public class ElementMapper {
 			}
 			try {
 				Statement stmt = con.createStatement();
-				String sqlQuery = "SELECT * FROM element WHERE " + whereQuery + " ORDER BY name LIMIT " + maxResults;
-				
+				String sqlQuery = "SELECT * FROM element WHERE " + whereQuery
+						+ " ORDER BY name LIMIT " + maxResults;
+
 				ResultSet rs = stmt.executeQuery(sqlQuery);
 
 				// Für jeden Eintrag im Suchergebnis wird nun ein Element-Objekt
 				// erstellt.
 				while (rs.next()) {
-					Element e = new Element();
-					e.setId(rs.getInt("element_id"));
-					e.setName(rs.getString("name"));
-					e.setDescription(rs.getString("description"));
-					e.setMaterialDescription(rs
-							.getString("material_description"));
-					e.setCreationDate(rs.getDate("creation_date"));
-					e.setLastUpdate(rs.getDate("last_update"));
+					// Zuerst nachschauen ob es sich bei dem Element um ein
+					// Modul handelt.
+					Module m = ModuleMapper.getModuleMapper().findByElement(
+							rs.getInt("element_id"));
 
-					// Hinzufuegen des neuen Objekts zum Ergebnisvektor
-					result.add(e, 1);
+					// Wenn es sich um ein Modul handelt, dieses hinzufügen
+					// ansonsten, das Element als
+					// Bauteil hinzufügen.
+					if (m != null) {
+						result.add(m, 1);
+					} else {
+						if (!onlyModules) {
+					
+							Element e = new Element();
+							e.setId(rs.getInt("element_id"));
+	
+							e.setName(rs.getString("name"));
+							e.setDescription(rs.getString("description"));
+							e.setMaterialDescription(rs
+									.getString("material_description"));
+	
+							Timestamp timestamp = rs.getTimestamp("creation_date");
+							if (timestamp != null) {
+								Date creationDate = new java.util.Date(
+										timestamp.getTime());
+								e.setCreationDate(creationDate);
+							}
+	
+							Timestamp timestamp2 = rs.getTimestamp("last_update");
+							if (timestamp2 != null) {
+								Date lastUpdateDate = new java.util.Date(
+										timestamp2.getTime());
+								e.setLastUpdate(lastUpdateDate);
+							}
+	
+							// Hinzufuegen des neuen Objekts zum Ergebnisvektor
+							result.add(e, 1);
+						}
+					}
 				}
 			} catch (SQLException ex) {
 				throw new IllegalArgumentException(ex.getMessage());
-
 			}
 		}
 		return result;
@@ -293,6 +357,34 @@ public class ElementMapper {
 
 			stmt.executeUpdate("DELETE FROM element WHERE element_id="
 					+ e.getId());
+		}
+
+		catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
+	}
+
+	/**
+	 * Löschen der Daten eines <code>Element</code> - Objekts aus der Datenbank
+	 * anhand seiner Element Id
+	 * 
+	 * @param e
+	 *            das aus der DB zu löschende "Objekt"
+	 * @throws SQLException
+	 */
+
+	public void deleteById(int eId) throws IllegalArgumentException,
+			SQLException {
+		if (eId > -1) {
+			throw new IllegalArgumentException(
+					"Übergebene Id an delete() ist kleiner 0.");
+		}
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM element WHERE element_id=" + eId);
 		}
 
 		catch (SQLException ex) {

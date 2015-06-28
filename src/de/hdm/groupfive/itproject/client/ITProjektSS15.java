@@ -46,7 +46,8 @@ public class ITProjektSS15 implements EntryPoint {
 					public void onClick(ClickEvent event) {
 						RootPanel.get("main").clear();
 						RootPanel.get("main").add(new History());
-						SearchPanel.load();
+						SearchPanel sp = new SearchPanel();
+						sp.load();
 					}
 				});
 		// Tooltip des Titels
@@ -60,7 +61,8 @@ public class ITProjektSS15 implements EntryPoint {
 		
 		
 		NavigationBar.load();
-		SearchPanel.load();
+		SearchPanel sp = new SearchPanel();
+		sp.load();
 		RootPanel.get("main").add(new History());
 		
 		

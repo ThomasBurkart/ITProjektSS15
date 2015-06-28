@@ -368,7 +368,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		} else {
 			module.getPartlist().add(element, amount);
 		}
-
+		// TODO: speichern
 	}
 
 	/**
@@ -424,6 +424,24 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 			throws IllegalArgumentException {
 		try {
 			return this.elementMapper.findByName(searchWord, maxResults);
+		} catch(IllegalArgumentException ex) {
+			throw ex;
+		} catch(SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
+	}
+	
+	@Override
+	public Partlist findModulesByName(String searchWord)
+			throws IllegalArgumentException {
+		return this.findModulesByName(searchWord, 1000);
+	}
+	
+	@Override
+	public Partlist findModulesByName(String searchWord, int maxResults)
+			throws IllegalArgumentException {
+		try {
+			return this.moduleMapper.findByName(searchWord, maxResults);
 		} catch(IllegalArgumentException ex) {
 			throw ex;
 		} catch(SQLException ex) {
@@ -591,11 +609,12 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
-		try {
-			return this.getPartlistMapper().findById(id);
-		} catch (SQLException e) {
-			throw new IllegalArgumentException(e.getMessage());
-		}
+//		try {
+//			return null;
+//		} catch (SQLException e) {
+//			throw new IllegalArgumentException(e.getMessage());
+//		}
+		return null;
 	}
 
 	// @Override

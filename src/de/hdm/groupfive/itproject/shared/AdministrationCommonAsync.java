@@ -78,4 +78,9 @@ public interface AdministrationCommonAsync {
 	public void getUser(AsyncCallback<User> callback);
 
 	public void init(AsyncCallback<Void> callback);
+
+	void findModulesByName(String searchWord, AsyncCallback<Partlist> callback);
+
+	void findModulesByName(String searchWord, int maxResults,
+			AsyncCallback<Partlist> callback);
 }

@@ -6,14 +6,12 @@ import java.util.Vector;
 
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
-import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
@@ -23,7 +21,7 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
  * Suchleiste. Die Klasse startet bei der Instanziierung eine asynchrone Suche
  * und erzeugt ein Baum mit den gefundenen Ergebnissen.
  * 
- * @author lpr_000
+ * @author Thomas Burkart
  *
  */
 public class SearchResult extends Showcase {
@@ -32,13 +30,13 @@ public class SearchResult extends Showcase {
 	private String headlineTextStyle;
 	private String searchWord;
 	private int searchId;
-	private boolean fuzzySearch;
+	private boolean onlyModules;
 	private boolean allProducts;
 	private boolean searchById;
 
-	private static PartlistEntry selectedEntry;
-	private static MultiSelectionModel<PartlistEntry> selectionModel;
-	private static boolean disableLoadElementForm;
+	private PartlistEntry selectedEntry;
+	private MultiSelectionModel<PartlistEntry> selectionModel;
+	private boolean disableLoadElementForm;
 
 	/**
 	 * Standard-Konstruktor der Klasse SearchResult. Wird beim ersten Start der
@@ -57,9 +55,10 @@ public class SearchResult extends Showcase {
 		// TODO: Erstes Suchergebnis sollen immer alle Endprodukte sein.
 	}
 
-	public SearchResult(String searchWord, boolean fuzzySearch) {
+	public SearchResult(String searchWord, boolean onlyModules) {
 		this.searchWord = searchWord;
-		this.fuzzySearch = fuzzySearch;
+		
+		this.onlyModules = onlyModules;
 
 		// Text der angezeigt wird, wenn ein Suche gestartet wurde.
 		this.headlineText = "Suchergebnisse für '" + searchWord + "'";
@@ -82,6 +81,8 @@ public class SearchResult extends Showcase {
 		this.searchById = true;
 
 		this.allProducts = false;
+		
+		this.onlyModules = false;
 	}
 
 	@Override
@@ -102,38 +103,39 @@ public class SearchResult extends Showcase {
 			// Suche nach allen Endprodukten für Start-Ansicht
 			administration.getAllProducts(new SearchAllProductsCallback(this));
 		} else if (this.searchById) {
-			administration.findElementById(this.searchId, new SearchElementCallback(this));
+			administration.findElementById(this.searchId,
+					new SearchElementCallback(this));
+		} else if (this.onlyModules) {
+			administration.findModulesByName(searchWord,
+					new SearchElementCallback(this));
 		} else {
-			// TODO: Suche nach Elementen, fuzzySearch evtl extra unterscheiden
-			if (this.fuzzySearch) {
-
-			}
 			administration.findElementsByName(this.searchWord,
 					new SearchElementCallback(this));
+
 		}
 	}
 
-	public static PartlistEntry getSelectedEntry() {
+	public PartlistEntry getSelectedEntry() {
 		return selectedEntry;
 	}
 
-	private static void setSelectedEntry(PartlistEntry e) {
+	private void setSelectedEntry(PartlistEntry e) {
 		selectedEntry = e;
 	}
 
-	public static void disableLoadElementForm() {
+	public void disableLoadElementForm() {
 		disableLoadElementForm = true;
 	}
 
-	public static void enableLoadElementForm() {
+	public void enableLoadElementForm() {
 		disableLoadElementForm = false;
 	}
 
-	private static void setSelectionModel(MultiSelectionModel<PartlistEntry> msm) {
+	private void setSelectionModel(MultiSelectionModel<PartlistEntry> msm) {
 		selectionModel = msm;
 	}
 
-	public static MultiSelectionModel<PartlistEntry> getSelectionModel() {
+	public MultiSelectionModel<PartlistEntry> getSelectionModel() {
 		return selectionModel;
 	}
 
@@ -167,8 +169,7 @@ public class SearchResult extends Showcase {
 									List<PartlistEntry> selected = new ArrayList<PartlistEntry>(
 											selectionModel.getSelectedSet());
 
-									SearchResult.setSelectedEntry(selected
-											.get(0));
+									setSelectedEntry(selected.get(0));
 
 									// createForm(selected.get(0));
 									if (!disableLoadElementForm) {
@@ -226,7 +227,7 @@ public class SearchResult extends Showcase {
 
 								List<PartlistEntry> selected = new ArrayList<PartlistEntry>(
 										selectionModel.getSelectedSet());
-								SearchResult.setSelectedEntry(selected.get(0));
+								setSelectedEntry(selected.get(0));
 
 								if (!disableLoadElementForm) {
 									RootPanel.get("main").clear();

@@ -69,7 +69,7 @@ public class LoginLogout {
 				dialogBox.hide();
 				// TODO: Unterscheidung zwischen Report Generator und Editor/Viewer
 				NavigationBar.load();
-				SearchPanel.load();
+//				SearchPanel.load();
 				RootPanel.get("main").add(new History());
 			}
 		});
