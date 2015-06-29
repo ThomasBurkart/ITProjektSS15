@@ -201,7 +201,10 @@ public class Partlist extends BusinessObject {
 		this.name = name;
 
 	}
-
+	/**
+	 * 
+	 * @param p
+	 */
 	public void add(Partlist p) {
 		for (PartlistEntry pe : p.getAllEntries()) {
 

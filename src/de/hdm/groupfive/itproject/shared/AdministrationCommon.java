@@ -67,13 +67,9 @@ public interface AdministrationCommon extends RemoteService {
 	
 	public Partlist findModulesByName(String searchWord, int maxResults) throws IllegalArgumentException;
 
-//	public Partlist findPartlistByModuleName(String name) throws IllegalArgumentException;
-
 	public Partlist findPartlistByModuleId(int id) throws IllegalArgumentException;
 
 	public Partlist findPartlistById(int id) throws IllegalArgumentException;
-
-//	public Partlist findPartlistByModule(Module module) throws IllegalArgumentException;
 
 	public Vector<Product> getAllProducts() throws IllegalArgumentException;
 
