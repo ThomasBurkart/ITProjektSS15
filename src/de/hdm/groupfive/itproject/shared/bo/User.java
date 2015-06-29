@@ -3,7 +3,7 @@ package de.hdm.groupfive.itproject.shared.bo;
 public class User extends BusinessObject {
 
 	/**
-	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benï¿½tigt.
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -11,6 +11,41 @@ public class User extends BusinessObject {
 	 * Der Username des Benutzers.
 	 */
 	private String userName = "";
+	
+	private String userId;
+	
+	private String loginUrl;
+	
+	private boolean isLoggedIn;
+	
+	private String federatedIdentity;
+	
+	public String getLoginUrl() {
+		return loginUrl;
+	}
+
+	public void setLoginUrl(String loginUrl) {
+		this.loginUrl = loginUrl;
+	}
+	
+	public void setIsLoggedIn(boolean val) {
+		this.isLoggedIn = val;
+	}
+	
+	public boolean isLoggedIn() {
+		return this.isLoggedIn;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	
+
 
 	/**
 	 * Der E-Mail des Benutzers.
@@ -45,11 +80,19 @@ public class User extends BusinessObject {
 	/**
 	 * Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
 	 * Diese besteht aus dem Text, der durch die <code>toString()</code>-Methode
-	 * der Superklasse erzeugt wird, ergänzt durch den Vor- und Nachnamen des
+	 * der Superklasse erzeugt wird, ergï¿½nzt durch den Vor- und Nachnamen des
 	 * jeweiligen Kunden.
 	 */
 	@Override
 	public String toString() {
 		return super.toString() + " " + this.userName;
+	}
+
+	public String getFederatedIdentity() {
+		return federatedIdentity;
+	}
+
+	public void setFederatedIdentity(String federatedIdentity) {
+		this.federatedIdentity = federatedIdentity;
 	}
 }
