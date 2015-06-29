@@ -1,14 +1,15 @@
 package de.hdm.groupfive.itproject.shared;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.ui.HTML;
 
-import de.hdm.groupfive.itproject.server.db.*;
-import de.hdm.groupfive.itproject.shared.bo.*;
+import de.hdm.groupfive.itproject.shared.bo.Element;
+import de.hdm.groupfive.itproject.shared.bo.Module;
+import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.Product;
+import de.hdm.groupfive.itproject.shared.bo.User;
 
 @RemoteServiceRelativePath("administration")
 public interface AdministrationCommon extends RemoteService {
@@ -25,9 +26,9 @@ public interface AdministrationCommon extends RemoteService {
 
 	public User registerUser(String email, String password) throws IllegalArgumentException;
 
-	public User loginUser(String email, String password) throws IllegalArgumentException;
+	public User loginUser() throws IllegalArgumentException;
 
-	public void logoutUser() throws IllegalArgumentException;
+	public String logoutUser() throws IllegalArgumentException;
 
 	public void setUser(User user) throws IllegalArgumentException;
 

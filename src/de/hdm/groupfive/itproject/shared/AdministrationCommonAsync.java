@@ -63,9 +63,9 @@ public interface AdministrationCommonAsync {
 	public void registerUser(String email, String password,
 			AsyncCallback<User> callback);
 
-	public void loginUser(String email, String password, AsyncCallback<User> callback);
+	public void loginUser(AsyncCallback<User> callback);
 
-	public void logoutUser(AsyncCallback<Void> callback);
+	public void logoutUser(AsyncCallback<String> callback);
 
 	public void setUser(User user, AsyncCallback<Void> callback);
 

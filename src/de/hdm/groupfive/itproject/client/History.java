@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.hdm.groupfive.itproject.shared.bo.Module;
+import de.hdm.groupfive.itproject.shared.bo.User;
 
 public class History extends Showcase {
 
@@ -16,7 +17,7 @@ public class History extends Showcase {
 	private String headlineTextStyle;
 
 	public History() {
-		this.headlineText = "Herzlich Willkommen :) - Historie";
+		this.headlineText = "Herzlich Willkommen "+ClientsideSettings.getCurrentUser().getUserName()+" :) - Historie";
 		this.headlineTextStyle = "formTitle";
 	}
 
