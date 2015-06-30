@@ -2,13 +2,12 @@ package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
 import java.util.Vector;
-import com.ibm.icu.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.hdm.groupfive.itproject.shared.bo.Element;
+import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
-import de.hdm.groupfive.itproject.client.ClientsideSettings;
-import de.hdm.groupfive.itproject.server.ServerSettings;
 
 
 public class PartlistMapper {
@@ -38,7 +37,8 @@ public class PartlistMapper {
 		}
 		return partlistMapper;
 	}
-	
+
+
 	/** Einfügen eines <code>Partlist</code> - Objekts in die DB.
 	 * Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf. berichtigt.
 	 * 
@@ -46,6 +46,7 @@ public class PartlistMapper {
 	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter 
 	 * <code>id</code>
 	 */
+
 	public Partlist insert(Partlist p) throws IllegalArgumentException, SQLException {
 		if ( p == null) {
 			throw new IllegalArgumentException ("Übergebenes Objekt an insert() ist NULL. ");
@@ -241,6 +242,43 @@ public class PartlistMapper {
 		
 		result = dateFormat.format(date);
 		return result;
+	}
+	
+	public Partlist findByModuleId(int id) throws SQLException {
+		// DB Verbindung hier holen
+		Connection con = DBConnection.connection();
+
+		try {
+			Partlist result = new Partlist();
+			Statement stmt = con.createStatement();
+
+			// Statement ausfuellen und als Query an die DB schicken
+
+			// Suche alle Modul zu Modul Beziehungen
+			ResultSet rs = stmt.executeQuery("SELECT subordinateID, quantity FROM ModuleRelationship "
+					+ "WHERE superordinateID =" + id + ";");
+			if (rs.next()) {
+
+				Module subModule = ModuleMapper.getModuleMapper().findByElement(rs.getInt("subordinateID"));
+				result.add(subModule, rs.getInt("quantity"));
+			}
+
+			Statement stmt2 = con.createStatement();
+			
+			// Suche alle Element zu Modul Beziehungen
+			ResultSet rs2 = stmt2.executeQuery("SELECT element_id, quantity FROM ModuleElement "
+					+ "WHERE module_id =" + id + ";");
+			if (rs2.next()) {
+				Element subElement = ElementMapper.getElementMapper().findElementById(rs2.getInt("element_id"));
+				result.add(subElement, rs2.getInt("quantity"));
+			}
+
+			
+			return result;
+		} catch (SQLException ex) {
+			throw ex;
+		}
+
 	}
 }
 

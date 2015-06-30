@@ -1,15 +1,17 @@
 package de.hdm.groupfive.itproject.server;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Vector;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.groupfive.itproject.server.db.*;
-import de.hdm.groupfive.itproject.shared.*;
+import de.hdm.groupfive.itproject.server.db.ElementMapper;
+import de.hdm.groupfive.itproject.server.db.ModuleMapper;
+import de.hdm.groupfive.itproject.server.db.PartlistMapper;
+import de.hdm.groupfive.itproject.server.db.ProductMapper;
+import de.hdm.groupfive.itproject.server.db.UserMapper;
+import de.hdm.groupfive.itproject.shared.AdministrationCommon;
+import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
@@ -175,6 +177,21 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * **********************************************
 	 */
 
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Ende: Initialisierung
+	 * *****************************************
+	 * **********************************
+	 */
+	
+	/*
+	 * ***************************************************************************
+	 * ABSCHNITT, Beginn: Methoden f�r User-Objekte
+	 * *****************************
+	 * **********************************************
+	 */
+	
+	
 	/**
 	 * �bergibt die Registrierungsdaten an die Datenbank weiter
 	 * 
@@ -199,10 +216,28 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            des Benutzerkontos
 	 */
 	@Override
-	public User loginUser(String email, String password)
+	public User loginUser()
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory.getUserService();
+		
+		if (userService.isUserLoggedIn()) {
+			com.google.appengine.api.users.User user = userService.getCurrentUser();
+			
+			User u = new User();
+			u.setEmail(user.getEmail());
+			u.setUserName(user.getNickname());
+			u.setUserId(user.getUserId());
+			u.setFederatedIdentity(user.getFederatedIdentity());
+			u.setIsLoggedIn(true);
+			this.currentUser = u;
+			return u;
+		} else {
+			User u = new User();
+			u.setIsLoggedIn(false);
+			u.setLoginUrl(userService.createLoginURL(ServerSettings.PAGE_URL));
+			this.currentUser = null;
+			return u;
+		}
 	}
 
 	/**
@@ -210,9 +245,15 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * Benutzer wird ausgeloggt
 	 */
 	@Override
-	public void logoutUser() throws IllegalArgumentException {
-		// TODO Google Api ansteuern
-
+	public String logoutUser() throws IllegalArgumentException {
+		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory.getUserService();
+		
+		if (userService.isUserLoggedIn()) {
+			com.google.appengine.api.users.User user = userService.getCurrentUser();
+			this.currentUser = null;
+			return userService.createLogoutURL(ServerSettings.PAGE_URL);
+		}
+		return "http://www.google.de";
 	}
 
 	/**
@@ -271,7 +312,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	@Override
 	public Element createElement(Element element)
 			throws IllegalArgumentException {
-
 		if (element == null) {
 			throw new IllegalArgumentException("Übergebenes Objekt an createElement() ist NULL");
 		}
@@ -331,7 +371,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @return Element wird durch die findById()-Methode gesucht
 	 */
 	@Override
-	public Element findElementById(int id) throws IllegalArgumentException {
+	public Partlist findElementById(int id) throws IllegalArgumentException {
 		try {
 			return this.getElementMapper().findById(id);
 		} catch (SQLException e) {
@@ -368,7 +408,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		} else {
 			module.getPartlist().add(element, amount);
 		}
-
+		// TODO: speichern
 	}
 
 	/**
@@ -414,27 +454,39 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @return result
 	 */
 	@Override
-	public Partlist findElementsByName(String name)
+	public Partlist findElementsByName(String searchWord)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		Partlist result = new Partlist();
-		if (name.equals("leer")) {
-			// Nur für Tests
-		} else {
-			Module m1 = new Module();
-			m1.setName(name);
-			m1.setId(0);
-
-			Element e1 = new Element();
-			e1.setName(name + " element");
-			e1.setId(1);
-			e1.setDescription("blablabla");
-
-			m1.getPartlist().add(e1, 1);
-
-			result.add(m1, 1);
+		return this.findElementsByName(searchWord, 1000);
+	}
+	
+	@Override
+	public Partlist findElementsByName(String searchWord, int maxResults)
+			throws IllegalArgumentException {
+		try {
+			return this.elementMapper.findByName(searchWord, maxResults);
+		} catch(IllegalArgumentException ex) {
+			throw ex;
+		} catch(SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return result;
+	}
+	
+	@Override
+	public Partlist findModulesByName(String searchWord)
+			throws IllegalArgumentException {
+		return this.findModulesByName(searchWord, 1000);
+	}
+	
+	@Override
+	public Partlist findModulesByName(String searchWord, int maxResults)
+			throws IllegalArgumentException {
+		try {
+			return this.moduleMapper.findByName(searchWord, maxResults);
+		} catch(IllegalArgumentException ex) {
+			throw ex;
+		} catch(SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
 	}
 
 	/*
@@ -597,11 +649,12 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
-		try {
-			return this.getPartlistMapper().findPartlistById(id);
-		} catch (SQLException ex) {
-			throw new IllegalArgumentException(ex.getMessage());
-		}
+//		try {
+//			return null;
+//		} catch (SQLException e) {
+//			throw new IllegalArgumentException(e.getMessage());
+//		}
+		return null;
 	}
 
 	// @Override
