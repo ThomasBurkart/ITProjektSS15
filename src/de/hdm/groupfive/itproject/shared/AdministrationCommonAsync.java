@@ -50,15 +50,9 @@ public interface AdministrationCommonAsync {
 	public void findElementsByName(String name,
 			AsyncCallback<Partlist> callback);
 
-//	public void findPartlistByModuleName(String name,
-//			AsyncCallback<Partlist> callback);
-
 	public void findPartlistByModuleId(int id, AsyncCallback<Partlist> callback);
 
 	public void findPartlistById(int id, AsyncCallback<Partlist> callback);
-
-//	public void findPartlistByModule(Module module,
-//			AsyncCallback<Partlist> callback);
 
 	public void getAllProducts(AsyncCallback<Vector<Product>> callback);
 
