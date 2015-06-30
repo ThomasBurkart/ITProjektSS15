@@ -134,8 +134,6 @@ public class Partlist extends BusinessObject {
 	 *            ID des Bauteils das ausgelesen werden soll.
 	 * @return Das Bauteil <code>Element</code> wird zur�ckgegeben
 	 */
-	// WIE GIBT MAN EIN ATTRIBUT AUS EINER ANDEREN KLASSE IN EINER BESCHREIUBUNG
-	// AN?
 	public Element getElementById(int elementId) {
 		Element result = null;
 		for (PartlistEntry entry : list) {
