@@ -1,6 +1,6 @@
 package de.hdm.groupfive.itproject.client;
 
-import com.gargoylesoftware.htmlunit.javascript.host.Element;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.*;
 
@@ -40,6 +40,9 @@ public class ReportGen implements EntryPoint {
     	g.setText(0,1, new String("Name"));
     	g.setText(0,2, new String("Anzahl"));
     	for(int r = 0; r < testList.size() ; ++r){
+    		for(PartlistEntry.PartlistEntry entry: Partlist.list){
+    			
+    		}
     		g.setWidget(r, 0, new Widget(testList.getId()));
     		g.setText(r, 1, new String(testList.getName()));
     		g.setWidget(r, 2, new Widget(testList.getAmount()));
