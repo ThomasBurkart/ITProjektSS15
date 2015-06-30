@@ -284,7 +284,7 @@ public class ElementMapper {
 	 */
 	private String getSqlDateFormat(Date date) {
 		String result = "";
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		result = dateFormat.format(date);
 		return result;
 	}

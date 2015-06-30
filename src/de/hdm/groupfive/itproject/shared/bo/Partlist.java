@@ -3,7 +3,7 @@ package de.hdm.groupfive.itproject.shared.bo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 public class Partlist extends BusinessObject {
 
@@ -21,7 +21,7 @@ public class Partlist extends BusinessObject {
 	/**
 	 * Name der St�ckliste
 	 */
-	private String name;
+	private String name = "";
 
 	/**
 	 * Der Prim�rschl�ssel der St�ckliste
@@ -73,8 +73,8 @@ public class Partlist extends BusinessObject {
 	 * 
 	 * @return Array mit allen Bauteilen
 	 */
-	public List<Element> getAllElements() {
-		List<Element> result = new ArrayList<Element>();
+	public ArrayList<Element> getAllElements() {
+		ArrayList<Element> result = new ArrayList<Element>();
 		for (PartlistEntry pe : this.list) {
 			result.add(pe.getElement());
 		}
@@ -202,6 +202,14 @@ public class Partlist extends BusinessObject {
 		this.name = name;
 
 	}
+	/**
+	 * Setzen des Erstellungsdatums
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	 /** 
+	 */
 
 	public void add(Partlist p) {
 		for (PartlistEntry pe : p.getAllEntries()) {
@@ -252,4 +260,11 @@ public class Partlist extends BusinessObject {
 		}
 		return -1;
 	}
+
+	
+
+	
+
+	
+	
 }

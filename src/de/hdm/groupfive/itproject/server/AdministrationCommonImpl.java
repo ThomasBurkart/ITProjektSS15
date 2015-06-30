@@ -598,9 +598,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	@Override
 	public Partlist findPartlistById(int id) throws IllegalArgumentException {
 		try {
-			return this.getPartlistMapper().findById(id);
-		} catch (SQLException e) {
-			throw new IllegalArgumentException(e.getMessage());
+			return this.getPartlistMapper().findPartlistById(id);
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
 		}
 	}
 

@@ -153,31 +153,7 @@ public class ModuleMapper {
 		return result;
 				}
 				
-	public Vector<Module> findbyElementId(int elementId) throws IllegalArgumentException, SQLException {
-		Connection con = DBConnection.connection();
-		
-		Vector<Module> result = new Vector<Module>();
-		
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, name, elementId"
-								+ "FROM module"
-								+ "WHERE module.elementId ="
-								+ elementId
-								+ "ORDER BY id");
-			
-			while (rs.next()) {
-				Module m = new Module();
-				m.setId(rs.getInt("id"));
-				m.setName(rs.getString("name"));
-				
-				result.addElement(m);
-			}
-		} catch (SQLException ex) {
-			throw new IllegalArgumentException(ex.getMessage());
-		}
-		return result;
-	}
+
 	
 	/**
 	 * 
@@ -272,7 +248,7 @@ public class ModuleMapper {
 		return m;
 	}
 					
-		
+	
 	public Vector<Module> findByName(String name) throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		
