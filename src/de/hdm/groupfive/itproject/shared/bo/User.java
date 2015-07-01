@@ -12,44 +12,78 @@ public class User extends BusinessObject {
 	 */
 	private String userName = "";
 	
+	/**
+	 * Die UserId des Benutzers
+	 */
 	private String userId;
 	
+	/**
+	 * Anmelde-URL um den Login per Google durchzuf�hren
+	 */
 	private String loginUrl;
 	
+	/**
+	 * Anmeldestatus des Benutzers
+	 */
 	private boolean isLoggedIn;
 	
+	/**
+	 * Auslesen der Anmelde-URL
+	 * @return loginUrl Anmelde-URL
+	 */
 	public String getLoginUrl() {
 		return loginUrl;
 	}
 
+	/**
+	 * Setzen der Anmelde-URL
+	 * @param loginUrl Anmelde-URL
+	 */
 	public void setLoginUrl(String loginUrl) {
 		this.loginUrl = loginUrl;
 	}
 	
+	/**
+	 * Setzen des Anmeldestatus
+	 * @param val �bergebener Anmelde-Status
+	 */
 	public void setIsLoggedIn(boolean val) {
 		this.isLoggedIn = val;
 	}
 	
+	/**
+	 * Auslesen ob der Benutzer angemeldet ist
+	 * @return isLoggedIn Anmeldestatus
+	 */
 	public boolean isLoggedIn() {
 		return this.isLoggedIn;
 	}
 
+	/**
+	 * Auslesen der UserId des Benutzers
+	 * @return userId Benutzer-ID
+	 */
 	public String getUserId() {
 		return userId;
 	}
 
+	/**
+	 * Setzden der UserID des Benutzers
+	 * @param userId Benutzer-ID
+	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	
-
 
 	/**
 	 * Der E-Mail des Benutzers.
 	 */
 	private String email = "";
 
+	/**
+	 * Auslesen der Email des Benutzers
+	 * @return email
+	 */
 	public String getEmail() {
 		return email;
 	}
