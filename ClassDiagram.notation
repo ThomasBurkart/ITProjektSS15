@@ -1701,9 +1701,9 @@
               <element xmi:type="uml:Property" href="ClassDiagram.uml#_DX-44B67EeW-Ep7gZUOnbw"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_DYAHAR67EeW-Ep7gZUOnbw"/>
             </children>
-            <children xmi:type="notation:Shape" xmi:id="_G2BtEB67EeW-Ep7gZUOnbw" type="3012">
-              <element xmi:type="uml:Property" href="ClassDiagram.uml#_G2Ae8B67EeW-Ep7gZUOnbw"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_G2BtER67EeW-Ep7gZUOnbw"/>
+            <children xmi:type="notation:Shape" xmi:id="_VH7rcB7GEeW-Ep7gZUOnbw" type="3012">
+              <element xmi:type="uml:Property" href="ClassDiagram.uml#_VH4oIB7GEeW-Ep7gZUOnbw"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_VH7rcR7GEeW-Ep7gZUOnbw"/>
             </children>
             <styles xmi:type="notation:TitleStyle" xmi:id="_nMgMlALPEeW4XaJaSKA5Sg"/>
             <styles xmi:type="notation:SortingStyle" xmi:id="_nMgMlQLPEeW4XaJaSKA5Sg"/>

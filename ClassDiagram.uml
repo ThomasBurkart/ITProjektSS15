@@ -1012,7 +1012,7 @@
       <generalization xmi:type="uml:Generalization" xmi:id="_nMXCYgLPEeW4XaJaSKA5Sg" general="_nMXCQQLPEeW4XaJaSKA5Sg"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_nMXCYwLPEeW4XaJaSKA5Sg" name="partlist" visibility="private" type="_nMXCaALPEeW4XaJaSKA5Sg"/>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_DX-44B67EeW-Ep7gZUOnbw" name="serialVersionUID" visibility="private" isStatic="true" type="_0Z8JAOTiEeSltrLTz4W_wA"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_G2Ae8B67EeW-Ep7gZUOnbw" name="moduleId" type="_DYwJkORSEeS-mOevn5eTww"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_VH4oIB7GEeW-Ep7gZUOnbw" name="moduleId" type="_DYwJkORSEeS-mOevn5eTww"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_nMXCZALPEeW4XaJaSKA5Sg" name="getPartlist">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_nMXCZQLPEeW4XaJaSKA5Sg" type="_nMXCaALPEeW4XaJaSKA5Sg" direction="return"/>
       </ownedOperation>
