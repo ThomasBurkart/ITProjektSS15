@@ -66,7 +66,7 @@ public class ModuleMapper {
 			SQLException {
 		// DB Verbindung holen
 		Connection con = DBConnection.connection();
-
+		Module m = new Module();
 		try {
 			Statement stmt = con.createStatement();
 
@@ -78,17 +78,18 @@ public class ModuleMapper {
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
 			 * werden. Prüfe, ob ein Ergebnis vorliegt.
 			 */
-			if (rs.next()) {
-				Module m = new Module();
+			while (rs.next()) {
 				m.setId(rs.getInt("id"));
 				m.setName(rs.getString("name"));
-
 				return m;
 			}
 
 		} catch (SQLException ex) {
+			
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+		
+
 		return null;
 	}
 
@@ -96,6 +97,7 @@ public class ModuleMapper {
 			SQLException {
 		Connection con = DBConnection.connection();
 
+		Module m = new Module();
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
@@ -105,7 +107,6 @@ public class ModuleMapper {
 							+ " ORDER BY element.element_id");
 
 			while (rs.next()) {
-				Module m = new Module();
 				m.setModuleId(rs.getInt("module.module_id"));
 				m.setId(rs.getInt("element.element_id"));
 				m.setPartlist(PartlistMapper.getPartlistMapper().findByModuleId(m.getModuleId()));
@@ -126,12 +127,13 @@ public class ModuleMapper {
 					Date lastUpdateDate = new java.util.Date(timestamp2.getTime());
 					m.setLastUpdate(lastUpdateDate);
 				}
-				return m;
+				return  m;
 			}
 		} catch (SQLException ex) {
+			
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return null;
+		return null;		
 	}
 	
 	
@@ -166,8 +168,12 @@ public class ModuleMapper {
 				result.addElement(m);
 			}
 		} catch (SQLException ex) {
+			
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+		
+
+		
 		return result;
 	}
 
@@ -186,12 +192,14 @@ public class ModuleMapper {
 				Module m = new Module();
 				m.setId(rs.getInt("id"));
 				m.setName(rs.getString("name"));
-
 				result.add(m, 1);
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+		
+
+		
 		return result;
 	}
 
@@ -240,6 +248,7 @@ public class ModuleMapper {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
+		
 		return m;
 
 	}
@@ -256,10 +265,27 @@ public class ModuleMapper {
 
 			stmt.executeUpdate("DELETE FROM module WHERE module_id="
 					+ m.getModuleId());
+			
+			Statement stmt2 = con.createStatement();
+
+			// Zuordnungen zwischen dem zu löschenden Modul und anderen Modulen löschen
+			stmt2.executeUpdate("DELETE FROM ModuleRelationShip WHERE superordinateID="
+					+ m.getModuleId() + " OR subordinateID="+ m.getModuleId());
+			
+			Statement stmt3 = con.createStatement();
+
+			// Zuordnungen zwischen dem zu löschenden Modul und anderen Elementen löschen
+
+			stmt3.executeUpdate("DELETE FROM ModuleElement WHERE module_id="
+					+ m.getModuleId());
+			
 			ElementMapper.getElementMapper().delete(m);
+			
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+
+		
 	}
 
 	/**
@@ -285,6 +311,8 @@ public class ModuleMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+		
+		
 		return m;
 	}
 
@@ -315,6 +343,7 @@ public class ModuleMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+
 		return result;
 	}
 

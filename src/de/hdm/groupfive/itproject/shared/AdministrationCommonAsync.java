@@ -43,7 +43,7 @@ public interface AdministrationCommonAsync {
 
 	public void deleteProduct(Product product, AsyncCallback<Void> callback);
 
-	void findElementById(int id, AsyncCallback<Partlist> callback);
+	public void findElementById(int id, AsyncCallback<Partlist> callback);
 
 	public void findElementsByCreator(User creator, AsyncCallback<Partlist> callback);
 
@@ -55,7 +55,7 @@ public interface AdministrationCommonAsync {
 
 	public void findPartlistById(int id, AsyncCallback<Partlist> callback);
 
-	public void getAllProducts(AsyncCallback<Vector<Product>> callback);
+	public void getAllProducts(AsyncCallback<Partlist> callback);
 
 	public void calculateMaterial(Partlist partlist,
 			AsyncCallback<Partlist> callback);
@@ -73,8 +73,8 @@ public interface AdministrationCommonAsync {
 
 	public void init(AsyncCallback<Void> callback);
 
-	void findModulesByName(String searchWord, AsyncCallback<Partlist> callback);
+	public void findModulesByName(String searchWord, AsyncCallback<Partlist> callback);
 
-	void findModulesByName(String searchWord, int maxResults,
+	public void findModulesByName(String searchWord, int maxResults,
 			AsyncCallback<Partlist> callback);
 }

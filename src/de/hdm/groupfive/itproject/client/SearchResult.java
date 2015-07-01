@@ -202,7 +202,7 @@ public class SearchResult extends Showcase {
 
 	}
 
-	class SearchAllProductsCallback implements AsyncCallback<Vector<Product>> {
+	class SearchAllProductsCallback implements AsyncCallback<Partlist> {
 		private Showcase showcase = null;
 
 		public SearchAllProductsCallback(Showcase c) {
@@ -217,7 +217,7 @@ public class SearchResult extends Showcase {
 		}
 
 		@Override
-		public void onSuccess(Vector<Product> result) {
+		public void onSuccess(Partlist result) {
 			if (result != null) {
 				final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 				selectionModel
@@ -236,12 +236,9 @@ public class SearchResult extends Showcase {
 								}
 							}
 						});
-				Partlist result2 = new Partlist();
-				for (Product p : result) {
-					result2.add(p, 1);
-				}
+				
 				setSelectionModel(selectionModel);
-				SearchTreeModel model = new SearchTreeModel(result2,
+				SearchTreeModel model = new SearchTreeModel(result,
 						selectionModel);
 
 				CellTree cellTree = new CellTree(model, null);

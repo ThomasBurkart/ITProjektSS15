@@ -37,8 +37,8 @@ public class PartlistMapper {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
+		Partlist result = new Partlist();
 		try {
-			Partlist result = new Partlist();
 			Statement stmt = con.createStatement();
 
 			// Statement ausfuellen und als Query an die DB schicken
@@ -62,12 +62,42 @@ public class PartlistMapper {
 				result.add(subElement, rs2.getInt("quantity"));
 			}
 
-			
-			return result;
 		} catch (SQLException ex) {
 			throw ex;
 		}
+		
+		return result;
+	}
+	
+	/**
+	 * Liefert vollständige Partlist mit zugehörigem Modul zu Produkt
+	 * @return Partlist mit allen Sub-Elementen
+	 */
+	public Partlist findByProductId(int id) throws SQLException {
+		// DB Verbindung hier holen
+		Connection con = DBConnection.connection();
+		Partlist result = new Partlist();
 
+		try {
+			Statement stmt = con.createStatement();
+
+			// Statement ausfuellen und als Query an die DB schicken
+
+			// Suche alle Modul zu Modul Beziehungen
+			ResultSet rs = stmt.executeQuery("SELECT subordinateID, quantity FROM ModuleRelationship "
+					+ "WHERE superordinateID =" + id + ";");
+			while (rs.next()) {
+
+				Module subModule = ModuleMapper.getModuleMapper().findByElement(rs.getInt("subordinateID"));
+				result.add(subModule, rs.getInt("quantity"));
+
+				return result;
+			}
+		} catch (SQLException ex) {
+			throw ex;
+		}
+		return null;
+		
 	}
 
 }
