@@ -76,3 +76,4 @@ PROTOKOLL
 		  			- habe diese Methode private static final Logger logger = ServerSettings.getLogger(); noch mit dazu geschrieben,
 		  			  Frage, wenn der User raus fällt, benötigt man diese dann noch, da Auslesen des applikationsweiten (Server-seitig!) zentralen Loggers.
 		
+
