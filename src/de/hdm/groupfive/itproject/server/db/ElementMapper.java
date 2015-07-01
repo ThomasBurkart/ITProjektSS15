@@ -2,7 +2,6 @@ package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.Date;
@@ -10,6 +9,7 @@ import java.util.Date;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.Product;
 
 //** @ author Jakupi, Samire ; Thies
 
@@ -25,7 +25,6 @@ public class ElementMapper {
 		if (elementMapper == null) {
 			elementMapper = new ElementMapper();
 		}
-
 		return elementMapper;
 	}
 
@@ -53,15 +52,15 @@ public class ElementMapper {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
+		Partlist result = new Partlist();
 		try {
-			Partlist result = new Partlist();
 			Statement stmt = con.createStatement();
 
 			// Statement ausfuellen und als Query an die DB schicken
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM element "
 					+ "WHERE element_id =" + id + " ORDER BY element_id");
-			if (rs.next()) {
+			while (rs.next()) {
 
 				Element e = new Element();
 				e.setId(rs.getInt("element_id"));
@@ -82,19 +81,13 @@ public class ElementMapper {
 				}
 				result.add(e, 1);
 				return result;
-
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 		return null;
 	}
-
-	/**
-	 * // Verbindung sollte immer wieder geschlossen werden. try { con.close();
-	 * } catch (SQLException ex) { throw ex; } return null;
-	 */
-
+	
 	/**
 	 * Auslesen aller Elements
 	 * 
@@ -140,6 +133,7 @@ public class ElementMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+
 		return result;
 	}
 
@@ -150,6 +144,12 @@ public class ElementMapper {
 
 	public Partlist findByName(String searchWord, int maxResults,
 			boolean onlyModules) throws IllegalArgumentException, SQLException {
+		return findByName(searchWord, maxResults, onlyModules, false);
+	}
+
+	public Partlist findByName(String searchWord, int maxResults,
+			boolean onlyModules, boolean onlyProducts)
+			throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		Partlist result = new Partlist();
 		String whereQuery = "";
@@ -188,43 +188,54 @@ public class ElementMapper {
 				// Für jeden Eintrag im Suchergebnis wird nun ein Element-Objekt
 				// erstellt.
 				while (rs.next()) {
-					// Zuerst nachschauen ob es sich bei dem Element um ein
-					// Modul handelt.
-					Module m = ModuleMapper.getModuleMapper().findByElement(
+					Product p = ProductMapper.getProductMapper().findByElement(
 							rs.getInt("element_id"));
 
-					// Wenn es sich um ein Modul handelt, dieses hinzufügen
-					// ansonsten, das Element als
-					// Bauteil hinzufügen.
-					if (m != null) {
-						result.add(m, 1);
-					} else {
-						if (!onlyModules) {
-					
-							Element e = new Element();
-							e.setId(rs.getInt("element_id"));
-	
-							e.setName(rs.getString("name"));
-							e.setDescription(rs.getString("description"));
-							e.setMaterialDescription(rs
-									.getString("material_description"));
-	
-							Timestamp timestamp = rs.getTimestamp("creation_date");
-							if (timestamp != null) {
-								Date creationDate = new java.util.Date(
-										timestamp.getTime());
-								e.setCreationDate(creationDate);
+					if (p != null) {
+						result.add(p, 1);
+					} else if (!onlyProducts) {
+
+						// Zuerst nachschauen ob es sich bei dem Element um ein
+						// Modul handelt.
+						Module m = ModuleMapper.getModuleMapper()
+								.findByElement(rs.getInt("element_id"));
+
+						// Wenn es sich um ein Modul handelt, dieses hinzufügen
+						// ansonsten, das Element als
+						// Bauteil hinzufügen.
+						if (m != null) {
+							result.add(m, 1);
+						} else {
+							if (!onlyModules && !onlyProducts) {
+
+								Element e = new Element();
+								e.setId(rs.getInt("element_id"));
+
+								e.setName(rs.getString("name"));
+								e.setDescription(rs.getString("description"));
+								e.setMaterialDescription(rs
+										.getString("material_description"));
+
+								Timestamp timestamp = rs
+										.getTimestamp("creation_date");
+								if (timestamp != null) {
+									Date creationDate = new java.util.Date(
+											timestamp.getTime());
+									e.setCreationDate(creationDate);
+								}
+
+								Timestamp timestamp2 = rs
+										.getTimestamp("last_update");
+								if (timestamp2 != null) {
+									Date lastUpdateDate = new java.util.Date(
+											timestamp2.getTime());
+									e.setLastUpdate(lastUpdateDate);
+								}
+
+								// Hinzufuegen des neuen Objekts zum
+								// Ergebnisvektor
+								result.add(e, 1);
 							}
-	
-							Timestamp timestamp2 = rs.getTimestamp("last_update");
-							if (timestamp2 != null) {
-								Date lastUpdateDate = new java.util.Date(
-										timestamp2.getTime());
-								e.setLastUpdate(lastUpdateDate);
-							}
-	
-							// Hinzufuegen des neuen Objekts zum Ergebnisvektor
-							result.add(e, 1);
 						}
 					}
 				}
@@ -232,6 +243,7 @@ public class ElementMapper {
 				throw new IllegalArgumentException(ex.getMessage());
 			}
 		}
+
 		return result;
 	}
 
@@ -288,8 +300,10 @@ public class ElementMapper {
 			}
 
 		} catch (SQLException ex) {
+			
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+
 		return e;
 	}
 
@@ -362,6 +376,7 @@ public class ElementMapper {
 		catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+
 	}
 
 	/**
@@ -385,11 +400,10 @@ public class ElementMapper {
 			Statement stmt = con.createStatement();
 
 			stmt.executeUpdate("DELETE FROM element WHERE element_id=" + eId);
-		}
-
-		catch (SQLException ex) {
+		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+
 	}
 
 	/**
@@ -414,7 +428,7 @@ public class ElementMapper {
 	 *            Wort nachdem gesucht wird.
 	 * @return Varianten des Wortes als Vektor<String>
 	 */
-	public Vector<String> getLevenshtein1(String word) {
+	private Vector<String> getLevenshtein1(String word) {
 		Vector<String> words = new Vector<String>();
 		for (int i = 0; i < word.length(); i++) {
 			// insertions

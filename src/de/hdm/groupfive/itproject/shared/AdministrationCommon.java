@@ -133,7 +133,7 @@ public interface AdministrationCommon extends RemoteService {
 
 	public Partlist findPartlistById(int id) throws IllegalArgumentException;
 
-	public Vector<Product> getAllProducts() throws IllegalArgumentException;
+	public Partlist getAllProducts() throws IllegalArgumentException;
 
 	public Partlist calculateMaterial(Partlist partlist) throws IllegalArgumentException;
 

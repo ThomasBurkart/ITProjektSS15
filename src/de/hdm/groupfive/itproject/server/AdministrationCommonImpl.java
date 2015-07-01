@@ -731,7 +731,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/**
 	 * Auslesen s�mtlicher Endprodukte
 	 */
-	public Vector<Product> getAllProducts() throws IllegalArgumentException {
+	public Partlist getAllProducts() throws IllegalArgumentException {
 		try {
 			return this.getProductMapper().findAll();
 		} catch (SQLException e) {

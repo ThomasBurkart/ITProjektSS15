@@ -216,8 +216,10 @@ public class ElementForm extends Showcase {
 		
 		
 		String idDesc = "Bauteil Id";
+		String nameDesc = "Bezeichnung";
 		if (this.element instanceof Product) {
 			idDesc = "Enderzeugnis Id";
+			nameDesc = "Verkaufs-Bezeichnung";
 		} else if (this.element instanceof Module) {
 			idDesc = "Baugruppen Id";
 		}
@@ -226,7 +228,7 @@ public class ElementForm extends Showcase {
 		idText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 		grid.setWidget(0, 0, idText);
 
-		HTML nameText = new HTML("Bezeichnung");
+		HTML nameText = new HTML(nameDesc);
 		nameText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 		grid.setWidget(1, 0, nameText);
 
@@ -438,7 +440,9 @@ public class ElementForm extends Showcase {
 					if (newElement) {
 						element.setCreationDate(new Date());
 						if (element instanceof Product) {
-							administration.createProduct((Product) element,
+							Product newProduct = (Product) element;
+							newProduct.setSalesName(nameTb.getValue().trim());
+							administration.createProduct(newProduct,
 									new ElementSaveCallback());
 						} else if (element instanceof Module) {
 							administration.createModule((Module) element,
@@ -450,7 +454,9 @@ public class ElementForm extends Showcase {
 					} else {
 						
 						if (element instanceof Product) {
-							administration.editProduct((Product) element,
+							Product newProduct = (Product) element;
+							newProduct.setSalesName(nameTb.getValue().trim());
+							administration.editProduct(newProduct,
 									new ProductSaveCallback());
 						} else if (element instanceof Module) {
 							administration.editModule((Module) element,
