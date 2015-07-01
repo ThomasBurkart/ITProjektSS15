@@ -137,13 +137,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * ***************************************
 	 * ************************************
 	 */
+	
 	/**
 	 * No-Argument Konstruktor
 	 */
 	public AdministrationCommonImpl() throws IllegalArgumentException {
 
 	}
-
+	
 	/**
 	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
 	 * No-Argument-Konstruktor {@link #AdministrationCommonImpl()}. Diese
@@ -170,50 +171,17 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * **********************************
 	 */
 
-	/*
-	 * ***************************************************************************
-	 * ABSCHNITT, Beginn: Methoden fï¿½r User-Objekte
-	 * *****************************
-	 * **********************************************
-	 */
-
-	/*
-	 * ***************************************************************************
-	 * ABSCHNITT, Ende: Initialisierung
-	 * *****************************************
-	 * **********************************
-	 */
 	
 	/*
 	 * ***************************************************************************
-	 * ABSCHNITT, Beginn: Methoden fï¿½r User-Objekte
+	 * ABSCHNITT, Beginn: Methoden für User-Objekte
 	 * *****************************
 	 * **********************************************
 	 */
 	
-	
-	/**
-	 * ï¿½bergibt die Registrierungsdaten an die Datenbank weiter
-	 * 
-	 * @param email
-	 *            des Benutzers
-	 * @param password
-	 *            des Benutzerkontos
-	 */
-	@Override
-	public User registerUser(String email, String password)
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * Login Daten werden mit der Datenbank abgeglichen
 	 * 
-	 * @param email
-	 *            des Benutzers
-	 * @param password
-	 *            des Benutzerkontos
 	 */
 	@Override
 	public User loginUser()
@@ -275,7 +243,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Auslesen des Benutzobjekts/ der Benutzerdaten
+	 * Auslesen des Benutzerobjekts/ der Benutzerdaten
 	 */
 	@Override
 	public User getUser() throws IllegalArgumentException {
@@ -304,8 +272,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/**
 	 * Erstellen eines neuen Bauteils
 	 * 
-	 * @param name
-	 *            des Bauteils
 	 * @param element
 	 *            Bauteil das erstellt wird
 	 */
@@ -333,9 +299,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * Bearbeiten eines Bauteils
 	 * 
 	 * @param element
-	 *            Bauteil das verï¿½ndert werden soll
-	 * @return Das geï¿½nderte Bauteil wird an den Bauteil-Mapper (ElementMapper)
-	 *         ï¿½bergeben
+	 *            Bauteil das verändert werden soll
+	 * @return Das geänderte Bauteil wird an den Bauteil-Mapper (ElementMapper)
+	 *         übergeben
 	 */
 	@Override
 	public Element editElement(Element element) throws IllegalArgumentException {
@@ -347,7 +313,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Lï¿½schen eines Bauteils
+	 * Löschen eines Bauteils
 	 * 
 	 * @param element
 	 *            Bauteil das gelï¿½scht werden soll
@@ -459,6 +425,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		return this.findElementsByName(searchWord, 1000);
 	}
 	
+	/**
+	 * Finden eines Bauteils mittels des Namens
+	 * 
+	 * @param name
+	 *            des Bauteils
+	 * @param maxResults
+	 *            maximale Anzahle der angezeigten Ergebnisse
+	 */
 	@Override
 	public Partlist findElementsByName(String searchWord, int maxResults)
 			throws IllegalArgumentException {

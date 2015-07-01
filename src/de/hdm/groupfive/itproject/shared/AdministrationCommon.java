@@ -15,33 +15,76 @@ import de.hdm.groupfive.itproject.shared.bo.User;
 public interface AdministrationCommon extends RemoteService {
 
 	/**
-	 * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von
-	 * GWT RPC zusÃ¤tzlich zum No Argument Constructor der implementierenden
-	 * Klasse {@link BankVerwaltungImpl} notwendig. Bitte diese Methode direkt
-	 * nach der Instantiierung aufrufen.
-	 * 
+	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
+	 * No-Argument-Konstruktor {@link #AdministrationCommonImpl()}. Diese
+	 * Methode muss für jede Instanz von <code>AdministrationCommonImpl</code>
+	 * aufgerufen werden.
+	 *
 	 * @throws IllegalArgumentException
 	 */
 	public void init() throws IllegalArgumentException;
 
-	public User registerUser(String email, String password) throws IllegalArgumentException;
-
+	/**
+	 * Login Daten werden mit der Datenbank abgeglichen
+	 */
 	public User loginUser() throws IllegalArgumentException;
 
+	/**
+	 * Durch den Logout wird die SessionID in der DB gespeichert und der
+	 * Benutzer wird ausgeloggt
+	 */
 	public String logoutUser() throws IllegalArgumentException;
 
+	/**
+	 * Setzen des Benutzers
+	 * 
+	 * @param user
+	 *            Benutzerobjekt
+	 */
 	public void setUser(User user) throws IllegalArgumentException;
 
+	/**
+	 * Auslesen des Benutzerobjekts/ der Benutzerdaten
+	 */
 	public User getUser() throws IllegalArgumentException;
 
+	/**
+	 * Erstellen eines neuen Bauteils
+	 * 
+	 * @param element
+	 *            Bauteil das erstellt wird
+	 */
 	public Element createElement(Element element) throws IllegalArgumentException;
 
+	/**
+	 * Bearbeiten eines Bauteils
+	 * 
+	 * @param element
+	 *            Bauteil das verändert werden soll
+	 */
 	public Element editElement(Element element) throws IllegalArgumentException;
 
+	/**
+	 * Löschen eines Bauteils
+	 * 
+	 * @param element
+	 *            Bauteil das gelöscht werden soll
+	 */
 	public void deleteElement(Element element) throws IllegalArgumentException;
 
+	/**
+	 * Zuweisen eines Bauteils
+	 * 
+	 * @param module
+	 *            Baugruppe, der ein Bauteil zugewiesen werden soll
+	 * @param element
+	 *            Bauteil, das einer Baugruppe zugewiesen werden soll
+	 * @param amount
+	 *            Wie viele Bauteile zugeordnet werden sollen
+	 */
 	public void assignElement(Module module, Element element, int amount) throws IllegalArgumentException;
 
+	
 	public Element createModule(Module module);
 
 	public Module editModule(Module module) throws IllegalArgumentException;
@@ -56,10 +99,28 @@ public interface AdministrationCommon extends RemoteService {
 
 	public void deleteProduct(Product product) throws IllegalArgumentException;
 
+	/**
+	 * Finden eines Bauteils mittels der ID
+	 * 
+	 * @param id
+	 *            des Bauteils
+	 */
 	public Partlist findElementById(int id) throws IllegalArgumentException;
 
+	/**
+	 * Finden eines Bauteils mittels der Erstellers
+	 * 
+	 * @param creator
+	 *            Ersteller, der das Bauteil erstellt hat
+	 */
 	public Partlist findElementsByCreator(User creator) throws IllegalArgumentException;
 
+	/**
+	 * Finden eines Bauteils mittels des Namens
+	 * 
+	 * @param name
+	 *            des Bauteils
+	 */
 	public Partlist findElementsByName(String searchWord) throws IllegalArgumentException;
 	
 	public Partlist findElementsByName(String searchWord, int maxResults) throws IllegalArgumentException;

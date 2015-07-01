@@ -60,9 +60,6 @@ public interface AdministrationCommonAsync {
 	public void calculateMaterial(Partlist partlist,
 			AsyncCallback<Partlist> callback);
 
-	public void registerUser(String email, String password,
-			AsyncCallback<User> callback);
-
 	public void loginUser(AsyncCallback<User> callback);
 
 	public void logoutUser(AsyncCallback<String> callback);

@@ -3,21 +3,32 @@ package de.hdm.groupfive.itproject.shared.bo;
 public class Module extends Element {
 	
 	/**
-	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benï¿½tigt.
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Attribut partlist als Stï¿½ckliste der Baugruppe 
+	 * Attribut partlist als Stückliste der Baugruppe 
 	 */
 	private Partlist partlist;
 	
+	/**
+	 * Variable moduleId zum speichern der Baugruppen ID
+	 */
 	private int moduleId;
 
+	/**
+	 * Aulesen der Baugruppen ID
+	 * @return moduleId
+	 */
 	public int getModuleId() {
 		return moduleId;
 	}
 
+	/**
+	 * Setzen der Baugruppen ID
+	 * @param moduleId Baugruppen ID
+	 */
 	public void setModuleId(int moduleId) {
 		this.moduleId = moduleId;
 	}
@@ -30,13 +41,17 @@ public class Module extends Element {
 	}
 	
 	/**
-	 * Liefert Stï¿½ckliste der Baugruppe
-	 * @return Stï¿½ckliste der Baugruppe
+	 * Liefert Stückliste der Baugruppe
+	 * @return Stückliste der Baugruppe
 	 */
 	public Partlist getPartlist() {
 		return this.partlist;
 	}
 	
+	/**
+	 * Setzen der Stückliste
+	 * @param p übergebene Stückliste
+	 */
 	public void setPartlist(Partlist p) {
 		this.partlist = p;
 	}
