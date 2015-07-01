@@ -9,60 +9,28 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.thies.bankProjekt.client.CreateAccountDemo;
+import de.hdm.groupfive.itproject.shared.bo.User;
 
-/**
- * <p>
- * Ein weiterer Showcase. Dieser zeigt den Verlauf Reports zum
- * Kunden mit der Kundennummer 1. Demonstration der Nutzung des Report
- * Generators.
- * </p>
- * <p>
- * Ein detaillierter beschriebener Showcase findet sich in
- * {@link CreateAccountDemo}.
- * </p>
- * @author Affagichtli xD
- *
- */
 public class History extends Showcase {
 
-	/**
-	 * Der Titel von jeweiligen Showcase (graue Überschrift)
-	 */
 	private String headlineText;
-	
-	/**
-	 * Formatierung des Titels
-	 */
 	private String headlineTextStyle;
 
-	/**
-	 * 
-	 */
 	public History() {
 		this.headlineText = "Herzlich Willkommen "+ClientsideSettings.getCurrentUser().getUserName()+" :) - Historie";
 		this.headlineTextStyle = "formTitle";
 	}
 
-	/**
-	 * Auslesen des Titels von jeweiligen Showcase (graue Überschrift)
-	 */
 	@Override
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
-	/**
-	 * Auslesen der Formatierung des Titels
-	 */
 	@Override
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	/**
-	 * Aufbau des Assign-Panels (Zuordnungsfläche)
-	 */
 	@Override
 	protected void run() {
 		final Grid historyGrid = new Grid(14, 4);

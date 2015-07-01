@@ -9,87 +9,61 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+
+import de.hdm.groupfive.itproject.client.SearchResult.SearchAllProductsCallback;
+import de.hdm.groupfive.itproject.server.db.ModuleMapper;
+import de.hdm.groupfive.itproject.server.db.PartlistMapper;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
+import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
+import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
 public class AssignPanel extends Showcase {
 
-	/**
-	 * Der Titel von jeweiligen Showcase (graue Überschrift)
-	 */
 	private String headlineText;
-
-	/**
-	 * Formatierung des Titels
-	 */
 	private String headlineTextStyle;
-
-	/**
-	 * PartlistEntry mit Element, das zugeordnet werden soll
-	 */
 	private PartlistEntry entry;
-
-	/**
-	 * Momentaner Showcase
-	 */
 	private Showcase currentShowcase;
 
-	/**
-	 * Konstruktor der Klasse AssignPanel
-	 * erzeugt eine Zuordnungsfläche für die Anzeige der Stücklisten der Baugruppen
-	 * 
-	 * @param e
-	 *            Stücklisten Eintrag
-	 */
 	public AssignPanel(PartlistEntry e) {
 		this.entry = e;
-
+		
 		this.headlineText = "Bitte suchen oder wählen sie eine Baugruppe zum zuordnen.";
 
 		this.headlineTextStyle = "formTitle";
-
+		
 		currentShowcase = this;
 	}
 
-	/**
-	 * Auslesen des Titels von jeweiligen Showcase (graue Überschrift)
-	 */
 	@Override
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
-	/**
-	 * Auslesen der Formatierung des Titels
-	 */
 	@Override
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	/**
-	 * Aufbau des Assign-Panels (Zuordnungsfläche)
-	 */
 	@Override
 	protected void run() {
 		final SearchPanel sp = new SearchPanel();
 		this.add(sp.getAssignPanel());
-
-		Grid grid = new Grid(1, 4);
-
+		
+		Grid grid = new Grid(1,4);
+		
 		HTML amountText = new HTML("Anzahl");
 		amountText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2 amountText");
 		grid.setWidget(0, 0, amountText);
-
+		
 		final TextBox amountTb = new TextBox();
-		amountTb.setValue(this.entry.getAmount() > 1 ? ""
-				+ this.entry.getAmount() : "1");
+		amountTb.setValue(this.entry.getAmount() > 1 ? ""+this.entry.getAmount() : "1");
 		amountTb.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2 textBox");
-
+		
 		grid.setWidget(0, 1, amountTb);
-
+		
 		// ACTION BUTTONS für mögliche Aktionen ANFANG
 		FlowPanel panel = new FlowPanel();
 		panel.setStylePrimaryName("actionBox");
@@ -98,32 +72,19 @@ public class AssignPanel extends Showcase {
 		assignBtn.setStylePrimaryName("btn btn-success createBtn");
 		assignBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				for (PartlistEntry pe : sp.getSearchResult()
-						.getSelectionModel().getSelectedSet()) {
+				for(PartlistEntry pe : sp.getSearchResult().getSelectionModel().getSelectedSet()) {
 					AdministrationCommonAsync administration = ClientsideSettings
 							.getAdministration();
 					if (pe.getElement() instanceof Product) {
-						administration.assignModule(
-								(Module) entry.getElement(),
-								(Module) pe.getElement(),
-								Integer.parseInt(amountTb.getValue()),
-								new ElementAssignCallback());
-
-						// Modul mit Produkt verbinden
+						administration.assignModule((Module)entry.getElement(), (Module)pe.getElement(), Integer.parseInt(amountTb.getValue()), new ElementAssignCallback());
+						
+							// Modul mit Produkt verbinden
 					} else if (pe.getElement() instanceof Module) {
 						// Element oder Modul mit Modul verbinden
 						if (entry.getElement() instanceof Module) {
-							administration.assignModule(
-									(Module) pe.getElement(),
-									(Module) entry.getElement(),
-									Integer.parseInt(amountTb.getValue()),
-									new ElementAssignCallback());
+							administration.assignModule((Module)pe.getElement(), (Module)entry.getElement(), Integer.parseInt(amountTb.getValue()), new ElementAssignCallback());
 						} else {
-							administration.assignElement(
-									(Module) pe.getElement(),
-									entry.getElement(),
-									Integer.parseInt(amountTb.getValue()),
-									new ElementAssignCallback());
+							administration.assignElement((Module)pe.getElement(), entry.getElement(), Integer.parseInt(amountTb.getValue()), new ElementAssignCallback());
 						}
 					}
 				}
@@ -144,17 +105,11 @@ public class AssignPanel extends Showcase {
 		panel.add(amountTb);
 		panel.add(cancelBtn);
 		panel.add(assignBtn);
-
+		
 		this.add(panel);
+			
 
 	}
-
-	/**
-	 * Diese Klasse wird zur asynchronen Ausführung der Zuordnung gebraucht.
-	 * 
-	 * @author Timo Fesseler
-	 *
-	 */
 	class ElementAssignCallback implements AsyncCallback<Void> {
 
 		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
@@ -191,9 +146,10 @@ public class AssignPanel extends Showcase {
 		public void onSuccess(Void result) {
 			RootPanel.get("main").clear();
 			RootPanel.get("main").add(new ElementForm(entry));
-			currentShowcase.insert(new SuccessMsg(
-					"Zuordnung erfolgreich gespeichert!"), 1);
+			currentShowcase.insert(new SuccessMsg("Zuordnung erfolgreich gespeichert!"),
+					1);
 		}
 	}
+	
 
 }

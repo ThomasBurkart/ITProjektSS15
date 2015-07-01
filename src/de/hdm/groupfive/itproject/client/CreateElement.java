@@ -10,43 +10,24 @@ import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
 public class CreateElement extends Showcase {
-	
-	/**
-	 * Der Titel von jeweiligen Showcase (graue Überschrift)
-	 */
 	private String headlineText;
-	
-	/**
-	 * Formatierung des Titels
-	 */
 	private String headlineTextStyle;
 	
-	/**
-	 * Auswahl ob ein Bauteil, Baugruppe oder Endprodukt angelegt werden soll
-	 */
 	public CreateElement() {
 		this.headlineText = "Bitte wählen Sie aus, was Sie anlegen möchten!";
 		this.headlineTextStyle = "formTitle";
 	}
 	
-	/**
-	 * Auslesen des Titels von jeweiligen Showcase (graue Überschrift)
-	 */
 	@Override
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
-	/**
-	 * Auslesen der Formatierung des Titels
-	 */
+	@Override
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	/**
-	 * Aufbau des CreatElementPanels (Erstellfläche).
-	 */
 	@Override
 	protected void run() {		
 		Button createElementBtn = new Button("<img src=\"img/element.png\" style=\"width: 100%\" />");
