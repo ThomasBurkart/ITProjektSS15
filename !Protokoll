@@ -3,16 +3,41 @@ PROTOKOLL
 ********************************
          DEADLINES                      
 ********************************
-19.06. Prototyp l�uft
-26.06. Fehler beseitigt
 06.07. Dokumentation ist fertig
-08.07. Pr�sentation ist gepr�ft und fertig
+08.07. Pr�sentation ist geprüft und fertig
 
+********************************
+         INFO
+********************************
+
+erstellen, speichern, löschen eines Bauteils funktioniert.
+
+********************************
+        TODO --> Timo & Fabi
+********************************
+##AdministrationCommonImpl Klasse: 
+#Methode:
+	USER:
+	==> Einbindung Google Login API
+		//# http://blog.sodhanalibrary.com/2014/11/login-with-google-with-java-tutorial.html#.VYsxt0ajsWt
+		//# http://o7planning.org/web/fe/default/en/document/10769/using-scribe-oauth-java-api-with-google-oauth-2-tutorial
+	--> registerUser
+	--> loginUser
+	--> logoutUser
+	
+	MODULE:	
+	--> assignModule
+	--> assignElement
+	--> findElementsByCreator
+	
 
 
 ********************************
         UNKLARHEITEN
 ********************************
+
+
+	Methoden zum Löschen von Zuordnungen! @Fabi/Timo/Sam
 		
 	KLASSE ElementMapper:
 		Zeile 76: 			a.setModifyDateID(rs.getTimestamp ("modify_date"));
@@ -75,5 +100,5 @@ PROTOKOLL
 		 			  (Sam)
 		  			- habe diese Methode private static final Logger logger = ServerSettings.getLogger(); noch mit dazu geschrieben,
 		  			  Frage, wenn der User raus fällt, benötigt man diese dann noch, da Auslesen des applikationsweiten (Server-seitig!) zentralen Loggers.
-		
-
+		  			  
+		  

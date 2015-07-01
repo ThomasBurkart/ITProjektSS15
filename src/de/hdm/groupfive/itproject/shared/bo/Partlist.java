@@ -61,13 +61,13 @@ public class Partlist extends BusinessObject {
 
 	/**
 	 * Gibt zurÃ¼ck ob die Partlist leer ist.
+	 * 
 	 * @return true/false ob Partlist leer ist
 	 */
 	public boolean isEmpty() {
 		return this.list.isEmpty();
 	}
-	
-	
+
 	/**
 	 * Liefert alle Bauteile in Form eines Arrays
 	 * 
@@ -185,7 +185,7 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Namens
+	 * Auslesen des Namens der Stückliste
 	 * 
 	 * @return
 	 */
@@ -194,20 +194,21 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Setzen des Namens
+	 * Setzen des Namens der Stückliste
 	 */
 	public void setName(String name) {
 		this.name = name;
 
 	}
+
 	/**
-	 * 
-	 * @param p
+	 * Hizufügen von Bauteilen in betracht auf die Anzahl
+	 * @param p die übergebene Stückliste
 	 */
 	public void add(Partlist p) {
 		for (PartlistEntry pe : p.getAllEntries()) {
 
-			// Prï¿½fen ob das Element bereits in der totalAmount Stï¿½ckliste
+			// Prüfen ob das Element bereits in der totalAmount Stückliste
 			// vorhanden ist.
 			if (this.contains(pe.getElement())) {
 				// Element bereits in totalAmount vorhanden, deswegen nur noch
@@ -217,17 +218,26 @@ public class Partlist extends BusinessObject {
 				entry.setAmount(entry.getAmount() + pe.getAmount());
 			} else {
 				// Neues Element das noch nicht in totalAmount vorhanden ist,
-				// zum ersten Mal hinzufï¿½gen.
+				// zum ersten Mal hinzufügen.
 				this.add(pe.getElement(), pe.getAmount());
 			}
 		}
 
 	}
 
+	/**
+	 * Auslesen aller Einträge einer Stückliste
+	 * @return
+	 */
 	public ArrayList<PartlistEntry> getAllEntries() {
 		return this.list;
 	}
 
+	/**
+	 * Auslesen ob ein Bauteil schon Bestandteil der Stückliste ist
+	 * @param element übergebenes Bauteil
+	 * @return
+	 */
 	public boolean contains(Element element) {
 		for (PartlistEntry pe : this.list) {
 			if (pe.getElement().equals(element)) {
@@ -238,6 +248,11 @@ public class Partlist extends BusinessObject {
 		return false;
 	}
 
+	/**
+	 * Auslesen des Stücklisten-Eintrags anhand des Indexes
+	 * @param i übergebener Index
+	 * @return
+	 */
 	public PartlistEntry getPartlistEntryByIndex(int i) {
 		if (i < this.list.size()) {
 			return this.list.get(i);
@@ -245,6 +260,11 @@ public class Partlist extends BusinessObject {
 		return null;
 	}
 
+	/**
+	 * Auslesen, welchen Index ein Bauteil hat.
+	 * @param e übergebenes Bauteil
+	 * @return
+	 */
 	public int indexOfElement(Element e) {
 		for (int i = 0; i < this.list.size(); i++) {
 			if (this.list.get(i).getElement().equals(e)) {

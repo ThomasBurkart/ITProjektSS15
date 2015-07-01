@@ -2,6 +2,8 @@ package de.hdm.groupfive.itproject.server;
 
 import java.util.logging.Logger;
 
+import com.google.gwt.user.client.Window;
+
 import de.hdm.groupfive.itproject.shared.CommonSettings;
 
 

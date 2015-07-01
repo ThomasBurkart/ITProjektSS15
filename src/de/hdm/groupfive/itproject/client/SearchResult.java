@@ -6,21 +6,22 @@ import java.util.Vector;
 
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
-import de.hdm.groupfive.itproject.shared.bo.Element;
+import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
 /**
- * Klasse SearchResult ist ein Showcase für eine Suchanfrage über die Suchleiste.
- * Die Klasse startet bei der Instanziierung eine asynchrone Suche und erzeugt ein
- * Baum mit den gefundenen Ergebnissen.
- * @author lpr_000
+ * Klasse SearchResult ist ein Showcase für eine Suchanfrage über die
+ * Suchleiste. Die Klasse startet bei der Instanziierung eine asynchrone Suche
+ * und erzeugt ein Baum mit den gefundenen Ergebnissen.
+ * 
+ * @author Thomas Burkart
  *
  */
 public class SearchResult extends Showcase {
@@ -28,12 +29,14 @@ public class SearchResult extends Showcase {
 	private String headlineText;
 	private String headlineTextStyle;
 	private String searchWord;
-	private boolean fuzzySearch;
+	private int searchId;
+	private boolean onlyModules;
 	private boolean allProducts;
-	
-	private static Element selectedElement;
-	private static MultiSelectionModel<Element> selectionModel;
-	private static boolean disableLoadElementForm;
+	private boolean searchById;
+
+	private PartlistEntry selectedEntry;
+	private MultiSelectionModel<PartlistEntry> selectionModel;
+	private boolean disableLoadElementForm;
 
 	/**
 	 * Standard-Konstruktor der Klasse SearchResult. Wird beim ersten Start der
@@ -42,35 +45,51 @@ public class SearchResult extends Showcase {
 	public SearchResult() {
 		// Text der angezeigt wird, wenn noch keine Suche gestartet wurde.
 		this.headlineText = "Bitte starten Sie eine Suche!";
-		
+
 		// Style-Klasse für Titel der Suche
 		this.headlineTextStyle = "resultInfo";
-		
+
 		// alle Enderzeugnisse anzeigen
 		this.allProducts = true;
-		
+
 		// TODO: Erstes Suchergebnis sollen immer alle Endprodukte sein.
 	}
 
-	public SearchResult(String searchWord, boolean fuzzySearch) {
+	public SearchResult(String searchWord, boolean onlyModules) {
 		this.searchWord = searchWord;
-		this.fuzzySearch = fuzzySearch;
 		
+		this.onlyModules = onlyModules;
+
 		// Text der angezeigt wird, wenn ein Suche gestartet wurde.
 		this.headlineText = "Suchergebnisse für '" + searchWord + "'";
 
 		// Style-Klasse für Titel der Suche
 		this.headlineTextStyle = "resultInfo";
-		
-		
+
 		this.allProducts = false;
+	}
+
+	public SearchResult(String searchWord, int id) {
+		this.searchWord = searchWord;
+		this.searchId = id;
+		// Text der angezeigt wird, wenn ein Suche gestartet wurde.
+		this.headlineText = "Suchergebnisse für '" + searchWord + "'";
+
+		// Style-Klasse für Titel der Suche
+		this.headlineTextStyle = "resultInfo";
+
+		this.searchById = true;
+
+		this.allProducts = false;
+		
+		this.onlyModules = false;
 	}
 
 	@Override
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
-	
+
 	@Override
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
@@ -83,40 +102,44 @@ public class SearchResult extends Showcase {
 		if (this.allProducts) {
 			// Suche nach allen Endprodukten für Start-Ansicht
 			administration.getAllProducts(new SearchAllProductsCallback(this));
+		} else if (this.searchById) {
+			administration.findElementById(this.searchId,
+					new SearchElementCallback(this));
+		} else if (this.onlyModules) {
+			administration.findModulesByName(searchWord,
+					new SearchElementCallback(this));
 		} else {
-			// TODO: Suche nach Elementen, fuzzySearch evtl extra unterscheiden
-			if (this.fuzzySearch) {
-				
-			}
-			administration.findElementsByName(this.searchWord, new SearchElementCallback(this));
+			administration.findElementsByName(this.searchWord,
+					new SearchElementCallback(this));
+
 		}
 	}
-	
-	public static Element getSelectedElement() {
-		return selectedElement;
+
+	public PartlistEntry getSelectedEntry() {
+		return selectedEntry;
 	}
-	
-	private static void setSelectedElement(Element e) {
-		selectedElement = e;
+
+	private void setSelectedEntry(PartlistEntry e) {
+		selectedEntry = e;
 	}
-	
-	public static void disableLoadElementForm() {
+
+	public void disableLoadElementForm() {
 		disableLoadElementForm = true;
 	}
-	
-	public static void enableLoadElementForm() {
+
+	public void enableLoadElementForm() {
 		disableLoadElementForm = false;
 	}
-	
-	private static void setSelectionModel(MultiSelectionModel<Element> msm) {
+
+	private void setSelectionModel(MultiSelectionModel<PartlistEntry> msm) {
 		selectionModel = msm;
 	}
-	
-	public static MultiSelectionModel<Element> getSelectionModel() {
+
+	public MultiSelectionModel<PartlistEntry> getSelectionModel() {
 		return selectionModel;
 	}
-	
-	class SearchElementCallback implements AsyncCallback<Vector<Element>> {
+
+	class SearchElementCallback implements AsyncCallback<Partlist> {
 		private Showcase showcase = null;
 
 		public SearchElementCallback(Showcase c) {
@@ -126,42 +149,48 @@ public class SearchResult extends Showcase {
 		@Override
 		public void onFailure(Throwable caught) {
 			showcase.add(new ErrorMsg("<b>Error:</b> " + caught.getMessage()));
-			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			ClientsideSettings.getLogger().severe(
+					"Error: " + caught.getMessage());
 		}
 
 		@Override
-		public void onSuccess(Vector<Element> result) {
+		public void onSuccess(Partlist result) {
 			if (result != null) {
 				if (result.isEmpty()) {
-					showcase.add(new InfoMsg("<b>Die Suche ergab leider kein Ergebnis!</b> Bitte probieren Sie es erneut."));
+					showcase.add(new InfoMsg(
+							"<b>Die Suche ergab leider kein Ergebnis!</b> Bitte probieren Sie es erneut."));
 				} else {
-					final MultiSelectionModel<Element> selectionModel = new MultiSelectionModel<Element>();
+					final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 					selectionModel
 							.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-								public void onSelectionChange(SelectionChangeEvent event) {
-	
-									List<Element> selected = new ArrayList<Element>(
+								public void onSelectionChange(
+										SelectionChangeEvent event) {
+
+									List<PartlistEntry> selected = new ArrayList<PartlistEntry>(
 											selectionModel.getSelectedSet());
-									
-									SearchResult.setSelectedElement(selected.get(0));
-									
-									//createForm(selected.get(0));
-									if(!disableLoadElementForm) {
+
+									setSelectedEntry(selected.get(0));
+
+									// createForm(selected.get(0));
+									if (!disableLoadElementForm) {
 										RootPanel.get("main").clear();
-										RootPanel.get("main").add(new ElementForm(selected.get(0)));
+										RootPanel.get("main")
+												.add(new ElementForm(selected
+														.get(0)));
 									}
 								}
 							});
 					setSelectionModel(selectionModel);
-					SearchTreeModel model = new SearchTreeModel(result, selectionModel);
-	
+					SearchTreeModel model = new SearchTreeModel(result,
+							selectionModel);
+
 					CellTree cellTree = new CellTree(model, null);
 					cellTree.setAnimationEnabled(true);
 					ScrollPanel dynamicTreeWrapper = new ScrollPanel(cellTree);
 					dynamicTreeWrapper.getElement().setId("searchPane");
 					dynamicTreeWrapper
 							.setStylePrimaryName("tree col-md-11 col-sm-11 col-xs-11");
-					
+
 					showcase.add(dynamicTreeWrapper);
 				}
 			} else {
@@ -173,7 +202,7 @@ public class SearchResult extends Showcase {
 
 	}
 
-	class SearchAllProductsCallback implements AsyncCallback<Vector<Product>> {
+	class SearchAllProductsCallback implements AsyncCallback<Partlist> {
 		private Showcase showcase = null;
 
 		public SearchAllProductsCallback(Showcase c) {
@@ -183,42 +212,43 @@ public class SearchResult extends Showcase {
 		@Override
 		public void onFailure(Throwable caught) {
 			showcase.add(new ErrorMsg("<b>Error:</b> " + caught.getMessage()));
-			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+			ClientsideSettings.getLogger().severe(
+					"Error: " + caught.getMessage());
 		}
 
 		@Override
-		public void onSuccess(Vector<Product> result) {
+		public void onSuccess(Partlist result) {
 			if (result != null) {
-				final MultiSelectionModel<Element> selectionModel = new MultiSelectionModel<Element>();
+				final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 				selectionModel
 						.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-							public void onSelectionChange(SelectionChangeEvent event) {
+							public void onSelectionChange(
+									SelectionChangeEvent event) {
 
-								List<Element> selected = new ArrayList<Element>(
+								List<PartlistEntry> selected = new ArrayList<PartlistEntry>(
 										selectionModel.getSelectedSet());
-								SearchResult.setSelectedElement(selected.get(0));
+								setSelectedEntry(selected.get(0));
 
-								if(!disableLoadElementForm) {
+								if (!disableLoadElementForm) {
 									RootPanel.get("main").clear();
-									RootPanel.get("main").add(new ElementForm(selected.get(0)));
+									RootPanel.get("main").add(
+											new ElementForm(selected.get(0)));
 								}
 							}
 						});
-				Vector<Element> result2 = new Vector<Element>();
-				for (Product p : result) {
-					result2.add((Element)p);
-				}
+				
 				setSelectionModel(selectionModel);
-				SearchTreeModel model = new SearchTreeModel(result2, selectionModel);
-				
+				SearchTreeModel model = new SearchTreeModel(result,
+						selectionModel);
+
 				CellTree cellTree = new CellTree(model, null);
-				
+
 				cellTree.setAnimationEnabled(true);
 				ScrollPanel dynamicTreeWrapper = new ScrollPanel(cellTree);
 				dynamicTreeWrapper.getElement().setId("searchPane");
 				dynamicTreeWrapper
 						.setStylePrimaryName("tree col-md-11 col-sm-11 col-xs-11");
-				
+
 				showcase.add(dynamicTreeWrapper);
 			} else {
 				// Fehler ausgeben und ins Log schreiben
