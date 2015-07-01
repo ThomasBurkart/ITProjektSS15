@@ -15,7 +15,7 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * Klasse mit Eigenschaften und Diensten, die für alle Client-seitigen Klassen
  * relevant sind.
  * 
- * @author thies
+ * @author Burkart, Thies
  * @version 1.0
  * @since 28.02.2012
  * 
@@ -24,11 +24,14 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * Remote Service Proxy zur Verbindungsaufnahme mit dem Server-seitgen
-	 * Dienst namens <code>BankAdministration</code>.
+	 * Dienst namens <code>AdministrationCommon</code>.
 	 */
 
 	private static AdministrationCommonAsync administration = null;
 
+	/**
+	 * Der momentane Benutzer
+	 */
 	private static User currentUser = null;
 
 	/**
@@ -49,7 +52,7 @@ public class ClientsideSettings extends CommonSettings {
 	 * <h2>Anwendungsbeispiel:</h2> Zugriff auf den Logger herstellen durch:
 	 * 
 	 * <pre>
-	 * Logger logger = ClientSideSettings.getLogger();
+	 * Logger logger = ClientsideSettings.getLogger();
 	 * </pre>
 	 * 
 	 * und dann Nachrichten schreiben etwa mittels
@@ -94,21 +97,21 @@ public class ClientsideSettings extends CommonSettings {
 
 	/**
 	 * <p>
-	 * Anlegen und Auslesen der applikationsweit eindeutigen BankAdministration.
-	 * Diese Methode erstellt die BankAdministration, sofern sie noch nicht
+	 * Anlegen und Auslesen der applikationsweit eindeutigen AdministrationCommon.
+	 * Diese Methode erstellt die AdministrationCommon, sofern sie noch nicht
 	 * existiert. Bei wiederholtem Aufruf dieser Methode wird stets das bereits
 	 * zuvor angelegte Objekt zurückgegeben.
 	 * </p>
 	 * 
 	 * <p>
 	 * Der Aufruf dieser Methode erfolgt im Client z.B. durch
-	 * <code>BankAdministrationAsync bankVerwaltung = ClientSideSettings.getBankVerwaltung()</code>
+	 * <code>AdministrationCommonAsync administration = ClientsideSettings.getAdministration()</code>
 	 * .
 	 * </p>
 	 * 
-	 * @return eindeutige Instanz des Typs <code>BankAdministrationAsync</code>
-	 * @author Peter Thies
-	 * @since 28.02.2012
+	 * @return eindeutige Instanz des Typs <code>AdministrationCommonAsync</code>
+	 * @author Thomas Burkart, Peter Thies
+	 * @since 01.07.2015
 	 */
 	public static AdministrationCommonAsync getAdministration() {
 		// Gab es bislang noch keine Administration-Instanz, dann...
@@ -136,10 +139,18 @@ public class ClientsideSettings extends CommonSettings {
 		return administration;
 	}
 
+	/**
+	 * Auslesen des momentanen Benutzers
+	 * @return Momentaner Benutzer
+	 */
 	public static User getCurrentUser() {
 		return currentUser;
 	}
 
+	/**
+	 * Setzen des momentanen Benutzers
+	 * @param currentUser Momentaner Benutzer
+	 */
 	public static void setCurrentUser(User currentUser) {
 		ClientsideSettings.currentUser = currentUser;
 	}

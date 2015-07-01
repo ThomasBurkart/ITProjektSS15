@@ -213,8 +213,7 @@ public class ElementForm extends Showcase {
 		}
 		// Tabelle soll eine Breite von 100% erhalten.
 		grid.setWidth("100%");
-		
-		
+
 		String idDesc = "Bauteil Id";
 		String nameDesc = "Bezeichnung";
 		if (this.element instanceof Product) {
@@ -243,7 +242,7 @@ public class ElementForm extends Showcase {
 			HTML creationText = new HTML("Erstellt am");
 			creationText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(4, 0, creationText);
-	
+
 			HTML updateText = new HTML("Letzte Bearbeitung am");
 			updateText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(5, 0, updateText);
@@ -271,16 +270,21 @@ public class ElementForm extends Showcase {
 		matTb.setName("textbox-mat");
 		matTb.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11 textBox");
 		grid.setWidget(3, 1, matTb);
-		
+
 		if (!newElement) {
 
-			DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm:ss");
-			
-			HTML creationValue = new HTML(this.element.getCreationDate() != null ? dateFormat.format(this.element.getCreationDate()) : "");
+			DateTimeFormat dateFormat = DateTimeFormat
+					.getFormat("dd.MM.yyyy HH:mm:ss");
+
+			HTML creationValue = new HTML(
+					this.element.getCreationDate() != null ? dateFormat
+							.format(this.element.getCreationDate()) : "");
 			creationValue.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(4, 1, creationValue);
-			
-			HTML updateValue = new HTML(this.element.getLastUpdate() != null ? dateFormat.format(this.element.getLastUpdate()) : "");
+
+			HTML updateValue = new HTML(
+					this.element.getLastUpdate() != null ? dateFormat
+							.format(this.element.getLastUpdate()) : "");
 			updateValue.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(5, 1, updateValue);
 		}
@@ -328,7 +332,7 @@ public class ElementForm extends Showcase {
 		test += "<li><a href=\"#\">Endprodukt abc</a></li>";
 		test += "<li><a href=\"#\">Baugruppe aha</a></li>";
 		test += "<li class=\"active\">"
-				//+ .getSelectionModel().getSelectedSet().size()
+		// + .getSelectionModel().getSelectedSet().size()
 				+ " Element mauaha</li>";
 		test += "</ol>";
 		HTML breadcrumb = new HTML(test);
@@ -386,7 +390,7 @@ public class ElementForm extends Showcase {
 				public void onClick(ClickEvent event) {
 					AdministrationCommonAsync administration = ClientsideSettings
 							.getAdministration();
-					
+
 					if (element instanceof Product) {
 						administration.deleteProduct((Product) element,
 								new ElementDeleteCallback(currentShowcase));
@@ -397,7 +401,7 @@ public class ElementForm extends Showcase {
 						administration.deleteElement(element,
 								new ElementDeleteCallback(currentShowcase));
 					}
-					
+
 				}
 			});
 
@@ -428,8 +432,10 @@ public class ElementForm extends Showcase {
 				// Prüfen ob die Felder Bezeichnung und Beschreibung gefüllt
 				if (nameTb.getValue().trim() == ""
 						|| descTb.getValue().trim() == "") {
-					currentShowcase.insert(
-							new ErrorMsg("<b>Error:</b> Bitte gebe eine Bezeichnung und eine Beschreibung ein!"), 1);
+					currentShowcase
+							.insert(new ErrorMsg(
+									"<b>Error:</b> Bitte gebe eine Bezeichnung und eine Beschreibung ein!"),
+									1);
 				} else {
 					element.setName(nameTb.getValue().trim());
 					element.setDescription(descTb.getValue().trim());
@@ -452,7 +458,7 @@ public class ElementForm extends Showcase {
 									new ElementSaveCallback());
 						}
 					} else {
-						
+
 						if (element instanceof Product) {
 							Product newProduct = (Product) element;
 							newProduct.setSalesName(nameTb.getValue().trim());
@@ -476,9 +482,11 @@ public class ElementForm extends Showcase {
 			assignBtn.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					
+
 					RootPanel.get("main").clear();
-					RootPanel.get("main").add(new AssignPanel(new PartlistEntry(element, amount)));
+					RootPanel.get("main")
+							.add(new AssignPanel(new PartlistEntry(element,
+									amount)));
 				}
 			});
 			panel.add(assignBtn);
@@ -530,11 +538,11 @@ public class ElementForm extends Showcase {
 		public void onSuccess(Element result) {
 			RootPanel.get("main").clear();
 			RootPanel.get("main").add(new ElementForm(result, 1));
-			currentShowcase.insert(new SuccessMsg("Bauteil erfolgreich gespeichert!"),
-					1);
+			currentShowcase.insert(new SuccessMsg(
+					"Bauteil erfolgreich gespeichert!"), 1);
 		}
 	}
-	
+
 	/**
 	 * Callback Klasse die asynchron aufgerufen wird, wenn ein Element
 	 * gespeichert wird.
@@ -577,11 +585,11 @@ public class ElementForm extends Showcase {
 		public void onSuccess(Module result) {
 			RootPanel.get("main").clear();
 			RootPanel.get("main").add(new ElementForm(result, 1));
-			currentShowcase.insert(new SuccessMsg("Baugruppe erfolgreich gespeichert!"),
-					1);
+			currentShowcase.insert(new SuccessMsg(
+					"Baugruppe erfolgreich gespeichert!"), 1);
 		}
 	}
-	
+
 	/**
 	 * Callback Klasse die asynchron aufgerufen wird, wenn ein Element
 	 * gespeichert wird.
@@ -624,8 +632,8 @@ public class ElementForm extends Showcase {
 		public void onSuccess(Product result) {
 			RootPanel.get("main").clear();
 			RootPanel.get("main").add(new ElementForm(result, 1));
-			currentShowcase.insert(new SuccessMsg("Enderzeugnis erfolgreich gespeichert!"),
-					1);
+			currentShowcase.insert(new SuccessMsg(
+					"Enderzeugnis erfolgreich gespeichert!"), 1);
 		}
 	}
 
@@ -672,7 +680,8 @@ public class ElementForm extends Showcase {
 		@Override
 		public void onSuccess(Void result) {
 			showcase.insert(new SuccessMsg("Löschvorgang erfolgreich!"), 1);
-			// Damit nach dem Löschvorgang nichts mehr mit dem Formular angestellt werden kann,
+			// Damit nach dem Löschvorgang nichts mehr mit dem Formular
+			// angestellt werden kann,
 			// werden die Buttons entfernt.
 			if (RootPanel.get("actionBox") != null) {
 				RootPanel.get("actionBox").getElement().removeFromParent();

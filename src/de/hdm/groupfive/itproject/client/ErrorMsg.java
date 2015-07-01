@@ -1,3 +1,4 @@
+
 package de.hdm.groupfive.itproject.client;
 
 import java.util.Date;
@@ -6,8 +7,18 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * 
+ * @author Affagichtli xD
+ *
+ */
 public class ErrorMsg extends FlowPanel {
 	
+	/**
+	 * 
+	 * @param msg
+	 * @param rp
+	 */
 	public ErrorMsg(String msg, RootPanel rp) {
 		// Falls bereits eine MsgBox vorhanden ist wird diese entfernt um Platz für die neue
 		// zu schaffen
@@ -22,6 +33,10 @@ public class ErrorMsg extends FlowPanel {
 		rp.insert(this, 0);
 	}
 	
+	/**
+	 * 
+	 * @param msg
+	 */
 	public ErrorMsg(String msg) {
 		// Falls bereits eine MsgBox vorhanden ist wird diese entfernt um Platz für die neue
 		// zu schaffen
