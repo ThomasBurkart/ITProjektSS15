@@ -14,8 +14,10 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
+import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
+import de.hdm.groupfive.itproject.shared.bo.Product;
 
 public class SearchPanel {
 		
@@ -55,62 +57,56 @@ public class SearchPanel {
 		searchBox.getElement().setPropertyString("placeholder",
 				"Suche nach Bauteil, Baugruppe oder Enderzeugnis ...");
 
-		// LIVE-SUCH BOX ANFANG
-		simplePopup = new DecoratedPopupPanel(true);
-		simplePopup
-				.setStylePrimaryName("searchResultBox col-md-9 col-sm-9 col-xs-9");
+//		// LIVE-SUCH BOX ANFANG
+//		simplePopup = new DecoratedPopupPanel(true);
+//		simplePopup
+//				.setStylePrimaryName("searchResultBox col-md-9 col-sm-9 col-xs-9");
 		resultsPanel = new VerticalPanel();
-		simplePopup.setWidget(resultsPanel);
-		simplePopup.setVisible(false);
-		simplePopup.show();
-
+//		simplePopup.setWidget(resultsPanel);
+//		simplePopup.setVisible(false);
+//		simplePopup.show();
+//
 		searchBox.addKeyUpHandler(new KeyUpHandler() {
 			public void onKeyUp(KeyUpEvent event) {
-				
-
-				// LIVE-SUCH BOX ENDE
-
+//				
+//
+//				// LIVE-SUCH BOX ENDE
+//
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					// TODO: Suche ausführen weil ENTER gedrückt wurde
-
 					searchPanel.clear();
 					searchPanel.add(searchInputPanel);
-					searchPanel.add(simplePopup);
+					//searchPanel.add(simplePopup);
 					searchResult = new SearchResult(searchBox.getValue()
 							.trim(), false);
 					searchPanel.add(searchResult);
-
-					simplePopup.setVisible(false);
-				} else {
-					if (searchBox.getValue().trim().length() > 3) {
-
-						
-						AdministrationCommonAsync administration = ClientsideSettings
-								.getAdministration();
-						
-						administration.findElementsByName(searchBox.getValue().trim(), 5, new InstantSearchCallback());
-						
-					
-					} else {
-						simplePopup.setVisible(false);
-						resultsPanel.clear();
-					}
 				}
+//					simplePopup.setVisible(false);
+//				} else {
+//					if (searchBox.getValue().trim().length() > 3) {
+//
+//						
+//						AdministrationCommonAsync administration = ClientsideSettings
+//								.getAdministration();
+//						
+//						administration.findElementsByName(searchBox.getValue().trim(), 5, new InstantSearchCallback());
+//						
+//					
+//					} else {
+//						simplePopup.setVisible(false);
+//						resultsPanel.clear();
+//					}
+//				}
 			}
 		});
 
 		Button searchBtn = new Button("Suchen");
 		searchBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-
-				simplePopup.setVisible(false);
 				searchPanel.clear();
 				searchPanel.add(searchInputPanel);
-				searchPanel.add(simplePopup);
 				searchResult = new SearchResult(searchBox.getValue().trim(),
-						false);
+						true);
 				searchPanel.add(searchResult);
-
 			}
 		});
 		searchBtn
@@ -119,7 +115,7 @@ public class SearchPanel {
 		searchInputPanel.add(searchBox);
 		searchInputPanel.add(searchBtn);
 		searchPanel.add(searchInputPanel);
-		searchPanel.add(simplePopup);
+//		searchPanel.add(simplePopup);
 
 		// SUCH BOX ENDE
 		
@@ -150,61 +146,58 @@ public class SearchPanel {
 		searchBox.getElement().setPropertyString("placeholder",
 				"Suche nach Baugruppe oder Enderzeugnis ...");
 
-		// LIVE-SUCH BOX ANFANG
-		simplePopup = new DecoratedPopupPanel(true);
-		simplePopup
-				.setStylePrimaryName("searchResultBox col-md-9 col-sm-9 col-xs-9");
+//		// LIVE-SUCH BOX ANFANG
+//		simplePopup = new DecoratedPopupPanel(true);
+//		simplePopup
+//				.setStylePrimaryName("searchResultBox col-md-9 col-sm-9 col-xs-9");
 		resultsPanel = new VerticalPanel();
-		simplePopup.setWidget(resultsPanel);
-		simplePopup.setVisible(false);
-		simplePopup.show();
-
+//		simplePopup.setWidget(resultsPanel);
+//		simplePopup.setVisible(false);
+//		simplePopup.show();
+//
 		searchBox.addKeyUpHandler(new KeyUpHandler() {
 			public void onKeyUp(KeyUpEvent event) {
-				
-
-				// LIVE-SUCH BOX ENDE
-
+//				
+//
+//				// LIVE-SUCH BOX ENDE
+//
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					// TODO: Suche ausführen weil ENTER gedrückt wurde
-
 					searchPanel.clear();
 					searchPanel.add(searchInputPanel);
-					searchPanel.add(simplePopup);
-					searchResult = new SearchResult(searchBox.getValue()
-							.trim(), true);
+					searchResult = new SearchResult(searchBox.getValue().trim(),
+							true);
 					searchPanel.add(searchResult);
-
-					simplePopup.setVisible(false);
-				} else {
-					if (searchBox.getValue().trim().length() > 3) {
-
-						
-						AdministrationCommonAsync administration = ClientsideSettings
-								.getAdministration();
-						
-						administration.findModulesByName(searchBox.getValue().trim(), 5, new InstantSearchCallback());
-						
-					
-					} else {
-						simplePopup.setVisible(false);
-						resultsPanel.clear();
-					}
 				}
+//
+//					simplePopup.setVisible(false);
+//				} else {
+//					if (searchBox.getValue().trim().length() > 3) {
+//
+//						
+//						AdministrationCommonAsync administration = ClientsideSettings
+//								.getAdministration();
+//						
+//						administration.findModulesByName(searchBox.getValue().trim(), 5, new InstantSearchCallback());
+//						
+//					
+//					} else {
+//						simplePopup.setVisible(false);
+//						resultsPanel.clear();
+//					}
+//				}
 			}
 		});
 
 		Button searchBtn = new Button("Suchen");
 		searchBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-
-				simplePopup.setVisible(false);
+//				simplePopup.setVisible(false);
 				searchPanel.clear();
 				searchPanel.add(searchInputPanel);
-				searchPanel.add(simplePopup);
 				searchResult = new SearchResult(searchBox.getValue().trim(),
 						true);
 				searchPanel.add(searchResult);
+//				searchPanel.add(simplePopup);
 
 			}
 		});
@@ -214,7 +207,7 @@ public class SearchPanel {
 		searchInputPanel.add(searchBox);
 		searchInputPanel.add(searchBtn);
 		searchPanel.add(searchInputPanel);
-		searchPanel.add(simplePopup);
+//		searchPanel.add(simplePopup);
 
 		// SUCH BOX ENDE
 		searchResult = new SearchResult();
@@ -255,7 +248,15 @@ public class SearchPanel {
 								searchPanel.clear();
 								searchPanel.add(searchInputPanel);
 								searchPanel.add(simplePopup);
-								searchResult = new SearchResult(pe.getElement().getName(), pe.getElement().getId());
+								
+//								if (pe.getElement() instanceof Product) {
+//									Product p = (Product)pe.getElement();
+//									searchResult = new SearchResult(p.getSalesName(), p.getProductId(), );	
+//								} else if (pe.getElement() instanceof Module) {
+//									searchResult = new SearchResult(pe.getElement().getName(), pe.getElement().getId());
+//								} else {
+									searchResult = new SearchResult(pe.getElement().getName(), pe.getElement().getId());
+//								}
 								searchPanel.add(searchResult);
 							}
 						});

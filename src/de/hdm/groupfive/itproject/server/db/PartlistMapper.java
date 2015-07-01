@@ -40,7 +40,7 @@ public class PartlistMapper {
 		Partlist result = new Partlist();
 		try {
 			Statement stmt = con.createStatement();
-
+			
 			// Statement ausfuellen und als Query an die DB schicken
 
 			// Suche alle Modul zu Modul Beziehungen

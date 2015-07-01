@@ -227,7 +227,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 			u.setEmail(user.getEmail());
 			u.setUserName(user.getNickname());
 			u.setUserId(user.getUserId());
-			u.setFederatedIdentity(user.getFederatedIdentity());
 			u.setIsLoggedIn(true);
 			this.currentUser = u;
 			return u;

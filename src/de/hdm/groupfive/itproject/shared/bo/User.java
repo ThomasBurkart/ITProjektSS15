@@ -18,8 +18,6 @@ public class User extends BusinessObject {
 	
 	private boolean isLoggedIn;
 	
-	private String federatedIdentity;
-	
 	public String getLoginUrl() {
 		return loginUrl;
 	}
@@ -86,13 +84,5 @@ public class User extends BusinessObject {
 	@Override
 	public String toString() {
 		return super.toString() + " " + this.userName;
-	}
-
-	public String getFederatedIdentity() {
-		return federatedIdentity;
-	}
-
-	public void setFederatedIdentity(String federatedIdentity) {
-		this.federatedIdentity = federatedIdentity;
 	}
 }

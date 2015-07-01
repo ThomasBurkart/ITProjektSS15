@@ -156,7 +156,7 @@ public class ModuleMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT id, name, elementId"
-					+ "FROM module" + "ORDER BY id");
+					+ "FROM module ORDER BY id");
 			// Fuer jeden Eintrag im Suchergebnis wird nun ein Module-Objekt
 			// erstellt
 			while (rs.next()) {
@@ -346,10 +346,66 @@ public class ModuleMapper {
 
 		return result;
 	}
+	
+	public void assignModule(Module superMod, Module subMod, int amount) 
+			throws IllegalArgumentException, SQLException {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
 
-	public Vector<Product> getAllProducts(Module module) throws SQLException {
-		Vector<Product> result = new Vector<Product>();
-		// TODO: result befüllen.
-		return result;
+			/*
+			 * Zunächst schauen wir nach, welches der momentan höhste
+			 * Primärschlüsselwert ist.
+			 */
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ModuleRelationship_id) AS maxid FROM ModuleRelationship");
+
+			if (rs.next()) {
+				/*
+				 * m erhaelt den bisher maximalen, nun um 1 inkrementierten
+				 * Primaerschluessel
+				 */
+				int id = (rs.getInt("maxid") + 1);
+				
+				stmt = con.createStatement();
+
+				// die tatsaechliche Einfuegeoperation
+				stmt.executeUpdate("INSERT INTO ModuleRelationship (ModuleRelationship_id, quantity, superordinateID, subordinateID) VALUES ("
+						+ id + ","+ amount + ","+ superMod.getId() + ","+subMod.getId()+")");
+			}
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}			
+	}
+	
+	public void assignElement(Module m, Element e, int amount) 
+			throws IllegalArgumentException, SQLException {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+
+			/*
+			 * Zunächst schauen wir nach, welches der momentan höhste
+			 * Primärschlüsselwert ist.
+			 */
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ModuleElement_id) AS maxid FROM ModuleElement");
+
+			if (rs.next()) {
+				/*
+				 * m erhaelt den bisher maximalen, nun um 1 inkrementierten
+				 * Primaerschluessel
+				 */
+				int id = (rs.getInt("maxid") + 1);
+				
+				stmt = con.createStatement();
+
+				// die tatsaechliche Einfuegeoperation
+				stmt.executeUpdate("INSERT INTO ModuleElement (ModuleElement_id, quantity, module_id, element_id) VALUES ("
+						+ id + ","+ amount + ","+ m.getId() + ","+e.getId()+")");
+			}
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
 	}
 }
