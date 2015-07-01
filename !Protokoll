@@ -4,7 +4,7 @@ PROTOKOLL
          DEADLINES                      
 ********************************
 06.07. Dokumentation ist fertig
-08.07. Pr�sentation ist gepr�ft und fertig
+08.07. Pr�sentation ist geprüft und fertig
 
 ********************************
          INFO
@@ -101,13 +101,4 @@ erstellen, speichern, löschen eines Bauteils funktioniert.
 		  			- habe diese Methode private static final Logger logger = ServerSettings.getLogger(); noch mit dazu geschrieben,
 		  			  Frage, wenn der User raus fällt, benötigt man diese dann noch, da Auslesen des applikationsweiten (Server-seitig!) zentralen Loggers.
 		  			  
-		  			  
-		  			  
-		  =============================================
-		                  User-Klasse
-		  =============================================
 		  
-		  # loginUrl 
-		  # federatedIdentity
-		  # setIsLoggedIn(boolean val) --> val?
-		  # findElementByName --> maxResults?

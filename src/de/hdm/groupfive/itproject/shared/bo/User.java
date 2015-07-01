@@ -28,11 +28,6 @@ public class User extends BusinessObject {
 	private boolean isLoggedIn;
 	
 	/**
-	 * 
-	 */
-	private String federatedIdentity;
-	
-	/**
 	 * Auslesen der Anmelde-URL
 	 * @return loginUrl Anmelde-URL
 	 */
@@ -50,7 +45,7 @@ public class User extends BusinessObject {
 	
 	/**
 	 * Setzen des Anmeldestatus
-	 * @param val
+	 * @param val übergebener Anmelde-Status
 	 */
 	public void setIsLoggedIn(boolean val) {
 		this.isLoggedIn = val;
@@ -79,9 +74,6 @@ public class User extends BusinessObject {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-	
-
 
 	/**
 	 * Der E-Mail des Benutzers.
@@ -126,21 +118,5 @@ public class User extends BusinessObject {
 	@Override
 	public String toString() {
 		return super.toString() + " " + this.userName;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getFederatedIdentity() {
-		return federatedIdentity;
-	}
-
-	/**
-	 * 
-	 * @param federatedIdentity
-	 */
-	public void setFederatedIdentity(String federatedIdentity) {
-		this.federatedIdentity = federatedIdentity;
 	}
 }

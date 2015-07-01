@@ -19,59 +19,218 @@ import de.hdm.groupfive.itproject.shared.bo.User;
 
 public interface AdministrationCommonAsync {
 
+	/**
+	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
+	 * No-Argument-Konstruktor {@link #AdministrationCommonImpl()}. Diese
+	 * Methode muss f�r jede Instanz von <code>AdministrationCommonImpl</code>
+	 * aufgerufen werden.
+	 *
+	 * @throws IllegalArgumentException
+	 */
+	public void init(AsyncCallback<Void> callback);
+
+	/**
+	 * Login Daten werden mit der Datenbank abgeglichen
+	 */
+	public void loginUser(AsyncCallback<User> callback);
+
+	/**
+	 * Durch den Logout wird die SessionID in der DB gespeichert und der
+	 * Benutzer wird ausgeloggt
+	 */
+	public void logoutUser(AsyncCallback<String> callback);
+
+	/**
+	 * Setzen des Benutzers
+	 * 
+	 * @param user
+	 *            Benutzerobjekt
+	 */
+	public void setUser(User user, AsyncCallback<Void> callback);
+
+	/**
+	 * Auslesen des Benutzerobjekts/ der Benutzerdaten
+	 */
+	public void getUser(AsyncCallback<User> callback);
+
+	/**
+	 * Erstellen eines neuen Bauteils
+	 * 
+	 * @param element
+	 *            Bauteil das erstellt wird
+	 */
 	public void createElement(Element element, AsyncCallback<Element> callback);
 
+	/**
+	 * Bearbeiten eines Bauteils
+	 * 
+	 * @param element
+	 *            Bauteil das ver�ndert werden soll
+	 */
 	public void editElement(Element element, AsyncCallback<Element> callback);
 
+	/**
+	 * Löschen eines Bauteils
+	 * 
+	 * @param element
+	 *            Bauteil das gel�scht werden soll
+	 */
 	public void deleteElement(Element element, AsyncCallback<Void> callback);
 
+	/**
+	 * Zuweisen eines Bauteils
+	 * 
+	 * @param module
+	 *            Baugruppe, der ein Bauteil zugewiesen werden soll
+	 * @param element
+	 *            Bauteil, das einer Baugruppe zugewiesen werden soll
+	 * @param amount
+	 *            Wie viele Bauteile zugeordnet werden sollen
+	 */
 	public void assignElement(Module module, Element element, int amount,
 			AsyncCallback<Void> callback);
 
-	public void createModule(Module module, AsyncCallback<Element> callback);
+	/**
+	 * Erstellen einer neuen Baugruppe
+	 * 
+	 * @param m
+	 *            Baugruppe die erstellt wird
+	 */
+	public void createModule(Module m, AsyncCallback<Element> callback);
 
+	/**
+	 * Bearbeiten einer Baugruppe
+	 * 
+	 * @param module
+	 *            Baugruppe die bearbeitet werden soll
+	 */
 	public void editModule(Module module, AsyncCallback<Module> callback);
 
+	/**
+	 * Löschen einer Baugruppe
+	 * 
+	 * @param module
+	 *            Baugruppe die gelöscht werden soll
+	 */
 	public void deleteModule(Module module, AsyncCallback<Void> callback);
 
+	/**
+	 * Zuweisen einer Baugruppe
+	 * 
+	 * @param module
+	 *            Baugruppe, der eine Baugruppe zugewiesen werden soll
+	 * @param subModule
+	 *            UnterBaugruppe, die einer Baugruppe zugewiesen werden soll
+	 * @param amount
+	 *            Wie viele UnterBaugruppen der Baugruppe zugeordnet werden soll
+	 */
 	public void assignModule(Module module, Module subModule, int amount,
 			AsyncCallback<Void> callback);
 
+	/**
+	 * Erstellen eines neuen Endproduktes
+	 * 
+	 * @param p
+	 *            übergebenes Endprodukt
+	 */
 	public void createProduct(Product module, AsyncCallback<Element> callback);
 
+	/**
+	 * Bearbeiten des Endprodukts
+	 * 
+	 * @param product
+	 *            übergebenes Endprodukt
+	 */
 	public void editProduct(Product product, AsyncCallback<Product> callback);
 
+	/**
+	 * Löschen des Endproduktes. Beachten Sie bitte auch die Anmerkungen zu
+	 * throws IllegalArgumentException {@link #delete(User)},
+	 * {@link #delete(Module)} und {@link #delete(Element)}.
+	 * 
+	 * @see #delete(User)
+	 * @see #delete(Module)
+	 * @see #delete(Element)
+	 */
 	public void deleteProduct(Product product, AsyncCallback<Void> callback);
 
+	/**
+	 * Finden eines Bauteils mittels der ID
+	 * 
+	 * @param id
+	 *            des Bauteils
+	 */
 	public void findElementById(int id, AsyncCallback<Partlist> callback);
 
-	public void findElementsByCreator(User creator, AsyncCallback<Partlist> callback);
-
-	public void findElementsByName(String searchWord, AsyncCallback<Partlist> callback);
-	
-	public void findElementsByName(String searchWord, int maxResults , AsyncCallback<Partlist> callback);
-
-	public void findPartlistByModuleId(int id, AsyncCallback<Partlist> callback);
-
-	public void findPartlistById(int id, AsyncCallback<Partlist> callback);
-
-	public void getAllProducts(AsyncCallback<Partlist> callback);
-
-	public void calculateMaterial(Partlist partlist,
+	/**
+	 * Finden eines Bauteils mittels des Namens
+	 * 
+	 * @param name
+	 *            des Bauteils
+	 */
+	public void findElementsByName(String searchWord,
 			AsyncCallback<Partlist> callback);
 
-	public void loginUser(AsyncCallback<User> callback);
+	/**
+	 * Finden eines Bauteils mittels des Namens
+	 * 
+	 * @param searchWord
+	 *            des Bauteils
+	 * 
+	 * @param maxResults
+	 *            maximale Anzahle der angezeigten Ergebnisse
+	 */
+	public void findElementsByName(String searchWord, int maxResults,
+			AsyncCallback<Partlist> callback);
 
-	public void logoutUser(AsyncCallback<String> callback);
+	/**
+	 * Finden einer Baugruppe mittels des Namens
+	 * 
+	 * @param name
+	 *            der Baugruppe
+	 */
+	public void findModulesByName(String searchWord,
+			AsyncCallback<Partlist> callback);
 
-	public void setUser(User user, AsyncCallback<Void> callback);
-
-	public void getUser(AsyncCallback<User> callback);
-
-	public void init(AsyncCallback<Void> callback);
-
-	public void findModulesByName(String searchWord, AsyncCallback<Partlist> callback);
-
+	/**
+	 * Finden einer Baugruppe mittels des Namens
+	 * 
+	 * @param name
+	 *            der Baugruppe
+	 * @param maxResults
+	 *            maximale Anzahle der angezeigten Ergebnisse
+	 */
 	public void findModulesByName(String searchWord, int maxResults,
+			AsyncCallback<Partlist> callback);
+
+	/**
+	 * Finden einer Stückliste mittels der BaugruppenID
+	 * 
+	 * @param id
+	 *            der Baugruppe
+	 */
+	public void findPartlistByModuleId(int id, AsyncCallback<Partlist> callback);
+
+	/**
+	 * Finden einer Stückliste mittels der StücklistenID
+	 * 
+	 * @param id
+	 *            der Stückliste
+	 */
+	public void findPartlistById(int id, AsyncCallback<Partlist> callback);
+
+	/**
+	 * Auslesen sämtlicher Endprodukte
+	 */
+	public void getAllProducts(AsyncCallback<Partlist> callback);
+
+	/**
+	 * Berechnen der benötigten Bauteile
+	 * 
+	 * @param partlist
+	 *            ist die übergebene Stückliste, aus welcher das Material
+	 *            berechnet wird
+	 */
+	public void calculateMaterial(Partlist partlist,
 			AsyncCallback<Partlist> callback);
 }
