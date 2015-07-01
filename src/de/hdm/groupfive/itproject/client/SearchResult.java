@@ -71,6 +71,7 @@ public class SearchResult extends Showcase {
 
 	public SearchResult(String searchWord, int id) {
 		this.searchWord = searchWord;
+		
 		this.searchId = id;
 		// Text der angezeigt wird, wenn ein Suche gestartet wurde.
 		this.headlineText = "Suchergebnisse für '" + searchWord + "'";
@@ -102,17 +103,23 @@ public class SearchResult extends Showcase {
 		if (this.allProducts) {
 			// Suche nach allen Endprodukten für Start-Ansicht
 			administration.getAllProducts(new SearchAllProductsCallback(this));
+			ClientsideSettings.getLogger().info("Suche nach allen Produkten gestartet!");
 		} else if (this.searchById) {
-			administration.findElementById(this.searchId,
+			administration.findElementById(this.searchId, false, false,
 					new SearchElementCallback(this));
+
+			ClientsideSettings.getLogger().info("Suche nach Id '"+this.searchId+"' gestartet!");
 		} else if (this.onlyModules) {
 			administration.findModulesByName(searchWord,
 					new SearchElementCallback(this));
+			ClientsideSettings.getLogger().info("Suche nach '"+this.searchWord+"' in Modulen (only) gestartet!");
 		} else {
 			administration.findElementsByName(this.searchWord,
 					new SearchElementCallback(this));
 
+			ClientsideSettings.getLogger().info("Suche nach '"+this.searchWord+"' in allen Elementen gestartet!");
 		}
+
 	}
 
 	public PartlistEntry getSelectedEntry() {
@@ -148,18 +155,21 @@ public class SearchResult extends Showcase {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			showcase.add(new ErrorMsg("<b>Error:</b> " + caught.getMessage()));
+			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - " + caught.getMessage()));
 			ClientsideSettings.getLogger().severe(
-					"Error: " + caught.getMessage());
+					"Error: Suche fehlgeschlagen - " + caught.getMessage());
 		}
 
 		@Override
 		public void onSuccess(Partlist result) {
 			if (result != null) {
 				if (result.isEmpty()) {
+					ClientsideSettings.getLogger().info("Suche - Die Suche ergab keine Ergebnisse.");
 					showcase.add(new InfoMsg(
 							"<b>Die Suche ergab leider kein Ergebnis!</b> Bitte probieren Sie es erneut."));
 				} else {
+
+					ClientsideSettings.getLogger().info("Suche - Suchergebnisse werden geladen.");
 					final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 					selectionModel
 							.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -171,7 +181,6 @@ public class SearchResult extends Showcase {
 
 									setSelectedEntry(selected.get(0));
 
-									// createForm(selected.get(0));
 									if (!disableLoadElementForm) {
 										RootPanel.get("main").clear();
 										RootPanel.get("main")
@@ -192,6 +201,15 @@ public class SearchResult extends Showcase {
 							.setStylePrimaryName("tree col-md-11 col-sm-11 col-xs-11");
 
 					showcase.add(dynamicTreeWrapper);
+					
+					if(searchById) {
+						for (PartlistEntry peById : result.getAllEntries()) {
+							if (searchId == peById.getElement().getId()) {
+								selectionModel.setSelected(peById, true);
+								break;
+							}
+						}
+					}
 				}
 			} else {
 				// Fehler ausgeben und ins Log schreiben
@@ -211,14 +229,16 @@ public class SearchResult extends Showcase {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			showcase.add(new ErrorMsg("<b>Error:</b> " + caught.getMessage()));
+			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - " + caught.getMessage()));
 			ClientsideSettings.getLogger().severe(
-					"Error: " + caught.getMessage());
+					"Error: Suche fehlgeschlagen - " + caught.getMessage());
 		}
 
 		@Override
 		public void onSuccess(Partlist result) {
 			if (result != null) {
+				ClientsideSettings.getLogger().info("Suche - Suchergebnisse werden geladen.");
+				
 				final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 				selectionModel
 						.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {

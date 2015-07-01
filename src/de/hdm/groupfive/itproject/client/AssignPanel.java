@@ -50,8 +50,8 @@ public class AssignPanel extends Showcase {
 	@Override
 	protected void run() {
 		final SearchPanel sp = new SearchPanel();
-		this.add(sp.getAssignPanel());
-		
+		this.add(sp.getAssignPanel(entry));
+
 		Grid grid = new Grid(1,4);
 		
 		HTML amountText = new HTML("Anzahl");
@@ -68,24 +68,17 @@ public class AssignPanel extends Showcase {
 		FlowPanel panel = new FlowPanel();
 		panel.setStylePrimaryName("actionBox");
 
-		Button assignBtn = new Button("zuordnen");
+		final Button assignBtn = new Button("zuordnen");
 		assignBtn.setStylePrimaryName("btn btn-success createBtn");
 		assignBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				for(PartlistEntry pe : sp.getSearchResult().getSelectionModel().getSelectedSet()) {
 					AdministrationCommonAsync administration = ClientsideSettings
 							.getAdministration();
-					if (pe.getElement() instanceof Product) {
-						administration.assignModule((Module)entry.getElement(), (Module)pe.getElement(), Integer.parseInt(amountTb.getValue()), new ElementAssignCallback());
-						
-							// Modul mit Produkt verbinden
-					} else if (pe.getElement() instanceof Module) {
-						// Element oder Modul mit Modul verbinden
-						if (entry.getElement() instanceof Module) {
-							administration.assignModule((Module)pe.getElement(), (Module)entry.getElement(), Integer.parseInt(amountTb.getValue()), new ElementAssignCallback());
-						} else {
-							administration.assignElement((Module)pe.getElement(), entry.getElement(), Integer.parseInt(amountTb.getValue()), new ElementAssignCallback());
-						}
+					if (entry.getElement() instanceof Product) {
+						administration.assignElement(entry.getElement(), pe.getElement(), Integer.parseInt(amountTb.getValue().trim()), new ElementAssignCallback());
+					} else {
+						administration.assignElement(pe.getElement(), entry.getElement(), Integer.parseInt(amountTb.getValue().trim()), new ElementAssignCallback());
 					}
 				}
 			}
@@ -107,7 +100,8 @@ public class AssignPanel extends Showcase {
 		panel.add(assignBtn);
 		
 		this.add(panel);
-			
+
+		ClientsideSettings.getLogger().info("AssignPanel aufgebaut");
 
 	}
 	class ElementAssignCallback implements AsyncCallback<Void> {
@@ -144,10 +138,11 @@ public class AssignPanel extends Showcase {
 		 */
 		@Override
 		public void onSuccess(Void result) {
+			ClientsideSettings.getLogger().info("Zuordnung erfolgreich gespeichert!");
 			RootPanel.get("main").clear();
 			RootPanel.get("main").add(new ElementForm(entry));
-			currentShowcase.insert(new SuccessMsg("Zuordnung erfolgreich gespeichert!"),
-					1);
+			RootPanel.get("main").insert(new SuccessMsg("Zuordnung erfolgreich gespeichert!"),
+					0);
 		}
 	}
 	

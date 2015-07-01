@@ -53,7 +53,7 @@ public class History extends Showcase {
 					m.setDescription("blablabla");
 					m.setMaterialDescription("Metall");
 					RootPanel.get("main").clear();
-					RootPanel.get("main").add(new ElementForm(m,1));
+					RootPanel.get("main").add(new ElementForm(m,1,null));
 				}
 			});
 			elementLink.setStylePrimaryName("elementLink");

@@ -223,6 +223,15 @@ h1 {
     background: #80ff80 none repeat scroll 0 0;
 }
 
+.bclink {
+	font-size: 12px;
+	padding: 6px 6px 6px 0px;
+}
+
+.assignbclink {
+	color: #b1b1b1;
+}
+
 .elementLink {
     border-radius: 0;
     color: #337ab7;

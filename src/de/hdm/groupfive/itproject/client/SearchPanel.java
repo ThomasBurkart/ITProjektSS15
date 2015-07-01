@@ -5,7 +5,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -13,11 +12,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
-import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
-import de.hdm.groupfive.itproject.shared.bo.Product;
 
 public class SearchPanel {
 		
@@ -26,6 +21,8 @@ public class SearchPanel {
 	private VerticalPanel searchPanel;
 	private FlowPanel searchInputPanel;
 	private SearchResult searchResult;
+	private PartlistEntry entry;
+	public static SearchPanel currentSearchPanel;
 	
 	public SearchPanel() {
 		
@@ -33,18 +30,18 @@ public class SearchPanel {
 	
 	public void load() {
 		RootPanel.get("navigator").clear();
-		RootPanel.get("navigator").add(create());
+		RootPanel.get("navigator").add(createSearchPanel());
 	}
 	
 	public VerticalPanel getSearchPanel() {
-		return create();
+		return createSearchPanel();
 	}
 	
-	public VerticalPanel getAssignPanel() {
-		return createAssignPanel();
+	public VerticalPanel getAssignPanel(PartlistEntry entry) {
+		return createAssignPanel(entry);
 	}
 
-	private VerticalPanel create() {
+	private VerticalPanel createSearchPanel() {
 		// SUCHE BOX ANFANG
 		searchPanel = new VerticalPanel();
 		searchPanel.setStylePrimaryName("searchPanel");
@@ -105,7 +102,7 @@ public class SearchPanel {
 				searchPanel.clear();
 				searchPanel.add(searchInputPanel);
 				searchResult = new SearchResult(searchBox.getValue().trim(),
-						true);
+						false);
 				searchPanel.add(searchResult);
 			}
 		});
@@ -121,7 +118,7 @@ public class SearchPanel {
 		
 		searchResult = new SearchResult();
 		searchPanel.add(searchResult);
-		
+		currentSearchPanel = this;
 		return searchPanel;
 	}
 	
@@ -133,7 +130,7 @@ public class SearchPanel {
 		this.searchResult = searchResult;
 	}
 
-	private VerticalPanel createAssignPanel() {
+	private VerticalPanel createAssignPanel(PartlistEntry entry) {
 		// SUCHE BOX ANFANG
 		searchPanel = new VerticalPanel();
 		searchPanel.setStylePrimaryName("searchPanel");
@@ -166,6 +163,8 @@ public class SearchPanel {
 					searchPanel.add(searchInputPanel);
 					searchResult = new SearchResult(searchBox.getValue().trim(),
 							true);
+
+					searchResult.disableLoadElementForm();
 					searchPanel.add(searchResult);
 				}
 //
@@ -196,6 +195,8 @@ public class SearchPanel {
 				searchPanel.add(searchInputPanel);
 				searchResult = new SearchResult(searchBox.getValue().trim(),
 						true);
+
+				searchResult.disableLoadElementForm();
 				searchPanel.add(searchResult);
 //				searchPanel.add(simplePopup);
 
@@ -210,63 +211,69 @@ public class SearchPanel {
 //		searchPanel.add(simplePopup);
 
 		// SUCH BOX ENDE
-		searchResult = new SearchResult();
-		searchPanel.add(searchResult);
 		
+		if (entry.getSuperModule() != null) {
+			searchResult = new SearchResult(entry.getSuperModule().getName(), entry.getSuperModule().getId());
+		} else {
+			searchResult = new SearchResult();
+		}
+		searchResult.disableLoadElementForm();
+		searchPanel.add(searchResult);
+
 		return searchPanel;
 	}
 	
 	
-	class InstantSearchCallback implements AsyncCallback<Partlist> {
-		
-		public InstantSearchCallback() {
-		}
-
-		@Override
-		public void onFailure(Throwable caught) {
-			//showcase.add(new ErrorMsg("<b>Error:</b> " + caught.getMessage()));
-			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
-		}
-
-		@Override
-		public void onSuccess(Partlist result) {
-			if (result != null) {
-				if (!result.isEmpty()) {
-					simplePopup.setVisible(true);
-					resultsPanel.clear();
-					for (final PartlistEntry pe : result.getAllEntries()) {
-						
-						Button link = new Button();
-						link.setStylePrimaryName("btn btn-link liveSearchBtn");
-						link.setText(pe.getElement().getName());
-						link.addClickHandler(new ClickHandler() {
-
-							@Override
-							public void onClick(ClickEvent event) {
-								// TODO Auto-generated method stub
-								simplePopup.setVisible(false);
-								searchPanel.clear();
-								searchPanel.add(searchInputPanel);
-								searchPanel.add(simplePopup);
-								
-//								if (pe.getElement() instanceof Product) {
-//									Product p = (Product)pe.getElement();
-//									searchResult = new SearchResult(p.getSalesName(), p.getProductId(), );	
-//								} else if (pe.getElement() instanceof Module) {
+//	class InstantSearchCallback implements AsyncCallback<Partlist> {
+//		
+//		public InstantSearchCallback() {
+//		}
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			//showcase.add(new ErrorMsg("<b>Error:</b> " + caught.getMessage()));
+//			ClientsideSettings.getLogger().severe("Error: " + caught.getMessage());
+//		}
+//
+//		@Override
+//		public void onSuccess(Partlist result) {
+//			if (result != null) {
+//				if (!result.isEmpty()) {
+//					simplePopup.setVisible(true);
+//					resultsPanel.clear();
+//					for (final PartlistEntry pe : result.getAllEntries()) {
+//						
+//						Button link = new Button();
+//						link.setStylePrimaryName("btn btn-link liveSearchBtn");
+//						link.setText(pe.getElement().getName());
+//						link.addClickHandler(new ClickHandler() {
+//
+//							@Override
+//							public void onClick(ClickEvent event) {
+//								// TODO Auto-generated method stub
+//								simplePopup.setVisible(false);
+//								searchPanel.clear();
+//								searchPanel.add(searchInputPanel);
+//								searchPanel.add(simplePopup);
+//								
+////								if (pe.getElement() instanceof Product) {
+////									Product p = (Product)pe.getElement();
+////									searchResult = new SearchResult(p.getSalesName(), p.getProductId(), );	
+////								} else if (pe.getElement() instanceof Module) {
+////									searchResult = new SearchResult(pe.getElement().getName(), pe.getElement().getId());
+////								} else {
 //									searchResult = new SearchResult(pe.getElement().getName(), pe.getElement().getId());
-//								} else {
-									searchResult = new SearchResult(pe.getElement().getName(), pe.getElement().getId());
-//								}
-								searchPanel.add(searchResult);
-							}
-						});
-
-						resultsPanel.add(link);
-					}
-				}
-			} 
-		}
-
-	}
+////								}
+//								searchPanel.add(searchResult);
+//							}
+//						});
+//
+//						resultsPanel.add(link);
+//					}
+//				}
+//			} 
+//		}
+//
+//	}
 
 }

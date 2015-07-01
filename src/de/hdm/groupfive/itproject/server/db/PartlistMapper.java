@@ -46,7 +46,7 @@ public class PartlistMapper {
 			// Suche alle Modul zu Modul Beziehungen
 			ResultSet rs = stmt.executeQuery("SELECT subordinateID, quantity FROM ModuleRelationship "
 					+ "WHERE superordinateID =" + id + ";");
-			if (rs.next()) {
+			while (rs.next()) {
 
 				Module subModule = ModuleMapper.getModuleMapper().findByElement(rs.getInt("subordinateID"));
 				result.add(subModule, rs.getInt("quantity"));
@@ -57,7 +57,7 @@ public class PartlistMapper {
 			// Suche alle Element zu Modul Beziehungen
 			ResultSet rs2 = stmt2.executeQuery("SELECT element_id, quantity FROM ModuleElement "
 					+ "WHERE module_id =" + id + ";");
-			if (rs2.next()) {
+			while (rs2.next()) {
 				Element subElement = ElementMapper.getElementMapper().findElementById(rs2.getInt("element_id"));
 				result.add(subElement, rs2.getInt("quantity"));
 			}

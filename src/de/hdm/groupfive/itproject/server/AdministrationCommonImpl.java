@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.groupfive.itproject.client.ClientsideSettings;
+import de.hdm.groupfive.itproject.client.ErrorMsg;
 import de.hdm.groupfive.itproject.server.db.ElementMapper;
 import de.hdm.groupfive.itproject.server.db.ModuleMapper;
 import de.hdm.groupfive.itproject.server.db.PartlistMapper;
@@ -328,12 +330,16 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * 
 	 * @param id
 	 *            des Bauteils
+	 * @param onlyModules
+	 * 				nur Baugruppen finden
+	 * @param onlyProducts
+	 * 			nur Enderzeugnisse finden
 	 * @return Element wird durch die findById()-Methode gesucht
 	 */
 	@Override
-	public Partlist findElementById(int id) throws IllegalArgumentException {
+	public Partlist findElementById(int id, boolean onlyModules, boolean onlyProducts) throws IllegalArgumentException {
 		try {
-			return this.getElementMapper().findById(id);
+			return this.getElementMapper().findById(id, onlyModules, onlyProducts);
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
@@ -345,30 +351,55 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/**
 	 * Zuweisen eines Bauteils
 	 * 
-	 * @param module
+	 * @param superElement
 	 *            Baugruppe, der ein Bauteil zugewiesen werden soll
-	 * @param element
+	 * @param subElement
 	 *            Bauteil, das einer Baugruppe zugewiesen werden soll
 	 * @param amount
 	 *            Wie viele Bauteile zugeordnet werden sollen
 	 */
 	@Override
-	public void assignElement(Module module, Element element, int amount)
+	public void assignElement(Element superElement, Element subElement, int amount)
 			throws IllegalArgumentException {
-
-		if (module.getPartlist().contains(element)) {
-			for (PartlistEntry pe : module.getPartlist().getAllEntries()) {
-				if (pe.getElement().equals(element)) {
-					pe.setAmount(pe.getAmount() + amount);
-
-					break;
+		try {
+			if (superElement instanceof Product && subElement instanceof Product) {
+				throw new IllegalArgumentException("Ein Enderzeugnis kann keinem anderen Enderzeugnis zugewiesen werden!");
+			} else if (superElement instanceof Product && subElement instanceof Module) {
+				ModuleMapper.getModuleMapper().assignModule((Module)superElement, (Module)subElement, amount);
+			} else if (superElement instanceof Module && subElement instanceof Module) {
+				ModuleMapper.getModuleMapper().assignModule((Module)superElement, (Module)subElement, amount);
+			} else if (superElement instanceof Module && subElement instanceof Element) {
+				ModuleMapper.getModuleMapper().assignElement((Module)superElement, subElement, amount);
+			} else {
+				throw new IllegalArgumentException("Ups da ist was schief gegangen!");
+			}
+			
+		} catch(SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
+	}
+	
+	/**
+	 * Löscht eine Zuordnung zwischen Elementen beliebiger Art
+	 * @param pe Partlist Eintrag mit Element und Übergeordnetem Element
+	 */
+	@Override
+	public void deleteAssignment(PartlistEntry pe) throws IllegalArgumentException {
+		if (pe.getSuperModule() != null && pe.getElement() != null) {
+			if (pe.getElement() instanceof Module) {
+				try {
+					ModuleMapper.getModuleMapper().deleteModuleRelationshipAssign(pe.getSuperModule(), (Module)pe.getElement());
+				} catch (SQLException e) {
+					throw new IllegalArgumentException(e.getMessage());
+				}
+			} else {
+				try {
+					ModuleMapper.getModuleMapper().deleteModuleElementAssign(pe.getSuperModule(), pe.getElement());
+				} catch (SQLException e) {
+					throw new IllegalArgumentException(e.getMessage());
 				}
 			}
-
-		} else {
-			module.getPartlist().add(element, amount);
 		}
-		// TODO: speichern
 	}
 
 
@@ -496,33 +527,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/*
 	 * **********************************************************
 	 */
-	/**
-	 * Zuweisen einer Baugruppe
-	 * 
-	 * @param module
-	 *            Baugruppe, der eine Baugruppe zugewiesen werden soll
-	 * @param subModule
-	 *            UnterBaugruppe, die einer Baugruppe zugewiesen werden soll
-	 * @param amount
-	 *            Wie viele UnterBaugruppen der Baugruppe zugeordnet werden soll
-	 */
-	@Override
-	public void assignModule(Module module, Module subModule, int amount)
-			throws IllegalArgumentException {
-		if (module.getPartlist().contains(subModule)) {
-			for (PartlistEntry pe : module.getPartlist().getAllEntries()) {
-				if (pe.getElement().equals(subModule)) {
-					pe.setAmount(pe.getAmount() + amount);
-
-					break;
-				}
-			}
-
-		} else {
-			module.getPartlist().add(subModule, amount);
-		}
-
-	}
+	
 
 	/**
 	 * Löschen einer Baugruppe

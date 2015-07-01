@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
@@ -83,8 +84,14 @@ public interface AdministrationCommon extends RemoteService {
 	 * @param amount
 	 *            Wie viele Bauteile zugeordnet werden sollen
 	 */
-	public void assignElement(Module module, Element element, int amount)
+	public void assignElement(Element module, Element element, int amount)
 			throws IllegalArgumentException;
+	
+	/**
+	 * Löschen einer Zuweisung eines Elements
+	 * @param pe Partlist Eintrag mit Element, Modul
+	 */
+	public void deleteAssignment(PartlistEntry pe) throws IllegalArgumentException;
 
 	/**
 	 * Erstellen einer neuen Baugruppe
@@ -110,18 +117,6 @@ public interface AdministrationCommon extends RemoteService {
 	 */
 	public void deleteModule(Module module) throws IllegalArgumentException;
 
-	/**
-	 * Zuweisen einer Baugruppe
-	 * 
-	 * @param module
-	 *            Baugruppe, der eine Baugruppe zugewiesen werden soll
-	 * @param subModule
-	 *            UnterBaugruppe, die einer Baugruppe zugewiesen werden soll
-	 * @param amount
-	 *            Wie viele UnterBaugruppen der Baugruppe zugeordnet werden soll
-	 */
-	public void assignModule(Module module, Module subModule, int amount)
-			throws IllegalArgumentException;
 
 	/**
 	 * Erstellen eines neuen Endproduktes
@@ -156,7 +151,7 @@ public interface AdministrationCommon extends RemoteService {
 	 * @param id
 	 *            des Bauteils
 	 */
-	public Partlist findElementById(int id) throws IllegalArgumentException;
+	public Partlist findElementById(int id, boolean onlyModules, boolean onlyProducts) throws IllegalArgumentException;
 
 	/**
 	 * Finden eines Bauteils mittels des Namens

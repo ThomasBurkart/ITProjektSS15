@@ -30,7 +30,7 @@ public class ElementMapper {
 
 	public Element findElementById(int id) throws IllegalArgumentException,
 			SQLException {
-		return this.findById(id).getElementById(id);
+		return this.findById(id, false, false).getElementById(id);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class ElementMapper {
 	 *             Methode weitergereicht
 	 */
 
-	public Partlist findById(int id) throws IllegalArgumentException,
+	public Partlist findById(int id, boolean onlyModules, boolean onlyProducts) throws IllegalArgumentException,
 			SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
@@ -59,33 +59,63 @@ public class ElementMapper {
 			// Statement ausfuellen und als Query an die DB schicken
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM element "
-					+ "WHERE element_id =" + id + " ORDER BY element_id");
+					+ "WHERE element_id=" + id + " ORDER BY element_id");
 			while (rs.next()) {
+				Product p = ProductMapper.getProductMapper().findByElement(
+						rs.getInt("element_id"));
 
-				Element e = new Element();
-				e.setId(rs.getInt("element_id"));
-				e.setName(rs.getString("name"));
-				e.setDescription(rs.getString("description"));
-				e.setMaterialDescription(rs.getString("material_description"));
-				Timestamp timestamp = rs.getTimestamp("creation_date");
-				if (timestamp != null) {
-					Date creationDate = new java.util.Date(timestamp.getTime());
-					e.setCreationDate(creationDate);
-				}
+				if (p != null) {
+					result.add(p, 1);
+				} else if (!onlyProducts) {
 
-				Timestamp timestamp2 = rs.getTimestamp("last_update");
-				if (timestamp2 != null) {
-					Date lastUpdateDate = new java.util.Date(
-							timestamp2.getTime());
-					e.setLastUpdate(lastUpdateDate);
+					// Zuerst nachschauen ob es sich bei dem Element um ein
+					// Modul handelt.
+					Module m = ModuleMapper.getModuleMapper()
+							.findByElement(rs.getInt("element_id"));
+
+					// Wenn es sich um ein Modul handelt, dieses hinzufügen
+					// ansonsten, das Element als
+					// Bauteil hinzufügen.
+					if (m != null) {
+						result.add(m, 1);
+					} else {
+						if (!onlyModules && !onlyProducts) {
+
+							Element e = new Element();
+							e.setId(rs.getInt("element_id"));
+
+							e.setName(rs.getString("name"));
+							e.setDescription(rs.getString("description"));
+							e.setMaterialDescription(rs
+									.getString("material_description"));
+
+							Timestamp timestamp = rs
+									.getTimestamp("creation_date");
+							if (timestamp != null) {
+								Date creationDate = new java.util.Date(
+										timestamp.getTime());
+								e.setCreationDate(creationDate);
+							}
+
+							Timestamp timestamp2 = rs
+									.getTimestamp("last_update");
+							if (timestamp2 != null) {
+								Date lastUpdateDate = new java.util.Date(
+										timestamp2.getTime());
+								e.setLastUpdate(lastUpdateDate);
+							}
+
+							// Hinzufuegen des neuen Objekts zum
+							// Ergebnisvektor
+							result.add(e, 1);
+						}
+					}
 				}
-				result.add(e, 1);
-				return result;
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return null;
+		return result;
 	}
 	
 	/**
