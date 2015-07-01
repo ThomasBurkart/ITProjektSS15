@@ -1,6 +1,6 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Element extends BusinessObject{
 	
@@ -158,7 +158,6 @@ public class Element extends BusinessObject{
 	 * �berschreiben und ihr mehr Intelligenz verleihen.
 	 * </p>
 	 */
-	
 	@Override
 	public boolean equals(Object o) {
 		/*

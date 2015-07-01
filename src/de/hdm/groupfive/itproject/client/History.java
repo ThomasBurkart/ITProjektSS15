@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.groupfive.itproject.shared.bo.User;
 
 public class History extends Showcase {
 
@@ -17,7 +16,7 @@ public class History extends Showcase {
 	private String headlineTextStyle;
 
 	public History() {
-		this.headlineText = "Herzlich Willkommen "+ClientsideSettings.getCurrentUser().getUserName()+" :) - Historie";
+		this.headlineText = "Herzlich Willkommen :) - Historie";
 		this.headlineTextStyle = "formTitle";
 	}
 
@@ -53,7 +52,7 @@ public class History extends Showcase {
 					m.setDescription("blablabla");
 					m.setMaterialDescription("Metall");
 					RootPanel.get("main").clear();
-					RootPanel.get("main").add(new ElementForm(m,1));
+					RootPanel.get("main").add(new ElementForm(m));
 				}
 			});
 			elementLink.setStylePrimaryName("elementLink");

@@ -40,7 +40,7 @@ public class DBConnection {
 	 * mitgegeben, um bei einer Veränderung dieser URL nicht die gesamte 
 	 * Software neu komilieren zu müssen.
 	 */
-	private static String url = "jdbc:google:rdbms://alien-array-93415:itprojektss15/itprojekt?user=root&password=start123";
+	private static String url = "jdbc:google:rdbms://project:project?user=demo&password=demo";
 	
 	/**
 	 * Diese statische Methode kann aufgrufen werden durch 
@@ -82,7 +82,7 @@ public class DBConnection {
 			} 
 			catch (SQLException ex) {
 				con = null;
-				throw ex;
+				ex.printStackTrace();
 			}
 		}
 		
@@ -118,4 +118,4 @@ public class DBConnection {
 		}
 		}
 }
-
+//Test

@@ -36,7 +36,7 @@ public class CreateElement extends Showcase {
 					@Override
 					public void onClick(ClickEvent event) {
 						RootPanel.get("main").clear();
-						RootPanel.get("main").add(new ElementForm(new Element(),1));
+						RootPanel.get("main").add(new ElementForm(new Element()));
 					}
 				});
 		Button createModuleBtn = new Button("<img src=\"img/module.png\" style=\"width: 100%\" />");
@@ -45,7 +45,7 @@ public class CreateElement extends Showcase {
 					@Override
 					public void onClick(ClickEvent event) {
 						RootPanel.get("main").clear();
-						RootPanel.get("main").add(new ElementForm(new Module(),1));
+						RootPanel.get("main").add(new ElementForm(new Module()));
 
 					}
 				});
@@ -55,7 +55,7 @@ public class CreateElement extends Showcase {
 					@Override
 					public void onClick(ClickEvent event) {
 						RootPanel.get("main").clear();
-						RootPanel.get("main").add(new ElementForm(new Product(),1));
+						RootPanel.get("main").add(new ElementForm(new Product()));
 					}
 				});
 		
