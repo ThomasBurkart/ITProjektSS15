@@ -16,6 +16,11 @@
     <url-pattern>/itprojektss15/administration</url-pattern>
   </servlet-mapping>
   
+  <servlet-mapping>
+    <servlet-name>administrationServlet</servlet-name>
+    <url-pattern>/reportgen/administration</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ITProjektSS15.html</welcome-file>

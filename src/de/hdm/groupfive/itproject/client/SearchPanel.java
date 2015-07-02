@@ -33,6 +33,11 @@ public class SearchPanel {
 		RootPanel.get("navigator").add(createSearchPanel());
 	}
 	
+	public void loadForReportGen() {
+		RootPanel.get("navigator").clear();
+		RootPanel.get("navigator").add(createSearchPanelForReportGen());
+	}
+	
 	public VerticalPanel getSearchPanel() {
 		return createSearchPanel();
 	}
@@ -117,6 +122,91 @@ public class SearchPanel {
 		// SUCH BOX ENDE
 		
 		searchResult = new SearchResult();
+		searchPanel.add(searchResult);
+		currentSearchPanel = this;
+		return searchPanel;
+	}
+	
+	private VerticalPanel createSearchPanelForReportGen() {
+		// SUCHE BOX ANFANG
+		searchPanel = new VerticalPanel();
+		searchPanel.setStylePrimaryName("searchPanel");
+		searchInputPanel = new FlowPanel();
+		final TextBox searchBox = new TextBox();
+		searchBox.setStylePrimaryName("searchBox col-md-9 col-sm-9 col-xs-9");
+		searchBox.setFocus(true);
+		searchBox
+				.setTitle("Suche nach Bauteil, Baugruppe oder Enderzeugnis ...");
+		searchBox.getElement().setPropertyString("placeholder",
+				"Suche nach Bauteil, Baugruppe oder Enderzeugnis ...");
+
+//		// LIVE-SUCH BOX ANFANG
+//		simplePopup = new DecoratedPopupPanel(true);
+//		simplePopup
+//				.setStylePrimaryName("searchResultBox col-md-9 col-sm-9 col-xs-9");
+		resultsPanel = new VerticalPanel();
+//		simplePopup.setWidget(resultsPanel);
+//		simplePopup.setVisible(false);
+//		simplePopup.show();
+//
+		searchBox.addKeyUpHandler(new KeyUpHandler() {
+			public void onKeyUp(KeyUpEvent event) {
+//				
+//
+//				// LIVE-SUCH BOX ENDE
+//
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					searchPanel.clear();
+					searchPanel.add(searchInputPanel);
+					//searchPanel.add(simplePopup);
+					searchResult = new SearchResult(searchBox.getValue()
+							.trim(), false);
+					searchResult.enableReportGen();
+					searchPanel.add(searchResult);
+				}
+//					simplePopup.setVisible(false);
+//				} else {
+//					if (searchBox.getValue().trim().length() > 3) {
+//
+//						
+//						AdministrationCommonAsync administration = ClientsideSettings
+//								.getAdministration();
+//						
+//						administration.findElementsByName(searchBox.getValue().trim(), 5, new InstantSearchCallback());
+//						
+//					
+//					} else {
+//						simplePopup.setVisible(false);
+//						resultsPanel.clear();
+//					}
+//				}
+			}
+		});
+
+		Button searchBtn = new Button("Suchen");
+		searchBtn.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				searchPanel.clear();
+				searchPanel.add(searchInputPanel);
+				searchResult = new SearchResult(searchBox.getValue().trim(),
+						false);
+
+				searchResult.enableReportGen();
+				searchPanel.add(searchResult);
+			}
+		});
+		searchBtn
+				.setStylePrimaryName("btn btn-default col-md-2 col-sm-2 col-xs-2");
+
+		searchInputPanel.add(searchBox);
+		searchInputPanel.add(searchBtn);
+		searchPanel.add(searchInputPanel);
+//		searchPanel.add(simplePopup);
+
+		// SUCH BOX ENDE
+		
+		searchResult = new SearchResult();
+		searchResult.enableReportGen();
 		searchPanel.add(searchResult);
 		currentSearchPanel = this;
 		return searchPanel;

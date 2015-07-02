@@ -37,6 +37,7 @@ public class SearchResult extends Showcase {
 	private PartlistEntry selectedEntry;
 	private MultiSelectionModel<PartlistEntry> selectionModel;
 	private boolean disableLoadElementForm;
+	private boolean isReportGen;
 
 	/**
 	 * Standard-Konstruktor der Klasse SearchResult. Wird beim ersten Start der
@@ -52,12 +53,12 @@ public class SearchResult extends Showcase {
 		// alle Enderzeugnisse anzeigen
 		this.allProducts = true;
 
-		// TODO: Erstes Suchergebnis sollen immer alle Endprodukte sein.
+		this.isReportGen = false;
 	}
 
 	public SearchResult(String searchWord, boolean onlyModules) {
 		this.searchWord = searchWord;
-		
+
 		this.onlyModules = onlyModules;
 
 		// Text der angezeigt wird, wenn ein Suche gestartet wurde.
@@ -67,11 +68,13 @@ public class SearchResult extends Showcase {
 		this.headlineTextStyle = "resultInfo";
 
 		this.allProducts = false;
+
+		this.isReportGen = false;
 	}
 
 	public SearchResult(String searchWord, int id) {
 		this.searchWord = searchWord;
-		
+
 		this.searchId = id;
 		// Text der angezeigt wird, wenn ein Suche gestartet wurde.
 		this.headlineText = "Suchergebnisse für '" + searchWord + "'";
@@ -82,7 +85,9 @@ public class SearchResult extends Showcase {
 		this.searchById = true;
 
 		this.allProducts = false;
-		
+
+		this.isReportGen = false;
+
 		this.onlyModules = false;
 	}
 
@@ -103,21 +108,27 @@ public class SearchResult extends Showcase {
 		if (this.allProducts) {
 			// Suche nach allen Endprodukten für Start-Ansicht
 			administration.getAllProducts(new SearchAllProductsCallback(this));
-			ClientsideSettings.getLogger().info("Suche nach allen Produkten gestartet!");
+			ClientsideSettings.getLogger().info(
+					"Suche nach allen Produkten gestartet!");
 		} else if (this.searchById) {
 			administration.findElementById(this.searchId, false, false,
 					new SearchElementCallback(this));
 
-			ClientsideSettings.getLogger().info("Suche nach Id '"+this.searchId+"' gestartet!");
+			ClientsideSettings.getLogger().info(
+					"Suche nach Id '" + this.searchId + "' gestartet!");
 		} else if (this.onlyModules) {
 			administration.findModulesByName(searchWord,
 					new SearchElementCallback(this));
-			ClientsideSettings.getLogger().info("Suche nach '"+this.searchWord+"' in Modulen (only) gestartet!");
+			ClientsideSettings.getLogger().info(
+					"Suche nach '" + this.searchWord
+							+ "' in Modulen (only) gestartet!");
 		} else {
 			administration.findElementsByName(this.searchWord,
 					new SearchElementCallback(this));
 
-			ClientsideSettings.getLogger().info("Suche nach '"+this.searchWord+"' in allen Elementen gestartet!");
+			ClientsideSettings.getLogger().info(
+					"Suche nach '" + this.searchWord
+							+ "' in allen Elementen gestartet!");
 		}
 
 	}
@@ -138,6 +149,10 @@ public class SearchResult extends Showcase {
 		disableLoadElementForm = false;
 	}
 
+	public void enableReportGen() {
+		isReportGen = true;
+	}
+
 	private void setSelectionModel(MultiSelectionModel<PartlistEntry> msm) {
 		selectionModel = msm;
 	}
@@ -155,7 +170,8 @@ public class SearchResult extends Showcase {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - " + caught.getMessage()));
+			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - "
+					+ caught.getMessage()));
 			ClientsideSettings.getLogger().severe(
 					"Error: Suche fehlgeschlagen - " + caught.getMessage());
 		}
@@ -164,12 +180,14 @@ public class SearchResult extends Showcase {
 		public void onSuccess(Partlist result) {
 			if (result != null) {
 				if (result.isEmpty()) {
-					ClientsideSettings.getLogger().info("Suche - Die Suche ergab keine Ergebnisse.");
+					ClientsideSettings.getLogger().info(
+							"Suche - Die Suche ergab keine Ergebnisse.");
 					showcase.add(new InfoMsg(
 							"<b>Die Suche ergab leider kein Ergebnis!</b> Bitte probieren Sie es erneut."));
 				} else {
 
-					ClientsideSettings.getLogger().info("Suche - Suchergebnisse werden geladen.");
+					ClientsideSettings.getLogger().info(
+							"Suche - Suchergebnisse werden geladen.");
 					final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 					selectionModel
 							.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -183,9 +201,15 @@ public class SearchResult extends Showcase {
 
 									if (!disableLoadElementForm) {
 										RootPanel.get("main").clear();
-										RootPanel.get("main")
-												.add(new ElementForm(selected
-														.get(0)));
+										if (!isReportGen) {
+											RootPanel.get("main").add(
+													new ElementForm(selected
+															.get(0)));
+										} else {
+											RootPanel.get("main").add(
+													new CalculateMaterial(
+															selected.get(0)));
+										}
 									}
 								}
 							});
@@ -201,8 +225,8 @@ public class SearchResult extends Showcase {
 							.setStylePrimaryName("tree col-md-11 col-sm-11 col-xs-11");
 
 					showcase.add(dynamicTreeWrapper);
-					
-					if(searchById) {
+
+					if (searchById) {
 						for (PartlistEntry peById : result.getAllEntries()) {
 							if (searchId == peById.getElement().getId()) {
 								selectionModel.setSelected(peById, true);
@@ -229,7 +253,8 @@ public class SearchResult extends Showcase {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - " + caught.getMessage()));
+			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - "
+					+ caught.getMessage()));
 			ClientsideSettings.getLogger().severe(
 					"Error: Suche fehlgeschlagen - " + caught.getMessage());
 		}
@@ -237,8 +262,9 @@ public class SearchResult extends Showcase {
 		@Override
 		public void onSuccess(Partlist result) {
 			if (result != null) {
-				ClientsideSettings.getLogger().info("Suche - Suchergebnisse werden geladen.");
-				
+				ClientsideSettings.getLogger().info(
+						"Suche - Suchergebnisse werden geladen.");
+
 				final MultiSelectionModel<PartlistEntry> selectionModel = new MultiSelectionModel<PartlistEntry>();
 				selectionModel
 						.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -251,12 +277,19 @@ public class SearchResult extends Showcase {
 
 								if (!disableLoadElementForm) {
 									RootPanel.get("main").clear();
-									RootPanel.get("main").add(
-											new ElementForm(selected.get(0)));
+									if (!isReportGen) {
+										RootPanel.get("main").add(
+												new ElementForm(selected
+														.get(0)));
+									} else {
+										RootPanel.get("main").add(
+												new CalculateMaterial(
+														selected.get(0)));
+									}
 								}
 							}
 						});
-				
+
 				setSelectionModel(selectionModel);
 				SearchTreeModel model = new SearchTreeModel(result,
 						selectionModel);
