@@ -39,7 +39,6 @@ public class LoggingDialog {
 				
 				@Override
 				public void onMouseDown(MouseDownEvent event) {
-					// TODO Auto-generated method stub
 					dialog.hide();
 				}
 			});
@@ -49,7 +48,6 @@ public class LoggingDialog {
 			VerticalPanel logPanel = new VerticalPanel();
 			logPanel.getElement().setId("logDialogBox");
 			
-			//logPanel.add(new HTML("test"));
 			ScrollPanel scrollPanel = new ScrollPanel(logPanel);
 			scrollPanel.setWidth("300px");
 			scrollPanel.setHeight("350px");

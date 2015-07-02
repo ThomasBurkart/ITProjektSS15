@@ -71,8 +71,10 @@ public class ModuleMapper {
 			Statement stmt = con.createStatement();
 
 			// Statement ausfuellen und als Query an DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT module_id, name, element_id "
-					+ "FROM module WHERE module_id=" + id + " ORDER BY element_id");
+			ResultSet rs = stmt
+					.executeQuery("SELECT module_id, name, element_id "
+							+ "FROM module WHERE module_id=" + id
+							+ " ORDER BY element_id");
 
 			/*
 			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
@@ -85,10 +87,9 @@ public class ModuleMapper {
 			}
 
 		} catch (SQLException ex) {
-			
+
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		
 
 		return null;
 	}
@@ -109,34 +110,37 @@ public class ModuleMapper {
 			while (rs.next()) {
 				m.setModuleId(rs.getInt("module.module_id"));
 				m.setId(rs.getInt("element.element_id"));
-				m.setPartlist(PartlistMapper.getPartlistMapper().findByModuleId(m.getModuleId()));
-				
+				m.setPartlist(PartlistMapper.getPartlistMapper()
+						.findByModuleId(m.getId()));
+				if (m.getPartlist() != null) {
+					for (PartlistEntry pe : m.getPartlist().getAllEntries()) {
+						pe.setSuperModule(m);
+					}
+				}
 				m.setName(rs.getString("element.name"));
 				m.setDescription(rs.getString("description"));
-				m.setMaterialDescription(rs
-						.getString("material_description"));
-				
+				m.setMaterialDescription(rs.getString("material_description"));
+
 				Timestamp timestamp = rs.getTimestamp("creation_date");
 				if (timestamp != null) {
 					Date creationDate = new java.util.Date(timestamp.getTime());
 					m.setCreationDate(creationDate);
 				}
-				
+
 				Timestamp timestamp2 = rs.getTimestamp("last_update");
 				if (timestamp2 != null) {
-					Date lastUpdateDate = new java.util.Date(timestamp2.getTime());
+					Date lastUpdateDate = new java.util.Date(
+							timestamp2.getTime());
 					m.setLastUpdate(lastUpdateDate);
 				}
-				return  m;
+				return m;
 			}
 		} catch (SQLException ex) {
-			
+
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return null;		
+		return null;
 	}
-	
-	
 
 	/**
 	 * Auslesen aller Modules.
@@ -168,12 +172,10 @@ public class ModuleMapper {
 				result.addElement(m);
 			}
 		} catch (SQLException ex) {
-			
+
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		
 
-		
 		return result;
 	}
 
@@ -185,9 +187,10 @@ public class ModuleMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM module WHERE module.elementId =" + elementId
-					+ " ORDER BY id");
-			
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM module WHERE module.elementId ="
+							+ elementId + " ORDER BY id");
+
 			while (rs.next()) {
 				Module m = new Module();
 				m.setId(rs.getInt("id"));
@@ -197,9 +200,7 @@ public class ModuleMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		
 
-		
 		return result;
 	}
 
@@ -229,7 +230,8 @@ public class ModuleMapper {
 			 * Zunächst schauen wir nach, welches der momentan höhste
 			 * Primärschlüsselwert ist.
 			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(module_id) AS maxid FROM module");
+			ResultSet rs = stmt
+					.executeQuery("SELECT MAX(module_id) AS maxid FROM module");
 
 			if (rs.next()) {
 				/*
@@ -242,13 +244,16 @@ public class ModuleMapper {
 
 				// die tatsaechliche Einfuegeoperation
 				stmt.executeUpdate("INSERT INTO module (module_id, name, element_id) VALUES ("
-						+ m.getModuleId() + ",'"+ m.getName()+ "',"+ m.getId() + ")");
+						+ m.getModuleId()
+						+ ",'"
+						+ m.getName()
+						+ "',"
+						+ m.getId() + ")");
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
-		
 		return m;
 
 	}
@@ -265,27 +270,28 @@ public class ModuleMapper {
 
 			stmt.executeUpdate("DELETE FROM module WHERE module_id="
 					+ m.getModuleId());
-			
+
 			Statement stmt2 = con.createStatement();
 
-			// Zuordnungen zwischen dem zu löschenden Modul und anderen Modulen löschen
-			stmt2.executeUpdate("DELETE FROM ModuleRelationShip WHERE superordinateID="
-					+ m.getModuleId() + " OR subordinateID="+ m.getModuleId());
-			
+			// Zuordnungen zwischen dem zu löschenden Modul und anderen Modulen
+			// löschen
+			stmt2.executeUpdate("DELETE FROM ModuleRelationship WHERE superordinateID="
+					+ m.getId() + " OR subordinateID=" + m.getId());
+
 			Statement stmt3 = con.createStatement();
 
-			// Zuordnungen zwischen dem zu löschenden Modul und anderen Elementen löschen
+			// Zuordnungen zwischen dem zu löschenden Modul und anderen
+			// Elementen löschen
 
 			stmt3.executeUpdate("DELETE FROM ModuleElement WHERE module_id="
-					+ m.getModuleId());
-			
+					+ m.getId());
+
 			ElementMapper.getElementMapper().delete(m);
-			
+
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
-		
 	}
 
 	/**
@@ -311,14 +317,14 @@ public class ModuleMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		
-		
+
 		return m;
 	}
 
 	public Partlist findByName(String name, int maxResults)
 			throws IllegalArgumentException, SQLException {
-		return ElementMapper.getElementMapper().findByName(name, maxResults, true);
+		return ElementMapper.getElementMapper().findByName(name, maxResults,
+				true);
 	}
 
 	public Vector<Module> findByElementId(int elementId)
@@ -346,66 +352,169 @@ public class ModuleMapper {
 
 		return result;
 	}
-	
-	public void assignModule(Module superMod, Module subMod, int amount) 
+
+	public void assignModule(Module superMod, Module subMod, int amount)
 			throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
-		
+
 		try {
 			Statement stmt = con.createStatement();
+			// Gibt es bereits einen Eintrag zur Zuordnung?
+			ResultSet rs2 = stmt
+					.executeQuery("SELECT ModuleRelationship_id AS id FROM ModuleRelationship WHERE "
+							+ "superordinateID="
+							+ superMod.getId()
+							+ " AND subordinateID=" + subMod.getId());
 
-			/*
-			 * Zunächst schauen wir nach, welches der momentan höhste
-			 * Primärschlüsselwert ist.
-			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(ModuleRelationship_id) AS maxid FROM ModuleRelationship");
+			if (rs2.next()) {
+				// Es gibt einen Eintrag, also wird diesem die neue Anzahl
+				// (amount) zugeordnet
+				Statement stmt2 = con.createStatement();
 
-			if (rs.next()) {
+				stmt2.executeUpdate("UPDATE ModuleRelationship SET quantity="
+						+ amount + " WHERE ModuleRelationship_id="
+						+ rs2.getInt("id"));
+			} else {
+				// Es gibt noch keinen Eintrag, deswegen einen neuen anlegen.
+
 				/*
-				 * m erhaelt den bisher maximalen, nun um 1 inkrementierten
-				 * Primaerschluessel
+				 * Zunächst schauen wir nach, welches der momentan höhste
+				 * Primärschlüsselwert ist.
 				 */
-				int id = (rs.getInt("maxid") + 1);
-				
-				stmt = con.createStatement();
+				ResultSet rs = stmt
+						.executeQuery("SELECT MAX(ModuleRelationship_id) AS maxid FROM ModuleRelationship");
 
-				// die tatsaechliche Einfuegeoperation
-				stmt.executeUpdate("INSERT INTO ModuleRelationship (ModuleRelationship_id, quantity, superordinateID, subordinateID) VALUES ("
-						+ id + ","+ amount + ","+ superMod.getId() + ","+subMod.getId()+")");
-			}
-		} catch (SQLException ex) {
-			throw new IllegalArgumentException(ex.getMessage());
-		}			
-	}
-	
-	public void assignElement(Module m, Element e, int amount) 
-			throws IllegalArgumentException, SQLException {
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement stmt = con.createStatement();
+				if (rs.next()) {
+					/*
+					 * m erhaelt den bisher maximalen, nun um 1 inkrementierten
+					 * Primaerschluessel
+					 */
+					int id = (rs.getInt("maxid") + 1);
 
-			/*
-			 * Zunächst schauen wir nach, welches der momentan höhste
-			 * Primärschlüsselwert ist.
-			 */
-			ResultSet rs = stmt.executeQuery("SELECT MAX(ModuleElement_id) AS maxid FROM ModuleElement");
+					stmt = con.createStatement();
 
-			if (rs.next()) {
-				/*
-				 * m erhaelt den bisher maximalen, nun um 1 inkrementierten
-				 * Primaerschluessel
-				 */
-				int id = (rs.getInt("maxid") + 1);
-				
-				stmt = con.createStatement();
-
-				// die tatsaechliche Einfuegeoperation
-				stmt.executeUpdate("INSERT INTO ModuleElement (ModuleElement_id, quantity, module_id, element_id) VALUES ("
-						+ id + ","+ amount + ","+ m.getId() + ","+e.getId()+")");
+					// die tatsaechliche Einfuegeoperation
+					stmt.executeUpdate("INSERT INTO ModuleRelationship (ModuleRelationship_id, quantity, superordinateID, subordinateID) VALUES ("
+							+ id
+							+ ","
+							+ amount
+							+ ","
+							+ superMod.getId()
+							+ ","
+							+ subMod.getId() + ")");
+				}
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+	}
+
+	public void assignElement(Module m, Element e, int amount)
+			throws IllegalArgumentException, SQLException {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+			// Gibt es bereits einen Eintrag zur Zuordnung?
+			ResultSet rs2 = stmt
+					.executeQuery("SELECT ModuleElement_id AS id FROM ModuleElement WHERE "
+							+ "module_id="
+							+ m.getId()
+							+ " AND element_id=" + e.getId());
+
+			if (rs2.next()) {
+				// Es gibt einen Eintrag, also wird diesem die neue Anzahl
+				// (amount) zugeordnet
+				Statement stmt2 = con.createStatement();
+
+				stmt2.executeUpdate("UPDATE ModuleElement SET quantity="
+						+ amount + " WHERE ModuleElement_id="
+						+ rs2.getInt("id"));
+			} else {
+				// Es gibt noch keinen Eintrag, deswegen einen neuen anlegen.
+
+				/*
+				 * Zunächst schauen wir nach, welches der momentan höhste
+				 * Primärschlüsselwert ist.
+				 */
+				ResultSet rs = stmt
+						.executeQuery("SELECT MAX(ModuleElement_id) AS maxid FROM ModuleElement");
+
+				if (rs.next()) {
+					/*
+					 * m erhaelt den bisher maximalen, nun um 1 inkrementierten
+					 * Primaerschluessel
+					 */
+					int id = (rs.getInt("maxid") + 1);
+
+					stmt = con.createStatement();
+
+					// die tatsaechliche Einfuegeoperation
+					stmt.executeUpdate("INSERT INTO ModuleElement (ModuleElement_id, quantity, module_id, element_id) VALUES ("
+							+ id
+							+ ","
+							+ amount
+							+ ","
+							+ m.getId()
+							+ ","
+							+ e.getId() + ")");
+				}
+			}
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
+	}
+
+	/**
+	 * Löscht Zuordnung zwischen Modulen aus den Datenbanken
+	 * 
+	 * @param superM
+	 *            Übergeordnetes Modul
+	 * @param subM
+	 *            Untergeordnetes Modul
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
+	public void deleteModuleRelationshipAssign(Module superM, Module subM)
+			throws IllegalArgumentException, SQLException {
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM ModuleRelationship WHERE superordinateID="
+					+ superM.getId() + " AND subordinateID=" + subM.getId());
+
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
+
+	}
+
+	/**
+	 * Löscht Zuordnung zwischen Modulen aus den Datenbanken
+	 * 
+	 * @param superM
+	 *            Übergeordnetes Modul
+	 * @param subE
+	 *            Untergeordnetes Modul
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
+	public void deleteModuleElementAssign(Module superM, Element subE)
+			throws IllegalArgumentException, SQLException {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM ModuleElement WHERE module_id="
+					+ superM.getId() + " AND element_id=" + subE.getId());
+
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
+
 	}
 }

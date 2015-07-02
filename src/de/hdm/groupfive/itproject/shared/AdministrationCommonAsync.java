@@ -14,6 +14,7 @@ import de.hdm.groupfive.itproject.server.db.UserMapper;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
@@ -87,9 +88,15 @@ public interface AdministrationCommonAsync {
 	 * @param amount
 	 *            Wie viele Bauteile zugeordnet werden sollen
 	 */
-	public void assignElement(Module module, Element element, int amount,
+	public void assignElement(Element module, Element element, int amount,
 			AsyncCallback<Void> callback);
 
+	/**
+	 * Löschen einer Zuweisung eines Bauteils
+	 * @param pe Parlist Eintrag mit Element, Modul
+	 */
+	public void deleteAssignment(PartlistEntry pe, AsyncCallback<Void> callback);
+	
 	/**
 	 * Erstellen einer neuen Baugruppe
 	 * 
@@ -113,19 +120,6 @@ public interface AdministrationCommonAsync {
 	 *            Baugruppe die gelöscht werden soll
 	 */
 	public void deleteModule(Module module, AsyncCallback<Void> callback);
-
-	/**
-	 * Zuweisen einer Baugruppe
-	 * 
-	 * @param module
-	 *            Baugruppe, der eine Baugruppe zugewiesen werden soll
-	 * @param subModule
-	 *            UnterBaugruppe, die einer Baugruppe zugewiesen werden soll
-	 * @param amount
-	 *            Wie viele UnterBaugruppen der Baugruppe zugeordnet werden soll
-	 */
-	public void assignModule(Module module, Module subModule, int amount,
-			AsyncCallback<Void> callback);
 
 	/**
 	 * Erstellen eines neuen Endproduktes
@@ -160,7 +154,7 @@ public interface AdministrationCommonAsync {
 	 * @param id
 	 *            des Bauteils
 	 */
-	public void findElementById(int id, AsyncCallback<Partlist> callback);
+	public void findElementById(int id, boolean onlyModules, boolean onlyProducts, AsyncCallback<Partlist> callback);
 
 	/**
 	 * Finden eines Bauteils mittels des Namens

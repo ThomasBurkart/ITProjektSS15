@@ -57,6 +57,20 @@ public class Partlist extends BusinessObject {
 			list.add(new PartlistEntry(element, amount));
 		}
 	}
+	
+	/**
+	 * Hinzufï¿½gen von Bauteilen zu der Stï¿½ckliste
+	 * 
+	 * @param element
+	 *            Bauteil das hinmzugefï¿½gt werden soll
+	 * @param amount
+	 *            Anzahl der Bauteile die hinzugefï¿½gt werden sollen
+	 */
+	public void add(Element element, int amount, Module superModule) {
+		if (element != null && amount > 0) {
+			list.add(new PartlistEntry(element, amount, superModule));
+		}
+	}
 
 	/**
 	 * Gibt zurÃ¼ck ob die Partlist leer ist.
@@ -184,7 +198,7 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Namens der Stückliste
+	 * Auslesen des Namens der Stï¿½ckliste
 	 * 
 	 * @return
 	 */
@@ -193,7 +207,7 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Setzen des Namens der Stückliste
+	 * Setzen des Namens der Stï¿½ckliste
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -201,13 +215,13 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Hizufügen von Bauteilen in betracht auf die Anzahl
-	 * @param p die übergebene Stückliste
+	 * Hizufï¿½gen von Bauteilen in betracht auf die Anzahl
+	 * @param p die ï¿½bergebene Stï¿½ckliste
 	 */
 	public void add(Partlist p) {
 		for (PartlistEntry pe : p.getAllEntries()) {
 
-			// Prüfen ob das Element bereits in der totalAmount Stückliste
+			// Prï¿½fen ob das Element bereits in der totalAmount Stï¿½ckliste
 			// vorhanden ist.
 			if (this.contains(pe.getElement())) {
 				// Element bereits in totalAmount vorhanden, deswegen nur noch
@@ -217,7 +231,7 @@ public class Partlist extends BusinessObject {
 				entry.setAmount(entry.getAmount() + pe.getAmount());
 			} else {
 				// Neues Element das noch nicht in totalAmount vorhanden ist,
-				// zum ersten Mal hinzufügen.
+				// zum ersten Mal hinzufï¿½gen.
 				this.add(pe.getElement(), pe.getAmount());
 			}
 		}
@@ -225,7 +239,7 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen aller Einträge einer Stückliste
+	 * Auslesen aller Eintrï¿½ge einer Stï¿½ckliste
 	 * @return
 	 */
 	public ArrayList<PartlistEntry> getAllEntries() {
@@ -233,8 +247,8 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen ob ein Bauteil schon Bestandteil der Stückliste ist
-	 * @param element übergebenes Bauteil
+	 * Auslesen ob ein Bauteil schon Bestandteil der Stï¿½ckliste ist
+	 * @param element ï¿½bergebenes Bauteil
 	 * @return
 	 */
 	public boolean contains(Element element) {
@@ -248,8 +262,8 @@ public class Partlist extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Stücklisten-Eintrags anhand des Indexes
-	 * @param i übergebener Index
+	 * Auslesen des Stï¿½cklisten-Eintrags anhand des Indexes
+	 * @param i ï¿½bergebener Index
 	 * @return
 	 */
 	public PartlistEntry getPartlistEntryByIndex(int i) {
@@ -261,7 +275,7 @@ public class Partlist extends BusinessObject {
 
 	/**
 	 * Auslesen, welchen Index ein Bauteil hat.
-	 * @param e übergebenes Bauteil
+	 * @param e ï¿½bergebenes Bauteil
 	 * @return
 	 */
 	public int indexOfElement(Element e) {

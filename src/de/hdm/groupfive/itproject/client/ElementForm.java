@@ -42,6 +42,9 @@ public class ElementForm extends Showcase {
 	/** Die Anzahl des Elements */
 	private int amount;
 
+	/** übergeordnetes Modul des Elements */
+	private Module superModule;
+
 	/**
 	 * Wird verwendet um zu prüfen ob es sich um ein Element handelt, dass neu
 	 * angelegt wird.
@@ -66,14 +69,16 @@ public class ElementForm extends Showcase {
 	 *            gefüllt wird.
 	 */
 	public ElementForm(PartlistEntry pe) {
-		this(pe.getElement(), pe.getAmount());
+		this(pe.getElement(), pe.getAmount(), pe.getSuperModule());
 	}
 
-	public ElementForm(Element element, int amount) {
+	public ElementForm(Element element, int amount, Module superModule) {
 		// Übergebenes Element
 		this.element = element;
 
 		this.amount = amount;
+
+		this.superModule = superModule;
 
 		// Das es sich um ein neues Element handelt wird vorerst auf "false"
 		// gesetzt, kann sich
@@ -129,7 +134,7 @@ public class ElementForm extends Showcase {
 		// Dann wird geprüft ob es sich um ein neues Element handelt
 		// Das Attribut newElement wurde entsprechend im Konstruktor
 		// gesetzt.
-		if (this.newElement) {
+		if (newElement) {
 
 			// Je nachdem, von welcher Klasse unser Element element erzeugt
 			// wurde
@@ -188,6 +193,8 @@ public class ElementForm extends Showcase {
 	 */
 	@Override
 	protected void run() {
+		ClientsideSettings.getLogger().info("Element Formular: wird geladen.");
+
 		// Das Formular wird in Tabellenform aufgebaut, dazu wird ein Grid
 		// verwendet
 		// Im der ersten Spalte des Grid werden die Bezeichnungen der Textboxen
@@ -213,8 +220,7 @@ public class ElementForm extends Showcase {
 		}
 		// Tabelle soll eine Breite von 100% erhalten.
 		grid.setWidth("100%");
-		
-		
+
 		String idDesc = "Bauteil Id";
 		String nameDesc = "Bezeichnung";
 		if (this.element instanceof Product) {
@@ -243,7 +249,7 @@ public class ElementForm extends Showcase {
 			HTML creationText = new HTML("Erstellt am");
 			creationText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(4, 0, creationText);
-	
+
 			HTML updateText = new HTML("Letzte Bearbeitung am");
 			updateText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(5, 0, updateText);
@@ -271,16 +277,21 @@ public class ElementForm extends Showcase {
 		matTb.setName("textbox-mat");
 		matTb.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11 textBox");
 		grid.setWidget(3, 1, matTb);
-		
+
 		if (!newElement) {
 
-			DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm:ss");
-			
-			HTML creationValue = new HTML(this.element.getCreationDate() != null ? dateFormat.format(this.element.getCreationDate()) : "");
+			DateTimeFormat dateFormat = DateTimeFormat
+					.getFormat("dd.MM.yyyy HH:mm:ss");
+
+			HTML creationValue = new HTML(
+					this.element.getCreationDate() != null ? dateFormat
+							.format(this.element.getCreationDate()) : "");
 			creationValue.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(4, 1, creationValue);
-			
-			HTML updateValue = new HTML(this.element.getLastUpdate() != null ? dateFormat.format(this.element.getLastUpdate()) : "");
+
+			HTML updateValue = new HTML(
+					this.element.getLastUpdate() != null ? dateFormat
+							.format(this.element.getLastUpdate()) : "");
 			updateValue.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(5, 1, updateValue);
 		}
@@ -288,7 +299,6 @@ public class ElementForm extends Showcase {
 		// Noch keine Id vorhanden, deswegen handelt es sich um ein neues
 		// Element. Entsprechend wird der Titel gesetzt.
 		if (this.element.getId() > 0) {
-			String type;
 			if (this.element instanceof Product) {
 				Product p = (Product) this.element;
 				idTb.setValue(p.getProductId() > 0 ? "" + p.getProductId()
@@ -323,15 +333,43 @@ public class ElementForm extends Showcase {
 		// ÜBERSCHRIFT ENDE
 
 		// BREADCRUMB ANFANG
+		UlListPanel breadcrumb = new UlListPanel();
+		breadcrumb.setStylePrimaryName("breadcrumb");
+		HTML assignText =new HTML("Zuordnung");
+		assignText.setStylePrimaryName("bclink assignbclink");
+		breadcrumb.add(assignText);
+		if (superModule != null) {
+			Button superModulBtn = new Button(superModule.getName());
+			superModulBtn.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					RootPanel.get("main").clear();
+					SearchPanel.currentSearchPanel.getSearchResult().getSelectionModel().clear();
+					RootPanel.get("main").add(
+							new ElementForm(superModule, 1, null));
+				}
+			});
 
-		String test = "<ol class=\"breadcrumb\">";
-		test += "<li><a href=\"#\">Endprodukt abc</a></li>";
-		test += "<li><a href=\"#\">Baugruppe aha</a></li>";
-		test += "<li class=\"active\">"
-				//+ .getSelectionModel().getSelectedSet().size()
-				+ " Element mauaha</li>";
-		test += "</ol>";
-		HTML breadcrumb = new HTML(test);
+			// StyleSheet festlegen
+			superModulBtn.setStylePrimaryName("btn btn-link bclink");
+			breadcrumb.add(superModulBtn);
+		}
+
+		Button thisElementBtn = new Button(element.getName());
+		thisElementBtn.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				RootPanel.get("main").clear();
+				RootPanel.get("main").add(
+						new ElementForm(element, amount, superModule));
+				
+			}
+		});
+
+		// StyleSheet festlegen
+		thisElementBtn.setStylePrimaryName("btn btn-link bclink");
+
+		breadcrumb.add(thisElementBtn);
 		this.add(breadcrumb);
 		// BREADCRUMB ENDE
 
@@ -359,7 +397,8 @@ public class ElementForm extends Showcase {
 					// wird einfach das gleiche Element erneut geladen, damit
 					// Änderungen
 					// verworfen werden
-					RootPanel.get("main").add(new ElementForm(element, amount));
+					RootPanel.get("main").add(
+							new ElementForm(element, amount, superModule));
 				}
 			}
 		});
@@ -379,14 +418,21 @@ public class ElementForm extends Showcase {
 			btnGroup.add(deleteBtn);
 			UlListPanel ulList = new UlListPanel();
 			ulList.addStyleName("dropdown-menu");
-			Button deleteElem = new Button("Bauteil löschen");
+			Button deleteElem;
+			if (this.element instanceof Product) {
+				deleteElem = new Button("Enderzeugnis löschen");
+			} else if (this.element instanceof Module) {
+				deleteElem = new Button("Baugruppe löschen");
+			} else {
+				deleteElem = new Button("Bauteil löschen");
+			}
 			deleteElem.setStylePrimaryName("btn btn-link");
 			deleteElem.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
 					AdministrationCommonAsync administration = ClientsideSettings
 							.getAdministration();
-					
+
 					if (element instanceof Product) {
 						administration.deleteProduct((Product) element,
 								new ElementDeleteCallback(currentShowcase));
@@ -397,7 +443,7 @@ public class ElementForm extends Showcase {
 						administration.deleteElement(element,
 								new ElementDeleteCallback(currentShowcase));
 					}
-					
+
 				}
 			});
 
@@ -410,8 +456,8 @@ public class ElementForm extends Showcase {
 				public void onClick(ClickEvent event) {
 					AdministrationCommonAsync administration = ClientsideSettings
 							.getAdministration();
-					// administration.deleteAssignment(element,
-					// new ElementDeleteCallback(currentShowcase));
+					administration.deleteAssignment(new PartlistEntry(element,
+							amount, superModule), new DeleteAssignCallback());
 				}
 			});
 			ulList.add(deleteAssign);
@@ -428,8 +474,13 @@ public class ElementForm extends Showcase {
 				// Prüfen ob die Felder Bezeichnung und Beschreibung gefüllt
 				if (nameTb.getValue().trim() == ""
 						|| descTb.getValue().trim() == "") {
-					currentShowcase.insert(
-							new ErrorMsg("<b>Error:</b> Bitte gebe eine Bezeichnung und eine Beschreibung ein!"), 1);
+					ClientsideSettings
+							.getLogger()
+							.severe("Error: Element Formular - Bitte gebe eine Bezeichnung und eine Beschreibung ein!");
+					currentShowcase
+							.insert(new ErrorMsg(
+									"<b>Error:</b> Bitte gebe eine Bezeichnung und eine Beschreibung ein!"),
+									1);
 				} else {
 					element.setName(nameTb.getValue().trim());
 					element.setDescription(descTb.getValue().trim());
@@ -452,7 +503,7 @@ public class ElementForm extends Showcase {
 									new ElementSaveCallback());
 						}
 					} else {
-						
+
 						if (element instanceof Product) {
 							Product newProduct = (Product) element;
 							newProduct.setSalesName(nameTb.getValue().trim());
@@ -476,9 +527,11 @@ public class ElementForm extends Showcase {
 			assignBtn.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					
+
 					RootPanel.get("main").clear();
-					RootPanel.get("main").add(new AssignPanel(new PartlistEntry(element, amount)));
+					RootPanel.get("main")
+							.add(new AssignPanel(new PartlistEntry(element,
+									amount, superModule)));
 				}
 			});
 			panel.add(assignBtn);
@@ -529,12 +582,68 @@ public class ElementForm extends Showcase {
 		@Override
 		public void onSuccess(Element result) {
 			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new ElementForm(result, 1));
-			currentShowcase.insert(new SuccessMsg("Bauteil erfolgreich gespeichert!"),
-					1);
+			RootPanel.get("main").add(new ElementForm(result, 1, null));
+			if (result instanceof Product) {
+				currentShowcase.insert(new SuccessMsg(
+						"Enderzeugnis erfolgreich gespeichert!"), 1);
+				
+			} else if (result instanceof Module) {
+				currentShowcase.insert(new SuccessMsg(
+						"Baugruppe erfolgreich gespeichert!"), 1);
+				
+			} else {
+				currentShowcase.insert(new SuccessMsg(
+						"Bauteil erfolgreich gespeichert!"), 1);
+				
+			}
 		}
 	}
-	
+
+	/**
+	 * Callback Klasse die asynchron aufgerufen wird, wenn eine Zuordnung
+	 * gelöscht wird.
+	 * 
+	 * @author Thomas Burkart
+	 */
+	class DeleteAssignCallback implements AsyncCallback<Void> {
+
+		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
+
+		/**
+		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
+		 * das übergebene Showcase fest.
+		 * 
+		 * @param c
+		 *            Showcase an das die Rückmeldung ausgegeben wird.
+		 */
+		public DeleteAssignCallback() {
+		}
+
+		/**
+		 * Wenn der asynchrone Aufruf fehlschlug oder das Element nicht gelöscht
+		 * werden konnte wird die onFailure Methode aufgerufen und der Fehler
+		 * als ErrorMsg dem Showcase eingefügt, sowie im Client-Logger
+		 * verzeichnet.
+		 */
+		@Override
+		public void onFailure(Throwable caught) {
+			currentShowcase.insert(
+					new ErrorMsg("<b>Error:</b> " + caught.getMessage()), 1);
+			ClientsideSettings.getLogger().severe(
+					"Error: " + caught.getMessage());
+		}
+
+		/**
+		 * Wenn der asynchrone Aufruf zum löschen des Elements erfolgreich war,
+		 * wird eine SuccessMsg im Showcase eingefügt.
+		 */
+		@Override
+		public void onSuccess(Void result) {
+			currentShowcase.insert(new SuccessMsg(
+					"Zuordnung zu Baugruppe erfolgreich gelöscht!"), 1);
+		}
+	}
+
 	/**
 	 * Callback Klasse die asynchron aufgerufen wird, wenn ein Element
 	 * gespeichert wird.
@@ -576,12 +685,12 @@ public class ElementForm extends Showcase {
 		@Override
 		public void onSuccess(Module result) {
 			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new ElementForm(result, 1));
-			currentShowcase.insert(new SuccessMsg("Baugruppe erfolgreich gespeichert!"),
-					1);
+			RootPanel.get("main").add(new ElementForm(result, 1, null));
+			currentShowcase.insert(new SuccessMsg(
+					"Baugruppe erfolgreich gespeichert!"), 1);
 		}
 	}
-	
+
 	/**
 	 * Callback Klasse die asynchron aufgerufen wird, wenn ein Element
 	 * gespeichert wird.
@@ -623,9 +732,9 @@ public class ElementForm extends Showcase {
 		@Override
 		public void onSuccess(Product result) {
 			RootPanel.get("main").clear();
-			RootPanel.get("main").add(new ElementForm(result, 1));
-			currentShowcase.insert(new SuccessMsg("Enderzeugnis erfolgreich gespeichert!"),
-					1);
+			RootPanel.get("main").add(new ElementForm(result, 1, null));
+			currentShowcase.insert(new SuccessMsg(
+					"Enderzeugnis erfolgreich gespeichert!"), 1);
 		}
 	}
 
@@ -672,7 +781,8 @@ public class ElementForm extends Showcase {
 		@Override
 		public void onSuccess(Void result) {
 			showcase.insert(new SuccessMsg("Löschvorgang erfolgreich!"), 1);
-			// Damit nach dem Löschvorgang nichts mehr mit dem Formular angestellt werden kann,
+			// Damit nach dem Löschvorgang nichts mehr mit dem Formular
+			// angestellt werden kann,
 			// werden die Buttons entfernt.
 			if (RootPanel.get("actionBox") != null) {
 				RootPanel.get("actionBox").getElement().removeFromParent();

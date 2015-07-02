@@ -129,8 +129,27 @@ public class SearchTreeModel implements TreeViewModel {
 			if (val instanceof PartlistEntry) {
 
 				PartlistEntry value = (PartlistEntry) val;
+				if (value.getElement() instanceof Product) {
+					ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>(
+							((Product) value.getElement()).getPartlist()
+									.getAllEntries());
+					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
-				if (value.getElement() instanceof Module) {
+						@Override
+						public void render(
+								com.google.gwt.cell.client.Cell.Context context,
+								PartlistEntry value, SafeHtmlBuilder sb) {
+							if (value != null) {
+								sb.appendHtmlConstant("    ");
+								sb.appendEscaped(value.getElement().getName());
+								sb.appendHtmlConstant("    ");
+								sb.appendEscaped("[" + value.getAmount() + "]");
+							}
+						}
+					};
+					return new DefaultNodeInfo<PartlistEntry>(dataProvider,
+							cell, selectionModel, selectionManager, null);
+				} else	if (value.getElement() instanceof Module) {
 					// LEVEL 1.
 					// We want the children of the composer. Return the
 					// playlists.
@@ -147,6 +166,8 @@ public class SearchTreeModel implements TreeViewModel {
 							if (value != null) {
 								sb.appendHtmlConstant("    ");
 								sb.appendEscaped(value.getElement().getName());
+								sb.appendHtmlConstant("    ");
+								sb.appendEscaped("[" + value.getAmount() + "]");
 							}
 						}
 					};
@@ -166,6 +187,8 @@ public class SearchTreeModel implements TreeViewModel {
 							if (value != null) {
 								sb.appendHtmlConstant("    ");
 								sb.appendEscaped(value.getElement().getName());
+								sb.appendHtmlConstant("    ");
+								sb.appendEscaped("[" + value.getAmount() + "]");
 							}
 						}
 					};
@@ -199,33 +222,5 @@ public class SearchTreeModel implements TreeViewModel {
 		}
 		return result;
 	}
-
-	// public Vector<Element> getParentNodes() {
-	// return getParentNodes(this.searchResult);
-	// }
-	//
-	// public Vector<Element> getParentNodes(List<Element> list) {
-	// Vector<Element> result = new Vector<Element>();
-	// for (Element node : this.searchResult) {
-	// if (node instanceof Module) {
-	// if (this.selectionModel.isSelected(node)) {
-	// result.add(node);
-	// break;
-	// } else {
-	//
-	// return getParentNodes(((Module)node).getPartlist().getAllElements());
-	// }
-	//
-	// } else {
-	// if (this.selectionModel.isSelected(node)) {
-	// result.add(node);
-	// break;
-	// } else {
-	// result.clear();
-	// }
-	// }
-	// }
-	// return result;
-	// }
 
 }
