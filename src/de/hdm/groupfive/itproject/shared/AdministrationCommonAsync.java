@@ -219,5 +219,5 @@ public interface AdministrationCommonAsync {
 	 * Liefert Historie für Startseite
 	 * @param callback
 	 */
-	public void getLastUpdatesForHistory(AsyncCallback<ArrayList<String[]>> callback);
+//	public void getLastUpdatesForHistory(AsyncCallback<ArrayList<String[]>> callback);
 }

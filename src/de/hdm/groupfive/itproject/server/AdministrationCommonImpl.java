@@ -705,13 +705,13 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @return String-Array mit Historien Details
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<String[]> getLastUpdatesForHistory()  throws IllegalArgumentException {
-		try {
-			return this.userMapper.getLastUpdatesForHistory();
-		} catch (SQLException e) {
-			throw new IllegalArgumentException(e.getMessage());
-		}	
-	}
+//	public ArrayList<String[]> getLastUpdatesForHistory()  throws IllegalArgumentException {
+//		try {
+//			return this.userMapper.getLastUpdatesForHistory();
+//		} catch (SQLException e) {
+//			throw new IllegalArgumentException(e.getMessage());
+//		}	
+//	}
 	
 	
 	

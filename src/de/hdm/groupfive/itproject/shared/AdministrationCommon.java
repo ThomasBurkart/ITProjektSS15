@@ -220,5 +220,5 @@ public interface AdministrationCommon extends RemoteService {
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<String[]> getLastUpdatesForHistory() throws IllegalArgumentException;
+//	public ArrayList<String[]> getLastUpdatesForHistory() throws IllegalArgumentException;
 }
