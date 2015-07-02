@@ -158,6 +158,7 @@ public class Element extends BusinessObject{
 	 * �berschreiben und ihr mehr Intelligenz verleihen.
 	 * </p>
 	 */
+	
 	@Override
 	public boolean equals(Object o) {
 		/*
