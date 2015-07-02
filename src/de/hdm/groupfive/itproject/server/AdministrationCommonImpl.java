@@ -1,6 +1,7 @@
 package de.hdm.groupfive.itproject.server;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -98,11 +99,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Aktuell angemeldeter Benutzer
-	 */
-	private User currentUser = null;
-
-	/**
 	 * Referenz auf den DatenbankMapper, der Benutzerobjekte mit der Datenbank
 	 * abgleicht.
 	 */
@@ -197,13 +193,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 			u.setUserName(user.getNickname());
 			u.setUserId(user.getUserId());
 			u.setIsLoggedIn(true);
-			this.currentUser = u;
 			return u;
 		} else {
 			User u = new User();
 			u.setIsLoggedIn(false);
 			u.setLoginUrl(userService.createLoginURL(ServerSettings.PAGE_URL));
-			this.currentUser = null;
 			return u;
 		}
 	}
@@ -218,32 +212,12 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 				.getUserService();
 
 		if (userService.isUserLoggedIn()) {
-			this.currentUser = null;
 			return userService.createLogoutURL(ServerSettings.PAGE_URL);
 		}
 		return "http://www.google.de";
 	}
 
 	
-
-	/**
-	 * Setzen des Benutzers
-	 * 
-	 * @param user
-	 *            Benutzerobjekt
-	 */
-	@Override
-	public void setUser(User user) throws IllegalArgumentException {
-		this.currentUser = user;
-	}
-
-	/**
-	 * Auslesen des Benutzerobjekts/ der Benutzerdaten
-	 */
-	@Override
-	public User getUser() throws IllegalArgumentException {
-		return this.currentUser;
-	}
 
 	/*
 	 * *************************************************
@@ -275,7 +249,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 			throws IllegalArgumentException {
 		if (element == null) {
 			throw new IllegalArgumentException(
-					"Ãœbergebenes Objekt an createElement() ist NULL");
+					"Übergebenes Objekt an createElement() ist NULL");
 		}
 
 		try {
@@ -725,6 +699,21 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * ABSCHNITT, Ende: Methoden fï¿½r Product-Objekte
 	 * *************************************************
 	 */
+	
+	/**
+	 * Liefert die letzten Updates für die Historie
+	 * @return String-Array mit Historien Details
+	 * @throws IllegalArgumentException
+	 */
+	public ArrayList<String[]> getLastUpdatesForHistory()  throws IllegalArgumentException {
+		try {
+			return this.userMapper.getLastUpdatesForHistory();
+		} catch (SQLException e) {
+			throw new IllegalArgumentException(e.getMessage());
+		}	
+	}
+	
+	
 	
 	/*
 	 * *************************************************

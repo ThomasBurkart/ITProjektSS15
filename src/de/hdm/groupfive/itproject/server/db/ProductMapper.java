@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import de.hdm.groupfive.itproject.server.AdministrationCommonImpl;
 import de.hdm.groupfive.itproject.shared.bo.*;
 
 public class ProductMapper {
@@ -67,9 +68,20 @@ public class ProductMapper {
 						+ p.getSalesName()
 						+ "',"
 						+ p.getId() + ")");
+				// Historie speichern
+				com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+						.getUserService();
 
+				com.google.appengine.api.users.User user = userService
+							.getCurrentUser();
+				UserMapper.getUserMapper().insertHistory(user.getUserId(),
+						user.getNickname(), p.getId(), "erstellt",
+						p.getLastUpdate());
+				p.setLastUser(user.getNickname());
 				return p;
 			}
+
+			
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -87,21 +99,26 @@ public class ProductMapper {
 
 			Statement stmt = con.createStatement();
 
-			// TODO: alle zuordnungen zum Modul löschen
-			// alle Produkte von Modul löschen.
-
 			stmt.executeUpdate("DELETE FROM product WHERE product_id="
 					+ p.getProductId());
 
 			Statement stmt2 = con.createStatement();
 
-			// TODO: alle zuordnungen zum Modul löschen
-			// alle Produkte von Modul löschen.
-
 			stmt2.executeUpdate("DELETE FROM ModuleRelationship WHERE superordinateID="
 					+ p.getId());
 
 			ElementMapper.getElementMapper().delete(p);
+			
+
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), p.getId(), "erstellt",
+					p.getLastUpdate());
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -136,6 +153,17 @@ public class ProductMapper {
 					+ "'," + "element_id=" + p.getId() + " WHERE product_id ="
 					+ p.getProductId());
 
+
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), p.getId(), "erstellt",
+					p.getLastUpdate());
+			p.setLastUser(user.getNickname());
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -184,6 +212,8 @@ public class ProductMapper {
 							timestamp2.getTime());
 					p.setLastUpdate(lastUpdateDate);
 				}
+				p.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(p.getId()));
+
 				return p;
 			}
 		} catch (SQLException ex) {

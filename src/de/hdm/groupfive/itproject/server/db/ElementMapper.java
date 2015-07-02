@@ -6,10 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.Date;
 
+import de.hdm.groupfive.itproject.client.ClientsideSettings;
+import de.hdm.groupfive.itproject.server.AdministrationCommonImpl;
+import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
+import de.hdm.groupfive.itproject.shared.bo.User;
 
 //** @ author Jakupi, Samire ; Thies
 
@@ -47,8 +51,8 @@ public class ElementMapper {
 	 *             Methode weitergereicht
 	 */
 
-	public Partlist findById(int id, boolean onlyModules, boolean onlyProducts) throws IllegalArgumentException,
-			SQLException {
+	public Partlist findById(int id, boolean onlyModules, boolean onlyProducts)
+			throws IllegalArgumentException, SQLException {
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
@@ -70,8 +74,8 @@ public class ElementMapper {
 
 					// Zuerst nachschauen ob es sich bei dem Element um ein
 					// Modul handelt.
-					Module m = ModuleMapper.getModuleMapper()
-							.findByElement(rs.getInt("element_id"));
+					Module m = ModuleMapper.getModuleMapper().findByElement(
+							rs.getInt("element_id"));
 
 					// Wenn es sich um ein Modul handelt, dieses hinzufügen
 					// ansonsten, das Element als
@@ -104,6 +108,7 @@ public class ElementMapper {
 										timestamp2.getTime());
 								e.setLastUpdate(lastUpdateDate);
 							}
+							e.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(e.getId()));
 
 							// Hinzufuegen des neuen Objekts zum
 							// Ergebnisvektor
@@ -117,7 +122,7 @@ public class ElementMapper {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Auslesen aller Elements
 	 * 
@@ -261,6 +266,8 @@ public class ElementMapper {
 											timestamp2.getTime());
 									e.setLastUpdate(lastUpdateDate);
 								}
+								
+								e.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(e.getId()));
 
 								// Hinzufuegen des neuen Objekts zum
 								// Ergebnisvektor
@@ -327,10 +334,19 @@ public class ElementMapper {
 				// die tatsaechliche Einfuegeoperation
 				stmt.executeUpdate(sqlQuery);
 
+				// Historie speichern
+				com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+						.getUserService();
+
+				com.google.appengine.api.users.User user = userService
+							.getCurrentUser();
+				UserMapper.getUserMapper().insertHistory(user.getUserId(),
+						user.getNickname(), e.getId(), "erstellt",
+						e.getLastUpdate());
 			}
 
 		} catch (SQLException ex) {
-			
+
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
@@ -373,6 +389,17 @@ public class ElementMapper {
 					+ getSqlDateFormat(e.getLastUpdate()) + "'"
 					+ " WHERE element_id = " + e.getId() + ";");
 
+
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), e.getId(), "geändert",
+					e.getLastUpdate());
+			e.setLastUser(user.getNickname());
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -401,6 +428,16 @@ public class ElementMapper {
 
 			stmt.executeUpdate("DELETE FROM element WHERE element_id="
 					+ e.getId());
+			
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), e.getId(), "gelöscht",
+					new Date());
 		}
 
 		catch (SQLException ex) {
@@ -430,6 +467,17 @@ public class ElementMapper {
 			Statement stmt = con.createStatement();
 
 			stmt.executeUpdate("DELETE FROM element WHERE element_id=" + eId);
+			
+
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), eId, "gelöscht",
+					new Date());
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}

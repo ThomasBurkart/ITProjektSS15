@@ -42,19 +42,6 @@ public interface AdministrationCommonAsync {
 	public void logoutUser(AsyncCallback<String> callback);
 
 	/**
-	 * Setzen des Benutzers
-	 * 
-	 * @param user
-	 *            Benutzerobjekt
-	 */
-	public void setUser(User user, AsyncCallback<Void> callback);
-
-	/**
-	 * Auslesen des Benutzerobjekts/ der Benutzerdaten
-	 */
-	public void getUser(AsyncCallback<User> callback);
-
-	/**
 	 * Erstellen eines neuen Bauteils
 	 * 
 	 * @param element
@@ -227,4 +214,10 @@ public interface AdministrationCommonAsync {
 	 */
 	public void calculateMaterial(Partlist partlist,
 			AsyncCallback<Partlist> callback);
+
+	/**
+	 * Liefert Historie für Startseite
+	 * @param callback
+	 */
+	public void getLastUpdatesForHistory(AsyncCallback<ArrayList<String[]>> callback);
 }

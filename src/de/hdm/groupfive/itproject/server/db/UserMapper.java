@@ -1,29 +1,31 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
-//import com.google.cloud.sql.jdbc.Connection;
-//import com.google.cloud.sql.jdbc.Statement;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
-
+import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
-
 /**
- * Mapper-Klasse, die <code>User</code>-Objekte auf eine relationale
- * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
- * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
- * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
- * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+ * Mapper-Klasse, die <code>User</code>-Objekte auf eine relationale Datenbank
+ * abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung gestellt, mit
+ * deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und gelöscht werden
+ * können. Das Mapping ist bidirektional. D.h., Objekte können in DB-Strukturen
+ * und DB-Strukturen in Objekte umgewandelt werden.
  */
-//Test 
+// Test
 
 public class UserMapper {
 	/**
 	 * 
 	 */
 	private static UserMapper userMapper = null;
-	
+
 	/**
 	 * 
 	 * @return
@@ -34,135 +36,129 @@ public class UserMapper {
 		}
 		return userMapper;
 	}
-	
-	/** Geschuetzter Konstruktor-verhindert die Moeglichkeit,
-	 * mit <code>new</code> neue Instanzen dieser Klasse zu erzeugen
-	 */
-	
-	protected UserMapper() {
-		
-	}
-	
+
 	/**
-	 * Einfügen eines <code>User</code>-Objekts in die Datenbank. Dabei
-	 * wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
+	 * Geschuetzter Konstruktor-verhindert die Moeglichkeit, mit
+	 * <code>new</code> neue Instanzen dieser Klasse zu erzeugen
+	 */
+
+	protected UserMapper() {
+
+	}
+
+	/**
+	 * Einfügen eines <code>User</code>-Objekts in die Datenbank. Dabei wird
+	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
 	 * berichtigt.
 	 * 
-	 * @param u das zu speichernde Objekt
+	 * @param u
+	 *            das zu speichernde Objekt
 	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
 	 *         <code>id</code>.
 	 */
-	 
-	public User insert(User u) throws IllegalArgumentException, SQLException{
+	public void insertHistory(String userId, String username, int elementId,
+			String updateText, Date lastUpdate)
+			throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
-			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid"
-								+ "FROM user");
-			
-			if(rs.next()) {
-				u.setId(rs.getInt("maxid") + 1);
-				
-				stmt = con.createStatement();
-				
-				stmt.executeUpdate("INSERT INTO user (id)"
-								+ "VALUES ("
-								+ u.getId() + ")");
-				
-			} 
-	        	}catch (SQLException ex) {
-				throw new IllegalArgumentException(ex.getMessage());
-			}
-			return u;
-			}
-		
-	
-	/**
-	 * Löschen der Daten eines <code>Users</code>-Objekts aus der
-	 * Datenbank.
-	 * 
-	 * @param u das aus der DB zu löschende "Objekt"
-	 */
-	
-	public void delete(User u) throws IllegalArgumentException, SQLException {
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM user"
-							+ "WHERE id = " + u.getId());
-		} catch (SQLException ex){
-			throw new IllegalArgumentException(ex.getMessage());
-		}
-		}
 
-	
-	/**
-	 * Suchen eines Users mit vorgegebener id. Da diese eindeutig ist,
-	 * wird genau ein Objekt zurückgegeben.
-	 * 
-	 * @param id Primärschlüsselattribut (->DB)
-	 * @return User-Objekt, das dem übergebenen Schlüssel entspricht,
-	 *         null bei nicht vorhandenem DB-Tupel.
-	 */
-	
-	public User findById(int id) throws IllegalArgumentException, SQLException {
-		//DB Verbindung hier holen
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement stmt = con.createStatement();
-			//Statement ausfuellen und als Query an die DB schicken
-			ResultSet rs = stmt.executeQuery("SELECT id"
-								+ "FROM user"
-								+ "WHERE id=" + id
-								+ "ORDER BY id");
-			/*
-			 * Da id Primärschlüssel ist, kann max. nur ein Tupel zurückgegeben
-			 * werden. Prüfe, ob ein Ergebnis vorliegt.
-			 */
-			if(rs.next()) {
-				User u = new User();
-				u.setId(rs.getInt("id"));
-				
-				return u;
+			ResultSet rs = stmt.executeQuery("SELECT MAX(history_id) AS maxid FROM history");
+
+			if (rs.next()) {
+				int newId = rs.getInt("maxid") + 1;
+
+				stmt = con.createStatement();
+
+				stmt.executeUpdate("INSERT INTO history (history_id,user_id,username,element_id,updatetext,last_update) "
+						+ "VALUES ("
+						+ newId
+						+ ", '"
+						+ userId
+						+ "','"
+						+ username
+						+ "', "
+						+ elementId
+						+ ",'"
+						+ updateText
+						+ "', '" + getSqlDateFormat(lastUpdate) + "')");
+
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return null;
 	}
-		
 	
-	/**
-	 * Methode um einen User in der DB zu aktualisieren
-	 * 
-	 * @param	user - Objekt welches aktualisiert werden soll 			
-	 * @return	User-Objekt
-	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
-	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
-	 */
-	 
-	public User update(User u) throws IllegalArgumentException, SQLException {
+	public ArrayList<String[]> getLastUpdatesForHistory() 
+			throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
-		
+		ArrayList<String[]> result = new ArrayList<String[]>();
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE user SET"
-							+ "WHERE id="
-							+ u.getId());
-		}
-		catch (SQLException ex) {
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM history ORDER BY history_id DESC LIMIT 12");
+			
+			String[] resultSet = new String[4];
+			while (rs.next()) {
+				resultSet[0] = rs.getString("username");
+				resultSet[1] = rs.getString("updatetext");
+				Timestamp timestamp = rs
+						.getTimestamp("last_update");
+				if (timestamp != null) {
+					Date lastUpdate = new java.util.Date(
+							timestamp.getTime());
+					DateTimeFormat dateFormat = DateTimeFormat
+							.getFormat("dd.MM.yyyy HH:mm:ss");
+					resultSet[2] = dateFormat.format(lastUpdate);
+				}
+				Element e = ElementMapper.getElementMapper().findElementById(rs.getInt("element_id"));
+				if (e != null) {
+					resultSet[3] = e.getName();
+				} else {
+					resultSet[3] = "Id "+rs.getInt("element_id")+" gelöscht";
+				}
+				result.add(resultSet);
+			}
+			return result;
+		
+		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return u;
 	}
 	
-	/**
-	 * 
-	 */
-	public User authentication(String email, String password){
-		return null;
+	public String getLastUpdateUserNameByElementId(int id) 
+			throws IllegalArgumentException, SQLException {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT username FROM history WHERE element_id="+id+" ORDER BY history_id DESC LIMIT 1");
+			
+			
+			if (rs.next()) {
+				return rs.getString("username");
+				
+			}
+			return "";
+		
+		} catch (SQLException ex) {
+			throw new IllegalArgumentException(ex.getMessage());
+		}
 	}
+
+	/**
+	 * Wandelt aus einem Date Objekt einen String in passendem SQL Übergabe
+	 * Format.
+	 * 
+	 * @param date
+	 *            Date das konvertiert werden soll
+	 * @return String mit Date im Format yyyy-MM-dd HH:mm:ss
+	 */
+	private String getSqlDateFormat(Date date) {
+		String result = "";
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		result = dateFormat.format(date);
+		return result;
+	}
+
 }
