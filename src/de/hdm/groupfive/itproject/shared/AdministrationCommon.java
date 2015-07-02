@@ -1,5 +1,6 @@
 package de.hdm.groupfive.itproject.shared;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -35,19 +36,6 @@ public interface AdministrationCommon extends RemoteService {
 	 * Benutzer wird ausgeloggt
 	 */
 	public String logoutUser() throws IllegalArgumentException;
-
-	/**
-	 * Setzen des Benutzers
-	 * 
-	 * @param user
-	 *            Benutzerobjekt
-	 */
-	public void setUser(User user) throws IllegalArgumentException;
-
-	/**
-	 * Auslesen des Benutzerobjekts/ der Benutzerdaten
-	 */
-	public User getUser() throws IllegalArgumentException;
 
 	/**
 	 * Erstellen eines neuen Bauteils
@@ -226,4 +214,11 @@ public interface AdministrationCommon extends RemoteService {
 	public Partlist calculateMaterial(Partlist partlist)
 			throws IllegalArgumentException;
 
+	
+	/**
+	 * Liefert Historie für Startseite
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public ArrayList<String[]> getLastUpdatesForHistory() throws IllegalArgumentException;
 }

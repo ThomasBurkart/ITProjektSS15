@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.Date;
 import java.util.Vector;
 
+import de.hdm.groupfive.itproject.server.AdministrationCommonImpl;
 import de.hdm.groupfive.itproject.shared.bo.*;
 
 public class ModuleMapper {
@@ -133,6 +134,8 @@ public class ModuleMapper {
 							timestamp2.getTime());
 					m.setLastUpdate(lastUpdateDate);
 				}
+				m.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(m.getId()));
+
 				return m;
 			}
 		} catch (SQLException ex) {
@@ -249,6 +252,18 @@ public class ModuleMapper {
 						+ m.getName()
 						+ "',"
 						+ m.getId() + ")");
+				
+
+				// Historie speichern
+				com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+						.getUserService();
+
+				com.google.appengine.api.users.User user = userService
+							.getCurrentUser();
+				UserMapper.getUserMapper().insertHistory(user.getUserId(),
+						user.getNickname(), m.getId(), "erstellt",
+						m.getLastUpdate());
+				m.setLastUser(user.getNickname());
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
@@ -287,6 +302,17 @@ public class ModuleMapper {
 					+ m.getId());
 
 			ElementMapper.getElementMapper().delete(m);
+			
+
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), m.getId(), "gelöscht",
+					new Date());
 
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
@@ -313,7 +339,18 @@ public class ModuleMapper {
 			stmt.executeUpdate("UPDATE module SET name = '" + m.getName()
 					+ "'," + "element_id=" + m.getId() + " WHERE module_id ="
 					+ m.getModuleId());
+			
 
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), m.getId(), "geändert",
+					m.getLastUpdate());
+			m.setLastUser(user.getNickname());
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -404,6 +441,16 @@ public class ModuleMapper {
 							+ subMod.getId() + ")");
 				}
 			}
+
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), subMod.getId(), "zugeordnet",
+					new Date());
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -460,6 +507,16 @@ public class ModuleMapper {
 							+ e.getId() + ")");
 				}
 			}
+
+			// Historie speichern
+			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
+					.getUserService();
+
+			com.google.appengine.api.users.User user = userService
+						.getCurrentUser();
+			UserMapper.getUserMapper().insertHistory(user.getUserId(),
+					user.getNickname(), e.getId(), "zugeordnet",
+					e.getLastUpdate());
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}

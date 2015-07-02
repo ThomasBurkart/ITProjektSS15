@@ -203,21 +203,14 @@ public class ElementForm extends Showcase {
 
 		// Handelt sich bei dem Element um ein Enderzeugnis wird eine Zeile mehr
 		// benötigt um den Verkaufsnamen ausgeben zu können.
-		if (this.element instanceof Product) {
-			if (!newElement) {
-				// Tabelle für Enderzeugnisse (6 Zeilen und 2 Spalten)
-				grid = new Grid(8, 2);
-			} else {
-				grid = new Grid(6, 2);
-			}
+
+		if (!newElement) {
+			// Tabelle für Bauteile und Baugruppen (5 Zeilen und 2 Spalten)
+			grid = new Grid(8, 2);
 		} else {
-			if (!newElement) {
-				// Tabelle für Bauteile und Baugruppen (5 Zeilen und 2 Spalten)
-				grid = new Grid(7, 2);
-			} else {
-				grid = new Grid(5, 2);
-			}
+			grid = new Grid(5, 2);
 		}
+
 		// Tabelle soll eine Breite von 100% erhalten.
 		grid.setWidth("100%");
 
@@ -253,6 +246,10 @@ public class ElementForm extends Showcase {
 			HTML updateText = new HTML("Letzte Bearbeitung am");
 			updateText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(5, 0, updateText);
+
+			HTML updateUserText = new HTML("Zuletzt geändert von");
+			updateUserText.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
+			grid.setWidget(6, 0, updateUserText);
 		}
 
 		final TextBox idTb = new TextBox();
@@ -294,6 +291,13 @@ public class ElementForm extends Showcase {
 							.format(this.element.getLastUpdate()) : "");
 			updateValue.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
 			grid.setWidget(5, 1, updateValue);
+
+			HTML updateUserValue = new HTML(
+					this.element.getLastUser() != null ? this.element
+							.getLastUser() : "");
+			updateUserValue
+					.setStylePrimaryName("col-md-11 col-sm-11 col-xs-11");
+			grid.setWidget(6, 1, updateUserValue);
 		}
 		// ÜBERSCHRIFT ANFANG
 		// Noch keine Id vorhanden, deswegen handelt es sich um ein neues
@@ -335,7 +339,7 @@ public class ElementForm extends Showcase {
 		// BREADCRUMB ANFANG
 		UlListPanel breadcrumb = new UlListPanel();
 		breadcrumb.setStylePrimaryName("breadcrumb");
-		HTML assignText =new HTML("Zuordnung");
+		HTML assignText = new HTML("Zuordnung");
 		assignText.setStylePrimaryName("bclink assignbclink");
 		breadcrumb.add(assignText);
 		if (superModule != null) {
@@ -344,7 +348,8 @@ public class ElementForm extends Showcase {
 				@Override
 				public void onClick(ClickEvent event) {
 					RootPanel.get("main").clear();
-					SearchPanel.currentSearchPanel.getSearchResult().getSelectionModel().clear();
+					SearchPanel.currentSearchPanel.getSearchResult()
+							.getSelectionModel().clear();
 					RootPanel.get("main").add(
 							new ElementForm(superModule, 1, null));
 				}
@@ -362,7 +367,7 @@ public class ElementForm extends Showcase {
 				RootPanel.get("main").clear();
 				RootPanel.get("main").add(
 						new ElementForm(element, amount, superModule));
-				
+
 			}
 		});
 
@@ -529,9 +534,9 @@ public class ElementForm extends Showcase {
 				public void onClick(ClickEvent event) {
 
 					RootPanel.get("main").clear();
-					RootPanel.get("main")
-							.add(new AssignPanel(new PartlistEntry(element,
-									amount, superModule)));
+					RootPanel.get("main").add(
+							new AssignPanel(new PartlistEntry(element, amount,
+									superModule)));
 				}
 			});
 			panel.add(assignBtn);
@@ -586,15 +591,15 @@ public class ElementForm extends Showcase {
 			if (result instanceof Product) {
 				currentShowcase.insert(new SuccessMsg(
 						"Enderzeugnis erfolgreich gespeichert!"), 1);
-				
+
 			} else if (result instanceof Module) {
 				currentShowcase.insert(new SuccessMsg(
 						"Baugruppe erfolgreich gespeichert!"), 1);
-				
+
 			} else {
 				currentShowcase.insert(new SuccessMsg(
 						"Bauteil erfolgreich gespeichert!"), 1);
-				
+
 			}
 		}
 	}

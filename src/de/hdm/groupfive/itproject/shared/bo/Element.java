@@ -1,6 +1,6 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Element extends BusinessObject{
 	
@@ -37,7 +37,7 @@ public class Element extends BusinessObject{
 	/**
 	 * letzter Benutzer der auf das Bauteil zugegriffen hat
 	 */
-	private User lastUser;
+	private String lastUser;
 
 	/**
 	 * Auslesen von Name des Bauteils
@@ -76,7 +76,7 @@ public class Element extends BusinessObject{
 	 * Auslesen des letzten Benutzers des Bauteils
 	 * @return
 	 */
-	public User getUser() {
+	public String getLastUser() {
 		return this.lastUser;
 	}
 	
@@ -125,7 +125,7 @@ public class Element extends BusinessObject{
 	/**
 	 * Setzten des letzten Benutzers des Bauteils
 	 */
-	public void setLastUser(User lastUser) {
+	public void setLastUser(String lastUser) {
 		this.lastUser = lastUser;
 	}
 
@@ -136,7 +136,7 @@ public class Element extends BusinessObject{
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + " inhaber, Kunden-ID: #" + this.lastUser;
+		return super.toString() + ", Letzter Bearbeiter: #" + this.lastUser;
 	}
 
 	/**
