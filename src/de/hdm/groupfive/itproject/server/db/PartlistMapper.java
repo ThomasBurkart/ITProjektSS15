@@ -49,7 +49,7 @@ public class PartlistMapper {
 				Module subModule = ModuleMapper.getModuleMapper().findByElement(rs.getInt("subordinateID"));
 				result.add(subModule, rs.getInt("quantity"));
 			}
-
+			
 			Statement stmt2 = con.createStatement();
 			
 			// Suche alle Element zu Modul Beziehungen
@@ -59,6 +59,11 @@ public class PartlistMapper {
 				Element subElement = ElementMapper.getElementMapper().findElementById(rs2.getInt("element_id"));
 				result.add(subElement, rs2.getInt("quantity"));
 			}
+			
+			rs.close();
+			rs2.close();
+			stmt.close();
+			stmt2.close();
 
 		} catch (SQLException ex) {
 			throw ex;
@@ -84,13 +89,17 @@ public class PartlistMapper {
 			// Suche alle Modul zu Modul Beziehungen
 			ResultSet rs = stmt.executeQuery("SELECT subordinateID, quantity FROM ModuleRelationship "
 					+ "WHERE superordinateID =" + id + ";");
-			while (rs.next()) {
+			if (rs.next()) {
 
 				Module subModule = ModuleMapper.getModuleMapper().findByElement(rs.getInt("subordinateID"));
 				result.add(subModule, rs.getInt("quantity"));
-
+				
+				rs.close();
+				stmt.close();
 				return result;
 			}
+			rs.close();
+			stmt.close();
 		} catch (SQLException ex) {
 			throw ex;
 		}

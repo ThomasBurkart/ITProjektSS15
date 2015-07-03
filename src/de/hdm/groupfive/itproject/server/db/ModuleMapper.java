@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Vector;
 
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
@@ -93,6 +92,9 @@ public class ModuleMapper {
 				m.setName(rs.getString("name"));
 				return m;
 			}
+			
+			rs.close();
+			stmt.close();
 
 		} catch (SQLException ex) {
 
@@ -116,7 +118,7 @@ public class ModuleMapper {
 							+ "WHERE module.element_id =" + elementId
 							+ " ORDER BY element.element_id");
 
-			while (rs.next()) {
+			if (rs.next()) {
 				m.setModuleId(rs.getInt("module.module_id"));
 				m.setId(rs.getInt("element.element_id"));
 				m.setPartlist(PartlistMapper.getPartlistMapper()
@@ -144,12 +146,15 @@ public class ModuleMapper {
 				}
 				m.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(m.getId()));
 
+				
+				rs.close();
+				stmt.close();
 				return m;
 			}
 		} catch (SQLException ex) {
 
 			throw new IllegalArgumentException(ex.getMessage());
-		}
+		} 
 		return null;
 	}
 
@@ -212,6 +217,9 @@ public class ModuleMapper {
 						m.getLastUpdate());
 				m.setLastUser(user.getNickname());
 			}
+			
+			rs.close();
+			stmt.close();
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -226,20 +234,17 @@ public class ModuleMapper {
 		try {
 
 			Statement stmt = con.createStatement();
-
-			// TODO: alle zuordnungen zum Modul löschen
-			// alle Produkte von Modul löschen.
-
 			stmt.executeUpdate("DELETE FROM module WHERE module_id="
 					+ m.getModuleId());
 
+			
 			Statement stmt2 = con.createStatement();
 
 			// Zuordnungen zwischen dem zu löschenden Modul und anderen Modulen
 			// löschen
 			stmt2.executeUpdate("DELETE FROM ModuleRelationship WHERE superordinateID="
 					+ m.getId() + " OR subordinateID=" + m.getId());
-
+			
 			Statement stmt3 = con.createStatement();
 
 			// Zuordnungen zwischen dem zu löschenden Modul und anderen
@@ -248,6 +253,9 @@ public class ModuleMapper {
 			stmt3.executeUpdate("DELETE FROM ModuleElement WHERE module_id="
 					+ m.getId());
 
+			stmt.close();
+			stmt2.close();
+			stmt3.close();
 			ElementMapper.getElementMapper().delete(m);
 			
 
@@ -263,7 +271,7 @@ public class ModuleMapper {
 
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
-		}
+		} 
 
 	}
 
@@ -287,7 +295,7 @@ public class ModuleMapper {
 					+ "'," + "element_id=" + m.getId() + " WHERE module_id ="
 					+ m.getModuleId());
 			
-
+			stmt.close();
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
@@ -298,6 +306,7 @@ public class ModuleMapper {
 					user.getNickname(), m.getId(), "geändert",
 					m.getLastUpdate());
 			m.setLastUser(user.getNickname());
+
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -333,6 +342,7 @@ public class ModuleMapper {
 				stmt2.executeUpdate("UPDATE ModuleRelationship SET quantity="
 						+ amount + " WHERE ModuleRelationship_id="
 						+ rs2.getInt("id"));
+
 			} else {
 				// Es gibt noch keinen Eintrag, deswegen einen neuen anlegen.
 
@@ -362,8 +372,10 @@ public class ModuleMapper {
 							+ ","
 							+ subMod.getId() + ")");
 				}
+				rs.close();
 			}
-
+			rs2.close();
+			stmt.close();
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
@@ -373,10 +385,10 @@ public class ModuleMapper {
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), subMod.getId(), "zugeordnet",
 					new Date());
-			
+
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
-		}
+		} 
 	}
 
 	public void assignElement(Module m, Element e, int amount)
@@ -400,6 +412,7 @@ public class ModuleMapper {
 				stmt2.executeUpdate("UPDATE ModuleElement SET quantity="
 						+ amount + " WHERE ModuleElement_id="
 						+ rs2.getInt("id"));
+
 			} else {
 				// Es gibt noch keinen Eintrag, deswegen einen neuen anlegen.
 
@@ -429,8 +442,10 @@ public class ModuleMapper {
 							+ ","
 							+ e.getId() + ")");
 				}
+				rs.close();
 			}
-
+			rs2.close();
+			stmt.close();
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
@@ -466,10 +481,10 @@ public class ModuleMapper {
 
 			stmt.executeUpdate("DELETE FROM ModuleRelationship WHERE superordinateID="
 					+ superM.getId() + " AND subordinateID=" + subM.getId());
-
+			stmt.close();
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
-		}
+		} 
 
 	}
 
@@ -492,10 +507,9 @@ public class ModuleMapper {
 
 			stmt.executeUpdate("DELETE FROM ModuleElement WHERE module_id="
 						+ superM.getId() + " AND element_id=" + subE.getId());
-
+			stmt.close();
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
-		}
-
+		} 
 	}
 }

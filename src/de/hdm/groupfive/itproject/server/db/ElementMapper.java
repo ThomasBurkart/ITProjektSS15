@@ -130,6 +130,8 @@ public class ElementMapper {
 					}
 				}
 			}
+			rs.close();
+			stmt.close();
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -248,6 +250,9 @@ public class ElementMapper {
 						}
 					}
 				}
+
+				rs.close();
+				stmt.close();
 			} catch (SQLException ex) {
 				throw new IllegalArgumentException(ex.getMessage());
 			}
@@ -316,9 +321,9 @@ public class ElementMapper {
 						user.getNickname(), e.getId(), "erstellt",
 						e.getLastUpdate());
 			}
-
+			rs.close();
+			stmt.close();
 		} catch (SQLException ex) {
-
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
@@ -362,8 +367,8 @@ public class ElementMapper {
 					+ "'," + "last_update='"
 					+ getSqlDateFormat(e.getLastUpdate()) + "'"
 					+ " WHERE element_id = " + e.getId() + ";");
-
-
+			stmt.close();
+			
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
@@ -377,7 +382,7 @@ public class ElementMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-
+		
 		cachePartlist.deleteById(e.getId());
 		cachePartlist.add(e, 1);
 		// Um die Analogie zu insert(Element e) zu wahren, geben wir e zurück
@@ -401,9 +406,9 @@ public class ElementMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-
 			stmt.executeUpdate("DELETE FROM element WHERE element_id="
 					+ e.getId());
+			stmt.close();
 			
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
@@ -415,13 +420,12 @@ public class ElementMapper {
 					user.getNickname(), e.getId(), "gelöscht",
 					new Date());
 
-
 			cachePartlist.deleteById(e.getId());
 		}
 
 		catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
-		}
+		} 
 
 	}
 
@@ -444,10 +448,9 @@ public class ElementMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-
 			stmt.executeUpdate("DELETE FROM element WHERE element_id=" + eId);
+			stmt.close();
 			
-
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
@@ -457,7 +460,6 @@ public class ElementMapper {
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), eId, "gelöscht",
 					new Date());
-
 
 			cachePartlist.deleteById(eId);
 		} catch (SQLException ex) {

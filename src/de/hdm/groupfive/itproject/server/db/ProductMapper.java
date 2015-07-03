@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
@@ -80,11 +79,14 @@ public class ProductMapper {
 						user.getNickname(), p.getId(), "erstellt",
 						p.getLastUpdate());
 				p.setLastUser(user.getNickname());
-
+				rs.close();
+				stmt.close();
 				return p;
 			}
+			rs.close();
+			stmt.close();
 
-			
+
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -126,7 +128,7 @@ public class ProductMapper {
 
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
-		}
+		} 
 
 		
 	}
@@ -161,7 +163,7 @@ public class ProductMapper {
 					user.getNickname(), p.getId(), "erstellt",
 					p.getLastUpdate());
 			p.setLastUser(user.getNickname());
-			
+
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -184,7 +186,7 @@ public class ProductMapper {
 							+ "WHERE product.element_id =" + elementId
 							+ " ORDER BY element.element_id");
 
-			while (rs.next()) {
+			if (rs.next()) {
 				p.setProductId(rs.getInt("product.product_id"));
 				p.setId(rs.getInt("element.element_id"));
 				p.setPartlist(PartlistMapper.getPartlistMapper()
@@ -212,7 +214,7 @@ public class ProductMapper {
 					p.setLastUpdate(lastUpdateDate);
 				}
 				p.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(p.getId()));
-				
+
 				return p;
 			}
 		} catch (SQLException ex) {

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.groupfive.itproject.server.db.DBConnection;
 import de.hdm.groupfive.itproject.server.db.ElementMapper;
 import de.hdm.groupfive.itproject.server.db.ModuleMapper;
 import de.hdm.groupfive.itproject.server.db.ProductMapper;
@@ -241,18 +242,21 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 			throw new IllegalArgumentException(
 					"Übergebenes Objekt an createElement() ist NULL");
 		}
-
+		Element result = null;
 		try {
 			if (element instanceof Product) {
-				return this.getProductMapper().insert((Product) element);
+				result = this.getProductMapper().insert((Product) element);
 			} else if (element instanceof Module) {
-				return this.getModuleMapper().insert((Module) element);
+				result = this.getModuleMapper().insert((Module) element);
 			} else {
-				return this.getElementMapper().insert(element);
+				result = this.getElementMapper().insert(element);
 			}
+
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/**
@@ -265,11 +269,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Element editElement(Element element) throws IllegalArgumentException {
+		Element result = null;
 		try {
-			return this.getElementMapper().update(element);
+			result = this.getElementMapper().update(element);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/**
@@ -284,6 +291,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	public void deleteElement(Element element) throws IllegalArgumentException {
 		try {
 			this.getElementMapper().delete(element);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
@@ -303,12 +311,15 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	@Override
 	public Partlist findElementById(int id, boolean onlyModules,
 			boolean onlyProducts) throws IllegalArgumentException {
+		Partlist result = null;
 		try {
-			return this.getElementMapper().findById(id, onlyModules,
+			result = this.getElementMapper().findById(id, onlyModules,
 					onlyProducts);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/*
@@ -397,6 +408,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 						"Ups da ist was schief gegangen! Die Zuordnung konnte nicht gespeichert werden!");
 			}
 
+			DBConnection.closeConnection();
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -416,6 +428,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 				try {
 					this.getModuleMapper().deleteModuleRelationshipAssign(
 							pe.getSuperModule(), (Module) pe.getElement());
+
+					DBConnection.closeConnection();
 				} catch (SQLException e) {
 					throw new IllegalArgumentException(e.getMessage());
 				}
@@ -423,6 +437,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 				try {
 					this.getModuleMapper().deleteModuleElementAssign(
 							pe.getSuperModule(), pe.getElement());
+
+					DBConnection.closeConnection();
 				} catch (SQLException e) {
 					throw new IllegalArgumentException(e.getMessage());
 				}
@@ -458,13 +474,16 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	@Override
 	public Partlist findElementsByName(String searchWord, int maxResults)
 			throws IllegalArgumentException {
+		Partlist result = null;
 		try {
-			return this.getElementMapper().findByName(searchWord, maxResults);
+			result = this.getElementMapper().findByName(searchWord, maxResults);
+			DBConnection.closeConnection();
 		} catch (IllegalArgumentException ex) {
 			throw ex;
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+		return result;
 	}
 
 	/**
@@ -490,13 +509,17 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	@Override
 	public Partlist findModulesByName(String searchWord, int maxResults)
 			throws IllegalArgumentException {
+		Partlist result = null;
 		try {
-			return this.getModuleMapper().findByName(searchWord, maxResults);
+			result = this.getModuleMapper().findByName(searchWord, maxResults);
+
+			DBConnection.closeConnection();
 		} catch (IllegalArgumentException ex) {
 			throw ex;
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
+		return result;
 	}
 
 	/*
@@ -526,11 +549,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Module createModule(Module m) throws IllegalArgumentException {
+		Module result = null;
 		try {
-			return this.getModuleMapper().insert(m);
+			result = this.getModuleMapper().insert(m);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/**
@@ -543,11 +569,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 */
 	@Override
 	public Module editModule(Module module) throws IllegalArgumentException {
+		Module result = null;
 		try {
-			return this.getModuleMapper().update(module);
+			result = this.getModuleMapper().update(module);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/*
@@ -567,12 +596,13 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		if (module != null) {
 			try {
 				this.getModuleMapper().delete(module);
+				DBConnection.closeConnection();
 			} catch (SQLException e) {
 				throw new IllegalArgumentException(e.getMessage());
 			}
 		} else {
 			throw new IllegalArgumentException(
-					"Ãœbergebenes Modul Objekt ist NULL");
+					"Übergebenes Modul Objekt ist NULL");
 		}
 	}
 
@@ -597,12 +627,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	@Override
 	public Partlist findPartlistByModuleId(int id)
 			throws IllegalArgumentException {
+		Partlist result = null;
 		try {
-			return this.getModuleMapper().findById(id).getPartlist();
+			result = this.getModuleMapper().findById(id).getPartlist();
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
-
+		return result;
 	}
 
 	/**
@@ -718,23 +750,28 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            übergebenes Endprodukt
 	 */
 	public Product createProduct(Product p) throws IllegalArgumentException {
-
+		Product result = null;
 		try {
-			return this.getProductMapper().insert(p);
+			result = this.getProductMapper().insert(p);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/**
 	 * Auslesen sämtlicher Endprodukte
 	 */
 	public Partlist getAllProducts() throws IllegalArgumentException {
+		Partlist result = null;
 		try {
-			return this.getProductMapper().findAll();
+			result = this.getProductMapper().findAll();
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/**
@@ -744,11 +781,14 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            übergebenes Endprodukt
 	 */
 	public Product editProduct(Product product) throws IllegalArgumentException {
+		Product result = null;
 		try {
-			return this.getProductMapper().update(product);
+			result = this.getProductMapper().update(product);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
+		return result;
 	}
 
 	/**
@@ -764,6 +804,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	public void deleteProduct(Product product) throws IllegalArgumentException {
 		try {
 			this.getProductMapper().delete(product);
+			DBConnection.closeConnection();
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
