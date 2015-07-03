@@ -20,9 +20,10 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
 public class ElementMapper {
 
 	private static ElementMapper elementMapper = null;
+	
+	private static Partlist cachePartlist = new Partlist();
 
 	protected ElementMapper() {
-
 	}
 
 	public static ElementMapper getElementMapper() {
@@ -53,10 +54,18 @@ public class ElementMapper {
 
 	public Partlist findById(int id, boolean onlyModules, boolean onlyProducts)
 			throws IllegalArgumentException, SQLException {
+
+		Partlist result = new Partlist();
+		
+		Element elementFromCache = cachePartlist.getElementById(id);
+		if (elementFromCache != null) {
+			result.add(elementFromCache, 1);
+			return result;
+		}
+		
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
-		Partlist result = new Partlist();
 		try {
 			Statement stmt = con.createStatement();
 
@@ -65,11 +74,13 @@ public class ElementMapper {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM element "
 					+ "WHERE element_id=" + id + " ORDER BY element_id");
 			while (rs.next()) {
+				
 				Product p = ProductMapper.getProductMapper().findByElement(
 						rs.getInt("element_id"));
-
+				
 				if (p != null) {
 					result.add(p, 1);
+					cachePartlist.add(p, 1);
 				} else if (!onlyProducts) {
 
 					// Zuerst nachschauen ob es sich bei dem Element um ein
@@ -82,6 +93,7 @@ public class ElementMapper {
 					// Bauteil hinzufügen.
 					if (m != null) {
 						result.add(m, 1);
+						cachePartlist.add(m, 1);
 					} else {
 						if (!onlyModules && !onlyProducts) {
 
@@ -113,6 +125,7 @@ public class ElementMapper {
 							// Hinzufuegen des neuen Objekts zum
 							// Ergebnisvektor
 							result.add(e, 1);
+							cachePartlist.add(e, 1);
 						}
 					}
 				}
@@ -120,55 +133,6 @@ public class ElementMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return result;
-	}
-
-	/**
-	 * Auslesen aller Elements
-	 * 
-	 * @return Ein Vektor mit Element-Objekten, die sämtliche Elemente
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
-	 *         oder ggf. auch leerer Vetor zurückgeliefert.
-	 */
-	public Vector<Element> findAll() throws IllegalArgumentException,
-			SQLException {
-		Connection con = DBConnection.connection();
-
-		Vector<Element> result = new Vector<Element>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT * FROM element "
-					+ "ORDER BY element_id");
-			// Für jeden Eintrag im Suchergebnis wird nun ein Element Objekt
-			// erstellt
-
-			while (rs.next()) {
-				Element e = new Element();
-				e.setId(rs.getInt("id"));
-				e.setName(rs.getString("name"));
-				e.setDescription(rs.getString("description"));
-				e.setMaterialDescription(rs.getString("material_description"));
-				Timestamp timestamp = rs.getTimestamp("creation_date");
-				if (timestamp != null) {
-					Date creationDate = new java.util.Date(timestamp.getTime());
-					e.setCreationDate(creationDate);
-				}
-
-				Timestamp timestamp2 = rs.getTimestamp("last_update");
-				if (timestamp2 != null) {
-					Date lastUpdateDate = new java.util.Date(
-							timestamp2.getTime());
-					e.setLastUpdate(lastUpdateDate);
-				}
-
-				result.addElement(e);
-			}
-		} catch (SQLException ex) {
-			throw new IllegalArgumentException(ex.getMessage());
-		}
-
 		return result;
 	}
 
@@ -223,8 +187,16 @@ public class ElementMapper {
 				// Für jeden Eintrag im Suchergebnis wird nun ein Element-Objekt
 				// erstellt.
 				while (rs.next()) {
+					int elementId = rs.getInt("element_id");
+					Element elementFromCache = cachePartlist.getElementById(elementId);
+					if (elementFromCache != null && !onlyProducts && !onlyModules) {
+						result.add(elementFromCache, 1);
+						continue;						
+					}
+					
+					
 					Product p = ProductMapper.getProductMapper().findByElement(
-							rs.getInt("element_id"));
+							elementId);
 
 					if (p != null) {
 						result.add(p, 1);
@@ -233,7 +205,7 @@ public class ElementMapper {
 						// Zuerst nachschauen ob es sich bei dem Element um ein
 						// Modul handelt.
 						Module m = ModuleMapper.getModuleMapper()
-								.findByElement(rs.getInt("element_id"));
+								.findByElement(elementId);
 
 						// Wenn es sich um ein Modul handelt, dieses hinzufügen
 						// ansonsten, das Element als
@@ -244,7 +216,7 @@ public class ElementMapper {
 							if (!onlyModules && !onlyProducts) {
 
 								Element e = new Element();
-								e.setId(rs.getInt("element_id"));
+								e.setId(elementId);
 
 								e.setName(rs.getString("name"));
 								e.setDescription(rs.getString("description"));
@@ -350,6 +322,8 @@ public class ElementMapper {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
+		cachePartlist.deleteById(e.getId());
+		cachePartlist.add(e, 1);
 		return e;
 	}
 
@@ -404,6 +378,8 @@ public class ElementMapper {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
+		cachePartlist.deleteById(e.getId());
+		cachePartlist.add(e, 1);
 		// Um die Analogie zu insert(Element e) zu wahren, geben wir e zurück
 		return e;
 	}
@@ -438,6 +414,9 @@ public class ElementMapper {
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), e.getId(), "gelöscht",
 					new Date());
+
+
+			cachePartlist.deleteById(e.getId());
 		}
 
 		catch (SQLException ex) {
@@ -478,6 +457,9 @@ public class ElementMapper {
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), eId, "gelöscht",
 					new Date());
+
+
+			cachePartlist.deleteById(eId);
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}

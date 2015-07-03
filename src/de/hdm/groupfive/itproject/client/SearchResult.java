@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -101,6 +102,10 @@ public class SearchResult extends Showcase {
 
 	@Override
 	protected void run() {
+		HTML preloader = new HTML("<img src=\"img/preloader.gif\" border=\"0\" />");
+		preloader.setStylePrimaryName("preloader");
+		preloader.getElement().setId("preloader");
+		this.add(preloader);
 		AdministrationCommonAsync administration = ClientsideSettings
 				.getAdministration();
 		if (this.allProducts) {
@@ -168,6 +173,9 @@ public class SearchResult extends Showcase {
 
 		@Override
 		public void onFailure(Throwable caught) {
+			if (RootPanel.get("preloader") != null) {
+				RootPanel.get("preloader").getElement().removeFromParent();
+			}
 			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - "
 					+ caught.getMessage()));
 			ClientsideSettings.getLogger().severe(
@@ -178,6 +186,9 @@ public class SearchResult extends Showcase {
 		public void onSuccess(Partlist result) {
 			if (result != null) {
 				if (result.isEmpty()) {
+					if (RootPanel.get("preloader") != null) {
+						RootPanel.get("preloader").getElement().removeFromParent();
+					}
 					ClientsideSettings.getLogger().info(
 							"Suche - Die Suche ergab keine Ergebnisse.");
 					showcase.add(new InfoMsg(
@@ -222,6 +233,10 @@ public class SearchResult extends Showcase {
 					dynamicTreeWrapper
 							.setStylePrimaryName("tree col-md-11 col-sm-11 col-xs-11");
 
+					if (RootPanel.get("preloader") != null) {
+						RootPanel.get("preloader").getElement().removeFromParent();
+					}
+					
 					showcase.add(dynamicTreeWrapper);
 
 					if (searchById) {
@@ -234,6 +249,9 @@ public class SearchResult extends Showcase {
 					}
 				}
 			} else {
+				if (RootPanel.get("preloader") != null) {
+					RootPanel.get("preloader").getElement().removeFromParent();
+				}
 				// Fehler ausgeben und ins Log schreiben
 				showcase.add(new ErrorMsg("<b>Error:</b> result == null"));
 				ClientsideSettings.getLogger().severe("Error: result == null");
@@ -251,6 +269,9 @@ public class SearchResult extends Showcase {
 
 		@Override
 		public void onFailure(Throwable caught) {
+			if (RootPanel.get("preloader") != null) {
+				RootPanel.get("preloader").getElement().removeFromParent();
+			}
 			showcase.add(new ErrorMsg("<b>Error:</b> Suche fehlgeschlagen - "
 					+ caught.getMessage()));
 			ClientsideSettings.getLogger().severe(
@@ -299,9 +320,14 @@ public class SearchResult extends Showcase {
 				dynamicTreeWrapper.getElement().setId("searchPane");
 				dynamicTreeWrapper
 						.setStylePrimaryName("tree col-md-11 col-sm-11 col-xs-11");
-
+				if (RootPanel.get("preloader") != null) {
+					RootPanel.get("preloader").getElement().removeFromParent();
+				}
 				showcase.add(dynamicTreeWrapper);
 			} else {
+				if (RootPanel.get("preloader") != null) {
+					RootPanel.get("preloader").getElement().removeFromParent();
+				}
 				// Fehler ausgeben und ins Log schreiben
 				showcase.add(new ErrorMsg("<b>Error:</b> result == null"));
 				ClientsideSettings.getLogger().severe("Error: result == null");

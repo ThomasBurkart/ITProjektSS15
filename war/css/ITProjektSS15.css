@@ -243,3 +243,10 @@ h1 {
     display: inline-block;
     white-space: nowrap;
 }
+
+.preloader {
+	margin-top: 50px;
+    padding-right: 40px;
+    text-align: center;
+    width: 100%;
+}

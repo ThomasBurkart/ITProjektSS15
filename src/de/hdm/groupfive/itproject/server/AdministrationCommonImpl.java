@@ -179,9 +179,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 			User u = new User();
 			u.setIsLoggedIn(false);
 			if (isReportGen) {
-				u.setLoginUrl(userService.createLoginURL(ServerSettings.PAGE_URL_REPORT));	
+				u.setLoginUrl(userService
+						.createLoginURL(ServerSettings.PAGE_URL_REPORT));
 			} else {
-				u.setLoginUrl(userService.createLoginURL(ServerSettings.PAGE_URL_EDITOR));
+				u.setLoginUrl(userService
+						.createLoginURL(ServerSettings.PAGE_URL_EDITOR));
 			}
 			return u;
 		}
@@ -192,13 +194,15 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * Benutzer wird ausgeloggt
 	 */
 	@Override
-	public String logoutUser(boolean isReportGen) throws IllegalArgumentException {
+	public String logoutUser(boolean isReportGen)
+			throws IllegalArgumentException {
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 				.getUserService();
 
 		if (userService.isUserLoggedIn()) {
 			if (isReportGen) {
-				return userService.createLogoutURL(ServerSettings.PAGE_URL_REPORT);
+				return userService
+						.createLogoutURL(ServerSettings.PAGE_URL_REPORT);
 			}
 			return userService.createLogoutURL(ServerSettings.PAGE_URL_EDITOR);
 		}
@@ -323,26 +327,74 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	@Override
 	public void assignElement(Element superElement, Element subElement,
 			int amount) throws IllegalArgumentException {
+		if (superElement.getId() == subElement.getId()) {
+			if (superElement instanceof Product) {
+				throw new IllegalArgumentException(
+						"Ein Produkt kann sich nicht selbst zugewiesen werden!");
+			} else if (superElement instanceof Module) {
+				throw new IllegalArgumentException(
+						"Eine Baugruppe kann sich nicht selbst zugewiesen werden!");
+			} else if (superElement instanceof Element) {
+				throw new IllegalArgumentException(
+						"Eine Bauteil kann sich nicht selbst zugewiesen werden!");
+			}
+		}
+
 		try {
+			// Product - Product
 			if (superElement instanceof Product
 					&& subElement instanceof Product) {
 				throw new IllegalArgumentException(
 						"Ein Enderzeugnis kann keinem anderen Enderzeugnis zugewiesen werden!");
+				// Product - Modul
 			} else if (superElement instanceof Product
+					&& subElement instanceof Module
+					&& !(subElement instanceof Product)) {
+				if (isPartOfModule((Module)subElement, superElement)) {
+					throw new IllegalArgumentException(
+							"Die übergeordnete Baugruppe ist bereits in der untergeordneten Baugruppe vorhanden, es können keine Schleifen angelegt werden!");
+				}
+				this.getModuleMapper().assignModule((Module) superElement,
+						(Module) subElement, amount);
+				// Modul - Produkt
+			} else if (!(superElement instanceof Product)
+					&& superElement instanceof Module
+					&& subElement instanceof Product) {
+				if (isPartOfModule((Module)superElement, subElement)) {
+					throw new IllegalArgumentException(
+							"Die übergeordnete Baugruppe ist bereits in der untergeordneten Baugruppe vorhanden, es können keine Schleifen angelegt werden!");
+				}
+				this.getModuleMapper().assignModule((Module) subElement,
+						(Module) superElement, amount);
+				// Modul - Modul
+			} else if (!(superElement instanceof Product)
+					&& superElement instanceof Module
+					&& !(subElement instanceof Product)
 					&& subElement instanceof Module) {
-				this.getModuleMapper().assignModule(
-						(Module) superElement, (Module) subElement, amount);
+				if (isPartOfModule((Module)subElement, superElement)) {
+					throw new IllegalArgumentException(
+							"Die übergeordnete Baugruppe ist bereits in der untergeordneten Baugruppe vorhanden, es können keine Schleifen angelegt werden!");
+				}
+				this.getModuleMapper().assignModule((Module) superElement,
+						(Module) subElement, amount);
+				// Modul - Element
 			} else if (superElement instanceof Module
+					&& !(subElement instanceof Module)) {
+				this.getModuleMapper().assignElement((Module) superElement,
+						subElement, amount);
+				// Element - Modul
+			} else if (!(superElement instanceof Module)
 					&& subElement instanceof Module) {
-				this.getModuleMapper().assignModule(
-						(Module) superElement, (Module) subElement, amount);
-			} else if (superElement instanceof Module
-					&& subElement instanceof Element) {
-				this.getModuleMapper().assignElement(
-						(Module) superElement, subElement, amount);
+				this.getModuleMapper().assignElement((Module) subElement,
+						superElement, amount);
+				// Element - Element
+			} else if (!(superElement instanceof Module)
+					&& !(subElement instanceof Module)) {
+				throw new IllegalArgumentException(
+						"Eine Bauteil kann keinem anderen Bauteil zugewiesen werden!");
 			} else {
 				throw new IllegalArgumentException(
-						"Ups da ist was schief gegangen!");
+						"Ups da ist was schief gegangen! Die Zuordnung konnte nicht gespeichert werden!");
 			}
 
 		} catch (SQLException ex) {
@@ -362,10 +414,8 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		if (pe.getSuperModule() != null && pe.getElement() != null) {
 			if (pe.getElement() instanceof Module) {
 				try {
-					this.getModuleMapper()
-							.deleteModuleRelationshipAssign(
-									pe.getSuperModule(),
-									(Module) pe.getElement());
+					this.getModuleMapper().deleteModuleRelationshipAssign(
+							pe.getSuperModule(), (Module) pe.getElement());
 				} catch (SQLException e) {
 					throw new IllegalArgumentException(e.getMessage());
 				}
@@ -607,6 +657,39 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 			throw new IllegalArgumentException(
 					"Keine Stückliste zur Berechnung vorhanden!");
 		}
+	}
+
+	/**
+	 * Durchläuft alle Elemente eines Moduls um zu prüfen ob ein Element darin
+	 * enthalten ist
+	 * 
+	 * @param module
+	 *            ist das übergebene Modul das durchsucht werden soll
+	 * @param element
+	 *            ist das Element nach dem gesucht wird
+	 * @return true wenn vorhanden
+	 */
+	public boolean isPartOfModule(Module module, Element element)
+			throws IllegalArgumentException {
+		boolean result = false;
+
+		if (module.equals(element)) {
+			return true;
+		}
+
+		// Alle EintrÃ¤ge der Ã¼bergebenen Parlist durchiterieren.
+		for (PartlistEntry pe : module.getPartlist().getAllEntries()) {
+			if (pe.getElement() instanceof Module) {
+				result = isPartOfModule((Module) pe.getElement(), element);
+				if (result) {
+					break;
+				}
+			} else if (pe.getElement().equals(element)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
 	}
 
 	/*

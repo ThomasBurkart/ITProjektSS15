@@ -49,6 +49,7 @@ public class Home extends Showcase {
 						+ "Anzahl der untergeordneten Elemente steht immer in eckigen Klammern hinter der jeweiligen Bezeichung "
 						+ "des Bauteils bzw. der Baugruppe.");
 		this.add(welcomeText);
+
 	}
 
 }

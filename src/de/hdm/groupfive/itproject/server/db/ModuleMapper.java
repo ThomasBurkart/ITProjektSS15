@@ -25,7 +25,7 @@ public class ModuleMapper {
 	 * @see moduleMapper()
 	 */
 	private static ModuleMapper moduleMapper = null;
-
+	
 	/**
 	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit
 	 * <code>new</code> neue Instanzen dieser Klasse zu erzeugen.
@@ -72,6 +72,7 @@ public class ModuleMapper {
 	public Module findById(int id) throws IllegalArgumentException,
 			SQLException {
 		// DB Verbindung holen
+		
 		Connection con = DBConnection.connection();
 		Module m = new Module();
 		try {
@@ -104,8 +105,9 @@ public class ModuleMapper {
 	public Module findByElement(int elementId) throws IllegalArgumentException,
 			SQLException {
 		Connection con = DBConnection.connection();
-
+		
 		Module m = new Module();
+		
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt
@@ -151,68 +153,7 @@ public class ModuleMapper {
 		return null;
 	}
 
-	/**
-	 * Auslesen aller Modules.
-	 * 
-	 * @return Ein Vektor mit Module-Objekten, die sämtliche Modules
-	 *         repräsentieren. Bei evtl. Exceptions wird ein partiell gefüllter
-	 *         oder ggf. auch leerer Vetor zurückgeliefert.
-	 */
-	public Vector<Module> findAll() throws IllegalArgumentException,
-			SQLException {
-		// DB Verbindung hier holen
-		Connection con = DBConnection.connection();
-
-		Vector<Module> result = new Vector<Module>();
-
-		try {
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery("SELECT id, name, elementId"
-					+ "FROM module ORDER BY id");
-			// Fuer jeden Eintrag im Suchergebnis wird nun ein Module-Objekt
-			// erstellt
-			while (rs.next()) {
-				Module m = new Module();
-				m.setId(rs.getInt("id"));
-				m.setName(rs.getString("name"));
-
-				// Hinzufuegen des neuen Objekts zum Ergebnisvektor
-				result.addElement(m);
-			}
-		} catch (SQLException ex) {
-
-			throw new IllegalArgumentException(ex.getMessage());
-		}
-
-		return result;
-	}
-
-	public Partlist findbyElementId(int elementId)
-			throws IllegalArgumentException, SQLException {
-		Connection con = DBConnection.connection();
-
-		Partlist result = new Partlist();
-
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM module WHERE module.elementId ="
-							+ elementId + " ORDER BY id");
-
-			while (rs.next()) {
-				Module m = new Module();
-				m.setId(rs.getInt("id"));
-				m.setName(rs.getString("name"));
-				result.add(m, 1);
-			}
-		} catch (SQLException ex) {
-			throw new IllegalArgumentException(ex.getMessage());
-		}
-
-		return result;
-	}
-
+	
 	/**
 	 * 
 	 * Einfügen eines <code>Module</code>-Objekts in die Datenbank. Dabei wird
@@ -370,31 +311,6 @@ public class ModuleMapper {
 				true);
 	}
 
-	public Vector<Module> findByElementId(int elementId)
-			throws IllegalArgumentException, SQLException {
-		Connection con = DBConnection.connection();
-
-		Vector<Module> result = new Vector<Module>();
-
-		try {
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, name, elementId"
-					+ "FROM module" + "WHERE module.elemetId =" + elementId
-					+ "ORDER BY id");
-
-			while (rs.next()) {
-				Module m = new Module();
-				m.setId(rs.getInt("id"));
-				m.setName(rs.getString("name"));
-
-				result.addElement(m);
-			}
-		} catch (SQLException ex) {
-			throw new IllegalArgumentException(ex.getMessage());
-		}
-
-		return result;
-	}
 
 	public void assignModule(Module superMod, Module subMod, int amount)
 			throws IllegalArgumentException, SQLException {
@@ -457,6 +373,7 @@ public class ModuleMapper {
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), subMod.getId(), "zugeordnet",
 					new Date());
+			
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -523,6 +440,7 @@ public class ModuleMapper {
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), e.getId(), "zugeordnet",
 					e.getLastUpdate());
+
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -573,7 +491,7 @@ public class ModuleMapper {
 			Statement stmt = con.createStatement();
 
 			stmt.executeUpdate("DELETE FROM ModuleElement WHERE module_id="
-					+ superM.getId() + " AND element_id=" + subE.getId());
+						+ superM.getId() + " AND element_id=" + subE.getId());
 
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());

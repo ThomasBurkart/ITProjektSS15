@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
@@ -16,7 +17,7 @@ public class ProductMapper {
 	 * 
 	 */
 	private static ProductMapper productMapper = null;
-
+	
 	/**
 	 * 
 	 * @return
@@ -79,6 +80,7 @@ public class ProductMapper {
 						user.getNickname(), p.getId(), "erstellt",
 						p.getLastUpdate());
 				p.setLastUser(user.getNickname());
+
 				return p;
 			}
 
@@ -120,20 +122,14 @@ public class ProductMapper {
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), p.getId(), "erstellt",
 					p.getLastUpdate());
+			
+
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 
 		
 	}
-
-	/**
-	 * 
-	 */
-	public Product findById(int id) throws SQLException {
-		return null;
-	}
-
 	
 	public Partlist findAll() throws SQLException {
 		return ElementMapper.getElementMapper().findByName("%", 1000, false, true);
@@ -165,6 +161,7 @@ public class ProductMapper {
 					user.getNickname(), p.getId(), "erstellt",
 					p.getLastUpdate());
 			p.setLastUser(user.getNickname());
+			
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
@@ -175,6 +172,7 @@ public class ProductMapper {
 
 	public Product findByElement(int elementId) throws IllegalArgumentException,
 			SQLException {
+		
 		Connection con = DBConnection.connection();
 
 		Product p = new Product();
@@ -214,19 +212,12 @@ public class ProductMapper {
 					p.setLastUpdate(lastUpdateDate);
 				}
 				p.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(p.getId()));
-
+				
 				return p;
 			}
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		return null;
-	}
-
-	/**
-	 * 
-	 */
-	public Product findByName(String name) throws SQLException {
 		return null;
 	}
 
