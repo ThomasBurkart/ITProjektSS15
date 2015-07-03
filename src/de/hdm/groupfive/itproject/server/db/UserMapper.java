@@ -1,15 +1,19 @@
 package de.hdm.groupfive.itproject.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.hdm.groupfive.itproject.shared.bo.Element;
-import de.hdm.groupfive.itproject.shared.bo.User;
 
 /**
  * Mapper-Klasse, die <code>User</code>-Objekte auf eine relationale Datenbank
@@ -88,44 +92,7 @@ public class UserMapper {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 	}
-	
-	public ArrayList<String[]> getLastUpdatesForHistory() 
-			throws IllegalArgumentException, SQLException {
-		Connection con = DBConnection.connection();
-		ArrayList<String[]> result = new ArrayList<String[]>();
-		try {
-			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM history ORDER BY history_id DESC LIMIT 12");
-			
-			String[] resultSet = new String[4];
-			while (rs.next()) {
-				resultSet[0] = rs.getString("username");
-				resultSet[1] = rs.getString("updatetext");
-				Timestamp timestamp = rs
-						.getTimestamp("last_update");
-				if (timestamp != null) {
-					Date lastUpdate = new java.util.Date(
-							timestamp.getTime());
-					DateTimeFormat dateFormat = DateTimeFormat
-							.getFormat("dd.MM.yyyy HH:mm:ss");
-					resultSet[2] = dateFormat.format(lastUpdate);
-				}
-				Element e = ElementMapper.getElementMapper().findElementById(rs.getInt("element_id"));
-				if (e != null) {
-					resultSet[3] = e.getName();
-				} else {
-					resultSet[3] = "Id "+rs.getInt("element_id")+" gelöscht";
-				}
-				result.add(resultSet);
-			}
-			return result;
-		
-		} catch (SQLException ex) {
-			throw new IllegalArgumentException(ex.getMessage());
-		}
-	}
-	
 	public String getLastUpdateUserNameByElementId(int id) 
 			throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();

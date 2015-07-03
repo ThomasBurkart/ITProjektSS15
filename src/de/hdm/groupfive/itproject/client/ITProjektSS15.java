@@ -25,7 +25,7 @@ public class ITProjektSS15 implements EntryPoint {
 				.getAdministration();
 		// lädt den Login Dialog
 
-		administration.loginUser(new LoginCallback());
+		administration.loginUser(false, new LoginCallback());
 		// LoginLogout.load();
 
 		
@@ -80,7 +80,7 @@ public class ITProjektSS15 implements EntryPoint {
 					@Override
 					public void onClick(ClickEvent event) {
 						RootPanel.get("main").clear();
-						RootPanel.get("main").add(new History());
+						RootPanel.get("main").add(new Home());
 						SearchPanel sp = new SearchPanel();
 						sp.load();
 					}
@@ -97,7 +97,7 @@ public class ITProjektSS15 implements EntryPoint {
 				NavigationBar.load();
 				SearchPanel sp = new SearchPanel();
 				sp.load();
-				RootPanel.get("main").add(new History());
+				RootPanel.get("main").add(new Home());
 				
 			} else {
 				Window.open(result.getLoginUrl(), "_self", "");

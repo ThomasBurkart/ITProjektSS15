@@ -1,16 +1,7 @@
 package de.hdm.groupfive.itproject.shared;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
 
-import de.hdm.groupfive.itproject.server.db.ElementMapper;
-import de.hdm.groupfive.itproject.server.db.ModuleMapper;
-import de.hdm.groupfive.itproject.server.db.PartlistMapper;
-import de.hdm.groupfive.itproject.server.db.ProductMapper;
-import de.hdm.groupfive.itproject.server.db.UserMapper;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
@@ -33,13 +24,13 @@ public interface AdministrationCommonAsync {
 	/**
 	 * Login Daten werden mit der Datenbank abgeglichen
 	 */
-	public void loginUser(AsyncCallback<User> callback);
+	public void loginUser(boolean isReportGen, AsyncCallback<User> callback);
 
 	/**
 	 * Durch den Logout wird die SessionID in der DB gespeichert und der
 	 * Benutzer wird ausgeloggt
 	 */
-	public void logoutUser(AsyncCallback<String> callback);
+	public void logoutUser(boolean isReportGen, AsyncCallback<String> callback);
 
 	/**
 	 * Erstellen eines neuen Bauteils
@@ -193,14 +184,6 @@ public interface AdministrationCommonAsync {
 	public void findPartlistByModuleId(int id, AsyncCallback<Partlist> callback);
 
 	/**
-	 * Finden einer Stückliste mittels der StücklistenID
-	 * 
-	 * @param id
-	 *            der Stückliste
-	 */
-	public void findPartlistById(int id, AsyncCallback<Partlist> callback);
-
-	/**
 	 * Auslesen sämtlicher Endprodukte
 	 */
 	public void getAllProducts(AsyncCallback<Partlist> callback);
@@ -211,8 +194,9 @@ public interface AdministrationCommonAsync {
 	 * @param partlist
 	 *            ist die übergebene Stückliste, aus welcher das Material
 	 *            berechnet wird
+	 * @param amount Anzahl der Stücklisten
 	 */
-	public void calculateMaterial(Partlist partlist,
+	public void calculateMaterial(Partlist partlist, int amount,
 			AsyncCallback<Partlist> callback);
 
 	/**

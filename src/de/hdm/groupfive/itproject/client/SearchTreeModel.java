@@ -2,7 +2,6 @@ package de.hdm.groupfive.itproject.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;

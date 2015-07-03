@@ -1,17 +1,12 @@
 package de.hdm.groupfive.itproject.server;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.groupfive.itproject.client.ClientsideSettings;
-import de.hdm.groupfive.itproject.client.ErrorMsg;
 import de.hdm.groupfive.itproject.server.db.ElementMapper;
 import de.hdm.groupfive.itproject.server.db.ModuleMapper;
-import de.hdm.groupfive.itproject.server.db.PartlistMapper;
 import de.hdm.groupfive.itproject.server.db.ProductMapper;
-import de.hdm.groupfive.itproject.server.db.UserMapper;
 import de.hdm.groupfive.itproject.shared.AdministrationCommon;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
@@ -99,12 +94,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der Benutzerobjekte mit der Datenbank
-	 * abgleicht.
-	 */
-	private UserMapper userMapper = null;
-
-	/**
 	 * Referenz auf den DatenbankMapper, der Bauteilobjekte mit der Datenbank
 	 * abgleicht.
 	 */
@@ -115,12 +104,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * abgleicht.
 	 */
 	private ModuleMapper moduleMapper = null;
-
-	/**
-	 * Referenz auf den DatenbankMapper, der Stï¿½cklistenobjekte mit der
-	 * Datenbank abgleicht.
-	 */
-	private PartlistMapper partlistMapper = null;
 
 	/**
 	 * Referenz auf den DatenbankMapper, der Endproduktobjekte mit der Datenbank
@@ -154,11 +137,9 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		 * Satz von Mappern besitzt, mit deren Hilfe sie dann mit der Datenbank
 		 * kommunizieren kann.
 		 */
-		this.userMapper = UserMapper.getUserMapper();
 		this.elementMapper = ElementMapper.getElementMapper();
 		this.moduleMapper = ModuleMapper.getModuleMapper();
 		this.productMapper = ProductMapper.getProductMapper();
-		this.partlistMapper = PartlistMapper.getPartlistMapper();
 	}
 
 	/*
@@ -180,7 +161,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * 
 	 */
 	@Override
-	public User loginUser() throws IllegalArgumentException {
+	public User loginUser(boolean isReportGen) throws IllegalArgumentException {
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 				.getUserService();
 
@@ -197,7 +178,11 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		} else {
 			User u = new User();
 			u.setIsLoggedIn(false);
-			u.setLoginUrl(userService.createLoginURL(ServerSettings.PAGE_URL));
+			if (isReportGen) {
+				u.setLoginUrl(userService.createLoginURL(ServerSettings.PAGE_URL_REPORT));	
+			} else {
+				u.setLoginUrl(userService.createLoginURL(ServerSettings.PAGE_URL_EDITOR));
+			}
 			return u;
 		}
 	}
@@ -207,17 +192,18 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * Benutzer wird ausgeloggt
 	 */
 	@Override
-	public String logoutUser() throws IllegalArgumentException {
+	public String logoutUser(boolean isReportGen) throws IllegalArgumentException {
 		com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 				.getUserService();
 
 		if (userService.isUserLoggedIn()) {
-			return userService.createLogoutURL(ServerSettings.PAGE_URL);
+			if (isReportGen) {
+				return userService.createLogoutURL(ServerSettings.PAGE_URL_REPORT);
+			}
+			return userService.createLogoutURL(ServerSettings.PAGE_URL_EDITOR);
 		}
 		return "http://www.google.de";
 	}
-
-	
 
 	/*
 	 * *************************************************
@@ -305,15 +291,17 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * @param id
 	 *            des Bauteils
 	 * @param onlyModules
-	 * 				nur Baugruppen finden
+	 *            nur Baugruppen finden
 	 * @param onlyProducts
-	 * 			nur Enderzeugnisse finden
+	 *            nur Enderzeugnisse finden
 	 * @return Element wird durch die findById()-Methode gesucht
 	 */
 	@Override
-	public Partlist findElementById(int id, boolean onlyModules, boolean onlyProducts) throws IllegalArgumentException {
+	public Partlist findElementById(int id, boolean onlyModules,
+			boolean onlyProducts) throws IllegalArgumentException {
 		try {
-			return this.getElementMapper().findById(id, onlyModules, onlyProducts);
+			return this.getElementMapper().findById(id, onlyModules,
+					onlyProducts);
 		} catch (SQLException e) {
 			throw new IllegalArgumentException(e.getMessage());
 		}
@@ -333,50 +321,64 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            Wie viele Bauteile zugeordnet werden sollen
 	 */
 	@Override
-	public void assignElement(Element superElement, Element subElement, int amount)
-			throws IllegalArgumentException {
+	public void assignElement(Element superElement, Element subElement,
+			int amount) throws IllegalArgumentException {
 		try {
-			if (superElement instanceof Product && subElement instanceof Product) {
-				throw new IllegalArgumentException("Ein Enderzeugnis kann keinem anderen Enderzeugnis zugewiesen werden!");
-			} else if (superElement instanceof Product && subElement instanceof Module) {
-				ModuleMapper.getModuleMapper().assignModule((Module)superElement, (Module)subElement, amount);
-			} else if (superElement instanceof Module && subElement instanceof Module) {
-				ModuleMapper.getModuleMapper().assignModule((Module)superElement, (Module)subElement, amount);
-			} else if (superElement instanceof Module && subElement instanceof Element) {
-				ModuleMapper.getModuleMapper().assignElement((Module)superElement, subElement, amount);
+			if (superElement instanceof Product
+					&& subElement instanceof Product) {
+				throw new IllegalArgumentException(
+						"Ein Enderzeugnis kann keinem anderen Enderzeugnis zugewiesen werden!");
+			} else if (superElement instanceof Product
+					&& subElement instanceof Module) {
+				this.getModuleMapper().assignModule(
+						(Module) superElement, (Module) subElement, amount);
+			} else if (superElement instanceof Module
+					&& subElement instanceof Module) {
+				this.getModuleMapper().assignModule(
+						(Module) superElement, (Module) subElement, amount);
+			} else if (superElement instanceof Module
+					&& subElement instanceof Element) {
+				this.getModuleMapper().assignElement(
+						(Module) superElement, subElement, amount);
 			} else {
-				throw new IllegalArgumentException("Ups da ist was schief gegangen!");
+				throw new IllegalArgumentException(
+						"Ups da ist was schief gegangen!");
 			}
-			
-		} catch(SQLException ex) {
+
+		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Löscht eine Zuordnung zwischen Elementen beliebiger Art
-	 * @param pe Partlist Eintrag mit Element und Übergeordnetem Element
+	 * 
+	 * @param pe
+	 *            Partlist Eintrag mit Element und Übergeordnetem Element
 	 */
 	@Override
-	public void deleteAssignment(PartlistEntry pe) throws IllegalArgumentException {
+	public void deleteAssignment(PartlistEntry pe)
+			throws IllegalArgumentException {
 		if (pe.getSuperModule() != null && pe.getElement() != null) {
 			if (pe.getElement() instanceof Module) {
 				try {
-					ModuleMapper.getModuleMapper().deleteModuleRelationshipAssign(pe.getSuperModule(), (Module)pe.getElement());
+					this.getModuleMapper()
+							.deleteModuleRelationshipAssign(
+									pe.getSuperModule(),
+									(Module) pe.getElement());
 				} catch (SQLException e) {
 					throw new IllegalArgumentException(e.getMessage());
 				}
 			} else {
 				try {
-					ModuleMapper.getModuleMapper().deleteModuleElementAssign(pe.getSuperModule(), pe.getElement());
+					this.getModuleMapper().deleteModuleElementAssign(
+							pe.getSuperModule(), pe.getElement());
 				} catch (SQLException e) {
 					throw new IllegalArgumentException(e.getMessage());
 				}
 			}
 		}
 	}
-
-
 
 	/*
 	 * **********************************************************
@@ -407,7 +409,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	public Partlist findElementsByName(String searchWord, int maxResults)
 			throws IllegalArgumentException {
 		try {
-			return this.elementMapper.findByName(searchWord, maxResults);
+			return this.getElementMapper().findByName(searchWord, maxResults);
 		} catch (IllegalArgumentException ex) {
 			throw ex;
 		} catch (SQLException ex) {
@@ -439,7 +441,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	public Partlist findModulesByName(String searchWord, int maxResults)
 			throws IllegalArgumentException {
 		try {
-			return this.moduleMapper.findByName(searchWord, maxResults);
+			return this.getModuleMapper().findByName(searchWord, maxResults);
 		} catch (IllegalArgumentException ex) {
 			throw ex;
 		} catch (SQLException ex) {
@@ -501,7 +503,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/*
 	 * **********************************************************
 	 */
-	
 
 	/**
 	 * Löschen einer Baugruppe
@@ -537,8 +538,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 * ***************************************************
 	 */
 
-
-
 	/**
 	 * Finden einer Stückliste mittels der BaugruppenID
 	 * 
@@ -557,24 +556,6 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	}
 
 	/**
-	 * Finden einer Stückliste mittels der StücklistenID
-	 * 
-	 * @param id
-	 *            der Stückliste
-	 */
-	@Override
-	public Partlist findPartlistById(int id) throws IllegalArgumentException {
-		// try {
-		// return null;
-		// } catch (SQLException e) {
-		// throw new IllegalArgumentException(e.getMessage());
-		// }
-		return null;
-	}
-
-
-
-	/**
 	 * Berechnen der benötigten Bauteile
 	 * 
 	 * @param partlist
@@ -582,39 +563,50 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	 *            berechnet wird
 	 */
 	@Override
-	public Partlist calculateMaterial(Partlist partlist)
+	public Partlist calculateMaterial(Partlist partlist, int amount)
 			throws IllegalArgumentException {
-		Partlist totalAmount = new Partlist();
+		if (partlist != null) {
+			Partlist totalAmount = new Partlist();
 
-		// Alle EintrÃ¤ge der Ã¼bergebenen Parlist durchiterieren.
-		for (PartlistEntry pe : partlist.getAllEntries()) {
+			// Alle EintrÃ¤ge der Ã¼bergebenen Parlist durchiterieren.
+			for (PartlistEntry pe : partlist.getAllEntries()) {
 
-			// Wenn Element vom Typ Module ist, dann befinden sich weitere
-			// Elemente in dessen StÃ¼ckliste (Partlist)
-			if (pe.getElement() instanceof Module) {
-				Module module = (Module) pe.getElement();
-				Partlist partAmount = calculateMaterial(module.getPartlist());
-				totalAmount.add(partAmount);
+				// Wenn Element vom Typ Module ist, dann befinden sich weitere
+				// Elemente in dessen StÃ¼ckliste (Partlist)
+				if (pe.getElement() instanceof Module) {
+					Module module = (Module) pe.getElement();
+					Partlist partAmount = calculateMaterial(
+							module.getPartlist(), amount);
+					totalAmount.add(partAmount);
 
-				// Ansonsten handelt es sich um ein einzelnes Element/Bauteil
-			} else {
-				// PrÃ¼fen ob das Element bereits in der totalAmount StÃ¼ckliste
-				// vorhanden ist.
-				if (totalAmount.contains(pe.getElement())) {
-					// Element bereits in totalAmount vorhanden, deswegen nur
-					// noch die Anzahl addieren.
-					PartlistEntry entry = totalAmount
-							.getPartlistEntryByIndex(totalAmount
-									.indexOfElement(pe.getElement()));
-					entry.setAmount(entry.getAmount() + pe.getAmount());
+					// Ansonsten handelt es sich um ein einzelnes
+					// Element/Bauteil
 				} else {
-					// Neues Element das noch nicht in totalAmount vorhanden
-					// ist, zum ersten Mal hinzufÃ¼gen.
-					totalAmount.add(pe.getElement(), pe.getAmount());
+					// PrÃ¼fen ob das Element bereits in der totalAmount
+					// StÃ¼ckliste
+					// vorhanden ist.
+					if (totalAmount.contains(pe.getElement())) {
+						// Element bereits in totalAmount vorhanden, deswegen
+						// nur
+						// noch die Anzahl addieren.
+						PartlistEntry entry = totalAmount
+								.getPartlistEntryByIndex(totalAmount
+										.indexOfElement(pe.getElement()));
+						entry.setAmount(entry.getAmount()
+								+ (pe.getAmount() * amount));
+					} else {
+						// Neues Element das noch nicht in totalAmount vorhanden
+						// ist, zum ersten Mal hinzufÃ¼gen.
+						totalAmount.add(pe.getElement(), pe.getAmount()
+								* amount);
+					}
 				}
 			}
+			return totalAmount;
+		} else {
+			throw new IllegalArgumentException(
+					"Keine Stückliste zur Berechnung vorhanden!");
 		}
-		return totalAmount;
 	}
 
 	/*
@@ -696,102 +688,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 
 	/*
 	 * *************************************************
-	 * ABSCHNITT, Ende: Methoden fï¿½r Product-Objekte
+	 * ABSCHNITT, Ende: Methoden für Product-Objekte
 	 * *************************************************
 	 */
-	
-	/**
-	 * Liefert die letzten Updates für die Historie
-	 * @return String-Array mit Historien Details
-	 * @throws IllegalArgumentException
-	 */
-//	public ArrayList<String[]> getLastUpdatesForHistory()  throws IllegalArgumentException {
-//		try {
-//			return this.userMapper.getLastUpdatesForHistory();
-//		} catch (SQLException e) {
-//			throw new IllegalArgumentException(e.getMessage());
-//		}	
-//	}
-	
-	
-	
-	/*
-	 * *************************************************
-	 * ABSCHNITT, Beginn: Noch nicht verwendete Methoden
-	 * *************************************************
-	 */
-	
-	
-	// /**
-	// * Auslesen des Benutzer-Mappers (UserMappers)
-	// */
-	// public UserMapper getUserMapper() throws IllegalArgumentException {
-	// return this.userMapper;
-	// }
-	
-	// @Override
-	// public Partlist findPartlistByModule(Module module) throws
-	// IllegalArgumentException {
-	// return this.moduleMapper.;
-	// }
-
-	// /**
-	// * Finden einer Stückliste mittels der Baugruppe
-	// *
-	// * @param module
-	// * Baurgruppe der Stückliste
-	// */
-	// public Partlist findPartlistByModule(Module module)
-	// throws IllegalArgumentException {
-	// return this.findPartlistById(module.getId());
-	// }
-	
-	// /**
-	// * Auslesen des Stücklisten-Mappers (PartlistMapper)
-	// */
-	// public PartlistMapper getPartlistMapper() throws IllegalArgumentException
-	// {
-	// return this.partlistMapper;
-	// }
-
-	// public Partlist findPartlistByModuleName(String name) throws
-	// IllegalArgumentException {
-	// try {
-	// return this.getModuleMapper().findByName(name).getPartlist();
-	// } catch (SQLException e) {
-	// throw new IllegalArgumentException(e.getMessage());
-	// }
-	// }
-	
-	// /**
-	// * Finden eines Bauteils mittels der Erstellers
-	// *
-	// * @param creator
-	// * Ersteller, der das Bauteil erstellt hat
-	// * @return
-	// */
-	// @Override
-	// public Partlist findElementsByCreator(User creator)
-	// throws IllegalArgumentException {
-	//
-	// // Vector<User> result = new Vector<User>();
-	// // if (creator.equals("leer")) {
-	// // // Nur fÃ¼r Tests
-	// // } else {
-	// // Module m1 = new Module();
-	// // m1.setName(name);
-	// // m1.setId(0);
-	// //
-	// // Element e1 = new Element();
-	// // e1.setName(name + " element");
-	// // e1.setId(1);
-	// // e1.setDescription("blablabla");
-	// //
-	// // m1.getPartlist().add(e1, 1);
-	// //
-	// // result.add(m1);
-	// // }
-	// // return result;
-	// return null;
-	// }
 }

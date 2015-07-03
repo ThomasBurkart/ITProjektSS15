@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
@@ -20,7 +19,7 @@ public class ReportGen implements EntryPoint {
 				.getAdministration();
 		// lädt den Login Dialog
 
-		administration.loginUser(new LoginCallback());
+		administration.loginUser(true, new LoginCallback());
 		// LoginLogout.load();
 		RootPanel.get("main").clear();
 	}

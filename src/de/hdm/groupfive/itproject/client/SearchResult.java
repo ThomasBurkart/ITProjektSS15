@@ -2,7 +2,6 @@ package de.hdm.groupfive.itproject.client;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -14,7 +13,6 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
-import de.hdm.groupfive.itproject.shared.bo.Product;
 
 /**
  * Klasse SearchResult ist ein Showcase für eine Suchanfrage über die

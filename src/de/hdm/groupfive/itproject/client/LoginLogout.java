@@ -70,7 +70,7 @@ public class LoginLogout {
 				// TODO: Unterscheidung zwischen Report Generator und Editor/Viewer
 				NavigationBar.load();
 //				SearchPanel.load();
-				RootPanel.get("main").add(new History());
+				RootPanel.get("main").add(new Home());
 			}
 		});
 		loginButton.setWidth("100px");

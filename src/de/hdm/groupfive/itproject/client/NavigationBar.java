@@ -46,7 +46,7 @@ public class NavigationBar {
 				//LoginLogout.load();
 				AdministrationCommonAsync administration = ClientsideSettings
 						.getAdministration();
-				administration.logoutUser(new LogoutCallback());
+				administration.logoutUser(false, new LogoutCallback());
 			}
 		});
 		RootPanel.get("navbar").add(logoutBtn);
@@ -98,7 +98,7 @@ public class NavigationBar {
 				//LoginLogout.load();
 				AdministrationCommonAsync administration = ClientsideSettings
 						.getAdministration();
-				administration.logoutUser(new LogoutCallback());
+				administration.logoutUser(true, new LogoutCallback());
 			}
 		});
 		RootPanel.get("navbar").add(logoutBtn);

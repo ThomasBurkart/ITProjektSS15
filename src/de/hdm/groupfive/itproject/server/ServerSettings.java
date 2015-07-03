@@ -2,15 +2,14 @@ package de.hdm.groupfive.itproject.server;
 
 import java.util.logging.Logger;
 
-import com.google.gwt.user.client.Window;
-
 import de.hdm.groupfive.itproject.shared.CommonSettings;
 
 
 public class ServerSettings extends CommonSettings {
 	  private static final String LOGGER_NAME = "Server";
 	  private static final Logger log = Logger.getLogger(LOGGER_NAME);
-	  public static final String PAGE_URL = "http://1-dot-alien-array-93415.appspot.com";
+	  public static final String PAGE_URL_EDITOR = "http://1-dot-alien-array-93415.appspot.com";
+	  public static final String PAGE_URL_REPORT = "http://1-dot-alien-array-93415.appspot.com/ReportGen.html";
 
 	  /**
 	   * <p>

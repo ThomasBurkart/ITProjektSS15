@@ -7,8 +7,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import de.hdm.groupfive.itproject.server.AdministrationCommonImpl;
-import de.hdm.groupfive.itproject.shared.bo.*;
+import de.hdm.groupfive.itproject.shared.bo.Partlist;
+import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
+import de.hdm.groupfive.itproject.shared.bo.Product;
 
 public class ProductMapper {
 	/**

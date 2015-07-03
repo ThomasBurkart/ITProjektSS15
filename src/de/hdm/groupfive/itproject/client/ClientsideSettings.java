@@ -3,7 +3,6 @@ package de.hdm.groupfive.itproject.client;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.logging.client.HasWidgetsLogHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommon;
@@ -15,9 +14,9 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * Klasse mit Eigenschaften und Diensten, die für alle Client-seitigen Klassen
  * relevant sind.
  * 
- * @author thies
- * @version 1.0
- * @since 28.02.2012
+ * @author Peter Thies, Thomas Burkart
+ * @version 1.1
+ * @since 30.06.2015
  * 
  */
 public class ClientsideSettings extends CommonSettings {

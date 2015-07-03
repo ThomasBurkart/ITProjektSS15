@@ -1,19 +1,19 @@
 package de.hdm.groupfive.itproject.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Vector;
 import java.util.Date;
+import java.util.Vector;
 
-import de.hdm.groupfive.itproject.client.ClientsideSettings;
-import de.hdm.groupfive.itproject.server.AdministrationCommonImpl;
-import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
-import de.hdm.groupfive.itproject.shared.bo.User;
 
 //** @ author Jakupi, Samire ; Thies
 

@@ -2,7 +2,9 @@ package de.hdm.groupfive.itproject.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -11,14 +13,10 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-import de.hdm.groupfive.itproject.client.AssignPanel.ElementAssignCallback;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
-import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
-import de.hdm.groupfive.itproject.shared.bo.Product;
-import de.hdm.groupfive.itproject.shared.bo.User;
 
 public class CalculateMaterial extends Showcase {
 
@@ -30,17 +28,17 @@ public class CalculateMaterial extends Showcase {
 
 	/** Das Element, das im Formular geladen wird */
 	private PartlistEntry entry;
-	
+
 	private Showcase currentShowcase;
-	
+
 	public CalculateMaterial(PartlistEntry entry) {
 		this.entry = entry;
-		this.headlineText = "Materialbedarf zu '"+entry.getElement().getName()+"' kalkulieren";
+		this.headlineText = "Materialbedarf zu '"
+				+ entry.getElement().getName() + "' kalkulieren";
 		this.headlineTextStyle = "formTitle";
 		this.currentShowcase = this;
 	}
-	
-	
+
 	@Override
 	protected String getHeadlineText() {
 		return this.headlineText;
@@ -53,18 +51,51 @@ public class CalculateMaterial extends Showcase {
 
 	@Override
 	protected void run() {
-		Grid grid = new Grid(1,4);
-		
+		Grid grid = new Grid(1, 4);
+
 		HTML amountText = new HTML("Anzahl");
 		amountText.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2 amountText");
 		grid.setWidget(0, 0, amountText);
-		
+
 		final TextBox amountTb = new TextBox();
-		amountTb.setValue(this.entry.getAmount() > 1 ? ""+this.entry.getAmount() : "1");
+		amountTb.setValue(this.entry.getAmount() > 1 ? ""
+				+ this.entry.getAmount() : "1");
 		amountTb.setStylePrimaryName("col-md-2 col-sm-2 col-xs-2 textBox");
-		
+
+		amountTb.addKeyUpHandler(new KeyUpHandler() {
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					AdministrationCommonAsync administration = ClientsideSettings
+							.getAdministration();
+					if (entry.getElement() instanceof Module) {
+						Module m = (Module) entry.getElement();
+						administration.calculateMaterial(m.getPartlist(),
+								Integer.parseInt(amountTb.getValue().trim()),
+								new CalcCallback());
+					} else {
+						Grid grid = new Grid(2, 3);
+						if (RootPanel.get("calcGrid") != null) {
+							RootPanel.get("calcGrid").getElement()
+									.removeFromParent();
+						}
+
+						grid.getElement().setId("calcGrid");
+						grid.setStylePrimaryName("table table-striped");
+						grid.setHTML(0, 0, "<b>Bauteil Id</b>");
+						grid.setHTML(0, 1, "<b>Bauteil Name</b>");
+						grid.setHTML(0, 2, "<b>Gesamt Anzahl</b>");
+
+						grid.setHTML(1, 0, "" + entry.getElement().getId());
+						grid.setHTML(1, 1, entry.getElement().getName());
+						grid.setHTML(1, 2, "" + amountTb.getValue().trim());
+						currentShowcase.add(grid);
+					}
+				}
+			}
+		});
+
 		grid.setWidget(0, 1, amountTb);
-		
+
 		// ACTION BUTTONS für mögliche Aktionen ANFANG
 		FlowPanel panel = new FlowPanel();
 		panel.setStylePrimaryName("actionBox");
@@ -74,22 +105,25 @@ public class CalculateMaterial extends Showcase {
 		calcBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				AdministrationCommonAsync administration = ClientsideSettings
-							.getAdministration();
+						.getAdministration();
 				if (entry.getElement() instanceof Module) {
-					Module m = (Module)entry.getElement();
-					administration.calculateMaterial(m.getPartlist(), new CalcCallback());
+					Module m = (Module) entry.getElement();
+					administration.calculateMaterial(m.getPartlist(),
+							Integer.parseInt(amountTb.getValue().trim()),
+							new CalcCallback());
 				} else {
 					Grid grid = new Grid(2, 3);
 					if (RootPanel.get("calcGrid") != null) {
-						RootPanel.get("calcGrid").getElement().removeFromParent();
+						RootPanel.get("calcGrid").getElement()
+								.removeFromParent();
 					}
-					
+
 					grid.getElement().setId("calcGrid");
 					grid.setStylePrimaryName("table table-striped");
 					grid.setHTML(0, 0, "<b>Bauteil Id</b>");
 					grid.setHTML(0, 1, "<b>Bauteil Name</b>");
 					grid.setHTML(0, 2, "<b>Gesamt Anzahl</b>");
-				
+
 					grid.setHTML(1, 0, "" + entry.getElement().getId());
 					grid.setHTML(1, 1, entry.getElement().getName());
 					grid.setHTML(1, 2, "" + amountTb.getValue().trim());
@@ -98,14 +132,13 @@ public class CalculateMaterial extends Showcase {
 			}
 		});
 
-		
-
 		panel.add(amountText);
 		panel.add(amountTb);
 		panel.add(calcBtn);
-		
+
 		this.add(panel);
 	}
+
 	class CalcCallback implements AsyncCallback<Partlist> {
 
 		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
@@ -144,7 +177,7 @@ public class CalculateMaterial extends Showcase {
 			if (RootPanel.get("calcGrid") != null) {
 				RootPanel.get("calcGrid").getElement().removeFromParent();
 			}
-			
+
 			grid.getElement().setId("calcGrid");
 			grid.setStylePrimaryName("table table-striped");
 			grid.setHTML(0, 0, "<b>Bauteil Id</b>");
@@ -158,7 +191,7 @@ public class CalculateMaterial extends Showcase {
 				grid.setHTML(i, 2, "" + pe.getAmount());
 			}
 			currentShowcase.add(grid);
-				
+
 		}
 	}
 }

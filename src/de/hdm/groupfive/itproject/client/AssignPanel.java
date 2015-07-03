@@ -9,14 +9,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-
-import de.hdm.groupfive.itproject.client.SearchResult.SearchAllProductsCallback;
-import de.hdm.groupfive.itproject.server.db.ModuleMapper;
-import de.hdm.groupfive.itproject.server.db.PartlistMapper;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
-import de.hdm.groupfive.itproject.shared.bo.Element;
-import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 

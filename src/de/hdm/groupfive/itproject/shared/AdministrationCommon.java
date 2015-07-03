@@ -1,8 +1,5 @@
 package de.hdm.groupfive.itproject.shared;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -29,13 +26,13 @@ public interface AdministrationCommon extends RemoteService {
 	/**
 	 * Login Daten werden mit der Datenbank abgeglichen
 	 */
-	public User loginUser() throws IllegalArgumentException;
+	public User loginUser(boolean isReportGen) throws IllegalArgumentException;
 
 	/**
 	 * Durch den Logout wird die SessionID in der DB gespeichert und der
 	 * Benutzer wird ausgeloggt
 	 */
-	public String logoutUser() throws IllegalArgumentException;
+	public String logoutUser(boolean isReportGen) throws IllegalArgumentException;
 
 	/**
 	 * Erstellen eines neuen Bauteils
@@ -192,14 +189,6 @@ public interface AdministrationCommon extends RemoteService {
 			throws IllegalArgumentException;
 
 	/**
-	 * Finden einer Stückliste mittels der StücklistenID
-	 * 
-	 * @param id
-	 *            der Stückliste
-	 */
-	public Partlist findPartlistById(int id) throws IllegalArgumentException;
-
-	/**
 	 * Auslesen sämtlicher Endprodukte
 	 */
 	public Partlist getAllProducts() throws IllegalArgumentException;
@@ -210,8 +199,9 @@ public interface AdministrationCommon extends RemoteService {
 	 * @param partlist
 	 *            ist die übergebene Stückliste, aus welcher das Material
 	 *            berechnet wird
+	 * @param amount Anzahl der Stücklisten
 	 */
-	public Partlist calculateMaterial(Partlist partlist)
+	public Partlist calculateMaterial(Partlist partlist, int amount)
 			throws IllegalArgumentException;
 
 	
