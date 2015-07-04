@@ -1,6 +1,7 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -195,16 +196,18 @@ public class ModuleMapper {
 				 */
 				m.setModuleId(rs.getInt("maxid") + 1);
 
-				stmt = con.createStatement();
-
-				// die tatsaechliche Einfuegeoperation
-				stmt.executeUpdate("INSERT INTO module (module_id, name, element_id) VALUES ("
-						+ m.getModuleId()
-						+ ",'"
-						+ m.getName()
-						+ "',"
-						+ m.getId() + ")");
 				
+				PreparedStatement stmt2;
+				stmt2 = con
+						.prepareStatement("INSERT INTO module "
+								+ "(module_id, name, element_id) "
+								+ "VALUES (?, ?, ?)");
+
+				stmt2.setInt(1, m.getModuleId());
+				stmt2.setString(2, m.getName());
+				stmt2.setInt(3, m.getId());
+				stmt2.executeUpdate();
+				stmt2.close();				
 
 				// Historie speichern
 				com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
@@ -289,13 +292,16 @@ public class ModuleMapper {
 		try {
 			ElementMapper.getElementMapper().update(m);
 
-			Statement stmt = con.createStatement();
+			PreparedStatement stmt;
+			stmt = con
+					.prepareStatement("UPDATE module SET name=?, element_id=?, WHERE module_id=?");
 
-			stmt.executeUpdate("UPDATE module SET name = '" + m.getName()
-					+ "'," + "element_id=" + m.getId() + " WHERE module_id ="
-					+ m.getModuleId());
-			
-			stmt.close();
+			stmt.setString(1, m.getName());
+			stmt.setInt(2, m.getId());
+			stmt.setInt(3, m.getModuleId());
+			stmt.executeUpdate();
+			stmt.close();				
+
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();

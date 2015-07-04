@@ -1,6 +1,7 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,7 +21,7 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
 public class ElementMapper {
 
 	private static ElementMapper elementMapper = null;
-	
+
 	private static Partlist cachePartlist = new Partlist();
 
 	protected ElementMapper() {
@@ -56,13 +57,13 @@ public class ElementMapper {
 			throws IllegalArgumentException, SQLException {
 
 		Partlist result = new Partlist();
-		
+
 		Element elementFromCache = cachePartlist.getElementById(id);
 		if (elementFromCache != null) {
 			result.add(elementFromCache, 1);
 			return result;
 		}
-		
+
 		// DB Verbindung hier holen
 		Connection con = DBConnection.connection();
 
@@ -74,10 +75,10 @@ public class ElementMapper {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM element "
 					+ "WHERE element_id=" + id + " ORDER BY element_id");
 			while (rs.next()) {
-				
+
 				Product p = ProductMapper.getProductMapper().findByElement(
 						rs.getInt("element_id"));
-				
+
 				if (p != null) {
 					result.add(p, 1);
 					cachePartlist.add(p, 1);
@@ -120,7 +121,9 @@ public class ElementMapper {
 										timestamp2.getTime());
 								e.setLastUpdate(lastUpdateDate);
 							}
-							e.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(e.getId()));
+							e.setLastUser(UserMapper
+									.getUserMapper()
+									.getLastUpdateUserNameByElementId(e.getId()));
 
 							// Hinzufuegen des neuen Objekts zum
 							// Ergebnisvektor
@@ -190,13 +193,15 @@ public class ElementMapper {
 				// erstellt.
 				while (rs.next()) {
 					int elementId = rs.getInt("element_id");
-					Element elementFromCache = cachePartlist.getElementById(elementId);
-					if (elementFromCache != null && !onlyProducts && !onlyModules) {
+					Element elementFromCache = cachePartlist
+							.getElementById(elementId);
+					if (elementFromCache != null
+							&& !(elementFromCache instanceof Module)
+							&& !onlyProducts && !onlyModules) {
 						result.add(elementFromCache, 1);
-						continue;						
+						continue;
 					}
-					
-					
+
 					Product p = ProductMapper.getProductMapper().findByElement(
 							elementId);
 
@@ -240,8 +245,10 @@ public class ElementMapper {
 											timestamp2.getTime());
 									e.setLastUpdate(lastUpdateDate);
 								}
-								
-								e.setLastUser(UserMapper.getUserMapper().getLastUpdateUserNameByElementId(e.getId()));
+
+								e.setLastUser(UserMapper.getUserMapper()
+										.getLastUpdateUserNameByElementId(
+												e.getId()));
 
 								// Hinzufuegen des neuen Objekts zum
 								// Ergebnisvektor
@@ -299,27 +306,32 @@ public class ElementMapper {
 				int newId = rs.getInt("maxid") + 1;
 				e.setId(newId);
 
-				stmt = con.createStatement();
-				String sqlQuery = "INSERT INTO element "
-						+ "(element_id, name, description, material_description, creation_date, last_update) "
-						+ "VALUES (" + e.getId() + ",'" + e.getName() + "','"
-						+ e.getDescription() + "','"
-						+ e.getMaterialDescription() + "','"
-						+ getSqlDateFormat(e.getCreationDate()) + "','"
-						+ getSqlDateFormat(e.getLastUpdate()) + "')";
+				PreparedStatement stmt2;
 
-				// die tatsaechliche Einfuegeoperation
-				stmt.executeUpdate(sqlQuery);
+				stmt2 = con
+						.prepareStatement("INSERT INTO element "
+								+ "(element_id, name, description, material_description, creation_date, last_update) "
+								+ "VALUES (?, ?, ?, ?, ?, ?)");
+
+				stmt2.setInt(1, newId);
+				stmt2.setString(2, e.getName());
+				stmt2.setString(3, e.getDescription());
+				stmt2.setString(4, e.getMaterialDescription());
+				stmt2.setString(5, getSqlDateFormat(e.getCreationDate()));
+				stmt2.setString(6, getSqlDateFormat(e.getLastUpdate()));
+				stmt2.executeUpdate();
+				stmt2.close();
 
 				// Historie speichern
 				com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 						.getUserService();
 
 				com.google.appengine.api.users.User user = userService
-							.getCurrentUser();
+						.getCurrentUser();
 				UserMapper.getUserMapper().insertHistory(user.getUserId(),
 						user.getNickname(), e.getId(), "erstellt",
 						e.getLastUpdate());
+				e.setLastUser(user.getNickname());
 			}
 			rs.close();
 			stmt.close();
@@ -360,21 +372,27 @@ public class ElementMapper {
 		Connection con = DBConnection.connection();
 
 		try {
-			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE element SET name='" + e.getName() + "',"
-					+ "description='" + e.getDescription() + "',"
-					+ "material_description='" + e.getMaterialDescription()
-					+ "'," + "last_update='"
-					+ getSqlDateFormat(e.getLastUpdate()) + "'"
-					+ " WHERE element_id = " + e.getId() + ";");
+
+			PreparedStatement stmt;
+
+			stmt = con
+					.prepareStatement("UPDATE element SET name=?, description=?, "
+							+ "material_description=?, last_update=? WHERE element_id=?");
+
+			stmt.setString(1, e.getName());
+			stmt.setString(2, e.getDescription());
+			stmt.setString(3, e.getMaterialDescription());
+			stmt.setString(4, getSqlDateFormat(e.getLastUpdate()));
+			stmt.setInt(5, e.getId());
+			stmt.executeUpdate();
 			stmt.close();
-			
+
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
 
 			com.google.appengine.api.users.User user = userService
-						.getCurrentUser();
+					.getCurrentUser();
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
 					user.getNickname(), e.getId(), "geändert",
 					e.getLastUpdate());
@@ -382,7 +400,7 @@ public class ElementMapper {
 		} catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
 		}
-		
+
 		cachePartlist.deleteById(e.getId());
 		cachePartlist.add(e, 1);
 		// Um die Analogie zu insert(Element e) zu wahren, geben wir e zurück
@@ -409,23 +427,22 @@ public class ElementMapper {
 			stmt.executeUpdate("DELETE FROM element WHERE element_id="
 					+ e.getId());
 			stmt.close();
-			
+
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
 
 			com.google.appengine.api.users.User user = userService
-						.getCurrentUser();
+					.getCurrentUser();
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
-					user.getNickname(), e.getId(), "gelöscht",
-					new Date());
+					user.getNickname(), e.getId(), "gelöscht", new Date());
 
 			cachePartlist.deleteById(e.getId());
 		}
 
 		catch (SQLException ex) {
 			throw new IllegalArgumentException(ex.getMessage());
-		} 
+		}
 
 	}
 
@@ -450,16 +467,15 @@ public class ElementMapper {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM element WHERE element_id=" + eId);
 			stmt.close();
-			
+
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();
 
 			com.google.appengine.api.users.User user = userService
-						.getCurrentUser();
+					.getCurrentUser();
 			UserMapper.getUserMapper().insertHistory(user.getUserId(),
-					user.getNickname(), eId, "gelöscht",
-					new Date());
+					user.getNickname(), eId, "gelöscht", new Date());
 
 			cachePartlist.deleteById(eId);
 		} catch (SQLException ex) {

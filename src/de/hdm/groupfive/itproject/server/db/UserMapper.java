@@ -1,6 +1,7 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -71,21 +72,24 @@ public class UserMapper {
 
 			if (rs.next()) {
 				int newId = rs.getInt("maxid") + 1;
+				
+				PreparedStatement stmt2;
+				stmt2 = con
+						.prepareStatement("INSERT INTO history "
+								+ "(history_id,user_id,username,element_id,updatetext,last_update) "
+								+ "VALUES (?, ?, ?, ?, ?, ?)");
 
-				stmt = con.createStatement();
+				stmt2.setInt(1, newId);
+				stmt2.setString(2, userId);
+				stmt2.setString(3, username);
+				stmt2.setInt(4, elementId);
+				stmt2.setString(5, updateText);
+				stmt2.setString(6, getSqlDateFormat(lastUpdate));
+				stmt2.executeUpdate();
+				stmt2.close();			
 
-				stmt.executeUpdate("INSERT INTO history (history_id,user_id,username,element_id,updatetext,last_update) "
-						+ "VALUES ("
-						+ newId
-						+ ", '"
-						+ userId
-						+ "','"
-						+ username
-						+ "', "
-						+ elementId
-						+ ",'"
-						+ updateText
-						+ "', '" + getSqlDateFormat(lastUpdate) + "')");
+				rs.close();
+				stmt.close();
 
 			}
 		} catch (SQLException ex) {

@@ -1,6 +1,7 @@
 package de.hdm.groupfive.itproject.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -59,16 +60,19 @@ public class ProductMapper {
 				 * Primaerschluessel
 				 */
 				p.setProductId(rs.getInt("maxid") + 1);
+				
+				PreparedStatement stmt2;
+				stmt2 = con
+						.prepareStatement("INSERT INTO product "
+								+ "(product_id, name, element_id) "
+								+ "VALUES (?, ?, ?)");
 
-				stmt = con.createStatement();
+				stmt2.setInt(1, p.getProductId());
+				stmt2.setString(2, p.getName());
+				stmt2.setInt(3, p.getId());
+				stmt2.executeUpdate();
+				stmt2.close();	
 
-				// die tatsaechliche Einfuegeoperation
-				stmt.executeUpdate("INSERT INTO product (product_id, name, element_id) VALUES ("
-						+ p.getProductId()
-						+ ",'"
-						+ p.getSalesName()
-						+ "',"
-						+ p.getId() + ")");
 				// Historie speichern
 				com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 						.getUserService();
@@ -146,13 +150,16 @@ public class ProductMapper {
 		try {
 			ElementMapper.getElementMapper().update(p);
 
-			Statement stmt = con.createStatement();
+			PreparedStatement stmt;
+			stmt = con
+					.prepareStatement("UPDATE module SET name=?, element_id=?, WHERE product_id=?");
 
-			stmt.executeUpdate("UPDATE product SET name = '" + p.getSalesName()
-					+ "'," + "element_id=" + p.getId() + " WHERE product_id ="
-					+ p.getProductId());
-
-
+			stmt.setString(1, p.getName());
+			stmt.setInt(2, p.getId());
+			stmt.setInt(3, p.getProductId());
+			stmt.executeUpdate();
+			stmt.close();	
+			
 			// Historie speichern
 			com.google.appengine.api.users.UserService userService = com.google.appengine.api.users.UserServiceFactory
 					.getUserService();

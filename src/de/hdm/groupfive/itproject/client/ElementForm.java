@@ -455,6 +455,7 @@ public class ElementForm extends Showcase {
 			ulList.add(deleteElem);
 
 			Button deleteAssign = new Button("Zuordnung löschen");
+			deleteAssign.setEnabled(superModule != null);
 			deleteAssign.setStylePrimaryName("btn btn-link");
 			deleteAssign.addClickHandler(new ClickHandler() {
 				@Override
