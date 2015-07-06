@@ -16,17 +16,62 @@ import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
-//** @ author Jakupi, Samire ; Thies
+/**
+ * Mapper-Klasse, die <code>Element</code>-Objekte auf eine relationale
+ * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur VerfÃ¼gung
+ * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+ * gelÃ¶scht werden kÃ¶nnen. Das Mapping ist bidirektional. D.h., Objekte kÃ¶nnen
+ * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+ * 
+ * @see ModuleMapper, PartlistMapper, ProductMapper, UserMapper
+ * @author Jakupi, Samire ; Thies
+*/
 
 public class ElementMapper {
-
+	
+	/**
+	 * Die Klasse ElementMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
+	 * fÃ¼r sÃ¤mtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
+	 * speichert die einzige Instanz dieser Klasse.
+	 * 
+	 * @see ElementMapper()
+	 */
+	
 	private static ElementMapper elementMapper = null;
-
+	
+	
+	
+	/**
+	 * Variable in der eine neue Stückliste gespeichert werden kann
+	 */
 	private static Partlist cachePartlist = new Partlist();
 
+	
+	/**
+	   * GeschÃ¼tzter Konstruktor - verhindert die MÃ¶glichkeit, mit <code>new</code>
+	   * neue Instanzen dieser Klasse zu erzeugen. 
+	   */
+	
 	protected ElementMapper() {
 	}
 
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>ElementMapper.getElementMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafÃ¼r sorgt, dass nur eine
+	 * einzige Instanz von <code>ElementMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> ElementMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
+	 * Methode.
+	 * 
+	 * @return DAS <code>ElementMapper</code>-Objekt. { @link elementMapper}
+	 */
+	
 	public static ElementMapper getElementMapper() {
 		if (elementMapper == null) {
 			elementMapper = new ElementMapper();
@@ -34,17 +79,34 @@ public class ElementMapper {
 		return elementMapper;
 	}
 
+
+	/**
+	 * Suchen eines Elementes mit vorgegebener id. Da diese eindeutig ist, wird
+	 * genau ein Objekt zurueckgegeben.
+	 * @param id
+	 * 		PrimÃ¤rschluesselattribut (->DB)
+	 * @return
+	 * 		Element-Objekt, dass mit der übergebenden id übereinstimmt
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
 	public Element findElementById(int id) throws IllegalArgumentException,
 			SQLException {
 		return this.findById(id, false, false).getElementById(id);
 	}
 
 	/**
-	 * Suchen eines Elements mit vorgegebener id. Da diese eindeutig ist, wird
-	 * genau ein Objekt zurueckgegeben.
+	 * Suchen eines Elements mit vorgegebener id. 
 	 * 
 	 * @param id
 	 *            PrimÃ¤rschlÃ¼sselattribut (->DB)
+	 * @param onlyModules
+	 * 			Modul-Objekt, wird dazu benötigt um zu überprüfen ob es sich bei dem Element um ein Modul handelt
+	 * 
+	 * @param onlyProducts
+	 * 
+	 *			Produkt-Objekt, wird dazu benötigt um zu überprüfen ob es sich bei dem Element um ein Produkt handelt
+	 *
 	 * @return Element-Objekt, das dem Ã¼bergebenen SchlÃ¼ssel entspricht, null
 	 *         bei nicht vorhandenem DB-Tupel.
 	 * @throws Bei
@@ -96,6 +158,7 @@ public class ElementMapper {
 						result.add(m, 1);
 						cachePartlist.add(m, 1);
 					} else {
+						
 						if (!onlyModules && !onlyProducts) {
 
 							Element e = new Element();
@@ -141,19 +204,68 @@ public class ElementMapper {
 		return result;
 	}
 
+	/**
+	 * Finden eines Elements anhand des Suchworts
+	 * @param searchWord
+	 * 		Element als String
+	 * @param maxResults
+	 * 		maximale Anzahl an Treffern
+	 * @return
+	 * 	Partlist-Objekt wird zurückgegeben
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
 	public Partlist findByName(String searchWord, int maxResults)
 			throws IllegalArgumentException, SQLException {
 		return findByName(searchWord, maxResults, false);
 	}
 
+	/**
+	 * Finden eines Elements anhand des Suchworts und des Moduls
+	 * @param searchWord
+	 * 		Element als String
+	 * @param maxResults
+	 * 		maximale Anzahl an Treffern
+	 * @param onlyModules
+	 * @return
+	 * 		Stücklistenobjekt
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
 	public Partlist findByName(String searchWord, int maxResults,
 			boolean onlyModules) throws IllegalArgumentException, SQLException {
 		return findByName(searchWord, maxResults, onlyModules, false);
 	}
 
+	
+	/**
+	 * Suchen eines Elements mit vorgegebener id. 
+	 * 
+	 * @param searchWord
+	 *            Suchwort
+	 * @param maxResults
+	 * 			
+	 * 			Anzahl der Treffersuche
+	 * 
+	 * @param onlyModules
+	 * 
+	 *			Modul-Objekt, wird dazu benötigt um zu überprüfen ob es sich bei dem Element um ein Modul handelt
+	 *
+	 *@param onlyProducts
+	 *
+	 *			Produkt-Objekt, wird dazu benötigt um zu überprüfen ob es sich bei dem Element um ein Produkt handelt
+	 *		
+	 * @return Element-Objekt, das dem Ã¼bergebenen SchlÃ¼ssel entspricht
+	 *         
+	 * @throws Bei
+	 *             der Kommunikation mit der DB kann es zu Komplikationen
+	 *             kommen, die entstandene Exception wird an die aufrufende
+	 *             Methode weitergereicht
+	 */
 	public Partlist findByName(String searchWord, int maxResults,
 			boolean onlyModules, boolean onlyProducts)
 			throws IllegalArgumentException, SQLException {
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 		Partlist result = new Partlist();
 		String whereQuery = "";
@@ -183,10 +295,12 @@ public class ElementMapper {
 				whereQuery = whereQuery.substring(0, whereQuery.length() - 4);
 			}
 			try {
+				// Leeres SQL-Statement (JDBC) anlegen
 				Statement stmt = con.createStatement();
+				// Statement ausfuellen
 				String sqlQuery = "SELECT * FROM element WHERE " + whereQuery
 						+ " ORDER BY name LIMIT " + maxResults;
-
+				 // Query an die DB schicken
 				ResultSet rs = stmt.executeQuery(sqlQuery);
 
 				// FÃ¼r jeden Eintrag im Suchergebnis wird nun ein Element-Objekt
@@ -285,10 +399,11 @@ public class ElementMapper {
 			throw new IllegalArgumentException(
 					"Ãœbergebenes Objekt an insert() ist NULL.");
 		}
-
+		// DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
+			 // Leeres SQL-Statement (JDBC) anlegen
 			Statement stmt = con.createStatement();
 
 			/*
@@ -420,10 +535,12 @@ public class ElementMapper {
 			throw new IllegalArgumentException(
 					"Ãœbergebenes Objekt an delete() ist NULL.");
 		}
+		//DB Verbindung holnen
 		Connection con = DBConnection.connection();
 
 		try {
 			Statement stmt = con.createStatement();
+			// Statement ausfuellen und als Query an die DB schicken
 			stmt.executeUpdate("DELETE FROM element WHERE element_id="
 					+ e.getId());
 			stmt.close();

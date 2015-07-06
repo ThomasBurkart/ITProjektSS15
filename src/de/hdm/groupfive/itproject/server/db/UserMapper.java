@@ -23,17 +23,30 @@ import de.hdm.groupfive.itproject.shared.bo.Element;
  * können. Das Mapping ist bidirektional. D.h., Objekte können in DB-Strukturen
  * und DB-Strukturen in Objekte umgewandelt werden.
  */
-// Test
 
 public class UserMapper {
 	/**
 	 * 
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
+	 * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
+	 * speichert die einzige Instanz dieser Klasse.
+	 * 
+	 * @see userMapper()
 	 */
 	private static UserMapper userMapper = null;
 
 	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>UserMapper.getUserMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine
+	 * einzige Instanz von <code>UserMapper</code> existiert.
+	 * <p>
 	 * 
-	 * @return
+	 * <b>Fazit:</b> UserMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
+	 * Methode.
+	 * 
+	 * @return DAS <code>UserMapper</code>-Objekt. { @link userMapper}
 	 */
 	public static UserMapper getUserMapper() {
 		if (userMapper == null) {
@@ -56,18 +69,28 @@ public class UserMapper {
 	 * auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
 	 * berichtigt.
 	 * 
-	 * @param u
-	 *            das zu speichernde Objekt
-	 * @return das bereits übergebene Objekt, jedoch mit ggf. korrigierter
-	 *         <code>id</code>.
+	 * @param userId
+	 *           zu �bergebende userId          
+	 * @param username
+	 * 			Name des Benutzers 
+	 * @param elementId
+	 * 			Id des Elements 
+	 * @param updateText 
+	 * 			Text als String f�r das Update
+	 * @param lastUpdate
+	 *        	letztes Update-Datum
 	 */
 	public void insertHistory(String userId, String username, int elementId,
 			String updateText, Date lastUpdate)
 			throws IllegalArgumentException, SQLException {
+		//DB Verbindung holen
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
-
+			/*
+			 * Zunaechst wird festgestellt, welches der h�chste Prim�rschluessel ist
+			 * 
+			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(history_id) AS maxid FROM history");
 
 			if (rs.next()) {
@@ -97,6 +120,15 @@ public class UserMapper {
 		}
 	}
 
+	/**
+	 * Der Name des Benutzers, welcher das letzte mal dieses Element bearbeitet hat, wird als String ausgegeben
+	 * @param id
+	 * 		Id des Elements
+	 * @return
+	 * 			<code>""</code> Name des Benutzers
+	 * @throws IllegalArgumentException
+	 * @throws SQLException
+	 */
 	public String getLastUpdateUserNameByElementId(int id) 
 			throws IllegalArgumentException, SQLException {
 		Connection con = DBConnection.connection();
