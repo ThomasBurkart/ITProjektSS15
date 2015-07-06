@@ -24,16 +24,15 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
 public class SearchTreeModel implements TreeViewModel {
 
 	/**
-	 * The model that defines the nodes in the tree.
+	 * Das Modell, das die Knoten in der Baumstruktur definiert.
 	 */
 
 	private final List<PartlistEntry> searchResult;
 
 	/**
-	 * This selection model is shared across all leaf nodes. A selection model
-	 * can also be shared across all nodes in the tree, or each set of child
-	 * nodes can have its own instance. This gives you flexibility to determine
-	 * how nodes are selected.
+	 * Dieses Auswahl-Modell ist in allen Astknoten verteilt. Ein Auswahlmodell
+	 * Kann auch auf allen Knoten im Baum geteilt werden, oder in jeder Gruppe eines Kindes
+	 * Knoten können eine eigene Instanz haben. Dadurch wird es möglich zu bestimmen, wie diese Knoten ausgewählt sind
 	 */
 	private final SelectionModel<PartlistEntry> selectionModel;
 
@@ -51,6 +50,7 @@ public class SearchTreeModel implements TreeViewModel {
 
 			private Cell cell = new TextCell();
 
+			
 			public Cell<PartlistEntry> getCell() {
 				return cell;
 			}
@@ -73,7 +73,7 @@ public class SearchTreeModel implements TreeViewModel {
 			}
 
 			protected PartlistEntry getContainerElement(PartlistEntry parent) {
-				// Return the first TR element in the table.
+				// Gebe das erste TR element in der Tabelle zurück
 				return parent;
 			}
 
@@ -90,21 +90,21 @@ public class SearchTreeModel implements TreeViewModel {
 	}
 
 	/**
-	 * Get the {@link NodeInfo} that provides the children of the specified
-	 * value.
+	 * 
+	 * Hole den {@link NodeInfo} der das Kind des festgelegten Wertes bereitstellt
 	 */
 	public <T> NodeInfo<?> getNodeInfo(T val) {
 		if (val == null) {
 
 			T value = val;
 			// LEVEL 0.
-			// We passed null as the root value. Return the composers.
+			// Wir haben 0 ausgeworfen als Stammwert. Gebe den Verfasser zurück
 
-			// Create a data provider that contains the list of composers.
+		
 			ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>(
 					this.searchResult);
 
-			// Create a cell to display a composer.
+			// Erzeugen einer Zelle um einen Stücklisteneintrag dazustellen
 			Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
 				@Override
@@ -119,8 +119,8 @@ public class SearchTreeModel implements TreeViewModel {
 				}
 			};
 
-			// Return a node info that pairs the data provider and the cell.
-			// return new DefaultNodeInfo<Element>(dataProvider, cell);
+			// Gibt eine Knoten-Info, die den Datenprovider und die Zelle verbindet.
+			// Gebe den neuen DefaultNodeInfo<Element>(dataProvider, cell); zurück.
 			return new DefaultNodeInfo<PartlistEntry>(dataProvider, cell,
 					selectionModel, selectionManager, null);
 		} else {
@@ -150,8 +150,7 @@ public class SearchTreeModel implements TreeViewModel {
 							cell, selectionModel, selectionManager, null);
 				} else	if (value.getElement() instanceof Module) {
 					// LEVEL 1.
-					// We want the children of the composer. Return the
-					// playlists.
+					// . Gebe alle Eintraege der Strukturstückliste zurück
 					ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>(
 							((Module) value.getElement()).getPartlist()
 									.getAllEntries());
@@ -161,7 +160,6 @@ public class SearchTreeModel implements TreeViewModel {
 						public void render(
 								com.google.gwt.cell.client.Cell.Context context,
 								PartlistEntry value, SafeHtmlBuilder sb) {
-							// TODO Auto-generated method stub
 							if (value != null) {
 								sb.appendHtmlConstant("    ");
 								sb.appendEscaped(value.getElement().getName());
@@ -170,12 +168,14 @@ public class SearchTreeModel implements TreeViewModel {
 							}
 						}
 					};
-					// return new DefaultNodeInfo<Element>(dataProvider, cell);
+					
+					// gebe den neuen DefaultNodeInfo<Element>(dataProvider, cell); zurück
 					return new DefaultNodeInfo<PartlistEntry>(dataProvider,
 							cell, selectionModel, selectionManager, null);
 				} else if (value.getElement() instanceof Element) {
-					// LEVEL 2 - LEAF.
-					// We want the children of the playlist. Return the songs.
+					// LEVEL 2 - Blatt.
+					// Ausgabe von Name und Anzahl der Elemente
+					
 					ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>();
 					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 						@Override
@@ -194,8 +194,7 @@ public class SearchTreeModel implements TreeViewModel {
 
 					dataProvider.getList().add(((PartlistEntry) value));
 
-					// Use the shared selection model.
-					// return new DefaultNodeInfo<Element>(dataProvider, cell);
+					// Nutzen des geteilten Auswahlmodells
 					return new DefaultNodeInfo<PartlistEntry>(dataProvider,
 							cell, selectionModel, selectionManager, null);
 				}
@@ -205,8 +204,11 @@ public class SearchTreeModel implements TreeViewModel {
 	}
 
 	/**
-	 * Check if the specified value represents a leaf node. Leaf nodes cannot be
-	 * opened.
+	 * Prüfen, ob der festgelegte Wert einen Blattknoten darstellt. Blattknoten kann man nicht öffnen
+	 * @param value
+	 * 		Objekt Wert
+	 * @return 
+	 * 		Aussage ob es sich um ein Produkt oder ein Element handelt
 	 */
 	public boolean isLeaf(Object value) {
 		boolean result = false;

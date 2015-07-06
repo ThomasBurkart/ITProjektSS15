@@ -13,6 +13,12 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class SuccessMsg extends FlowPanel {
 	
+	
+	/**
+	 * Mit diser Methode wird eine Erfolgsnachricht ausgegeben
+	 * @param msg
+	 * @param rp
+	 */
 	public SuccessMsg(String msg, RootPanel rp) {
 		// Falls bereits eine MsgBox vorhanden ist wird diese entfernt um Platz für die neue
 		// zu schaffen

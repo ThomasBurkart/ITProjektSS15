@@ -13,12 +13,16 @@ import com.google.gwt.user.client.ui.Widget;
  * Using UL lists is a modern pattern to layout web pages, as it is easy to style them
  * with CSS. Moreover, they have several advantages over tables (changing the layout
  * requires changing the code, accessibility, etc).
- * 
+ * Ein Panel, dass das HTML UL-Element verwendet. Alle Kinder werden in LI-Elemente eingewickelt.
+  *
+  * Bei der Verwendung von UL-Listen ist ein modernes Muster, um Web-Seiten-Layout, wie es ist leicht, sie zu formatieren
+  * Mit CSS. Darüber hinaus haben mehrere Vorteile gegenüber Tabellen (Ändern des Layouts müssen sie
+  * Erfordert den Code ändern, Zugänglichkeit, usw.). 
  */
 public class UlListPanel extends ComplexPanel implements InsertPanel {
 
 	/**
-	 * Creates an empty flow panel.
+	 * Erzeugt ein leeres "flow panel"
 	 */
 	public UlListPanel() {
 		setElement(Document.get().createULElement());
@@ -31,9 +35,9 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 	}
 
 	/**
-	 * Adds a new child widget to the panel.
-	 * 
-	 * @param w the widget to be added
+	 * Fügt ein neues Kind Widget zu dem Panel.
+	 *
+	 * @param W Widget, welches hinzugefügt werden soll
 	 */
 	@Override
 	public void add(Widget w) {
@@ -41,11 +45,14 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 	}
 
 	@Override
+	/**
+	 * löschen der Kinder aller Elemente 
+	 */
 	public void clear() {
 		try {
 			// doLogicalClear();
 		} finally {
-			// Remove all existing child nodes.
+			// Löscht alle existierenden Kinder der Elemente
 			Node child = getElement().getFirstChild();
 			while (child != null) {
 				getElement().removeChild(child);
@@ -55,19 +62,20 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 	}
 
 	/**
-	 * Inserts a widget before the specified index.
+	 * Fügt ein Widget vor den festgelegten Index
 	 * 
-	 * @param w the widget to be inserted
-	 * @param beforeIndex the index before which it will be inserted
-	 * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
+	 * @param w 
+	 * 			Widget, welches eingefügrt werden soll
+	 * @param beforeIndex 
+	 * 		der Platz vor des Indexes, indem das widget eingefügt werden soll
+	 * @throws IndexOutOfBoundsException wenn <code>beforeIndex</code> ist auser dem gültigkeitsbereich
 	 */
 	public void insert(Widget w, int beforeIndex) {
 		insert(wrapWidget(w), getElement(), beforeIndex, true);
 	}
 
 	/**
-	 * The LI element for use in {@link UlListPanel}s.
-	 * @author Markus
+	 * Das LI Element für die Nutzung in {@link UlListPanel}s.
 	 */
 	private static class LiPanel extends ComplexPanel implements InsertPanel {
 
@@ -76,9 +84,9 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 		}
 
 		/**
-		 * Adds a new child widget to the panel.
+		 * Fügt ein neues Kind Widget zu dem Panel
 		 * 
-		 * @param w the widget to be added
+		 * @param w , Widget welches hinzugefügt werden soll
 		 */
 		@Override
 		public void add(Widget w) {
@@ -90,7 +98,7 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 			try {
 				// doLogicalClear();
 			} finally {
-				// Remove all existing child nodes.
+				// löscht alle Kindknoten
 				Node child = getElement().getFirstChild();
 				while (child != null) {
 					getElement().removeChild(child);
@@ -100,11 +108,16 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 		}
 
 		/**
-		 * Inserts a widget before the specified index.
+
+		 * Fügt ein Widget ein, vor den festgelegten Index
 		 * 
-		 * @param w the widget to be inserted
-		 * @param beforeIndex the index before which it will be inserted
-		 * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
+		 * @param w 
+		 * 			das Widget, welches eingefügt werden soll
+		 * @param beforeIndex 
+		 * 			der Platz vor des Indexes, indem das widget eingefügt werden soll
+		 * 
+		 * @throws IndexOutOfBoundsException 
+		 * 			wenn<code>beforeIndex</code> ist nicht mehr in dem Gültigkeitsbereich
 		 */
 		public void insert(Widget w, int beforeIndex) {
 			insert(w, getElement(), beforeIndex, true);
