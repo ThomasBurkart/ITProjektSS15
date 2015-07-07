@@ -11,6 +11,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
+
+/**
+ * 
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
+ */
 public class ReportGen implements EntryPoint {
 
 	@Override

@@ -8,16 +8,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 /**
- * A panel that uses the HTML UL element. All children will be wrapped into LI elements.
- * 
- * Using UL lists is a modern pattern to layout web pages, as it is easy to style them
- * with CSS. Moreover, they have several advantages over tables (changing the layout
- * requires changing the code, accessibility, etc).
  * Ein Panel, dass das HTML UL-Element verwendet. Alle Kinder werden in LI-Elemente eingewickelt.
   *
-  * Bei der Verwendung von UL-Listen ist ein modernes Muster, um Web-Seiten-Layout, wie es ist leicht, sie zu formatieren
-  * Mit CSS. Darüber hinaus haben mehrere Vorteile gegenüber Tabellen (Ändern des Layouts müssen sie
-  * Erfordert den Code ändern, Zugänglichkeit, usw.). 
+  * Die Verwendung von UL-Listen ist ein modernes Vorgehen bei der Gestaltung von Webseiten,
+  * weil es einfach ist disese zu gestalten mit Hilfe von CSS.
+  * Darüber hinaus gibt es mehrere Vorteile gegenüber Tabellen (Das Ändern des Layouts 
+  * erfordert eine Änderung im Code, Zugänglichkeiten, usw.). 
+  * 
+  * @author Thomas Burkart
+  * @version 1.0
+  * @since 07.07.2015
  */
 public class UlListPanel extends ComplexPanel implements InsertPanel {
 

@@ -15,9 +15,11 @@ import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
 /**
- * 
- * @author Affagichtli xD
- *
+ * AssignPanel bietet ein Showcase um Zuordnungen von Baugruppen, Bauteilen und 
+ * Endprodukten zu ermöglichen
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
  */
 public class AssignPanel extends Showcase {
 

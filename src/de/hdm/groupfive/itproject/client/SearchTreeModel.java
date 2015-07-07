@@ -24,7 +24,11 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
 public class SearchTreeModel implements TreeViewModel {
 
 	/**
-	 * Das Modell, das die Knoten in der Baumstruktur definiert.
+	 * Das Modell, dass die Knoten in der Baumstruktur definiert.
+	 * 
+	 * @author Thomas Burkart
+	 * @version 1.0
+	 * @since 07.07.2015
 	 */
 
 	private final List<PartlistEntry> searchResult;

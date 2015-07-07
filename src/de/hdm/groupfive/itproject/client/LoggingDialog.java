@@ -15,10 +15,22 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
+/**
+ * In dem LoggingDialog wird dem User die Log-Information ausgegeben, 
+ * desweiteren wird dem User das Impressum angezeigt mit den Mitgliedern
+ * 
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
+ */
 public class LoggingDialog {
 	private static DialogBox dialog;
 	
+	/**
+	 * Diese Methode dient der Ausgabe der Log-Information mit Datum
+	 * @return
+	 * 	Der Dialog (Aufruf als Datum) wird zurückgeben 
+	 */
 	public static DialogBox getDialogBox() {
 		if (dialog == null) {
 			dialog = new DialogBox();
@@ -54,7 +66,9 @@ public class LoggingDialog {
 			
 			HorizontalPanel contentPane = new HorizontalPanel();
 			contentPane.add(scrollPanel);
-			
+			/**
+			 * Hier wird das Impressum dargestellt mit den Mitgliedern
+			 */
 			VerticalPanel infoPane = new VerticalPanel();
 			infoPane.add(new HTML("<b>Impressum</b><br /><br />Diese StrukturstÃ¼cklisten Management Web-Applikation wurde im Rahmen eines <a href=\"https://www.hdm-stuttgart.de/studenten/stundenplan/vorlesungsverzeichnis/vorlesung_detail?vorlid=5211691\" target=\"_blank\">IT-Projekts</a> des Studiengangs <a href=\"http://www.wi.hdm-stuttgart.de\" target=\"_blank\">Wirtschaftsinformatik und digitale Medien</a>,<br />an der <a href=\"http://www.hdm-stuttgart.de\" target=\"_blank\">Hochschule der Medien</a>, unter Leitung<br />von <a href=\"http://www.prof-thies.de\" target=\"_blank\">Herrn Prof. Dr. Thies</a>, von <b>Gruppe 6</b> erstellt.<br /><br /><i>Mitglieder:</i>"));
 			Grid memberGrid = new Grid(6, 2);

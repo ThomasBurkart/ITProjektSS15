@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 /**
  * Klasse für eine Erfolgs-Nachricht im Showcase z.B. falls etwas erfolgreich gespeichert wurde.
  * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
  *
  */
 public class SuccessMsg extends FlowPanel {

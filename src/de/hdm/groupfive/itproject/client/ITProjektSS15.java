@@ -13,6 +13,9 @@ import de.hdm.groupfive.itproject.shared.bo.User;
 
 /**
  * EntryPoint für alle Klassen durch <code>onModuleLoad()</code>.
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
  */
 public class ITProjektSS15 implements EntryPoint {
 	
