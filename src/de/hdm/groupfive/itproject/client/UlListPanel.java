@@ -8,17 +8,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 /**
- * A panel that uses the HTML UL element. All children will be wrapped into LI elements.
- * 
- * Using UL lists is a modern pattern to layout web pages, as it is easy to style them
- * with CSS. Moreover, they have several advantages over tables (changing the layout
- * requires changing the code, accessibility, etc).
+ * Dieses Panel verwendet das HTML UL-Tag. Alle Children werden in ein LI-Tag gepackt.
  * 
  */
 public class UlListPanel extends ComplexPanel implements InsertPanel {
 
 	/**
-	 * Creates an empty flow panel.
+	 * Erzeugt ein leeres Flowpanel.
 	 */
 	public UlListPanel() {
 		setElement(Document.get().createULElement());
@@ -31,9 +27,9 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 	}
 
 	/**
-	 * Adds a new child widget to the panel.
+	 * Fügt ein neues Child Widget dem Panel hinzu.
 	 * 
-	 * @param w the widget to be added
+	 * @param w Hinzufügendes Widget
 	 */
 	@Override
 	public void add(Widget w) {
@@ -55,19 +51,19 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 	}
 
 	/**
-	 * Inserts a widget before the specified index.
+	 * Fügt ein Widget vor dem vegegebenen Index ein.
 	 * 
-	 * @param w the widget to be inserted
-	 * @param beforeIndex the index before which it will be inserted
-	 * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
+	 * @param w Hinzufügendes Widget
+	 * @param beforeIndex Index bevor dieser eingefügt wird.
+	 * @throws IndexOutOfBoundsException wenn <code>beforeIndex</code> außerhalb des Intervalls ist
 	 */
 	public void insert(Widget w, int beforeIndex) {
 		insert(wrapWidget(w), getElement(), beforeIndex, true);
 	}
 
 	/**
-	 * The LI element for use in {@link UlListPanel}s.
-	 * @author Markus
+	 * Das LI-Element um {@link UlListPanel}s zu verwenden.
+	 * @author Fesseler
 	 */
 	private static class LiPanel extends ComplexPanel implements InsertPanel {
 
@@ -76,9 +72,9 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 		}
 
 		/**
-		 * Adds a new child widget to the panel.
+		 * Fügt ein neues Child Widget dem Panel hinzu.
 		 * 
-		 * @param w the widget to be added
+		 * @param w Hinzufügendes Widget
 		 */
 		@Override
 		public void add(Widget w) {
@@ -100,11 +96,11 @@ public class UlListPanel extends ComplexPanel implements InsertPanel {
 		}
 
 		/**
-		 * Inserts a widget before the specified index.
+		 * Setzt ein Widget vor dem Index ein
 		 * 
-		 * @param w the widget to be inserted
-		 * @param beforeIndex the index before which it will be inserted
-		 * @throws IndexOutOfBoundsException if <code>beforeIndex</code> is out of range
+		 * @param w Hinzufügendes Widget
+		 * @param beforeIndex Index bevor dieser eingefügt wird.
+		 * @throws IndexOutOfBoundsException wenn <code>beforeIndex</code> außerhalb des Intervalls ist
 		 */
 		public void insert(Widget w, int beforeIndex) {
 			insert(w, getElement(), beforeIndex, true);

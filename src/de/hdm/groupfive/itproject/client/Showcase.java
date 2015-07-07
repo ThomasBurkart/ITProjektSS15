@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.*;
  * Diese Klasse ist die Basisklasse aller Showcases. Jeder Showcase ist ein
  * VerticalPanel und lässt sich somit unter GWT entsprechend anordnen.
  * 
- * @author thies
+ * @author Burkart
  * @version 1.0
  * 
  */

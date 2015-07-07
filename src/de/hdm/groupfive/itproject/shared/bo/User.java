@@ -1,5 +1,11 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
+/**
+ * 
+ * 
+ * @author Fesseler
+ *
+ */
 public class User extends BusinessObject {
 
 	/**
