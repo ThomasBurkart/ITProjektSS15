@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Module;
+import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 
@@ -167,12 +168,52 @@ public class CalculateMaterial extends Showcase {
 				}
 			}
 		});
+		
+		final Button createPartlistBtn = new Button("Stückliste ausgeben");
+		createPartlistBtn.setStylePrimaryName("btn btn-success createBtn");
+		createPartlistBtn.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				
+					if (RootPanel.get("calcGrid") != null) {
+						RootPanel.get("calcGrid").getElement()
+								.removeFromParent();
+					}
+					HTML result = new HTML();
+					result.getElement().setId("calcGrid");
+					if (entry.getElement() instanceof Module) {
+						Module m = (Module) entry.getElement();
+						
+						String treeHtml = generateHtmlTree(m.getPartlist(), 0);
+						
+						result.setHTML(treeHtml);
+								
+					} else {
+						result.setHTML(entry.getElement().getName());
+					}
+					
+
+					currentShowcase.add(result);
+				
+			}
+		});
 
 		panel.add(amountText);
 		panel.add(amountTb);
 		panel.add(calcBtn);
 
 		this.add(panel);
+	}
+	
+	private String generateHtmlTree(Partlist p, int level) {
+		String result = "";
+		for(PartlistEntry pe : p.getAllEntries()) {
+			if (pe.getElement() instanceof Module) {
+				result += generateHtmlTree(((Module)pe.getElement()).getPartlist(), level+1);
+			} else {
+				result += pe.getElement().getName() + " [" + pe.getAmount() + "]<br />";
+			}
+		}
+		return result;
 	}
 
 	/**
