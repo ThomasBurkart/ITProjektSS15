@@ -13,6 +13,10 @@ import de.hdm.groupfive.itproject.shared.bo.User;
 
 /**
  * EntryPoint für alle Klassen durch <code>onModuleLoad()</code>.
+ * Hier wird für den Viewer/ Editor des Strukturstücklisten Management 
+ * eine Vorlage erstellt, in welche die einzelnen Showcases geladen werden.
+ * @author Timo Fesseler
+ *
  */
 public class ITProjektSS15 implements EntryPoint {
 	

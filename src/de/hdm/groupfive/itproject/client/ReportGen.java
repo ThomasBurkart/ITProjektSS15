@@ -11,9 +11,18 @@ import com.google.gwt.user.client.ui.RootPanel;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
+/**
+ * EntryPoint für alle Klassen durch <code>onModuleLoad()</code>.
+ * Hier wird für den Report Generator des Strukturstücklisten Management 
+ * eine Vorlage erstellt, in welche die einzelnen Showcases geladen werden.
+ * @author Timo Fesseler
+ *
+ */
 public class ReportGen implements EntryPoint {
 
-	@Override
+	/**
+	 * Das ist die EntryPoint-Methode.
+	 */
 	public void onModuleLoad() {
 		AdministrationCommonAsync administration = ClientsideSettings
 				.getAdministration();
@@ -24,10 +33,13 @@ public class ReportGen implements EntryPoint {
 		RootPanel.get("main").clear();
 	}
 	
-	
+	/**
+	 * Asynchrone Anmelde-Klasse. 
+	 * Showcase in dem die Antwort des Callbacks eingefügt wird.
+	 * @author Timo Fesseler
+	 *
+	 */
 	class LoginCallback implements AsyncCallback<User> {
-
-		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
 
 		/**
 		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung

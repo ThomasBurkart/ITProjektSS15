@@ -21,12 +21,17 @@ import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
+/**
+ * 
+ * @author Thomas Burkart
+ *
+ */
 public class SearchTreeModel implements TreeViewModel {
 
 	/**
+	 * Das Model das
 	 * The model that defines the nodes in the tree.
 	 */
-
 	private final List<PartlistEntry> searchResult;
 
 	/**
@@ -37,34 +42,62 @@ public class SearchTreeModel implements TreeViewModel {
 	 */
 	private final SelectionModel<PartlistEntry> selectionModel;
 
+	/**
+	 * 
+	 */
 	private final Cell<PartlistEntry> elementCell;
+	
+	/**
+	 * 
+	 */
 	private final DefaultSelectionEventManager<PartlistEntry> selectionManager = DefaultSelectionEventManager
 			.createDefaultManager();
 
+	/**
+	 * 
+	 * @param searchResult
+	 * @param selectionModel
+	 */
 	public SearchTreeModel(Partlist searchResult,
 			final SelectionModel<PartlistEntry> selectionModel) {
 		this.selectionModel = selectionModel;
 		this.searchResult = searchResult.getAllEntries();
 		List<HasCell<PartlistEntry, ?>> hasCells = new ArrayList<HasCell<PartlistEntry, ?>>();
 
+		
 		hasCells.add(new HasCell<PartlistEntry, PartlistEntry>() {
 
+			/**
+			 * 
+			 */
 			private Cell cell = new TextCell();
 
+			/**
+			 * 
+			 */
 			public Cell<PartlistEntry> getCell() {
 				return cell;
 			}
 
+			/**
+			 * 
+			 */
 			public FieldUpdater<PartlistEntry, PartlistEntry> getFieldUpdater() {
 				return null;
 			}
 
+			/**
+			 * 
+			 */
 			public PartlistEntry getValue(PartlistEntry object) {
 				return object;
 			}
 		});
 		elementCell = new CompositeCell<PartlistEntry>(hasCells) {
-			@Override
+
+			/**
+			 * 
+			 */
 			public void render(Context context, PartlistEntry value,
 					SafeHtmlBuilder sb) {
 				sb.appendHtmlConstant("<table><tbody><tr>");
@@ -72,12 +105,19 @@ public class SearchTreeModel implements TreeViewModel {
 				sb.appendHtmlConstant("</tr></tbody></table>");
 			}
 
+			/**
+			 * 
+			 * @param parent
+			 * @return
+			 */
 			protected PartlistEntry getContainerElement(PartlistEntry parent) {
 				// Return the first TR element in the table.
 				return parent;
 			}
 
-			@Override
+			/**
+			 * 
+			 */
 			protected <X> void render(Context context, PartlistEntry value,
 					SafeHtmlBuilder sb, HasCell<PartlistEntry, X> hasCell) {
 				Cell<X> cell = hasCell.getCell();
@@ -107,7 +147,9 @@ public class SearchTreeModel implements TreeViewModel {
 			// Create a cell to display a composer.
 			Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
-				@Override
+				/**
+				 * 
+				 */
 				public void render(
 						com.google.gwt.cell.client.Cell.Context context,
 						PartlistEntry value, SafeHtmlBuilder sb) {
@@ -157,7 +199,9 @@ public class SearchTreeModel implements TreeViewModel {
 									.getAllEntries());
 					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
-						@Override
+						/**
+						 * 
+						 */
 						public void render(
 								com.google.gwt.cell.client.Cell.Context context,
 								PartlistEntry value, SafeHtmlBuilder sb) {
@@ -178,7 +222,10 @@ public class SearchTreeModel implements TreeViewModel {
 					// We want the children of the playlist. Return the songs.
 					ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>();
 					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
-						@Override
+						
+						/**
+						 * 
+						 */
 						public void render(
 								com.google.gwt.cell.client.Cell.Context context,
 								PartlistEntry value, SafeHtmlBuilder sb) {
