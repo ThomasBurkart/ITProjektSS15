@@ -183,7 +183,7 @@ public class CalculateMaterial extends Showcase {
 					if (entry.getElement() instanceof Module) {
 						Module m = (Module) entry.getElement();
 						
-						String treeHtml = generateHtmlTree(m.getPartlist(), 0);
+						String treeHtml = generateHtmlTree(entry, 0);
 						
 						result.setHTML(treeHtml);
 								
@@ -205,17 +205,24 @@ public class CalculateMaterial extends Showcase {
 		this.add(panel);
 	}
 	
-	private String generateHtmlTree(Partlist p, int level) {
+	private String generateHtmlTree(PartlistEntry pe, int level) {
 		String result = "";
 		for (int i = 0; i < level; i++) {
 			result += "   ";
 		}
-		for(PartlistEntry pe : p.getAllEntries()) {
-			if (pe.getElement() instanceof Module) {
-				result += generateHtmlTree(((Module)pe.getElement()).getPartlist(), level+1);
-			} else {
-				result += pe.getElement().getName() + " [" + pe.getAmount() + "]<br />";
+		
+		if (pe.getElement() instanceof Module) {
+			result += pe.getElement().getName();
+			result += level > 0 ? " [" + pe.getAmount() + "]<br />" : "<br />";
+			for(PartlistEntry entry : ((Module)pe.getElement()).getPartlist().getAllEntries()) {
+				if (entry.getElement() instanceof Module) {
+					result += generateHtmlTree(entry, level+1);
+				} else {
+					result += pe.getElement().getName() + " [" + pe.getAmount() + "]<br />";
+				}
 			}
+		} else {
+			result += pe.getElement().getName() + " [" + pe.getAmount() + "]<br />";
 		}
 		return result;
 	}
