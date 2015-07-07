@@ -83,7 +83,6 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * transportiert und dort systematisch in einem Catch-Block abgearbeitet werden.
  * </p>
  */
-@SuppressWarnings("serial")
 public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		AdministrationCommon {
 
