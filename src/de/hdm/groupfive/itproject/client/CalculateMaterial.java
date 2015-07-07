@@ -57,7 +57,7 @@ public class CalculateMaterial extends Showcase {
 	public CalculateMaterial(PartlistEntry entry) {
 		this.entry = entry;
 		this.headlineText = "Materialbedarf zu '"
-				+ entry.getElement().getName() + "' kalkulieren";
+				+ entry.getElement().getName() + "'";
 		this.headlineTextStyle = "formTitle";
 		this.currentShowcase = this;
 	}
@@ -137,7 +137,7 @@ public class CalculateMaterial extends Showcase {
 		FlowPanel panel = new FlowPanel();
 		panel.setStylePrimaryName("actionBox");
 
-		final Button calcBtn = new Button("berechnen");
+		final Button calcBtn = new Button("Materialbedarf berechnen");
 		calcBtn.setStylePrimaryName("btn btn-success createBtn");
 		calcBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -173,22 +173,22 @@ public class CalculateMaterial extends Showcase {
 		createPartlistBtn.setStylePrimaryName("btn btn-success createBtn");
 		createPartlistBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				
+					
 					if (RootPanel.get("calcGrid") != null) {
 						RootPanel.get("calcGrid").getElement()
 								.removeFromParent();
 					}
 					HTML result = new HTML();
 					result.getElement().setId("calcGrid");
+					
 					if (entry.getElement() instanceof Module) {
-						Module m = (Module) entry.getElement();
-						
-						String treeHtml = generateHtmlTree(entry, 0);
+												
+						String treeHtml = generateHtmlTree(entry, Integer.parseInt(amountTb.getValue().trim()), 1);
 						
 						result.setHTML(treeHtml);
 								
 					} else {
-						result.setHTML(entry.getElement().getName());
+						result.setHTML("&nbsp;&nbsp;&nbsp;&nbsp;" + entry.getElement().getName());
 					}
 					
 
@@ -205,25 +205,27 @@ public class CalculateMaterial extends Showcase {
 		this.add(panel);
 	}
 	
-	private String generateHtmlTree(PartlistEntry pe, int level) {
+	/**
+	 * Erzeugt rekursiv die HTML Ausgabe für eine Strukturstückliste.
+	 * @param pe PartlistEntry der ein Modul oder Element enthält und vom Suchbaum übergeben wird
+	 * @param level Ebene in Stückliste
+	 * @return String mit HTML für die Ausgabe
+	 */
+	private String generateHtmlTree(PartlistEntry pe, int amount, int level) {
 		String result = "";
 		for (int i = 0; i < level; i++) {
-			result += "   ";
+			result += "&nbsp;&nbsp;&nbsp;&nbsp;";
 		}
+		result += pe.getElement().getName();
+		result += level > 1 ? " [" + (pe.getAmount() * amount) + "]<br />" : "<br />";
 		
 		if (pe.getElement() instanceof Module) {
-			result += pe.getElement().getName();
-			result += level > 0 ? " [" + pe.getAmount() + "]<br />" : "<br />";
 			for(PartlistEntry entry : ((Module)pe.getElement()).getPartlist().getAllEntries()) {
-				if (entry.getElement() instanceof Module) {
-					result += generateHtmlTree(entry, level+1);
-				} else {
-					result += pe.getElement().getName() + " [" + pe.getAmount() + "]<br />";
-				}
+				
+				result += generateHtmlTree(entry, amount, level+1);
+				
 			}
-		} else {
-			result += pe.getElement().getName() + " [" + pe.getAmount() + "]<br />";
-		}
+		} 
 		return result;
 	}
 
