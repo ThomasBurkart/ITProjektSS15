@@ -182,7 +182,7 @@ public class ProductMapper {
 
 			PreparedStatement stmt;
 			stmt = con
-					.prepareStatement("UPDATE module SET name=?, element_id=?, WHERE product_id=?");
+					.prepareStatement("UPDATE product SET name=?, element_id=? WHERE product_id=?");
 
 			stmt.setString(1, p.getName());
 			stmt.setInt(2, p.getId());

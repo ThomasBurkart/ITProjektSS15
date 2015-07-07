@@ -9,26 +9,52 @@ import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
+/**
+ * CreateElement bietet ein Showcase um auswählen zu können, ob man ein Bauteil, 
+ * eine Baugruppe oder ein Enderzeugnis erstellen möchte.
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
+ */
 public class CreateElement extends Showcase {
+	
+	/**
+	 * Überschrift des Showcase (graue Überschrift)
+	 */
 	private String headlineText;
+	
+	/**
+	 * StyleSheet Klasse für die Überschrift des Showcase
+	 */
 	private String headlineTextStyle;
 	
+	/**
+	 * Auswahl ob ein Bauteil, Baugruppe oder Endprodukt angelegt werden soll
+	 */
 	public CreateElement() {
 		this.headlineText = "Bitte wählen Sie aus, was Sie anlegen möchten!";
 		this.headlineTextStyle = "formTitle";
 	}
 	
-	@Override
+	/**
+	 * Auslesen des Titels von jeweiligen Showcase (graue Überschrift)
+	 */
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
-	@Override
+	/**
+	 * Auslesen der Formatierung des Titels
+	 */
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	@Override
+	 /**
+	   * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	   * eine "Einschubmethode", die von einer Methode der Basisklasse
+	   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	   */
 	protected void run() {		
 		Button createElementBtn = new Button("<img src=\"img/element.png\" style=\"width: 100%\" />");
 		createElementBtn.setStylePrimaryName("btn btn-default createBtn btn32");

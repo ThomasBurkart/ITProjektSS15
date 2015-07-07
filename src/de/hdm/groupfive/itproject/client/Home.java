@@ -1,42 +1,61 @@
 package de.hdm.groupfive.itproject.client;
 
-import java.util.ArrayList;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RootPanel;
 
-import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
-import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.groupfive.itproject.shared.bo.User;
-
+/**
+ * Home bietet ein Showcase um die Begrüßungsfläche (rechtes Panel)
+ * darstellen zu können.
+ * 
+ * 
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
+ */
 public class Home extends Showcase {
 
+	/**
+	 * Überschrift des Showcase (graue Überschrift)
+	 */
 	private String headlineText;
+	
+	/**
+	 * StyleSheet Klasse für die Überschrift des Showcase
+	 */
 	private String headlineTextStyle;
 
+	/**
+	 * Konstruktor der Klasse Home
+	 * erzeugt die Willkommens-Fläche in der, 
+	 * der eingeloggt Benutzer mit dem von Google 
+	 * übergebenen Username begrüßt wird.
+	 */
 	public Home() {
 		this.headlineText = "Herzlich Willkommen "
 				+ ClientsideSettings.getCurrentUser().getUserName() + " :)";
 		this.headlineTextStyle = "formTitle";
 	}
 
-	@Override
+	/**
+	 * Auslesen des Titels von jeweiligen Showcase (graue Überschrift)
+	 */
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
-	@Override
+	/**
+	 * Auslesen der Formatierung des Titels
+	 */
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	@Override
+    /**
+	 * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	 * eine "Einschubmethode", die von einer Methode der Basisklasse
+	 * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	 * Aufbau des Willkommen-Panels (rechte Fläche), 
+	 * in welcher eine kurze Beschreibung der Appplikation steht.
+	 */
 	protected void run() {
 		HTML welcomeText = new HTML(
 				"Dies ist ein verteiltes System zum Management von Strukturstücklisten, "

@@ -10,23 +10,44 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
-import de.hdm.groupfive.itproject.client.SearchResult.SearchAllProductsCallback;
-import de.hdm.groupfive.itproject.server.db.ModuleMapper;
-import de.hdm.groupfive.itproject.server.db.PartlistMapper;
 import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
-import de.hdm.groupfive.itproject.shared.bo.Element;
-import de.hdm.groupfive.itproject.shared.bo.Module;
-import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
+/**
+ * 
+ * @author Affagichtli xD
+ *
+ */
 public class AssignPanel extends Showcase {
 
+	/**
+	 * Überschrift des Showcase (graue Überschrift)
+	 */
 	private String headlineText;
+	
+	/**
+	 * StyleSheet Klasse für die Überschrift des Showcase
+	 */
 	private String headlineTextStyle;
+	
+	/**
+	 * Das Element, das im Formular geladen wird
+	 */
 	private PartlistEntry entry;
+	
+	/**
+	 * Aktueller Showcase
+	 */
 	private Showcase currentShowcase;
 
+	/**
+	 * Konstruktor der Klasse AssignPanel
+	 * erzeugt eine Zuordnungsfläche für die Anzeige der Stücklisten der Baugruppen
+	 * 
+	 * @param e
+	 *            Stücklisten Eintrag
+	 */
 	public AssignPanel(PartlistEntry e) {
 		this.entry = e;
 		
@@ -37,17 +58,31 @@ public class AssignPanel extends Showcase {
 		currentShowcase = this;
 	}
 
-	@Override
+	/**
+	   * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
+	   * Methode zu erstellen ist.
+	   * 
+	   * @see Showcase#getHeadlineText()
+	   */
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
-	@Override
+	/**
+	   * Jeder Showcase besitzt eine einleitende Überschrift und dazugehörenden StyleSheet, 
+	   * der durch diese Methode zu erstellen ist.
+	   */
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	@Override
+	/**
+	 * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	 * eine "Einschubmethode", die von einer Methode der Basisklasse
+	 * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	 *
+	 * Aufbau des Assign-Panels (Zuordnungsfläche)
+	 */
 	protected void run() {
 		final SearchPanel sp = new SearchPanel();
 		this.add(sp.getAssignPanel(entry));
@@ -104,6 +139,13 @@ public class AssignPanel extends Showcase {
 		ClientsideSettings.getLogger().info("AssignPanel aufgebaut");
 
 	}
+	
+	/**
+	 * Diese Klasse wird zur asynchronen Ausführung der Zuordnung gebraucht.
+	 * 
+	 * @author Timo Fesseler
+	 *
+	 */
 	class ElementAssignCallback implements AsyncCallback<Void> {
 
 		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */

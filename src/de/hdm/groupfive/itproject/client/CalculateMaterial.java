@@ -18,19 +18,41 @@ import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 
+/**
+ * CalculateMaterial bietet ein Showcase, um die Anzahl der Bauteile 
+ * in einer Baugruppe bestimmen zu können. 
+ * 
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
+ */
 public class CalculateMaterial extends Showcase {
 
-	/** Überschrift des Showcase */
+	/**
+	 * Übersschrift des Showcase (graue Überschrift)
+	 */
 	private String headlineText;
 
-	/** StyleSheet Klasse für die Überschrift des Showcase */
+	/** 
+	 * StyleSheet Klasse für die Überschrift des Showcase 
+	 */
 	private String headlineTextStyle;
 
-	/** Das Element, das im Formular geladen wird */
+	/** 
+	 * Das Element, das im Formular geladen wird 
+	 */
 	private PartlistEntry entry;
 
+	/**
+	 * Aktueller Showcase
+	 */
 	private Showcase currentShowcase;
 
+	/**
+	 * Konstruktor der Klasse CalculateMaterial
+	 * erzeugt eine Zuordnungsfläche für die Anzeige der Stücklisten der Baugruppen
+	 * @param entry
+	 */
 	public CalculateMaterial(PartlistEntry entry) {
 		this.entry = entry;
 		this.headlineText = "Materialbedarf zu '"
@@ -39,17 +61,31 @@ public class CalculateMaterial extends Showcase {
 		this.currentShowcase = this;
 	}
 
-	@Override
+	/**
+	   * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
+	   * Methode zu erstellen ist.
+	   * 
+	   * @see Showcase#getHeadlineText()
+	   */
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
-	@Override
+	/**
+	   * Jeder Showcase besitzt eine einleitende Überschrift und dazugehörenden StyleSheet, 
+	   * der durch diese Methode zu erstellen ist.
+	   */
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	@Override
+	/**
+	   * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	   * eine "Einschubmethode", die von einer Methode der Basisklasse
+	   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	   * 
+	   * Aufbau des Panels zur Berechnung der Anzahl von Bauteilen in einer Bauurgruppe. 
+	   */
 	protected void run() {
 		Grid grid = new Grid(1, 4);
 
@@ -139,16 +175,17 @@ public class CalculateMaterial extends Showcase {
 		this.add(panel);
 	}
 
+	/**
+	 * Showcase in dem die Antwort des Callbacks eingefügt wird.
+	 * @author Timo Fesseler
+	 *
+	 */
 	class CalcCallback implements AsyncCallback<Partlist> {
-
-		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
 
 		/**
 		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
 		 * das übergebene Showcase fest.
 		 * 
-		 * @param c
-		 *            Showcase an das die Rückmeldung ausgegeben wird.
 		 */
 		public CalcCallback() {
 		}

@@ -9,7 +9,6 @@ import de.hdm.groupfive.itproject.server.db.ElementMapper;
 import de.hdm.groupfive.itproject.server.db.ModuleMapper;
 import de.hdm.groupfive.itproject.server.db.ProductMapper;
 import de.hdm.groupfive.itproject.shared.AdministrationCommon;
-import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
@@ -84,7 +83,6 @@ import de.hdm.groupfive.itproject.shared.bo.User;
  * transportiert und dort systematisch in einem Catch-Block abgearbeitet werden.
  * </p>
  */
-@SuppressWarnings("serial")
 public class AdministrationCommonImpl extends RemoteServiceServlet implements
 		AdministrationCommon {
 
@@ -95,32 +93,35 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der Bauteilobjekte mit der Datenbank
+	 * Referenz auf den DatenbankMapper, 
+	 * der Bauteilobjekte mit der Datenbank
 	 * abgleicht.
 	 */
 	private ElementMapper elementMapper = null;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der Baugruppenobjekte mit der Datenbank
+	 * Referenz auf den DatenbankMapper, 
+	 * der Baugruppenobjekte mit der Datenbank
 	 * abgleicht.
 	 */
 	private ModuleMapper moduleMapper = null;
 
 	/**
-	 * Referenz auf den DatenbankMapper, der Endproduktobjekte mit der Datenbank
+	 * Referenz auf den DatenbankMapper, 
+	 * der Endproduktobjekte mit der Datenbank
 	 * abgleicht.
 	 */
 	private ProductMapper productMapper = null;
 
 	/*
-	 * ***************************************************************************
+	 * ***************************************
 	 * ABSCHNITT, Beginn: Initialisierung
 	 * ***************************************
-	 * ************************************
 	 */
 
 	/**
-	 * No-Argument Konstruktor
+	 * No-Argument Konstruktor.
+	 * @throws IllegalArgumentException Benötigt für RPC-Core
 	 */
 	public AdministrationCommonImpl() throws IllegalArgumentException {
 
@@ -129,7 +130,7 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 	/**
 	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
 	 * No-Argument-Konstruktor {@link #AdministrationCommonImpl()}. Diese
-	 * Methode muss fï¿½r jede Instanz von <code>AdministrationCommonImpl</code>
+	 * Methode muss für jede Instanz von <code>AdministrationCommonImpl</code>
 	 * aufgerufen werden.
 	 */
 	public void init() throws IllegalArgumentException {
@@ -388,6 +389,17 @@ public class AdministrationCommonImpl extends RemoteServiceServlet implements
 				}
 				this.getModuleMapper().assignModule((Module) superElement,
 						(Module) subElement, amount);
+				// Produkt - Element
+			} else if (superElement instanceof Product
+					&& !(subElement instanceof Module)) {
+				throw new IllegalArgumentException(
+						"Ein Bauteil kann keinem Enderzeugnis zugeordnet werden. Dies ist nur über eine zugehörige Baugruppe möglich.");
+				// Element - Produkt
+			} else if (!(superElement instanceof Module)
+					&& subElement instanceof Product) {
+				throw new IllegalArgumentException(
+						"Ein Bauteil kann keinem Enderzeugnis zugeordnet werden. Dies ist nur über eine zugehörige Baugruppe möglich.");
+			
 				// Modul - Element
 			} else if (superElement instanceof Module
 					&& !(subElement instanceof Module)) {
