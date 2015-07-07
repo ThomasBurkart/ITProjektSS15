@@ -39,7 +39,7 @@ public class ModuleMapper {
 
 	/**
 	 * Diese statische Methode kann aufgrufen werden durch
-	 * <code>ModuleMapper.moduleMapper()</code>. Sie stellt die
+	 * <code>ModuleMapper.getModuleMapper()</code>. Sie stellt die
 	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine
 	 * einzige Instanz von <code>ModuleMapper</code> existiert.
 	 * <p>
@@ -105,14 +105,27 @@ public class ModuleMapper {
 		return null;
 	}
 
+	
+	/**
+	 * Suchen eines Modules anhand der ElementID. Da diese eindeutig ist, wird
+	 * genau ein Objekt zurückgegeben.
+	 * 
+	 * @param elementId 
+	 *            Primärschlüsselattribut (->DB)
+	 * @return Module-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	 *         nicht vorhandenem DB-Tupel.
+	 */
+	
 	public Module findByElement(int elementId) throws IllegalArgumentException,
 			SQLException {
+		//Datenbankverbindung aufbauen
 		Connection con = DBConnection.connection();
 		
 		Module m = new Module();
 		
 		try {
 			Statement stmt = con.createStatement();
+			// Statement ausfuellen und als Query an DB schicken
 			ResultSet rs = stmt
 					.executeQuery("SELECT * FROM module INNER JOIN element "
 							+ "ON module.element_id = element.element_id "
@@ -231,12 +244,21 @@ public class ModuleMapper {
 
 	}
 
+	/**
+	 * Löschen der Daten eines <code>Module</code> - Objekts aus der Datenbank
+	 * 
+	 * @param m
+	 *            das aus der DB zu löschende "Objekt"
+	 * @throws SQLException
+	 */
 	public void delete(Module m) throws IllegalArgumentException, SQLException {
+		//DB-Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
 
 			Statement stmt = con.createStatement();
+			// Statement ausfuellen und als Query an die DB schicken
 			stmt.executeUpdate("DELETE FROM module WHERE module_id="
 					+ m.getModuleId());
 
@@ -319,6 +341,22 @@ public class ModuleMapper {
 
 		return m;
 	}
+	
+	/**
+	 * Finden eines Moduls anhand des Namens des zugeh�rigen Elements
+	 * 
+	 * @param name
+	 *            attribut (->DB)
+	 * @param maxResults
+	 * 			 
+	 *			
+	 * @return Modul-Objekt, das dem übergebenen Schlüssel entspricht, null
+	 *         bei nicht vorhandenem DB-Tupel.
+	 * @throws Bei 
+	 * 			   der Kommunikation mit der DB kann es zu Komplikationen
+	 *             kommen, die entstandene Exception wird an die aufrufende
+	 *             Methode weitergereicht
+	 */
 
 	public Partlist findByName(String name, int maxResults)
 			throws IllegalArgumentException, SQLException {
@@ -326,6 +364,19 @@ public class ModuleMapper {
 				true);
 	}
 
+	/**
+	 * Zuordnung eines Moduls 
+	 * 
+	 * @param superMod
+	 * Übergeordnetes Modul
+	 * 
+	 * @param subMod
+	 * Untergeordnetes Modul
+	 * 
+	 * @param amount 
+	 * 
+	 * 
+	 */
 
 	public void assignModule(Module superMod, Module subMod, int amount)
 			throws IllegalArgumentException, SQLException {
@@ -396,6 +447,21 @@ public class ModuleMapper {
 			throw new IllegalArgumentException(ex.getMessage());
 		} 
 	}
+	
+	/**
+	 * Zuordnung eines Moduls zu einem Element
+	 * 
+	 * @param m
+	 * Zu �bergebendes Modul-Objekt
+	 * 
+	 * @param e
+	 * Zu �bergebendes Element Objekt
+	 * 
+	 * @param amount
+	 * Anzahl der Teile
+	 * 
+	 */
+
 
 	public void assignElement(Module m, Element e, int amount)
 			throws IllegalArgumentException, SQLException {

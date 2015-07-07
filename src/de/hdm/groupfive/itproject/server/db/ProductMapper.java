@@ -13,14 +13,32 @@ import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
 public class ProductMapper {
+	
 	/**
+	 * Die Klasse ProductMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
+	 * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
+	 * speichert die einzige Instanz dieser Klasse.
 	 * 
+	 * @see productMapper()
 	 */
+	
 	private static ProductMapper productMapper = null;
 	
 	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>ProductMapper.getProductMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine
+	 * einzige Instanz von <code>ProductMapper</code> existiert.
+	 * <p>
 	 * 
-	 * @return
+	 * <b>Fazit:</b> ProductMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
+	 * Methode.
+	 * 
+	 * @return DAS <code>ProductMapper</code>-Objekt. { @link productMapper}
 	 */
 	public static ProductMapper getProductMapper() {
 		if (productMapper == null) {
@@ -37,6 +55,7 @@ public class ProductMapper {
 	 * @return Produkt mit Produkt-Id aus Datenbank
 	 */
 	public Product insert(Product p) throws SQLException {
+		//DB Verbindung holen
 		Connection con = DBConnection.connection();
 
 		try {
@@ -56,7 +75,7 @@ public class ProductMapper {
 
 			while (rs.next()) {
 				/*
-				 * m erhaelt den bisher maximalen, nun um 1 inkrementierten
+				 * p erhaelt den bisher maximalen, nun um 1 inkrementierten
 				 * Primaerschluessel
 				 */
 				p.setProductId(rs.getInt("maxid") + 1);
@@ -98,16 +117,18 @@ public class ProductMapper {
 	}
 
 	/**
+	 * Löschen der Daten eines <code>Product</code> - Objekts aus der Datenbank
 	 * 
-	 * @param product
+	 * @param p
+	 *            das aus der DB zu löschende "Objekt"
+	 * @throws SQLException
 	 */
 	public void delete(Product p) throws SQLException {
 		Connection con = DBConnection.connection();
 
 		try {
-
 			Statement stmt = con.createStatement();
-
+			
 			stmt.executeUpdate("DELETE FROM product WHERE product_id="
 					+ p.getProductId());
 
@@ -137,12 +158,21 @@ public class ProductMapper {
 		
 	}
 	
+	/**
+	 * Finden aller Produkte anhand des Namens
+	 * @return Partlist-Objekt
+	 */
+	
 	public Partlist findAll() throws SQLException {
 		return ElementMapper.getElementMapper().findByName("%", 1000, false, true);
 	}
 
 	/**
+	 * Wiederholtes Schreiben eines Objekts in die Datenbank.
 	 * 
+	 * @param p
+	 *            das Objekt, das in die DB geschrieben werden soll
+	 * @return das als Parameter übergebene Objekt
 	 */
 	public Product update(Product p) throws SQLException {
 		Connection con = DBConnection.connection();
@@ -178,6 +208,16 @@ public class ProductMapper {
 		
 		return p;
 	}
+	
+	/**
+	 * Suchen eines Produktes anhand der ElementID. Da diese eindeutig ist, wird
+	 * genau ein Objekt zurückgegeben.
+	 * 
+	 * @param elementId 
+	 *            Primärschlüsselattribut (->DB)
+	 * @return Produkt-Objekt, das dem übergebenen Schlüssel entspricht, null bei
+	 *         nicht vorhandenem DB-Tupel.
+	 */
 
 	public Product findByElement(int elementId) throws IllegalArgumentException,
 			SQLException {

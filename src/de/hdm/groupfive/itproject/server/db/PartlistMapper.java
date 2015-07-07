@@ -10,14 +10,31 @@ import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 
 public class PartlistMapper {
+	
 	/**
+	 * Die Klasse PartlistMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal
+	 * für sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie
+	 * speichert die einzige Instanz dieser Klasse.
 	 * 
+	 * @see partlistMapper()
 	 */
 	private static PartlistMapper partlistMapper = null;
 
 	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>PartlistMapper.getPartlistMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine
+	 * einzige Instanz von <code>PartlistMapper</code> existiert.
+	 * <p>
 	 * 
-	 * @return
+	 * <b>Fazit:</b> PartlistMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen
+	 * Methode.
+	 * 
+	 * @return DAS <code>PartlistMapper</code>-Objekt. { @link partlistMapper}
 	 */
 	public static PartlistMapper getPartlistMapper() {
 		if (partlistMapper == null) {
@@ -28,11 +45,14 @@ public class PartlistMapper {
 
 	
 	/**
-	 * Liefert vollständige Partlist zu Modul
+	 * Liefert vollständige Partlist zu Modul, anhand der ModuleId
+	 * 
+	 * @param id
+	 * 		 Primärschlüsselattribut (->DB)
 	 * @return Partlist mit allen Sub-Elementen
 	 */
 	public Partlist findByModuleId(int id) throws SQLException {
-		// DB Verbindung hier holen
+		// DB Verbindung holen
 		Connection con = DBConnection.connection();
 
 		Partlist result = new Partlist();
@@ -74,6 +94,9 @@ public class PartlistMapper {
 	
 	/**
 	 * Liefert vollständige Partlist mit zugehörigem Modul zu Produkt
+	 * 
+	 *@param id
+	 *		Attribut von Produkt
 	 * @return Partlist mit allen Sub-Elementen
 	 */
 	public Partlist findByProductId(int id) throws SQLException {
