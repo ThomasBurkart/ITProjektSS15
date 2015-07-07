@@ -294,7 +294,7 @@ public class ModuleMapper {
 
 			PreparedStatement stmt;
 			stmt = con
-					.prepareStatement("UPDATE module SET name=?, element_id=?, WHERE module_id=?");
+					.prepareStatement("UPDATE module SET name=?, element_id=? WHERE module_id=?");
 
 			stmt.setString(1, m.getName());
 			stmt.setInt(2, m.getId());

@@ -12,13 +12,13 @@ import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * EntryPoint für alle Klassen durch <code>onModuleLoad()</code>.
  */
 public class ITProjektSS15 implements EntryPoint {
 	
 
 	/**
-	 * This is the entry point method.
+	 * Das ist die EntryPoint-Methode.
 	 */
 	public void onModuleLoad() {
 		AdministrationCommonAsync administration = ClientsideSettings
@@ -32,16 +32,17 @@ public class ITProjektSS15 implements EntryPoint {
 
 	}
 
+	/**
+	 * Asynchrone Anmelde-Klasse. 
+	 * Showcase in dem die Antwort des Callbacks eingefügt wird.
+	 * @author Timo Fesseler
+	 *
+	 */
 	class LoginCallback implements AsyncCallback<User> {
-
-		/** Showcase in dem die Antwort des Callbacks eingefügt wird. */
 
 		/**
 		 * Konstruktor der Callback Klasse, diese legt bei der Instanziierung
 		 * das übergebene Showcase fest.
-		 * 
-		 * @param c
-		 *            Showcase an das die Rückmeldung ausgegeben wird.
 		 */
 		public LoginCallback() {
 		}

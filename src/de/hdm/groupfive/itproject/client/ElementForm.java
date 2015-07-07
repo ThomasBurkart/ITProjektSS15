@@ -30,10 +30,14 @@ import de.hdm.groupfive.itproject.shared.bo.Product;
  */
 public class ElementForm extends Showcase {
 
-	/** Überschrift des Showcase */
+	/**
+	 * Überschrift des Showcase (graue Überschrift)
+	 */
 	private String headlineText;
 
-	/** StyleSheet Klasse für die Überschrift des Showcase */
+	/**
+	 * StyleSheet Klasse für die Überschrift des Showcase
+	 */
 	private String headlineTextStyle;
 
 	/** Das Element, das im Formular geladen wird */
@@ -72,6 +76,12 @@ public class ElementForm extends Showcase {
 		this(pe.getElement(), pe.getAmount(), pe.getSuperModule());
 	}
 
+	/**
+	 * 
+	 * @param element
+	 * @param amount
+	 * @param superModule
+	 */
 	public ElementForm(Element element, int amount, Module superModule) {
 		// Übergebenes Element
 		this.element = element;
@@ -123,9 +133,11 @@ public class ElementForm extends Showcase {
 	}
 
 	/**
-	 * Überschreibt die abstrakte Methode der Showcase Klasse. Die Methode dient
-	 * dem setzen der Überschrift innerhalb des Showcase.
-	 */
+	   * Jeder Showcase besitzt eine einleitende Überschrift, die durch diese
+	   * Methode zu erstellen ist.
+	   * 
+	   * @see Showcase#getHeadlineText()
+	   */
 	@Override
 	protected String getHeadlineText() {
 		// Zuerst wird der Überschrift ein Leertext zugewiesen.
@@ -179,18 +191,19 @@ public class ElementForm extends Showcase {
 	}
 
 	/**
-	 * Überschreibt die abstrakte Methode der Showcase Klasse und setzt damit
-	 * die StyleSheet Klasse für die Überschrift.
-	 */
+	   * Jeder Showcase besitzt eine einleitende Überschrift und dazugehörenden StyleSheet, 
+	   * der durch diese Methode zu erstellen ist.
+	   */
 	@Override
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
-	/**
-	 * Diese Methode wird ausgeführt nachdem die Überschrift im Showcase gesetzt
-	 * wurde und der Inhalt geladen werden kann.
-	 */
+	 /**
+	   * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	   * eine "Einschubmethode", die von einer Methode der Basisklasse
+	   * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	   */
 	@Override
 	protected void run() {
 		ClientsideSettings.getLogger().info("Element Formular: wird geladen.");
