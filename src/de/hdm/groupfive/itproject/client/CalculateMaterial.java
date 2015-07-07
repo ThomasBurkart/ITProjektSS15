@@ -200,12 +200,16 @@ public class CalculateMaterial extends Showcase {
 		panel.add(amountText);
 		panel.add(amountTb);
 		panel.add(calcBtn);
+		panel.add(createPartlistBtn);
 
 		this.add(panel);
 	}
 	
 	private String generateHtmlTree(Partlist p, int level) {
 		String result = "";
+		for (int i = 0; i < level; i++) {
+			result += "   ";
+		}
 		for(PartlistEntry pe : p.getAllEntries()) {
 			if (pe.getElement() instanceof Module) {
 				result += generateHtmlTree(((Module)pe.getElement()).getPartlist(), level+1);
