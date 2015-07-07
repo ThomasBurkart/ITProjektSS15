@@ -21,23 +21,33 @@ import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
+/**
+ * SearchTreeModel bietet ein TreeViewModel um die Ergebnisse der Suche in 
+ * einem Baum anzuzeigen.
+ * 
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
+ */
 public class SearchTreeModel implements TreeViewModel {
 
 	/**
-	 * The model that defines the nodes in the tree.
+	 * Das Model zum definieren der Knoten im Baum
 	 */
-
 	private final List<PartlistEntry> searchResult;
 
 	/**
-	 * This selection model is shared across all leaf nodes. A selection model
-	 * can also be shared across all nodes in the tree, or each set of child
-	 * nodes can have its own instance. This gives you flexibility to determine
-	 * how nodes are selected.
+	 * Das SelectionModel ist über alle äußersten Knoten verteilt. Ein SelectionModel
+	 * kann auch auch über alle Knoten im Baum verteit sein, 
+	 * oder jeder Satz von SubKnoten kann seine eigene Instanz haben.
+	 * Das gibt Flexibilität durch, welches man bestimmen kann,
+	 * welche Knoten ausgewählt sind.
+	 * 
 	 */
 	private final SelectionModel<PartlistEntry> selectionModel;
 
 	private final Cell<PartlistEntry> elementCell;
+
 	private final DefaultSelectionEventManager<PartlistEntry> selectionManager = DefaultSelectionEventManager
 			.createDefaultManager();
 
@@ -64,7 +74,7 @@ public class SearchTreeModel implements TreeViewModel {
 			}
 		});
 		elementCell = new CompositeCell<PartlistEntry>(hasCells) {
-			@Override
+
 			public void render(Context context, PartlistEntry value,
 					SafeHtmlBuilder sb) {
 				sb.appendHtmlConstant("<table><tbody><tr>");
@@ -77,7 +87,6 @@ public class SearchTreeModel implements TreeViewModel {
 				return parent;
 			}
 
-			@Override
 			protected <X> void render(Context context, PartlistEntry value,
 					SafeHtmlBuilder sb, HasCell<PartlistEntry, X> hasCell) {
 				Cell<X> cell = hasCell.getCell();
@@ -90,8 +99,9 @@ public class SearchTreeModel implements TreeViewModel {
 	}
 
 	/**
-	 * Get the {@link NodeInfo} that provides the children of the specified
-	 * value.
+	 * 
+	 * Auslesen der {@link NodeInfo} zur Bereitstellung der Children
+	 *  der spezifischen Werte
 	 */
 	public <T> NodeInfo<?> getNodeInfo(T val) {
 		if (val == null) {
@@ -107,7 +117,6 @@ public class SearchTreeModel implements TreeViewModel {
 			// Create a cell to display a composer.
 			Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
-				@Override
 				public void render(
 						com.google.gwt.cell.client.Cell.Context context,
 						PartlistEntry value, SafeHtmlBuilder sb) {
@@ -148,7 +157,7 @@ public class SearchTreeModel implements TreeViewModel {
 					};
 					return new DefaultNodeInfo<PartlistEntry>(dataProvider,
 							cell, selectionModel, selectionManager, null);
-				} else	if (value.getElement() instanceof Module) {
+				} else if (value.getElement() instanceof Module) {
 					// LEVEL 1.
 					// We want the children of the composer. Return the
 					// playlists.
@@ -157,7 +166,6 @@ public class SearchTreeModel implements TreeViewModel {
 									.getAllEntries());
 					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
-						@Override
 						public void render(
 								com.google.gwt.cell.client.Cell.Context context,
 								PartlistEntry value, SafeHtmlBuilder sb) {
@@ -178,7 +186,7 @@ public class SearchTreeModel implements TreeViewModel {
 					// We want the children of the playlist. Return the songs.
 					ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>();
 					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
-						@Override
+
 						public void render(
 								com.google.gwt.cell.client.Cell.Context context,
 								PartlistEntry value, SafeHtmlBuilder sb) {
@@ -205,8 +213,8 @@ public class SearchTreeModel implements TreeViewModel {
 	}
 
 	/**
-	 * Check if the specified value represents a leaf node. Leaf nodes cannot be
-	 * opened.
+	 * Überprüfen, ob die spezialisierten Werte die äußersten Knoten repräsentieren.
+	 * Die äußersten Knoten können nicht geöffnet werden.
 	 */
 	public boolean isLeaf(Object value) {
 		boolean result = false;
