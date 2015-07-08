@@ -62,8 +62,6 @@ public class LoginLogout {
 		// Anmelde Button im ersten Dialog
 		Button loginButton = new Button("anmelden", new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				String email = emailBox.getValue();
-				String pass = passwordBox.getValue();
 				// TODO: Methode zum einloggen eines Benutzers aufrufen ->
 				// onSuccess/OnFailure Handling?!
 				dialogBox.hide();

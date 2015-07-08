@@ -13,13 +13,15 @@ import de.hdm.groupfive.itproject.shared.AdministrationCommonAsync;
 /**
  * Hier werden Elemente der Navigationsleiste erzeugt
  * @author Thomas Burkart
- *
+ * @version 1.0
+ * @since 07.07.2015
  */
 public class NavigationBar {
 	
 	/**
 	 * Diese Methode ladet die Navigationsleiste, mit Buttons etc.
 	 */
+	
 	public static void load() {
 		// Anlegen-Button einfügen
 		RootPanel.get("navbar").add(createCreateButton());

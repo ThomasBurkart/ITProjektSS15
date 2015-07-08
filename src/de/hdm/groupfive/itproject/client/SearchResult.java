@@ -21,23 +21,56 @@ import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
  * und erzeugt ein Baum mit den gefundenen Ergebnissen.
  * 
  * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
  *
  */
 public class SearchResult extends Showcase {
 
+	/**
+	 * Ãœberschrift des Showcase (graue Ãœberschrift)
+	 */
 	private String headlineText;
+	/**
+	 * StyleSheet fÃ¼r die Ãœberschrift des Showcase
+	 */
 	private String headlineTextStyle;
+	/**
+	 * eingegebenes Wort des Users, nach diesem Wort wird gesucht
+	 */
 	private String searchWord;
+	/**
+	 * interne suche der id
+	 */
 	private int searchId;
+	/**
+	 * Suche soll nur in Modulen stattfinden
+	 */
 	private boolean onlyModules;
+	/**
+	 * Suche nach allen Produkten 
+	 */
 	private boolean allProducts;
+	/**
+	 * Interne Suche nach id
+	 */
 	private boolean searchById;
-
+	/**
+	 * ausgewählter Eintrag
+	 */
 	private PartlistEntry selectedEntry;
+	/**
+	 * Mehrauswahlmodel eines Stücklisteneintrags
+	 */
 	private MultiSelectionModel<PartlistEntry> selectionModel;
+	/**
+	 * Deaktivieren von Laden des Elements
+	 */
 	private boolean disableLoadElementForm;
+	/**
+	 * Überprüfen ob es sich um eine Report Generator handelt
+	 */
 	private boolean isReportGen;
-
 	/**
 	 * Standard-Konstruktor der Klasse SearchResult. Wird beim ersten Start der
 	 * Anwendung verwendet, um alle Produkte in der Navigator-HÃ¤lfte anzuzeigen.
@@ -55,6 +88,13 @@ public class SearchResult extends Showcase {
 		this.isReportGen = false;
 	}
 
+	/**
+	 * Methode zur Textausgabe der Suche
+	 * @param searchWord
+	 * 		Wort als String, welches gesucht werden soll
+	 * @param onlyModules
+	 * 			überprüft ob es sich um eine Suche nur von Modulen handelt
+	 */
 	public SearchResult(String searchWord, boolean onlyModules) {
 		this.searchWord = searchWord;
 
@@ -70,7 +110,14 @@ public class SearchResult extends Showcase {
 
 		this.isReportGen = false;
 	}
-
+	
+	/**
+	 * intern wird eine Id vergeben mit der Suche
+	 * @param searchWord
+	 * 		Wort als String, welches gesucht werden soll
+	 * @param id
+	 * 		Suche mit id
+	 */
 	public SearchResult(String searchWord, int id) {
 		this.searchWord = searchWord;
 
@@ -91,16 +138,33 @@ public class SearchResult extends Showcase {
 	}
 
 	@Override
+	/**
+	   * Jeder Showcase besitzt eine einleitende Ãœberschrift, die durch diese
+	   * Methode zu erstellen ist.
+	   * 
+	   * @see Showcase#getHeadlineText()
+	   */
 	protected String getHeadlineText() {
 		return this.headlineText;
 	}
 
 	@Override
+	/**
+	   * Jeder Showcase besitzt eine einleitende Ãœberschrift und dazugehÃ¶renden StyleSheet, 
+	   * der durch diese Methode zu erstellen ist.
+	   */
 	protected String getHeadlineTextStyle() {
 		return this.headlineTextStyle;
 	}
 
 	@Override
+	/**
+	 * Jeder Showcase muss die <code>run()</code>-Methode implementieren. Sie ist
+	 * eine "Einschubmethode", die von einer Methode der Basisklasse
+	 * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
+	 *
+	 * Aufbau des Assign-Panels (ZuordnungsflÃ¤che)
+	 */
 	protected void run() {
 		HTML preloader = new HTML("<img src=\"img/preloader.gif\" border=\"0\" />");
 		preloader.setStylePrimaryName("preloader");
@@ -135,43 +199,86 @@ public class SearchResult extends Showcase {
 		}
 
 	}
-
+	/**
+	 * Methode, gibt den ausgewählten Eintrag bzw. das Element wieder
+	 * @return
+	 * 	ausgewählter Eintrag
+	 */
 	public PartlistEntry getSelectedEntry() {
 		return selectedEntry;
 	}
 
+	/**
+	 * Eintrag wird gesetzt
+	 * @param e
+	 * 		Eintrag vom Typ PartlistEntry
+	 */
 	private void setSelectedEntry(PartlistEntry e) {
 		selectedEntry = e;
 	}
 
+	/**
+	 * Setzt den wert von <code>disableloadelementform</code> auf <code>true</code>, damit
+	 * wird das Laden des Elementes deaktiviert
+	 */
 	public void disableLoadElementForm() {
 		disableLoadElementForm = true;
 	}
 
+	/**
+	 * Setzt den wert von <code>disableloadelementform</code> auf <code>false>, damit
+	 * wird das Laden des Elementes aktiviert
+	 */
 	public void enableLoadElementForm() {
 		disableLoadElementForm = false;
 	}
 
+	/**
+	 * aktivieren des Report Generators
+	 */
 	public void enableReportGen() {
 		isReportGen = true;
 	}
 
+	/**
+	 * Ermöglicht das Setzen eines Auswahlmodels
+	 * @param msm
+	 * 		Auswahlmodel
+	 */
 	private void setSelectionModel(MultiSelectionModel<PartlistEntry> msm) {
 		selectionModel = msm;
 	}
 
+	/**
+	 * Gibt das Auswahlmodel zurück
+	 * @return
+	 * 	Auswahlmodel
+	 */
 	public MultiSelectionModel<PartlistEntry> getSelectionModel() {
 		return selectionModel;
 	}
 
+	/**
+	 * 
+	 * Klasse um Fehlermeldung auszugeben falls die Suche fehlgeschlagen ist
+	 *
+	 */
 	class SearchElementCallback implements AsyncCallback<Partlist> {
 		private Showcase showcase = null;
 
+		/**
+		 * Suche eines Elements
+		 * @param c
+		 * 		showcase
+		 */		
 		public SearchElementCallback(Showcase c) {
 			this.showcase = c;
 		}
 
 		@Override
+		/**
+		 * Im Fehlerfall wird eine Fehlermeldung ausgegeben
+		 */
 		public void onFailure(Throwable caught) {
 			if (RootPanel.get("preloader") != null) {
 				RootPanel.get("preloader").getElement().removeFromParent();
@@ -183,6 +290,10 @@ public class SearchResult extends Showcase {
 		}
 
 		@Override
+		/**
+		 * Falls die Suche keine Ergebnis liefert, wird eine Fehlermeldung
+		 * ausgegeben.
+		 */
 		public void onSuccess(Partlist result) {
 			if (result != null) {
 				if (result.isEmpty()) {
@@ -260,14 +371,27 @@ public class SearchResult extends Showcase {
 
 	}
 
+	/**
+	 * 
+	 * Suche aller Produkte mit Fehlermeldung bei nicht erfolgreicher Suche
+	 *
+	 */
 	class SearchAllProductsCallback implements AsyncCallback<Partlist> {
 		private Showcase showcase = null;
 
+		/**
+		 * 	Suche aller Produkte
+		 * @param c
+		 * 		showcase im falle eines Produkts
+		 */
 		public SearchAllProductsCallback(Showcase c) {
 			this.showcase = c;
 		}
 
 		@Override
+		/**
+		 * Fehlerausgabe bei erfolgloser Suche
+		 */
 		public void onFailure(Throwable caught) {
 			if (RootPanel.get("preloader") != null) {
 				RootPanel.get("preloader").getElement().removeFromParent();
@@ -279,6 +403,9 @@ public class SearchResult extends Showcase {
 		}
 
 		@Override
+		/**
+		 * Suche war erfolgreich, nun wird eine Erfolgsmeldung ausgegeben
+		 */
 		public void onSuccess(Partlist result) {
 			if (result != null) {
 				ClientsideSettings.getLogger().info(

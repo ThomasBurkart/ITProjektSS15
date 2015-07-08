@@ -6,8 +6,9 @@ import com.google.gwt.user.client.ui.*;
  * Diese Klasse ist die Basisklasse aller Showcases. Jeder Showcase ist ein
  * VerticalPanel und lässt sich somit unter GWT entsprechend anordnen.
  * 
- * @author Burkart
+ * @author Thomas Burkart
  * @version 1.0
+ * @since 07.07.2015
  * 
  */
 public abstract class Showcase extends FlowPanel {

@@ -21,33 +21,26 @@ import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 
-/**
- * SearchTreeModel bietet ein TreeViewModel um die Ergebnisse der Suche in 
- * einem Baum anzuzeigen.
- * 
- * @author Thomas Burkart
- * @version 1.0
- * @since 07.07.2015
- */
 public class SearchTreeModel implements TreeViewModel {
 
 	/**
-	 * Das Model zum definieren der Knoten im Baum
+	 * Das Modell, dass die Knoten in der Baumstruktur definiert.
+	 * 
+	 * @author Thomas Burkart
+	 * @version 1.0
+	 * @since 07.07.2015
 	 */
+
 	private final List<PartlistEntry> searchResult;
 
 	/**
-	 * Das SelectionModel ist über alle äußersten Knoten verteilt. Ein SelectionModel
-	 * kann auch auch über alle Knoten im Baum verteit sein, 
-	 * oder jeder Satz von SubKnoten kann seine eigene Instanz haben.
-	 * Das gibt Flexibilität durch, welches man bestimmen kann,
-	 * welche Knoten ausgewählt sind.
-	 * 
+	 * Dieses Auswahl-Modell ist in allen Astknoten verteilt. Ein Auswahlmodell
+	 * Kann auch auf allen Knoten im Baum geteilt werden, oder in jeder Gruppe eines Kindes
+	 * Knoten k�nnen eine eigene Instanz haben. Dadurch wird es m�glich zu bestimmen, wie diese Knoten ausgew�hlt sind
 	 */
 	private final SelectionModel<PartlistEntry> selectionModel;
 
 	private final Cell<PartlistEntry> elementCell;
-
 	private final DefaultSelectionEventManager<PartlistEntry> selectionManager = DefaultSelectionEventManager
 			.createDefaultManager();
 
@@ -61,6 +54,7 @@ public class SearchTreeModel implements TreeViewModel {
 
 			private Cell cell = new TextCell();
 
+			
 			public Cell<PartlistEntry> getCell() {
 				return cell;
 			}
@@ -74,7 +68,7 @@ public class SearchTreeModel implements TreeViewModel {
 			}
 		});
 		elementCell = new CompositeCell<PartlistEntry>(hasCells) {
-
+			@Override
 			public void render(Context context, PartlistEntry value,
 					SafeHtmlBuilder sb) {
 				sb.appendHtmlConstant("<table><tbody><tr>");
@@ -83,10 +77,11 @@ public class SearchTreeModel implements TreeViewModel {
 			}
 
 			protected PartlistEntry getContainerElement(PartlistEntry parent) {
-				// Return the first TR element in the table.
+				// Gebe das erste TR element in der Tabelle zur�ck
 				return parent;
 			}
 
+			@Override
 			protected <X> void render(Context context, PartlistEntry value,
 					SafeHtmlBuilder sb, HasCell<PartlistEntry, X> hasCell) {
 				Cell<X> cell = hasCell.getCell();
@@ -100,23 +95,23 @@ public class SearchTreeModel implements TreeViewModel {
 
 	/**
 	 * 
-	 * Auslesen der {@link NodeInfo} zur Bereitstellung der Children
-	 *  der spezifischen Werte
+	 * Hole den {@link NodeInfo} der das Kind des festgelegten Wertes bereitstellt
 	 */
 	public <T> NodeInfo<?> getNodeInfo(T val) {
 		if (val == null) {
 
 			T value = val;
 			// LEVEL 0.
-			// We passed null as the root value. Return the composers.
+			// Wir haben 0 ausgeworfen als Stammwert. Gebe den Verfasser zur�ck
 
-			// Create a data provider that contains the list of composers.
+		
 			ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>(
 					this.searchResult);
 
-			// Create a cell to display a composer.
+			// Erzeugen einer Zelle um einen St�cklisteneintrag dazustellen
 			Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
+				@Override
 				public void render(
 						com.google.gwt.cell.client.Cell.Context context,
 						PartlistEntry value, SafeHtmlBuilder sb) {
@@ -128,8 +123,8 @@ public class SearchTreeModel implements TreeViewModel {
 				}
 			};
 
-			// Return a node info that pairs the data provider and the cell.
-			// return new DefaultNodeInfo<Element>(dataProvider, cell);
+			// Gibt eine Knoten-Info, die den Datenprovider und die Zelle verbindet.
+			// Gebe den neuen DefaultNodeInfo<Element>(dataProvider, cell); zur�ck.
 			return new DefaultNodeInfo<PartlistEntry>(dataProvider, cell,
 					selectionModel, selectionManager, null);
 		} else {
@@ -157,19 +152,18 @@ public class SearchTreeModel implements TreeViewModel {
 					};
 					return new DefaultNodeInfo<PartlistEntry>(dataProvider,
 							cell, selectionModel, selectionManager, null);
-				} else if (value.getElement() instanceof Module) {
+				} else	if (value.getElement() instanceof Module) {
 					// LEVEL 1.
-					// We want the children of the composer. Return the
-					// playlists.
+					// . Gebe alle Eintraege der Strukturst�ckliste zur�ck
 					ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>(
 							((Module) value.getElement()).getPartlist()
 									.getAllEntries());
 					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
 
+						@Override
 						public void render(
 								com.google.gwt.cell.client.Cell.Context context,
 								PartlistEntry value, SafeHtmlBuilder sb) {
-							// TODO Auto-generated method stub
 							if (value != null) {
 								sb.appendHtmlConstant("    ");
 								sb.appendEscaped(value.getElement().getName());
@@ -178,15 +172,17 @@ public class SearchTreeModel implements TreeViewModel {
 							}
 						}
 					};
-					// return new DefaultNodeInfo<Element>(dataProvider, cell);
+					
+					// gebe den neuen DefaultNodeInfo<Element>(dataProvider, cell); zur�ck
 					return new DefaultNodeInfo<PartlistEntry>(dataProvider,
 							cell, selectionModel, selectionManager, null);
 				} else if (value.getElement() instanceof Element) {
-					// LEVEL 2 - LEAF.
-					// We want the children of the playlist. Return the songs.
+					// LEVEL 2 - Blatt.
+					// Ausgabe von Name und Anzahl der Elemente
+					
 					ListDataProvider<PartlistEntry> dataProvider = new ListDataProvider<PartlistEntry>();
 					Cell<PartlistEntry> cell = new AbstractCell<PartlistEntry>() {
-
+						@Override
 						public void render(
 								com.google.gwt.cell.client.Cell.Context context,
 								PartlistEntry value, SafeHtmlBuilder sb) {
@@ -202,8 +198,7 @@ public class SearchTreeModel implements TreeViewModel {
 
 					dataProvider.getList().add(((PartlistEntry) value));
 
-					// Use the shared selection model.
-					// return new DefaultNodeInfo<Element>(dataProvider, cell);
+					// Nutzen des geteilten Auswahlmodells
 					return new DefaultNodeInfo<PartlistEntry>(dataProvider,
 							cell, selectionModel, selectionManager, null);
 				}
@@ -213,8 +208,11 @@ public class SearchTreeModel implements TreeViewModel {
 	}
 
 	/**
-	 * Überprüfen, ob die spezialisierten Werte die äußersten Knoten repräsentieren.
-	 * Die äußersten Knoten können nicht geöffnet werden.
+	 * Pr�fen, ob der festgelegte Wert einen Blattknoten darstellt. Blattknoten kann man nicht �ffnen
+	 * @param value
+	 * 		Objekt Wert
+	 * @return 
+	 * 		Aussage ob es sich um ein Produkt oder ein Element handelt
 	 */
 	public boolean isLeaf(Object value) {
 		boolean result = false;

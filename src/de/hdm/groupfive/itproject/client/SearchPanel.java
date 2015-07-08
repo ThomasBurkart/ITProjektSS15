@@ -13,37 +13,83 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 
+/**
+ * Die Klasse beinhaltet ein Showcase, in dem der User eine Suche durchführen kann,
+ * dabei kann der User nach Bauteilen, Baugruppen oder Enderzeugnissen suchen
+ * 
+ * @author Thomas Burkart
+ * @version 1.0
+ * @since 07.07.2015
+ */
 public class SearchPanel {
-		
+	
+	/**
+	 * Feld für die Ergebnisse
+	 */
 	private VerticalPanel resultsPanel;
+	/**
+	 * Feld(Panel) für die Suche
+	 */
 	private VerticalPanel searchPanel;
+	/**
+	 * Eingabesuchfeld 
+	 */
 	private FlowPanel searchInputPanel;
+	/**
+	 * Ergebnissuche 
+	 */
 	private SearchResult searchResult;
+	/**
+	 * Das Element, das im Formular geladen wird
+	 */
 	private PartlistEntry entry;
+	/**
+	 * Aktueller Suchpanel 
+	 */
 	public static SearchPanel currentSearchPanel;
 	
+	/**
+	 * Konstruktor der Klasse SearchPanel um eine Suche zu ermöglichen
+	 */
 	public SearchPanel() {
 		resultsPanel = null;
 	}
 	
+	/**
+	 * Methode um den Navigator zu laden.
+	 */
 	public void load() {
 		RootPanel.get("navigator").clear();
 		RootPanel.get("navigator").add(createSearchPanel());
 	}
 	
+	/**
+	 * Erstellt eine Suche für den Report Generator
+	 */
 	public void loadForReportGen() {
 		RootPanel.get("navigator").clear();
 		RootPanel.get("navigator").add(createSearchPanelForReportGen());
 	}
 	
+	/**
+	 * gibt der nächsten Methode den Auftrag ein Suchfeld zu erzeugen
+	 */
 	public VerticalPanel getSearchPanel() {
 		return createSearchPanel();
 	}
 	
+	/**
+	 * Eintrag wird übergeben
+	 */
 	public VerticalPanel getAssignPanel(PartlistEntry entry) {
 		return createAssignPanel(entry);
 	}
 
+	/**
+	 * In dieser Methode wird das Suchfelderstellt
+	 * @return
+	 * 	Suchfeld
+	 */
 	private VerticalPanel createSearchPanel() {
 		// SUCHE BOX ANFANG
 		searchPanel = new VerticalPanel();
@@ -95,6 +141,11 @@ public class SearchPanel {
 		return searchPanel;
 	}
 	
+	/**
+	 * Suchfeld für den Report Generator wird erzeugt
+	 * @return
+	 * 	Suchfeld für Report Generator
+	 */
 	private VerticalPanel createSearchPanelForReportGen() {
 		// SUCHE BOX ANFANG
 		searchPanel = new VerticalPanel();
@@ -147,14 +198,31 @@ public class SearchPanel {
 		return searchPanel;
 	}
 	
+	/**
+	 * Gibt das Suchergebnis zurück
+	 * @return
+	 * 		Suchergebnis
+	 */
 	public SearchResult getSearchResult() {
 		return searchResult;
 	}
 
+	/**
+	 * Setzten des Suchergebnisses
+	 * @param searchResult
+	 * 		zu übergebendes Suchergebniss
+	 */
 	public void setSearchResult(SearchResult searchResult) {
 		this.searchResult = searchResult;
 	}
 
+	/**
+	 * Erzeugt ein Zuordnungsfeld
+	 * @param entry
+	 * 		Eintrag/Element der zugeordnet werden soll
+	 * @return
+	 * 	Suchfeld
+	 */
 	private VerticalPanel createAssignPanel(PartlistEntry entry) {
 		// SUCHE BOX ANFANG
 		searchPanel = new VerticalPanel();
