@@ -5,19 +5,19 @@ import java.io.Serializable;
 /**
  * <p>
  * Die Klasse <code>BusinessObject</code> stellt die Basisklasse aller in diesem
- * Projekt für die Umsetzung des Fachkonzepts relevanten Klassen dar.
+ * Projekt fï¿½r die Umsetzung des Fachkonzepts relevanten Klassen dar.
  * </p>
  * <p>
  * Zentrales Merkmal ist, dass jedes <code>BusinessObject</code> eine Nummer
- * besitzt, die man in einer relationalen Datenbank auch als Primärschlüssel
- * bezeichnen würde. Fernen ist jedes <code>BusinessObject</code> als
+ * besitzt, die man in einer relationalen Datenbank auch als Primï¿½rschlï¿½ssel
+ * bezeichnen wï¿½rde. Fernen ist jedes <code>BusinessObject</code> als
  * {@link Serializable} gekennzeichnet. Durch diese Eigenschaft kann jedes
- * <code>BusinessObject</code> automatisch in eine textuelle Form überführt und
+ * <code>BusinessObject</code> automatisch in eine textuelle Form ï¿½berfï¿½hrt und
  * z.B. zwischen Client und Server transportiert werden. Bei GWT RPC ist diese
  * textuelle Notation in JSON (siehe http://www.json.org/) kodiert.
  * </p>
  * 
- * @author thies
+ * @author Fesseler, Thies
  * @version 1.0
  */
 public abstract class BusinessObject implements Serializable {
@@ -45,11 +45,11 @@ public abstract class BusinessObject implements Serializable {
 
   /**
    * Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
-   * Dies kann selbstverständlich in Subklassen überschrieben werden.
+   * Dies kann selbstverstï¿½ndlich in Subklassen ï¿½berschrieben werden.
    */
   public String toString() {
     /*
-     * Wir geben den Klassennamen gefolgt von der ID des Objekts zurück.
+     * Wir geben den Klassennamen gefolgt von der ID des Objekts zurï¿½ck.
      */
     return this.getClass().getName() + " #" + this.id;
   }
@@ -62,14 +62,14 @@ public abstract class BusinessObject implements Serializable {
    * </p>
    * <p>
    * <b>ACHTUNG:</b> Die inhaltliche Gleichheit nicht mit dem Vergleich der
-   * <em>Identität</em> eines Objekts mit einem anderen verwechseln!!! Dies
-   * würde durch den Operator <code>==</code> bestimmt. Bei Unklarheit hierzu
-   * können Sie nocheinmal in die Definition des Sprachkerns von Java schauen.
-   * Die Methode <code>equals(...)</code> ist für jeden Referenzdatentyp
+   * <em>Identitï¿½t</em> eines Objekts mit einem anderen verwechseln!!! Dies
+   * wï¿½rde durch den Operator <code>==</code> bestimmt. Bei Unklarheit hierzu
+   * kï¿½nnen Sie nocheinmal in die Definition des Sprachkerns von Java schauen.
+   * Die Methode <code>equals(...)</code> ist fï¿½r jeden Referenzdatentyp
    * definiert, da sie bereits in der Klasse <code>Object</code> in einfachster
    * Form realisiert ist. Dort ist sie allerdings auf die simple Bestimmung der
    * Gleicheit der Java-internen Objekt-ID der verglichenen Objekte beschrÃ¤nkt.
-   * In unseren eigenen Klassen können wir diese Methode überschreiben und ihr
+   * In unseren eigenen Klassen kï¿½nnen wir diese Methode ï¿½berschreiben und ihr
    * mehr Intelligenz verleihen.
    * </p>
    */
@@ -89,7 +89,7 @@ public abstract class BusinessObject implements Serializable {
       catch (IllegalArgumentException e) {
         /*
          * Wenn irgendetwas schief geht, dann geben wir sicherheitshalber false
-         * zurück.
+         * zurï¿½ck.
          */
     	 /**
     	  * TODO: Fehler loggen

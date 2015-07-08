@@ -17,12 +17,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class InfoMsg extends FlowPanel {
 
 	/**
-	 * InfoMsg bietet ein Showcase, um einen Infos in der GUI mit Datum und
-	 * Infotext anzeigen zu können.
+	 * Konstruktor durch den eine InfoMessageBox erzeugt wird
 	 * 
-	 * @author Thomas Burkart
-	 * @version 1.0
-	 * @since 07.07.2015
+	 * @param msg
+	 *            Infonachricht
+	 * @param rp
+	 *            vorgegebenes Panel in dem die Nachricht angezeigt wird.
 	 */
 	public InfoMsg(String msg, RootPanel rp) {
 		// Falls bereits eine MsgBox vorhanden ist wird diese entfernt um Platz
@@ -46,8 +46,6 @@ public class InfoMsg extends FlowPanel {
 	 * 
 	 * @param msg
 	 *            Infonachricht
-	 * @param rp
-	 *            vorgegebenes Panel in dem die Nachricht angezeigt wird.
 	 */
 	public InfoMsg(String msg) {
 		// Falls bereits eine MsgBox vorhanden ist wird diese entfernt um Platz

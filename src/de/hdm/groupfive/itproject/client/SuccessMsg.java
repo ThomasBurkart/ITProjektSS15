@@ -17,9 +17,12 @@ public class SuccessMsg extends FlowPanel {
 	
 	
 	/**
-	 * Mit diser Methode wird eine Erfolgsnachricht ausgegeben
+	 * Konstruktor durch den eine SuccessMessageBox erzeugt wird
+	 * 
 	 * @param msg
+	 *            Erfolgsnachricht
 	 * @param rp
+	 *            vorgegebenes Panel in dem die Nachricht angezeigt wird.
 	 */
 	public SuccessMsg(String msg, RootPanel rp) {
 		// Falls bereits eine MsgBox vorhanden ist wird diese entfernt um Platz für die neue
@@ -35,6 +38,12 @@ public class SuccessMsg extends FlowPanel {
 		rp.insert(this, 0);
 	}
 	
+	/**
+	 * Konstruktor durch den eine SuccessMessageBox erzeugt wird
+	 * 
+	 * @param msg
+	 *            Erfolgsnachricht
+	 */
 	public SuccessMsg(String msg) {
 		// Falls bereits eine MsgBox vorhanden ist wird diese entfernt um Platz für die neue
 		// zu schaffen
