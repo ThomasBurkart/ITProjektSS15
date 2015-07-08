@@ -2,6 +2,13 @@ package de.hdm.groupfive.itproject.shared.bo;
 
 import java.io.Serializable;
 
+/**
+ * Hilfsklasse für {@link Partlist}) um Objekt mit 
+ * unterschieldichen Datentypen einfügen zu können 
+ * (Element/ Module/Product und int).
+ * @author Timo Fesseler
+ *
+ */
 public class PartlistEntry implements Serializable {
 
 	private static final long serialVersionUID = 1L;

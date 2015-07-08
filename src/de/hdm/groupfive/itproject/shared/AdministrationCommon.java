@@ -10,6 +10,12 @@ import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
+/**
+ * AdministrationCommon ist das Intgerface um die Applikationslogik 
+ * und die GUI mit einander zu verbinden.
+ * @author Timo Fesseler
+ *
+ */
 @RemoteServiceRelativePath("administration")
 public interface AdministrationCommon extends RemoteService {
 

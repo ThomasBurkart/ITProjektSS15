@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Partlist bietet ein BusinessObject in dem eine Grundstruktur 
+ * für dir Auflistung für Products, Modules und Elemenets 
+ * anhand einer ArrayList erzeugt wird.
+ * @author Timo Fesseler
+ *
+ */
 public class Partlist extends BusinessObject {
 
 	/**

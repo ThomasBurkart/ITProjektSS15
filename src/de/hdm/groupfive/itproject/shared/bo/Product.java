@@ -1,9 +1,15 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
+/**
+ * Product bietet ein Module in dem eine Grundstruktur 
+ * durch (vgl. Klasse {@link Element}) fÃ¼r Modules erzeugt wird.
+ * @author Timo Fesseler
+ *
+ */
 public class Product extends Module {
 
 	/**
-	 * Eindeutige SerialVersion ID. Wird zum Serialisieren der Klasse benötigt.
+	 * Eindeutige SerialVersion ID. Wird zum Serialisieren der Klasse benï¿½tigt.
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -27,7 +33,7 @@ public class Product extends Module {
 
 	/**
 	 * Setzen der Endprodukt ID
-	 * @param productId übergebene Endprodukt ID
+	 * @param productId ï¿½bergebene Endprodukt ID
 	 */
 	public void setProductId(int productId) {
 		this.productId = productId;

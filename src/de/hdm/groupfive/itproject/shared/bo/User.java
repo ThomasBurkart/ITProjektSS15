@@ -2,8 +2,9 @@ package de.hdm.groupfive.itproject.shared.bo;
 
 /**
  * 
- * 
- * @author Fesseler
+ * Hier werden die von Google übergegeben Benutzerdetails verarbeitet.
+ * Verwendung für Logdaten und Übergabe an die Mapper.
+ * @author Timo Fesseler
  *
  */
 public class User extends BusinessObject {

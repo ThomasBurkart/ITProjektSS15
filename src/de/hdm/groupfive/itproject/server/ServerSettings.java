@@ -4,7 +4,14 @@ import java.util.logging.Logger;
 
 import de.hdm.groupfive.itproject.shared.CommonSettings;
 
-
+/**
+ * ServerSettings gibt die EntryPoints für den 
+ * Editor/ Viewer als auch für den ReportGenerator 
+ * nach der Anmeldung durch Google an und leitet 
+ * auf die definierten URL weiter.
+ * @author Timo Fesseler, Thomas Burkart
+ *
+ */
 public class ServerSettings extends CommonSettings {
 	  private static final String LOGGER_NAME = "Server";
 	  private static final Logger log = Logger.getLogger(LOGGER_NAME);

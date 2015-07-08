@@ -1,14 +1,20 @@
 package de.hdm.groupfive.itproject.shared.bo;
 
+/**
+ * Module bietet ein BusinessObject in dem eine Grundstruktur 
+ * durch (vgl. Klasse {@link Element}) fÃ¼r Modules als auch Products erzeugt wird.
+ * @author Timo Fesseler
+ *
+ */
 public class Module extends Element {
 	
 	/**
-	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benötigt.
+	 * Eindeutige SerialVersion Id. Wird zum Serialisieren der Klasse benï¿½tigt.
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Attribut partlist als Stückliste der Baugruppe 
+	 * Attribut partlist als Stï¿½ckliste der Baugruppe 
 	 */
 	private Partlist partlist;
 	
@@ -41,16 +47,16 @@ public class Module extends Element {
 	}
 	
 	/**
-	 * Liefert Stückliste der Baugruppe
-	 * @return Stückliste der Baugruppe
+	 * Liefert Stï¿½ckliste der Baugruppe
+	 * @return Stï¿½ckliste der Baugruppe
 	 */
 	public Partlist getPartlist() {
 		return this.partlist;
 	}
 	
 	/**
-	 * Setzen der Stückliste
-	 * @param p übergebene Stückliste
+	 * Setzen der Stï¿½ckliste
+	 * @param p ï¿½bergebene Stï¿½ckliste
 	 */
 	public void setPartlist(Partlist p) {
 		this.partlist = p;

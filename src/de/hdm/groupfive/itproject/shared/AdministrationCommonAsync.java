@@ -9,6 +9,13 @@ import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 import de.hdm.groupfive.itproject.shared.bo.Product;
 import de.hdm.groupfive.itproject.shared.bo.User;
 
+/**
+ * AdministrationCommonAsync ist das Intgerface um die Applikationslogik 
+ * und die GUI mit einander zu verbinden, jedoch zuständig für die Hintergrundaktivitäten
+ * um Aktionen ausführen zu können und während der Umsetzung weiter arbeiten zu können.
+ * @author Timo Fesseler
+ *
+ */
 public interface AdministrationCommonAsync {
 
 	/**

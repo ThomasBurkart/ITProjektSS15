@@ -2,6 +2,12 @@ package de.hdm.groupfive.itproject.shared.bo;
 
 import java.util.Date;
 
+/**
+ * Element bietet ein BusinessObject in dem eine Grundstruktur 
+ * für Elemente als auch für Modules und Products.
+ * @author Timo Fesseler
+ *
+ */
 public class Element extends BusinessObject{
 	
 	/**

@@ -13,7 +13,18 @@ import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 import de.hdm.groupfive.itproject.shared.bo.PartlistEntry;
 
+/**
+ * Mapper-Klasse, die <code>Module</code>-Objekte auf eine relationale
+ * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+ * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+ * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+ * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+ * 
+ * @see ModuleMapper, PartlistMapper, ProductMapper, UserMapper
+ * @author Jakupi, Samire ; Thies
+*/
 public class ModuleMapper {
+	
 	/**
 	 * Die Klasse ModuleMapper wird nur einmal instantiiert. Man spricht hierbei
 	 * von einem sogenannten <b>Singleton</b>.
@@ -32,7 +43,6 @@ public class ModuleMapper {
 	 * 
 	 * @return
 	 */
-
 	protected ModuleMapper() {
 
 	}
@@ -50,7 +60,6 @@ public class ModuleMapper {
 	 * 
 	 * @return DAS <code>ModuleMapper</code>-Objekt. { @link moduleMapper}
 	 */
-
 	public static ModuleMapper getModuleMapper() {
 		if (moduleMapper == null) {
 			moduleMapper = new ModuleMapper();
@@ -68,7 +77,6 @@ public class ModuleMapper {
 	 * @return Module-Objekt, das dem übergebenen Schlüssel entspricht, null bei
 	 *         nicht vorhandenem DB-Tupel.
 	 */
-
 	public Module findById(int id) throws IllegalArgumentException,
 			SQLException {
 		// DB Verbindung holen
@@ -343,7 +351,7 @@ public class ModuleMapper {
 	}
 	
 	/**
-	 * Finden eines Moduls anhand des Namens des zugeh�rigen Elements
+	 * Finden eines Moduls anhand des Namens des zugeh�rigen Elements
 	 * 
 	 * @param name
 	 *            attribut (->DB)
@@ -452,10 +460,10 @@ public class ModuleMapper {
 	 * Zuordnung eines Moduls zu einem Element
 	 * 
 	 * @param m
-	 * Zu �bergebendes Modul-Objekt
+	 * Zu �bergebendes Modul-Objekt
 	 * 
 	 * @param e
-	 * Zu �bergebendes Element Objekt
+	 * Zu �bergebendes Element Objekt
 	 * 
 	 * @param amount
 	 * Anzahl der Teile

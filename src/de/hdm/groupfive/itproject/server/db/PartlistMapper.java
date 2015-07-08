@@ -9,6 +9,16 @@ import de.hdm.groupfive.itproject.shared.bo.Element;
 import de.hdm.groupfive.itproject.shared.bo.Module;
 import de.hdm.groupfive.itproject.shared.bo.Partlist;
 
+/**
+ * Mapper-Klasse, die <code>Partlist</code>-Objekte auf eine relationale
+ * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+ * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+ * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+ * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+ * 
+ * @see ModuleMapper, PartlistMapper, ProductMapper, UserMapper
+ * @author Jakupi, Samire ; Thies
+*/
 public class PartlistMapper {
 	
 	/**

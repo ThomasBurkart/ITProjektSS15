@@ -59,7 +59,6 @@ public class UserMapper {
 	 * Geschuetzter Konstruktor-verhindert die Moeglichkeit, mit
 	 * <code>new</code> neue Instanzen dieser Klasse zu erzeugen
 	 */
-
 	protected UserMapper() {
 
 	}
@@ -70,13 +69,13 @@ public class UserMapper {
 	 * berichtigt.
 	 * 
 	 * @param userId
-	 *           zu übergebende userId          
+	 *           zu ï¿½bergebende userId          
 	 * @param username
 	 * 			Name des Benutzers 
 	 * @param elementId
 	 * 			Id des Elements 
 	 * @param updateText 
-	 * 			Text als String für das Update
+	 * 			Text als String fï¿½r das Update
 	 * @param lastUpdate
 	 *        	letztes Update-Datum
 	 */
@@ -88,7 +87,7 @@ public class UserMapper {
 		try {
 			Statement stmt = con.createStatement();
 			/*
-			 * Zunaechst wird festgestellt, welches der höchste Primärschluessel ist
+			 * Zunaechst wird festgestellt, welches der hï¿½chste Primï¿½rschluessel ist
 			 * 
 			 */
 			ResultSet rs = stmt.executeQuery("SELECT MAX(history_id) AS maxid FROM history");
